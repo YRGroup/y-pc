@@ -1,9 +1,11 @@
 <template>
   <div>
+    <img class="poster" :src="poster">
   
     <div class="left">
       <div class="title">
-        <li>班级作业</li>
+        <li>校园动态</li>
+        <li>资料库</li>
       </div>
   
       <div class="card" v-for="i in 6" :key="i">
@@ -35,6 +37,16 @@
         </div>
       </div>
   
+      <div class="card">
+        <div class="header">
+          <img src="https://modao.cc/uploads3/images/935/9354273/raw_1494308650.jpeg">
+        </div>
+        <div class="content">
+          <p>李明达 【语文】</p>
+          <p>经开区育人国际学校</p>
+        </div>
+      </div>
+  
     </div>
   </div>
 </template>
@@ -45,7 +57,7 @@ export default {
   components: {},
   data() {
     return {
-      poster: require('../assets/img/post.jpg')
+      poster: require('@/assets/img/post.jpg')
     }
   },
   methods: {
@@ -61,7 +73,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../style/theme.less';
+@import '../../style/theme.less';
 
 .poster {
   width: 100%;
@@ -72,7 +84,7 @@ export default {
   float: left;
   padding: 10px;
   .title {
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid @border;
     line-height: 50px;
     li {
       display: inline-block;
@@ -80,14 +92,14 @@ export default {
       cursor: pointer;
       font-weight: bold;
       &:hover {
-        color: @c1;
+        color: @main;
       }
     }
   }
   .card {
     margin: 15px 0;
     height: 130px;
-    border: 1px solid #ccc;
+    border: 1px solid @border;
     font-size: 13px;
     background: #fff;
     position: relative;
@@ -111,7 +123,7 @@ export default {
         left: 240px;
         right: 0;
         .time {
-          color: #CCC;
+          color: @grey;
         }
         .btn {
           float: right;
@@ -127,14 +139,14 @@ export default {
   width: 260px;
   padding: 20px 10px;
   .card {
-    border: 1px solid #ccc;
+    border: 1px solid @border;
     text-align: center;
     background: #fff;
     margin-bottom: 20px;
     .header {
       height: 75px;
       position: relative;
-      background: @c1;
+      background: @main;
       img {
         width: 100px;
         position: absolute;

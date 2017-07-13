@@ -11,9 +11,10 @@ export default {
 </script>
 
 <style lang="less">
+@import './style/theme.less';
 
 body{
-  background: #fafafa;
+  background: @bg;
 }
 *{
   margin:0;

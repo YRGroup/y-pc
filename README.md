@@ -1,27 +1,33 @@
-# y-pc
+# Project-Y-pc
 
-> A Vue.js project
+pc端页面
+
+> nullcss，Quincy
+
+latest update by Quincy 
+2017-07-11 17:33:34
 
 ## Build Setup
 
-``` bash
-# install dependencies
-npm install
+``` 
+# 安装依赖项
+npm install --registry=https://registry.npm.taobao.org
 
-# serve with hot reload at localhost:8080
+# 开发模式 localhost:8002
 npm run dev
 
-# build for production with minification
+# 打包项目
 npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
 ```
 
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+|  目录          | 说明          | 备注  |
+| ------------- |:-------------:| -----:|
+| ../static     | 静态资源       |       |
+| ../src        | 源码          |       |
+| ../src/store  | vuex          |       |
+| ../src/server | API           |       |
+| ../src/router | vue router    |       |
+| ../src/assets  | 资源         |       |
+| ../src/components | 组件      |       |
+| ../src/style  | 主题样式       |       |
+| ../src/pages   | 页面           |       |

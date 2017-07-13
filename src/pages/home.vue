@@ -5,7 +5,7 @@
       <div class="container">
         <div class="logo">logo</div>
         <div class="nav">
-          <li @click="$router.push('/main')">首页</li>
+          <li @click="$router.push('/')">首页</li>
           <li @click="$router.push('/class')">我的班级</li>
           <li @click="$router.push('/score')">成绩报告</li>
           <li @click="$router.push('/work')">作业中心</li>
@@ -51,7 +51,7 @@ header {
   height: 100px;
   list-style: none;
   line-height: 100px;
-  box-shadow: 0 3px 1px #ccc;
+  box-shadow: 0 3px 1px @grey;
   background: #fff;
   z-index: 1000;
   .container{
@@ -61,7 +61,7 @@ header {
   .logo {
     display: inline-block;
     font-size: 40px;
-    color:@c1;
+    color:@main;
     font-weight: bold;
   }
   .nav {
@@ -73,7 +73,7 @@ header {
     padding:0 20px;
     cursor: pointer;
     &:hover{
-      background: @c1;
+      background: @main;
       color:#fff;
     }
   }
