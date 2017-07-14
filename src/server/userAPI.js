@@ -118,4 +118,18 @@ API.addStudent = (addStudentData) => {
 }
 // testing
 
+// 获取一卡通消费记录
+API.getCardList = (para) => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl+'/api/User/GetFinanceLog',{
+      params:para
+    }).then((res)=>{
+      resolve(res.data.Content)
+    }).catch((err)=>{
+      reject(err)
+    })
+  })
+}
+// testing
+
 export default API

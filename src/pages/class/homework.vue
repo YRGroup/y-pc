@@ -5,18 +5,15 @@
       <li>班级作业</li>
     </div>
   
-    <div class="card" v-for="i in 6" :key="i">
-      <div class="img"></div>
+    <div class="card" v-for="(i,index) in homework" :key="index">
+      <div class="course">
+        {{i.CourseName}}
+      </div>
+      <div class="header">{{i.Title}}</div>
       <div class="body">
-        <div class="header">【6月学习活动】奏起征战号角，打响学习第一枪！</div>
-        <div class="content">猫刀老师BEC公开课6月27日倾情开课！一节公开课为你扫盲BEC备考！快快扫描下方二维码关注公开课吧 [详情]</div>
+        <div class="content" v-html="i.Content"></div>
         <div class="footer">
-          <span class="time">2017-06-08 20:26</span>
-          <span class="btn">
-            <span>view:200</span>
-            <span>like:200</span>
-          </span>
-  
+          <span class="time">{{i.CreateTime}}</span>
         </div>
       </div>
     </div>
@@ -30,14 +27,18 @@ export default {
   components: {},
   data() {
     return {
-      poster: require('@/assets/img/post.jpg')
+      homework:[],
     }
   },
   methods: {
-
+    getData(){
+      this.$API.getHomeworkList(this.$store.state.currentClassId).then(res=>{
+        this.homework = res
+      })
+    }
   },
   created() {
-
+    this.getData()
   },
   mounted() {
 
@@ -64,31 +65,38 @@ export default {
 
 .card {
   margin: 15px 0;
-  height: 130px;
   border: 1px solid @border;
   font-size: 13px;
   background: #fff;
   position: relative;
-  .img {
-    height: 100%;
-    width: 225px;
-    background-image: url('https://modao.cc/uploads3/images/1080/10800322/raw_1499235662.png');
-    background-position: center;
+  .course {
+    height: 50px;
+    width: 125px;
     display: inline-block;
+    background: @main;
+    color:#fff;
+    font-size: 18px;
+    line-height: 50px;
+    text-align: center;
+    border-bottom-right-radius:20px;
+  }
+  .header{
+    line-height: 50px;
+    height:50px;
+    text-align: center;
+    font-weight: bold;
+    margin-top:-50px;
   }
   .body {
-    width: calc(~"100% - 250px");
-    display: inline-block;
-    height: 110px;
+    // width: calc(~"100% - 250px");
+    // display: inline-block;
     line-height: 2rem;
     vertical-align: top;
-    padding: 10px;
+    padding: 10px 30px;
     .footer {
-      position: absolute;
-      bottom: 0;
-      left: 240px;
-      right: 0;
+      text-align: right;
       .time {
+      padding-top:20px;
         color: @grey;
       }
       .btn {

@@ -1,7 +1,7 @@
 <template>
   <div class="body">
     <div class="login">
-      <el-input class="input" v-model="loginData.phone" autofocus @blur="verifyTel" placeholder="请输入账号"></el-input>
+      <el-input class="input" v-model="loginData.phone" autofocus @blur="verifyTel" placeholder="请输入手机号"></el-input>
       <el-input class="input" type="password" v-model="loginData.password" :minlength='6' @keyup.enter="login" placeholder="请输入密码"></el-input>
       <div class="btn">
         <el-button @click.native="$router.push('/reg')">注册</el-button>
@@ -18,8 +18,8 @@ export default {
   data (){
     return{
       loginData:{
-        phone:'',
-        password:'',
+        phone:'13130000034',
+        password:'123456',
       },
       isVerified:Boolean(true)
     }
@@ -27,7 +27,10 @@ export default {
   methods:{
     login(){
       if(this.verifyTel() && this.verifyPw()){
-        this.$store.dispatch('login',loginData)
+        this.$store.dispatch('login',this.loginData).then(res=>{
+          this.$message('登录成功')
+          this.$router.push('/')
+        })
       }else{
         console.error('xxx')
       }

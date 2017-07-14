@@ -15,7 +15,8 @@ const store = new Vuex.Store({
 
     currentUserId: null,
     currentClassId: null || 19,
-    currentStudentId: null || 'z6vzso72',
+    currentClassList:[],
+    currentStudentId: null || 'g9mr4e5b',
     currentStudent: {},
 
     token: null,
@@ -44,6 +45,10 @@ const store = new Vuex.Store({
         return true;
       }
     },
+    _APIurl:()=>{
+        let a = require('@/server/config')
+        return a.default
+    }
   },
   mutations: {
     login(state, val) {
@@ -66,9 +71,15 @@ const store = new Vuex.Store({
         }
       }
 
-      if (val.Role == '教师' && !val.mock) {
+      if (val.Role == '老师' && !val.mock) {
         if (val.ExtendInfo.Classes.length != 0) {
-          state.currentClassId = val.ExtendInfo.Classes[0].ClassID
+            state.currentClassId = val.ExtendInfo.Classes[0].ClassID
+            val.ExtendInfo.Classes.forEach(obj=>{
+                let a = {}
+                a.name = obj.ClassName
+                a.id = obj.ClassID
+                state.currentClassList.push(a)
+            })
         }
       }
 
@@ -101,6 +112,9 @@ const store = new Vuex.Store({
     },
     changeCurrentStudent(state, val) {
       state.currentStudent = val
+    },
+    changeCurrentClass(state, val) {
+      state.currentClassId = val
     },
     setToken(state, val) {
       state.token = val

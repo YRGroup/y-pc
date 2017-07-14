@@ -33,21 +33,7 @@ API.editStudentInfo = (data) => {
 }
 // testing
 
-// 获取一卡通消费记录
-API.getExamList = (userId) => {
-  return new Promise((resolve, reject) => {
-    axios.get(_APIurl+'/api/User/GetFinanceLog?currentPage=1&pagesize=10',{
-      params:{
-        meid:userId
-      }
-    }).then((res)=>{
-      resolve(res.data.Content)
-    }).catch((err)=>{
-      reject(err)
-    })
-  })
-}
-// testing
+
 
 // 获取学生的成绩单
 API.getExamScore = (userId,examid) => {

@@ -22,10 +22,13 @@ import contactHome from '@/pages/contact/main'
 import contact from '@/pages/contact/main'
 import msg from '@/pages/contact/main'
 
+import userHome from '@/pages/user/home'
 import user from '@/pages/user/main'
+import schoolcard from '@/pages/user/schoolcard'
 
 import reg from '@/pages/login/reg'
 import login from '@/pages/login/login'
+
 
 Vue.use(Router)
 
@@ -33,11 +36,10 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
       component: home,
       children:[
         {
-          path: '/',
+          path: '',
           name: 'main',
           component: main,
         },
@@ -48,7 +50,6 @@ export default new Router({
         },
         {
           path: '/class',
-          name: 'classHome',
           component: classHome,
           children:[
             {
@@ -70,7 +71,6 @@ export default new Router({
         },
         {
           path: '/student',
-          name: 'studentHome',
           component: studentHome,
           children:[
             {
@@ -87,7 +87,6 @@ export default new Router({
         },
         {
           path: '/teacher',
-          name: 'teacherHome',
           component: teacherHome,
           children:[
             {
@@ -99,7 +98,6 @@ export default new Router({
         },
         {
           path: '/contact',
-          name: 'contactHome',
           component: contactHome,
           children:[
             {
@@ -116,8 +114,19 @@ export default new Router({
         },
         {
           path: '/user',
-          name: 'user',
-          component: user,
+          component: userHome,
+          children:[
+            {
+              path: '',
+              name: 'user',
+              component: user,
+            },
+            {
+              path: '/schoolcard',
+              name: 'schoolcard',
+              component: schoolcard,
+            },
+          ]
         },
       ]
     },

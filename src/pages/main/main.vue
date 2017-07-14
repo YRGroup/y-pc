@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="right">
-      <div class="card">
+      <div class="card"  v-if="$store.state.role==='家长'">
         <div class="header">
           <img src="https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png">
         </div>
@@ -37,12 +37,22 @@
         </div>
       </div>
   
-      <div class="card">
+      <div class="card" v-if="$store.state.role==='老师'">
         <div class="header">
-          <img src="https://modao.cc/uploads3/images/935/9354273/raw_1494308650.jpeg">
+          <img :src="$store.state.currentUser.Headimgurl">
         </div>
         <div class="content">
-          <p>李明达 【语文】</p>
+          <p>{{ $store.state.currentUser.TrueName }} 【{{ $store.state.currentUser.ExtendInfo.Course }}】</p>
+          <p>经开区育人国际学校</p>
+        </div>
+      </div>
+
+      <div class="card" v-if="$store.state.role==='guest'">
+        <div class="header">
+          <div class="title">登陆</div>
+        </div>
+        <div class="content">
+          <p>000</p>
           <p>经开区育人国际学校</p>
         </div>
       </div>
@@ -103,6 +113,7 @@ export default {
     font-size: 13px;
     background: #fff;
     position: relative;
+    
     .img {
       height: 100%;
       width: 225px;
@@ -147,6 +158,10 @@ export default {
       height: 75px;
       position: relative;
       background: @main;
+      .title{
+        color:#fff;
+        line-height: 75px;
+      }
       img {
         width: 100px;
         position: absolute;

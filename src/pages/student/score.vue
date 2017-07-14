@@ -2,29 +2,28 @@
   <div>
   
     <div class="scoreSummary">
-      <div class="title">2016-2017学年6月月考</div>
+      <div class="title">{{score.ExamName}}</div>
       <div class="info">
-        <span>学生：赵敏</span>
-        <span>年级：高二</span>
-        <span>考试时间：2017-07-08</span>
+        <span>考试时间：{{score.Time}}</span>
       </div>
       <div class="total">
         <span class="item">
           <span>总分：</span>
-          <span class="score">412.5</span>
+          <span class="score">{{score.Score}}</span>
+          <span> / {{score.FullScore}}</span>
         </span>
-        <span class="item">
+        <!--<span class="item">
           <span>排名：</span>
           <span class="score">20</span>
-        </span>
+        </span>-->
       </div>
       <div class="list">
-        <div class="item" v-for="i in 6" :key="i">
+        <div class="item" v-for="(i,index) in score.ScoreInfo" :key="index">
           <div class="score">
-            <span class="score">90</span>
-            <span> / 120</span>
+            <span class="score">{{i.Score}}</span>
+            <span> / {{i.FullScore}}</span>
           </div>
-          <div class="name">语文</div>
+          <div class="name">{{i.CourseName}}</div>
         </div>
       </div>
     </div>
@@ -32,10 +31,10 @@
     <div class="scoreList">
       <div class="header">历次成绩报告</div>
   
-      <div class="item" v-for="i in 6" :key="i">
-        <div class="title">2017年江西省抚州市八年级下学期期末学业水平测试（人教版）> </div>
-        <div class="time">2017-06-14</div>
-        <div class="score">412.5分</div>
+      <div class="item" v-for="(i,index) in scoreList" :key="index">
+        <div class="title">{{i.ExamName}}> </div>
+        <div class="time">{{i.Time}}</div>
+        <div class="score">{{i.Score}}分</div>
       </div>
     </div>
   
@@ -48,14 +47,28 @@ export default {
   components: {},
   data() {
     return {
-      poster: require('@/assets/img/post.jpg')
+      score:{},
+      scoreList:{},
     }
   },
   methods: {
-
+    getData(){
+      this.getScore()
+      this.getScoreList()
+    },
+    getScore(){
+      this.$API.getExamScore(this.$store.state.currentStudentId).then(res=>{
+        this.score=res
+      })
+    },
+    getScoreList(){
+      this.$API.getExamList(this.$store.state.currentStudentId).then(res=>{
+        this.scoreList=res
+      })
+    }
   },
   created() {
-
+    this.getData()
   },
   mounted() {
 

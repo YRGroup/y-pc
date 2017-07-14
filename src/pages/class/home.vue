@@ -8,16 +8,33 @@
     </div>
   
     <div class="right">
+      
       <div class="classInfo">
         <div class="header">
           <img src="https://modao.cc/uploads3/images/900/9007936/raw_1493017171.jpeg">
         </div>
         <div class="content">
-          <p>一年级二班</p>
+          <p>{{classInfo.name}}</p>
           <div class="info">
-            <span>班主任：王大明</span>
-            <span>人数：100</span>
+            <span>班主任：{{classInfo.teacherName}}</span>
+            <span>人数：{{classInfo.student_count}}</span>
           </div>
+        </div>
+      </div>
+
+      <div class="card" v-show="$store.state.currentClassList.length">
+        <div class="title">
+          切换当前班级
+        </div>
+        <div class="content">
+          <el-select v-model="currentClass" @change="changeCurrentClass" placeholder="请选择">
+            <el-option
+              v-for="item in $store.state.currentClassList"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+          </el-select>
         </div>
       </div>
   
@@ -27,10 +44,10 @@
         </div>
         <div class="content">
           <div class="noticeItem">
-            <div class="noticeTitle">每日英语测试（5月20日）练习</div>
+            <div class="noticeTitle">{{notice.content}}</div>
             <div class="footer">
-              <span>冯老师</span>
-              <span>2017-07-05</span>
+              <span>{{notice.auther}}</span>
+              <span>{{notice.date}}</span>
             </div>
           </div>
         </div>
@@ -42,10 +59,10 @@
           <div class="btn">更多</div>
         </div>
         <div class="content">
-          <div class="homeworkItem" v-for="i in 5" :key="i">
-            <span>【语文】</span>
-            <span>每日测试</span>
-            <span class="time">7-10</span>
+          <div class="homeworkItem" v-for="i in homework" :key="i.HID">
+            <span>【{{i.CourseName}}】</span>
+            <span class="content">{{i.Title}}</span>
+            <span class="time">{{i.CreateTime}}</span>
           </div>
         </div>
       </div>
@@ -55,9 +72,9 @@
           班级教师
         </div>
         <div class="content">
-          <div class="teacherItem" v-for="i in 5" :key="i">
-            <img src="https://modao.cc/uploads3/images/935/9354273/raw_1494308650.jpeg">
-            <p>王老师</p>
+          <div class="teacherItem" v-for="i in teachers" :key="i.Meid">
+            <img :src="i.Headimgurl">
+            <p>{{i.TrueName}}</p>
           </div>
         </div>
       </div>
@@ -72,19 +89,60 @@ export default {
   components: {},
   data() {
     return {
-      newPost: {}
+      classInfo:{},
+      teachers:[],
+      notice:{},
+      homework:[],
+      currentClass:'',
     }
   },
   methods: {
-    updateData: function (data) {
-      this.newPost.content = data
+    getTeacherList() {
+      this.$API.getTeacherList(this.$store.state.currentClassId).then((res) => {
+        this.teachers = res
+      }).catch(err=>{
+        
+      })
+    },
+    getNotice() {
+      this.$API.getAllClassDynamic(this.$store.state.currentClassId, 3, 1).then((res) => {
+        this.notice = res[0]
+      }).catch(err=>{
+                     
+      })
+    },
+    getHomeWork() {
+      this.$API.getHomeworkList(this.$store.state.currentClassId,5).then((res) => {
+        this.homework = res
+      }).catch(err=>{
+              
+      })
+    },
+    getClassInfo(){
+      this.$API.getClassInfo(this.$store.state.currentClassId).then(res=>{
+        this.classInfo = res
+        this.classInfo.teacherName = res.teacher.TrueName    
+      })
+    },
+    getData(){
+      this.getClassInfo()
+      this.getTeacherList()
+      this.getNotice()
+      this.getHomeWork()
+    },
+    changeCurrentClass(){
+      this.$store.commit('changeCurrentClass',this.currentClass)
+      this.getData()
     },
   },
   created() {
-
+    this.getData()
   },
   mounted() {
 
+  },
+  watch:{
+    "$route": "getData"
   },
 }
 </script>
@@ -129,7 +187,6 @@ export default {
     margin-bottom: 20px;
     padding: 5px;
     background: #fff;
-
     .title {
       border-bottom: 1px solid @border;
       line-height: 40px;
@@ -150,8 +207,13 @@ export default {
         }
       }
       .homeworkItem {
+        .content{
+          width:100px;
+          overflow: hidden;
+        }
         .time {
-          float: right;
+          display: block;
+          text-align: right;
           color: @grey;
         }
       }
