@@ -3,21 +3,21 @@
     <img class="poster" :src="poster">
   
     <div class="left">
-      <div class="title">
+      <ul class="title">
         <li>校园动态</li>
         <li>资料库</li>
-      </div>
+      </ul>
   
       <div class="card" v-for="i in 6" :key="i">
         <div class="img"></div>
-        <div class="body">
-          <div class="header">【6月学习活动】奏起征战号角，打响学习第一枪！</div>
-          <div class="content">猫刀老师BEC公开课6月27日倾情开课！一节公开课为你扫盲BEC备考！快快扫描下方二维码关注公开课吧 [详情]</div>
-          <div class="footer">
+        <div class="cardCon">
+          <div class="cardtitle"><a href="#">【6月学习活动】奏起征战号角，打响学习第一枪！</a></div>
+          <div class="content">猫刀老师BEC公开课6月27日倾情开课！一节公开课为你扫盲BEC备考！快快扫描下方二维码关注公开课吧 <a href="#">[ 详情 ]</a></div>
+          <div class="cardfooter">
             <span class="time">2017-06-08 20:26</span>
             <span class="btn">
-              <span>view:200</span>
-              <span>like:200</span>
+              <span><i class="iconfont">&#xe6c3;</i>200</span>
+              <span><i class="iconfont">&#xe646;</i>200</span>
             </span>
   
           </div>
@@ -87,32 +87,38 @@ export default {
 
 .poster {
   width: 100%;
+  margin-bottom: 10px;
 }
 
 .left {
   width: calc(~"100% - 300px");
   float: left;
-  padding: 10px;
+  background: #fff;
+  padding:10px;
   .title {
     border-bottom: 1px solid @border;
-    line-height: 50px;
+    line-height: 36px;
     li {
       display: inline-block;
       padding: 5px 15px;
       cursor: pointer;
       font-weight: bold;
+      font-size:14px;
+      color:#666;
       &:hover {
         color: @main;
       }
     }
   }
   .card {
-    margin: 15px 0;
     height: 130px;
-    border: 1px solid @border;
     font-size: 13px;
-    background: #fff;
+    padding:15px 10px;
     position: relative;
+    border-bottom: 1px solid @border;
+    &:hover{
+      background: #fcfcfc;
+    }
     
     .img {
       height: 100%;
@@ -121,24 +127,51 @@ export default {
       background-position: center;
       display: inline-block;
     }
-    .body {
+    .cardCon {
       width: calc(~"100% - 250px");
       display: inline-block;
-      height: 110px;
       line-height: 2rem;
       vertical-align: top;
-      padding: 10px;
-      .footer {
-        position: absolute;
-        bottom: 0;
-        left: 240px;
-        right: 0;
+      margin-left: 10px;
+      .cardtitle{
+        font-size: 16px;
+        line-height: 32px;
+        height: 32px;
+        overflow: hidden;
+        margin-top: 5px;
+        a{
+          color: #333;
+          &:hover{
+            color:@main;
+          }
+        }
+      }
+      .content{
+        margin-top:8px;
+        line-height: 24px;
+        color: @subgrey;
+        height: 48px;
+        overflow: hidden;
+        a{
+          color: @main;
+          margin-left:5px;
+        }
+      }
+      .cardfooter {
         .time {
           color: @grey;
         }
         .btn {
           float: right;
           padding: 0 15px;
+          span{
+            margin-left:20px;
+          }
+          .iconfont{
+            font-size: 14px;
+            margin-right:5px; 
+            color: @subgrey;
+          }
         }
       }
     }
@@ -148,7 +181,6 @@ export default {
 .right {
   float: right;
   width: 260px;
-  padding: 20px 10px;
   .card {
     border: 1px solid @border;
     text-align: center;
