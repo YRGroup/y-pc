@@ -42,19 +42,26 @@
         </span>
       </div>
     </div>
+
+    <load-more @click.native="loadMore" :noMoreData="noMoreData"></load-more>
   
   </div>
 </template>
 
 <script>
+import loadMore from '@//components/loadMore'
+
 export default {
   name: 'app',
-  components: {},
+  components: {loadMore},
   data() {
     return {
       newPost: {},
       data:[],
       fileList:[],
+      currentPage: 1,
+      pageSize: 10,
+      noMoreData: false,
     }
   },
   methods: {
@@ -62,9 +69,24 @@ export default {
       this.newPost.content = data
     },
     getData(){
-      this.$API.getAllClassDynamic(this.$store.state.currentClassId).then(res=>{
-        this.data=res
+      let para = {}
+      para.cid = this.$store.state.currentClassId
+      para.currentPage = this.currentPage
+      para.pagesize = this.pageSize
+      para.type = 1
+      this.$API.getAllClassDynamic(para).then(res=>{
+        if (res.length) {
+          res.forEach((element) => {
+            this.data.push(element)
+          })
+        } else {
+          this.noMoreData = true
+        }
       })
+    },
+    loadMore() {
+      this.currentPage++
+      this.getData()
     },
     doLike(id) {
       this.$API.doLikeThisPost(id).then((res) => {
@@ -107,7 +129,6 @@ export default {
     this.getData()
   },
   mounted() {
-    console.log(this.$store.getters._APIurl)
   },
   watch:{
     "$route": "getData"
@@ -159,6 +180,7 @@ export default {
     line-height: 1.5rem;
   }
   .albums{
+    padding-left:85px;
     li{
       padding:10px;
       display: inline-block;

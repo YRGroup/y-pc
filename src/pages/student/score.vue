@@ -29,13 +29,32 @@
     </div>
   
     <div class="scoreList">
-      <div class="header">历次成绩报告</div>
+      <div class="header">
+        历次成绩报告
+        <el-select v-model="pagesize" class="pagesize" @change="currentPage=1" >
+          <el-option
+            v-for="item in allPagesize"
+            :key="item"
+            :label="'每页显示'+item+'条'"
+            :value="item">
+          </el-option>
+        </el-select>
+      </div>
   
-      <div class="item" v-for="(i,index) in scoreList" :key="index">
+      <div class="item" v-for="(i,index) in currentScoreList" :key="index">
         <div class="title">{{i.ExamName}}> </div>
         <div class="time">{{i.Time}}</div>
         <div class="score">{{i.Score}}分</div>
       </div>
+
+      <div class="footer">
+        <el-button-group>
+          <el-button type="primary" :class="i==currentPage?'active':null" 
+          v-for="i in pageCount" :key="i"
+          @click="currentPage=i">{{i}}</el-button>
+        </el-button-group>
+      </div>
+
     </div>
   
   </div>
@@ -48,8 +67,24 @@ export default {
   data() {
     return {
       score:{},
-      scoreList:{},
+      scoreList:[],
+      currentPage:1,
+      pagesize:5,
+      allPagesize:[5,10,15,20,30,50],
     }
+  },
+  computed:{
+    currentScoreList:function(){
+      let offset = (this.currentPage-1)*this.pagesize
+      if((offset + this.pagesize) >= this.scoreList.length){
+        return this.scoreList.slice(offset, this.scoreList.length)
+      }else{
+        return this.scoreList.slice(offset, offset + this.pagesize)
+      }
+    },
+    pageCount:function(){
+      return Math.ceil(this.scoreList.length / this.pagesize)
+    },
   },
   methods: {
     getData(){
@@ -135,6 +170,9 @@ export default {
   .header {
     line-height: 40px;
     font-weight: bold;
+    .pagesize{
+      float: right;
+    }
   }
   .item {
     padding: 20px;
@@ -153,6 +191,14 @@ export default {
       right: 10px;
       color: @sub;
       font-size: 40px;
+    }
+  }
+  .footer{
+    text-align: right;
+    padding:10px;
+    .active{
+      color:#20a0ff;
+      background: #fff;
     }
   }
 }
