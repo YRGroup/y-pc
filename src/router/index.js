@@ -25,6 +25,7 @@ import msg from '@/pages/contact/main'
 import userHome from '@/pages/user/home'
 import user from '@/pages/user/main'
 import schoolcard from '@/pages/user/schoolcard'
+import edit from '@/pages/user/edit'
 
 import reg from '@/pages/login/reg'
 import login from '@/pages/login/login'
@@ -125,6 +126,11 @@ export default new Router({
               path: '/schoolcard',
               name: 'schoolcard',
               component: schoolcard,
+            },
+            {
+              path: '/edit',
+              name: 'edit',
+              component: edit,
             },
           ]
         },

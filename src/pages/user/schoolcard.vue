@@ -1,24 +1,44 @@
 <template>
   <div>
     
-    <div class="cardSummary">
-      <div class="total">
-        <span class="item">
-          <span>当前余额：</span>
-          <span class="balance">{{balance}}</span>
-        </span>
+    <div v-if="hasNoSchoolcard">
+      <div class="noCard">
+        <p>
+          没有找到校园卡记录
+        </p>
+        <el-button type="primary" @click="$router.push('/user')">添加校园卡信息</el-button>
       </div>
     </div>
-  
-    <div class="cardList">
-      <div class="header">消费记录</div>
-      <div class="item" v-for="(i,index) in log" :key="index">
-        <div class="title">{{i.Title}}</div>
-        <div class="time">{{i.CreateTime}}</div>
-        <div class="log">{{i.OpeaType}} {{i.Money}}</div>
+
+    <div v-else>
+      <div class="cardSummary">
+        <div class="total">
+          <span class="item">
+            <span>当前余额：</span>
+            <span class="balance">{{balance}}</span>
+          </span>
+        </div>
       </div>
-      <div class="btn">
-        <el-button @click.native="loadmore">点击查看更多</el-button>
+    
+      <div class="cardList">
+        <div class="header">消费记录
+          <el-select v-model="pageSize" class="pagesize" @change="changePagesize" >
+            <el-option
+              v-for="item in allPagesize"
+              :key="item"
+              :label="'每页显示'+item+'条'"
+              :value="item">
+            </el-option>
+          </el-select>
+        </div>
+        <div class="item" v-for="(i,index) in alllog" :key="index">
+          <div class="title">{{i.Title}}</div>
+          <div class="time">{{i.CreateTime}}</div>
+          <div class="log">{{i.OpeaType}} {{i.Money}}</div>
+        </div>
+        
+        <load-more @click.native="loadMore" :noMoreData="noMoreData"></load-more>
+     
       </div>
     </div>
 
@@ -26,42 +46,65 @@
 </template>
 
 <script>
+import loadMore from '@//components/loadMore'
+
 export default {
-  name: 'app',
-  components:{},
+  components:{loadMore},
   data (){
     return{
+      hasNoSchoolcard:false,
       balance:'41.5',
-      log:[],
-      currentPage:1
+      alllog:[],
+      currentPage: 1,
+      pageSize: 10,
+      noMoreData: false,
+      allPagesize:[5,10,15,20,30,50],
     }
   },
   methods:{
     getData(){
       let para ={}
       para.currentPage= this.currentPage
-      para.pagesize=10
+      para.pagesize=this.pageSize
       this.$API.getCardList(para).then(res=>{
-        this.balance=res.Blance
-        this.log=res.Log
+        if(res){
+          this.balance=res.Blance
+          if (res.Log.length) {
+            res.Log.forEach((element) => {
+              this.alllog.push(element)
+            })
+          } else {
+            this.noMoreData = true
+          }
+        }else{
+          this.hasNoSchoolcard=true
+        }
       })
     },
-    loadmore(){
+    loadMore() {
       this.currentPage++
-      this.gatData()
+      this.getData()
+    },
+    changePagesize(){
+      this.alllog=[]
+      this.currentPage=1
+      this.getData()
     },
   },
   created(){
     this.getData()
-  },
-  mounted(){
-
   },
 }
 </script>
 
 <style lang="less" scoped>
 @import '../../style/theme.less';
+
+.noCard{
+  text-align: center;
+  line-height: 100px;
+  padding-top:200px;
+}
 
 .cardSummary {
   text-align: center;
@@ -109,6 +152,9 @@ export default {
   .header {
     line-height: 40px;
     font-weight: bold;
+    .pagesize{
+      float: right;
+    }
   }
   .item {
     padding: 20px;
@@ -128,10 +174,6 @@ export default {
       color: @sub;
       font-size: 40px;
     }
-  }
-  .btn{
-    text-align: center;
-    padding:10px 0;
   }
 }
 </style>

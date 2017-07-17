@@ -105,14 +105,25 @@ export default {
       })
     },
     getNotice() {
-      this.$API.getAllClassDynamic(this.$store.state.currentClassId, 3, 1).then((res) => {
+      let para = {
+        cid : this.$store.state.currentClassId,
+        currentPage : 1,
+        pagesize : 1,
+        type : 3,
+      }
+      this.$API.getAllClassDynamic(para).then((res) => {
         this.notice = res[0]
       }).catch(err=>{
                      
       })
     },
     getHomeWork() {
-      this.$API.getHomeworkList(this.$store.state.currentClassId,5).then((res) => {
+      let para = {
+        cid : this.$store.state.currentClassId,
+        currentPage : 1,
+        pagesize : 5,
+      }
+      this.$API.getHomeworkList(para).then((res) => {
         this.homework = res
       }).catch(err=>{
               

@@ -2,7 +2,7 @@
   <div class="body">
     <div class="login">
       <el-input class="input" v-model="loginData.phone" autofocus @blur="verifyTel" placeholder="请输入手机号"></el-input>
-      <el-input class="input" type="password" v-model="loginData.password" :minlength='6' @keyup.enter="login" placeholder="请输入密码"></el-input>
+      <el-input class="input" type="password" v-model="loginData.password" :minlength='6' @keyup.enter.native="login" placeholder="请输入密码"></el-input>
       <div class="btn">
         <el-button @click.native="$router.push('/reg')">注册</el-button>
         <el-button @click.native="login" :disabled="isVerified">登陆</el-button>

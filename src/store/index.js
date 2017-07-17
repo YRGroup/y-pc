@@ -137,11 +137,7 @@ const store = new Vuex.Store({
         })
       }
     },
-    login({
-      getters,
-      commit,
-      state
-    }, payload) {
+    login({ getters,commit,state }, payload) {
       return new Promise((resolve, reject) => {
         API.login(payload).then(res => {
           localStorage.setItem('user', JSON.stringify(res))
@@ -151,6 +147,13 @@ const store = new Vuex.Store({
         }).catch(err=>{
           reject(err)
         })
+      })
+    },
+    logout({ getters,commit,state }, payload) {
+      return new Promise((resolve, reject) => {
+        commit('setToken', null)
+        commit('logout')
+        resolve('logout OK!')
       })
     },
   },

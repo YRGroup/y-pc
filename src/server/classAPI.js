@@ -12,15 +12,9 @@ API.getClassInfo = (classId) => {
 // testing
 
 // 获取班级动态列表
-API.getAllClassDynamic = (classId,typeId,count) => {
+API.getAllClassDynamic = (para) => {
   return new Promise((resolve, reject) => {
-    axios.get(_APIurl+'/api/Class/GetDynamicList',{
-      params:{
-        cid:classId,
-        type:typeId||1,
-        count:count||0
-      }
-  }).then((res)=>{
+    axios.get(_APIurl+'/api/Class/GetDynamicList',{params:para}).then((res)=>{
       resolve(res.data.Content)
     })
   })
@@ -28,14 +22,9 @@ API.getAllClassDynamic = (classId,typeId,count) => {
 // testing
 
 // 获取班级作业列表
-API.getHomeworkList = (classId,count) => {
+API.getHomeworkList = (para) => {
   return new Promise((resolve, reject) => {
-    axios.get(_APIurl+'/api/Class/GetHomeworkList',{
-      params:{
-        cid:classId,
-        count:count||0
-      }
-  }).then((res)=>{
+    axios.get(_APIurl+'/api/Class/GetHomeworkList',{params:para}).then((res)=>{
       resolve(res.data.Content)
     })
   })

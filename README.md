@@ -45,7 +45,7 @@ npm install --registry=https://registry.npm.taobao.org
 npm run dev
 
 # 推荐使用forever
-npm run start
+npm start
 
 # 打包项目
 npm run build
