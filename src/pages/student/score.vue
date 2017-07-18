@@ -8,7 +8,7 @@
       </div>
       <div class="total">
         <span class="item">
-          <span>总分：</span>
+          <span>总分</span>
           <span class="score">{{score.Score}}</span>
           <span> / {{score.FullScore}}</span>
         </span>
@@ -19,7 +19,7 @@
       </div>
       <div class="list">
         <div class="item" v-for="(i,index) in score.ScoreInfo" :key="index">
-          <div class="score">
+          <div class="mainscore">
             <span class="score">{{i.Score}}</span>
             <span> / {{i.FullScore}}</span>
           </div>
@@ -28,7 +28,7 @@
       </div>
     </div>
   
-    <div class="scoreList">
+    <div class="scoreList panel">
       <div class="header">
         历次成绩报告
         <el-select v-model="pagesize" class="pagesize" @change="currentPage=1" >
@@ -117,56 +117,62 @@ export default {
 .scoreSummary {
   text-align: center;
   border: 1px solid @border;
-  padding: 20px;
-  background: #fff;
-  margin: 10px 0;
+  background: url(../../assets/bgTop.png) no-repeat;
+  padding:20px;
   .title {
-    font-size: 20px;
-    line-height: 60px;
+    font-size: 24px;
+    font-weight:700;
+    line-height: 48px;
+    color:#344251;
   }
   .info {
-    color: @grey;
-    span {
-      padding: 0 20px;
-    }
+    // color: @grey;
   }
   .total {
+    margin-top:20px;
     .item {
-      padding: 0 20px;
+      font-size:18px;
       span {
         vertical-align: middle;
       }
       .score {
         color: @sub;
         font-size: 50px;
+        font-weight: 700;
       }
     }
   }
   .list {
+    margin-top: 20px;
     .item {
-      border: 1px solid @border;
+      // border: 1px solid @border;
+      background: rgba(255, 255, 255, 0.7);
       display: inline-block;
       width: 100px;
-      height: 100px;
+      height: 80px;
       margin: 20px;
-      .score {
-        line-height: 50px;
+      &:hover{
+        background: rgba(255, 255, 255, 1);
+      }
+      .mainscore {
+        line-height: 40px;
+        color:@grey;
         .score {
           color: @sub;
+          font-size: 20px;
         }
       }
       .name {
-        line-height: 50px;
+        line-height: 40px;
+        font-weight: 600;
       }
     }
   }
 }
 
 .scoreList {
-  background: #fff;
   border: 1px solid @border;
-  margin: 10px 0;
-  padding: 20px;
+  margin: 15px 0;
   .header {
     line-height: 40px;
     font-weight: bold;
@@ -175,22 +181,25 @@ export default {
     }
   }
   .item {
-    padding: 20px;
+    padding: 10px;
     position: relative;
     line-height: 30px;
     border-bottom: 1px dotted @border;
     .title {
       max-width: calc(~"100% - 150px");
+      height: 30px;
+      overflow: hidden;
     }
     .time {
       color: @grey;
+      font-size: 12px;
     }
     .score {
       position: absolute;
       top: 20px;
       right: 10px;
       color: @sub;
-      font-size: 40px;
+      font-size: 24px;
     }
   }
   .footer{

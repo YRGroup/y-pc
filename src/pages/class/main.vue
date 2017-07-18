@@ -1,20 +1,13 @@
 <template>
   <div>
-  
-    <div class="addPost">
-      <div class="title">添加新动态</div>
+    <div class="addPost panel">
+      <!-- <div class="title">添加新动态</div> -->
       <div calss="content">
-        <vue-html5-editor :content="newPost.content" @change="updateData" :auto-height="true" :height="200"></vue-html5-editor>
+        <vue-html5-editor :content="newPost.content" @change="updateData" :auto-height="true" :height="80"></vue-html5-editor>
       </div>
       <div class="footer">
         <div class="albums">
-          <el-upload
-            :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'"
-            list-type="picture-card"
-            :on-preview="handlePictureCardPreview"
-            :on-remove="handleRemove"
-						:before-upload="beforePictureUpload"
-            ref="upload">
+          <el-upload :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
             <i class="el-icon-plus"></i>
           </el-upload>
         </div>
@@ -24,10 +17,11 @@
       </div>
     </div>
   
-    <div class="card" v-for="i in data" :key="i.id">
+    <div class="card panel" v-for="i in data" :key="i.id">
       <div class="img">
         <img :src="i.userImg">
       </div>
+      <div class="tips">{{i.category}}</div>
       <div class="header">{{i.auther}}</div>
       <div class="content" v-html="i.content"></div>
       <div class="albums">
@@ -37,12 +31,13 @@
       </div>
       <div class="footer">
         <span class="time">{{i.date}}</span>
-        <span class="btn">
-          <span>like:{{i.like}}</span>
+        <span class="iconbtn">
+          <span title="阅读数"><i class="iconfont">&#xe6c3;</i>{{i.like}}</span>
+          <span title="点赞数"><i class="iconfont">&#xe646;</i>{{i.like}}</span>
         </span>
       </div>
     </div>
-
+  
     <load-more @click.native="loadMore" :noMoreData="noMoreData"></load-more>
   
   </div>
@@ -53,12 +48,12 @@ import loadMore from '@//components/loadMore'
 
 export default {
   name: 'app',
-  components: {loadMore},
+  components: { loadMore },
   data() {
     return {
       newPost: {},
-      data:[],
-      fileList:[],
+      data: [],
+      fileList: [],
       currentPage: 1,
       pageSize: 10,
       noMoreData: false,
@@ -68,13 +63,13 @@ export default {
     updateData: function (data) {
       this.newPost.content = data
     },
-    getData(){
+    getData() {
       let para = {}
       para.cid = this.$store.state.currentClassId
       para.currentPage = this.currentPage
       para.pagesize = this.pageSize
       para.type = 1
-      this.$API.getAllClassDynamic(para).then(res=>{
+      this.$API.getAllClassDynamic(para).then(res => {
         if (res.length) {
           res.forEach((element) => {
             this.data.push(element)
@@ -90,7 +85,7 @@ export default {
     },
     doLike(id) {
       this.$API.doLikeThisPost(id).then((res) => {
-        
+
       })
     },
     handleRemove(file, fileList) {
@@ -101,26 +96,26 @@ export default {
       this.dialogImageUrl = file.url;
       this.dialogVisible = true;
     },
-		beforePictureUpload(file) {
-			const isJPG = (file.type === 'image/jpeg' || file.type === 'image/png')
-			const isLt5M = file.size / 1024 / 1024 < 5;
-			if (!isJPG) {
-				this.$message.error('上传图片只能是 JPG或PNG 格式!');
-			}
-			if (!isLt5M) {
-				this.$message.error('上传图片大小不能超过 5MB!');
-			}
-			return isJPG && isLt5M;
-		},
-    addNewPost(){
-      this.$refs.upload.uploadFiles.forEach((obj)=> {
+    beforePictureUpload(file) {
+      const isJPG = (file.type === 'image/jpeg' || file.type === 'image/png')
+      const isLt5M = file.size / 1024 / 1024 < 5;
+      if (!isJPG) {
+        this.$message.error('上传图片只能是 JPG或PNG 格式!');
+      }
+      if (!isLt5M) {
+        this.$message.error('上传图片大小不能超过 5MB!');
+      }
+      return isJPG && isLt5M;
+    },
+    addNewPost() {
+      this.$refs.upload.uploadFiles.forEach((obj) => {
         this.fileList.push(obj.response.Content[0])
       })
       this.newPost.type = 1
       this.newPost.cid = this.$store.state.currentClassId
       this.newPost['img_url_list'] = this.fileList.join(',')
-      this.$API.postNewClassDynamic(this.newPost).then(res=>{
-		    this.$message('发布动态成功')
+      this.$API.postNewClassDynamic(this.newPost).then(res => {
+        this.$message('发布动态成功')
         this.getData()
       })
     },
@@ -130,7 +125,7 @@ export default {
   },
   mounted() {
   },
-  watch:{
+  watch: {
     "$route": "getData"
   },
 }
@@ -149,54 +144,56 @@ export default {
     text-align: center;
     padding: 10px 50px;
   }
-  .albums{
-    padding:20px;
+  .albums {
+    padding: 20px;
   }
 }
 
 .card {
   margin: 15px 0;
-  border: 1px solid @border;
-  font-size: 13px;
   position: relative;
-  background: #fff;
+  padding-left:80px;
   .img {
-    display: inline-block;
-    padding: 20px;
+    position: absolute;
+    left: 20px;
+    top: 20px;
     img {
-      width: 50px;
+      width: 46px;
+      border-radius: 50%;
     }
   }
+  .tips{
+    position: absolute;
+    right: 20px;
+    top: 24px;
+    border:1px solid @main;
+    color:@main;
+    padding:1px 6px;
+    border-radius: 3px;
+    font-size: 12px;
+  }
   .header {
-    line-height: 80px;
     display: inline-block;
-    vertical-align: top;
+    font-size: 16px;
+    line-height: 42px;
   }
   .content {
-    width: calc(~"100% - 120px");
-    padding: 10px;
-    margin-left: 85px;
-    margin-top: -30px;
-    line-height: 1.5rem;
+    // width: calc(~"100% - 100px");
+    line-height: 22px;
   }
-  .albums{
-    padding-left:85px;
-    li{
-      padding:10px;
+  .albums {
+    margin: 10px 0;
+    li {
       display: inline-block;
-      img{
-        width:200px;
+      img {
+        max-height: 120px;
       }
     }
   }
   .footer {
-    padding: 10px 30px;
+    font-size:12px;
     .time {
       color: @grey;
-    }
-    .btn {
-      float: right;
-      padding: 0 15px;
     }
   }
 }

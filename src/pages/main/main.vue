@@ -2,9 +2,9 @@
   <div>
     <img class="poster" :src="poster">
   
-    <div class="left">
+    <div class="left panel">
       <ul class="title">
-        <li>校园动态</li>
+        <li class="active">校园动态</li>
         <li>资料库</li>
       </ul>
   
@@ -15,9 +15,9 @@
           <div class="content">猫刀老师BEC公开课6月27日倾情开课！一节公开课为你扫盲BEC备考！快快扫描下方二维码关注公开课吧 <a href="#">[ 详情 ]</a></div>
           <div class="cardfooter">
             <span class="time">2017-06-08 20:26</span>
-            <span class="btn">
-              <span><i class="iconfont">&#xe6c3;</i>200</span>
-              <span><i class="iconfont">&#xe646;</i>200</span>
+            <span class="iconbtn">
+              <span title="阅读数"><i class="iconfont">&#xe6c3;</i>200</span>
+              <span title="点赞数"><i class="iconfont">&#xe646;</i>200</span>
             </span>
   
           </div>
@@ -91,19 +91,22 @@ export default {
 }
 
 .left {
-  width: calc(~"100% - 300px");
+  width: calc(~"100% - 320px");
   float: left;
-  background: #fff;
-  padding:10px;
   .title {
     border-bottom: 1px solid @border;
     line-height: 36px;
+    margin-bottom: -1px;
+    .active{
+      color:@main;
+      border-bottom: 3px solid @main;
+    }
     li {
       display: inline-block;
       padding: 5px 15px;
       cursor: pointer;
       font-weight: bold;
-      font-size:14px;
+      font-size:15px;
       color:#666;
       &:hover {
         color: @main;
@@ -128,7 +131,7 @@ export default {
       display: inline-block;
     }
     .cardCon {
-      width: calc(~"100% - 250px");
+      width: calc(~"100% - 240px");
       display: inline-block;
       line-height: 2rem;
       vertical-align: top;
@@ -149,7 +152,7 @@ export default {
       .content{
         margin-top:8px;
         line-height: 24px;
-        color: @subgrey;
+        color: #666;
         height: 48px;
         overflow: hidden;
         a{
@@ -158,21 +161,8 @@ export default {
         }
       }
       .cardfooter {
-        .time {
           color: @grey;
-        }
-        .btn {
-          float: right;
-          padding: 0 15px;
-          span{
-            margin-left:20px;
-          }
-          .iconfont{
-            font-size: 14px;
-            margin-right:5px; 
-            color: @subgrey;
-          }
-        }
+          font-size: 12px;
       }
     }
   }

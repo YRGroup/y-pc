@@ -3,9 +3,8 @@
 @bg:#f0f0f0;
 
 
-@grey:#ccc;
+@grey:#999;
 @border:#f2f2f2;
-@subgrey:#888;
 
 // reset
 html {
@@ -20,6 +19,7 @@ body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input
 }
 body,button,input,select,textarea {
   font: 14px/1.5 "Microsoft Yahei",SimSun,Arial,sans-serif;
+  line-height: 24px;
 }
 
 input,select,textarea {
@@ -199,3 +199,22 @@ a:hover{
   font-style: normal; 
 }
 
+// 公共面板
+.panel{
+  background: #fff;
+  padding:20px;
+}
+
+// 点赞按钮
+.iconbtn {
+  float: right;
+  padding: 0 15px;
+  color:#999;
+  span{
+    margin-left:20px;
+  }
+  .iconfont{
+    font-size: 14px;
+    margin-right:5px; 
+  }
+}

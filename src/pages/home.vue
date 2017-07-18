@@ -67,6 +67,7 @@ header {
   }
   .nav {
     float: right;
+    font-size: 16px;
   }
   li {
     display: inline-block;

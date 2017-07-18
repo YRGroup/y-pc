@@ -75,20 +75,20 @@ export default {
 @import '../../style/theme.less';
 
 .left {
-  width: calc(~"100% - 300px");
+  width: calc(~"100% - 280px");
   float: left;
-  padding: 10px;
+  // padding: 10px;
 }
 
 .right {
   float: right;
   width: 260px;
-  padding: 20px 10px;
+  // padding: 20px 10px;
   .card {
     border: 1px solid @border;
     text-align: center;
     background: #fff;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     .header {
       height: 75px;
       position: relative;
