@@ -206,6 +206,11 @@ export default {
       color:#20a0ff;
       background: #fff;
     }
+    .el-button-group{
+      button{
+        padding:5px 10px;
+      }
+    }
   }
 }
 </style>
