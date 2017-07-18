@@ -198,6 +198,9 @@ export default {
     margin-bottom: 20px;
     padding: 5px;
     background: #fff;
+    &:hover{
+      border: 1px solid @main;
+    }
     .title {
       border-bottom: 1px solid @border;
       line-height: 40px;

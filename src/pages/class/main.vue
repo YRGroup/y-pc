@@ -2,18 +2,18 @@
   <div>
   
     <div class="addPost">
-      <div class="title">添加新动态</div>
-      <div calss="content">
+      <div class="title" :class="showAddPost?null:'addbtn'" @click="showAddPost?showAddPost=false:showAddPost=true">添加新动态</div>
+      <div calss="content" v-show="showAddPost">
         <vue-html5-editor :content="newPost.content" @change="updateData" :auto-height="true" :height="200"></vue-html5-editor>
       </div>
-      <div class="footer">
+      <div class="footer" v-show="showAddPost">
         <div class="albums">
           <el-upload
             :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'"
             list-type="picture-card"
             :on-preview="handlePictureCardPreview"
             :on-remove="handleRemove"
-						:before-upload="beforePictureUpload"
+            :before-upload="beforePictureUpload"
             ref="upload">
             <i class="el-icon-plus"></i>
           </el-upload>
@@ -22,6 +22,7 @@
           <el-button type="primary" @click.native="addNewPost">发布</el-button>
         </div>
       </div>
+      
     </div>
   
     <div class="card" v-for="i in data" :key="i.id">
@@ -29,7 +30,7 @@
         <img :src="i.userImg">
       </div>
       <div class="header">{{i.auther}}</div>
-      <div class="content" v-html="i.content"></div>
+      <div class="content" v-html="i.content" @click="$router.push('/post/'+i.id)"></div>
       <div class="albums">
         <li v-for="(p,index) in i.albums" :key="index">
           <img :src="p">
@@ -37,7 +38,7 @@
       </div>
       <div class="footer">
         <span class="time">{{i.date}}</span>
-        <span class="btn">
+        <span class="btn" @click="doLike(i.id),i.like++">
           <span>like:{{i.like}}</span>
         </span>
       </div>
@@ -62,6 +63,7 @@ export default {
       currentPage: 1,
       pageSize: 10,
       noMoreData: false,
+      showAddPost:false,
     }
   },
   methods: {
@@ -90,7 +92,7 @@ export default {
     },
     doLike(id) {
       this.$API.doLikeThisPost(id).then((res) => {
-        
+        this.$message.success('点赞成功');
       })
     },
     handleRemove(file, fileList) {
@@ -141,9 +143,22 @@ export default {
 @import 'https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css';
 
 .addPost {
+  background: #fff;
   .title {
     line-height: 50px;
     padding-left: 20px;
+    background: @main;
+    color:#fff;
+  }
+  .addbtn{
+    text-align: center;
+    cursor: pointer;
+    background: #fff;
+    color:@main;
+    &:hover{
+      background: @main;
+      color:#fff;
+    }
   }
   .btn {
     text-align: center;
@@ -160,6 +175,9 @@ export default {
   font-size: 13px;
   position: relative;
   background: #fff;
+  &:hover{
+    border: 1px solid @main;
+  }
   .img {
     display: inline-block;
     padding: 20px;
@@ -178,6 +196,7 @@ export default {
     margin-left: 85px;
     margin-top: -30px;
     line-height: 1.5rem;
+    cursor: pointer;
   }
   .albums{
     padding-left:85px;
@@ -197,6 +216,10 @@ export default {
     .btn {
       float: right;
       padding: 0 15px;
+      cursor: pointer;
+      &:hover{
+        color:@main;
+      }
     }
   }
 }

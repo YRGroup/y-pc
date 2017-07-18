@@ -149,6 +149,9 @@ export default {
       width: 100px;
       height: 100px;
       margin: 20px;
+      &:hover{
+    border: 1px solid @main;
+  }
       .score {
         line-height: 50px;
         .score {
@@ -179,6 +182,9 @@ export default {
     position: relative;
     line-height: 30px;
     border-bottom: 1px dotted @border;
+    &:hover{
+    border-bottom: 1px solid @main;
+  }
     .title {
       max-width: calc(~"100% - 150px");
     }

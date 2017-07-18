@@ -50,16 +50,22 @@ export default {
       parents:[],
     }
   },
+  computed:{
+
+  },
   methods: {
     getData(){
-      this.$API.getStudentInfo(this.$store.state.currentStudentId).then(res=>{
-        this.currentStudent.school=res.School.Name
-        this.currentStudent.Class=res.Class.Name
-        this.currentStudent.Headimgurl=res.user.Headimgurl
-        this.currentStudent.TrueName=res.user.TrueName
-        this.currentStudent.StudentID=res.user.StudentID
-        this.parents = res.Parents
-      })
+      if(this.currentStudent.StudentID==''){
+        this.$API.getStudentInfo(this.$store.state.currentStudentId).then(res=>{
+          this.currentStudent.school=res.School.Name
+          this.currentStudent.Class=res.Class.Name
+          this.currentStudent.Headimgurl=res.user.Headimgurl
+          this.currentStudent.TrueName=res.user.TrueName
+          this.currentStudent.StudentID=res.user.StudentID
+          this.parents = res.Parents
+        })
+      }
+      
     }
   },
   created() {
@@ -89,6 +95,9 @@ export default {
     text-align: center;
     background: #fff;
     margin-bottom: 20px;
+    &:hover{
+    border: 1px solid @main;
+  }
     .header {
       height: 75px;
       position: relative;

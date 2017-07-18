@@ -6,7 +6,15 @@
 
 <script>
 export default {
-  name: 'app'
+  name: 'app',
+  created(){
+    if(localStorage.hasLogin){
+      this.$store.commit('login',JSON.parse(localStorage.user))
+    }else{
+      this.$router.push('/login')
+    }
+    console.log(this.$store.getters._APIurl)
+  }
 }
 </script>
 
