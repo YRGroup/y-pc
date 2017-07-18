@@ -74,7 +74,7 @@ export default {
 
   },
   created() {
-    this.$router.push('/class')
+    // this.$router.push('/class')
   },
   mounted() {
 

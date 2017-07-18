@@ -175,6 +175,8 @@ export default {
   margin: 15px 0;
   position: relative;
   background: #fff;
+  padding-left:80px;
+  border: 1px solid #fff;
   &:hover{
     border: 1px solid @main;
   }
@@ -203,11 +205,7 @@ export default {
     line-height: 42px;
   }
   .content {
-    width: calc(~"100% - 120px");
-    padding: 10px;
-    margin-left: 85px;
-    margin-top: -30px;
-    line-height: 1.5rem;
+    // width: calc(~"100% - 120px");
     cursor: pointer;
   }
   .albums {
@@ -224,9 +222,8 @@ export default {
     .time {
       color: @grey;
     }
-    .btn {
+    .iconbtn {
       float: right;
-      padding: 0 15px;
       cursor: pointer;
       &:hover{
         color:@main;

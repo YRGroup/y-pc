@@ -11,21 +11,28 @@ import klass from '@/pages/class/main'
 import post from '@/pages/class/post'
 import homework from '@/pages/class/homework'
 
-import studentHome from '@/pages/student/home'
-import studentProfile from '@/pages/student/profile'
-import score from '@/pages/student/score'
-
-import teacherHome from '@/pages/student/home'
-import teacherProfile from '@/pages/student/profile'
-
 import contactHome from '@/pages/contact/main'
 import contact from '@/pages/contact/main'
 import msg from '@/pages/contact/main'
 
-import userHome from '@/pages/user/home'
-import user from '@/pages/user/main'
-import schoolcard from '@/pages/user/schoolcard'
-import edit from '@/pages/user/edit'
+import studentHome from '@/pages/student/home'
+import student from '@/pages/student/main'
+import score from '@/pages/student/score'
+import editStudent from '@/pages/student/edit'
+
+
+import teacherHome from '@/pages/teacher/home'
+import teacher from '@/pages/teacher/main'
+import editTeacher from '@/pages/teacher/edit'
+
+
+import parentHome from '@/pages/parent/home'
+import parent from '@/pages/parent/main'
+import editparent from '@/pages/parent/edit'
+import addStudent from '@/pages/parent/addStudent'
+
+import schoolcard from '@/pages/addon/schoolcard'
+
 
 import reg from '@/pages/login/reg'
 import login from '@/pages/login/login'
@@ -59,7 +66,7 @@ export default new Router({
               component: klass,
             },
             {
-              path: '/post',
+              path: '/post/:postId',
               name: 'post',
               component: post,
             },
@@ -76,13 +83,23 @@ export default new Router({
           children:[
             {
               path: '',
-              name: 'studentProfile',
-              component: studentProfile,
+              name: 'student',
+              component: student,
             },
             {
-              path: '/score',
+              path: 'score',
               name: 'score',
               component: score,
+            },
+            {
+              path: 'schoolcard',
+              name: 'schoolcard',
+              component: schoolcard,
+            },
+            {
+              path: 'edit',
+              name: 'editStudent',
+              component: editStudent,
             },
           ]
         },
@@ -92,8 +109,18 @@ export default new Router({
           children:[
             {
               path: '',
-              name: 'teacherProfile',
-              component: teacherProfile,
+              name: 'teacher',
+              component: teacher,
+            },
+            {
+              path: 'schoolcard',
+              name: 'schoolcard',
+              component: schoolcard,
+            },
+            {
+              path: 'edit',
+              name: 'editTeacher',
+              component: editTeacher,
             },
           ]
         },
@@ -114,23 +141,24 @@ export default new Router({
           ]
         },
         {
-          path: '/user',
-          component: userHome,
+          path: '/parent',
+          component: parentHome,
           children:[
             {
               path: '',
-              name: 'user',
-              component: user,
+              name: 'parent',
+              component: parent,
             },
             {
-              path: '/schoolcard',
-              name: 'schoolcard',
-              component: schoolcard,
+              path: 'edit',
+              name: 'editparent',
+              component: editparent,
             },
+            
             {
-              path: '/edit',
-              name: 'edit',
-              component: edit,
+              path: 'addStudent',
+              name: 'addStudent',
+              component: addStudent,
             },
           ]
         },
