@@ -17,9 +17,9 @@
       </div>
   
     </header>
-
+  
     <router-view class="inview"></router-view>
-
+  
   </div>
 </template>
 
@@ -52,23 +52,23 @@ export default {
 @import '../style/theme.less';
 
 header {
-  position: fixed;
-  top:0;
-  width:100%;
-  height: 100px;
+  // position: fixed;
+  // top: 0;
+  width: 100%;
+  height: 78px;
   list-style: none;
-  line-height: 100px;
-  box-shadow: 0 3px 1px @grey;
+  line-height: 78px;
+  // box-shadow: 0 3px 1px @grey;
   background: #fff;
   z-index: 1000;
-  .container{
-    max-width: 1200px;
-    margin:0 auto;
+  .container {
+    max-width: 1090px;
+    margin: 0 auto;
   }
   .logo {
     display: inline-block;
     font-size: 40px;
-    color:@main;
+    color: @main;
     font-weight: bold;
   }
   .nav {
@@ -79,18 +79,19 @@ header {
   }
   li {
     display: inline-block;
-    padding:0 20px;
+    padding: 0 20px;
     cursor: pointer;
-    &:hover{
+    &:hover {
       background: @main;
-      color:#fff;
+      color: #fff;
     }
   }
 }
 
-.inview{
-  max-width: 1200px;
-  margin:0 auto;
-  margin-top:105px;
+.inview {
+  max-width: 1090px;
+  margin: 0 auto;
+  margin-top: 20px;
 }
+
 </style>
