@@ -73,6 +73,7 @@ header {
   }
   .nav {
     float: right;
+    font-size: 16px;
   }
   .active{
     color:@main;
