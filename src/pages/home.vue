@@ -5,12 +5,14 @@
       <div class="container">
         <div class="logo">logo</div>
         <div class="nav">
-          <li @click="$router.push('/')">首页</li>
-          <li @click="$router.push('/class')">班级主页</li>
-          <li @click="$router.push('/score')">成绩报告</li>
-          <li @click="$router.push('/homework')">作业中心</li>
-          <li @click="$router.push('/schoolcard')">一卡通</li>
-          <li @click="$router.push('/user')">个人中心</li>
+          <li @click="$router.push('/')" :class="link=='/'?'active':null">首页</li>
+          <li @click="$router.push('/class')" :class="link=='/class'?'active':null">班级主页</li>
+          <li @click="$router.push('/homework')" :class="link=='/homework'?'active':null">作业中心</li>
+          <li @click="$router.push('/teacher/schoolcard')" v-show="$store.state.role=='老师'" :class="link=='/teacher/schoolcard'?'active':null">一卡通</li>
+          <li @click="$router.push('/student/schoolcard')" v-show="$store.state.role=='家长'" :class="link=='/student/schoolcard'?'active':null">一卡通</li>
+          <li @click="$router.push('/teacher')" v-show="$store.state.role=='老师'" :class="link=='/teacher'?'active':null">教师主页</li>
+          <li @click="$router.push('/student/score')" v-show="$store.state.role=='家长'" :class="link=='/student/score'?'active':null">成绩报告</li>
+          <li @click="$router.push('/parent')" v-show="$store.state.role=='家长'" :class="link=='/parent'?'active':null">家长主页</li>
         </div>
       </div>
   
@@ -23,18 +25,22 @@
 
 <script>
 export default {
-  name: 'app',
+  name: 'home',
   components: {},
   data() {
     return {
-      msg: '123456789'
+    }
+  },
+  computed:{
+    link(){
+      return this.$route.path
     }
   },
   methods: {
 
   },
   created() {
-
+    console.log(this.link)
   },
   mounted() {
 
@@ -68,6 +74,9 @@ header {
   .nav {
     float: right;
     font-size: 16px;
+  }
+  .active{
+    color:@main;
   }
   li {
     display: inline-block;

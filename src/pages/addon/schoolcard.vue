@@ -112,6 +112,9 @@ export default {
   padding: 20px;
   background: #fff;
   margin: 10px 0;
+  &:hover{
+    border: 1px solid @main;
+  }
   .total {
     .item {
       padding: 0 20px;
@@ -161,6 +164,9 @@ export default {
     position: relative;
     line-height: 30px;
     border-bottom: 1px dotted @border;
+    &:hover{
+      border-bottom: 1px solid @main;
+    }
     .title {
       max-width: calc(~"100% - 150px");
     }

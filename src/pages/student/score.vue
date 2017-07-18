@@ -185,6 +185,9 @@ export default {
     position: relative;
     line-height: 30px;
     border-bottom: 1px dotted @border;
+    &:hover{
+    border-bottom: 1px solid @main;
+  }
     .title {
       max-width: calc(~"100% - 150px");
       height: 30px;
