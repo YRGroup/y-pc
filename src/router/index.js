@@ -113,16 +113,16 @@ export default new Router({
               component: teacher,
             },
             {
-              path: 'schoolcard',
-              name: 'schoolcard',
-              component: schoolcard,
-            },
-            {
               path: 'edit',
               name: 'editTeacher',
               component: editTeacher,
             },
           ]
+        },
+        {
+            path: 'schoolcard',
+            name: 'schoolcard',
+            component: schoolcard,
         },
         {
           path: '/contact',
