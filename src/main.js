@@ -174,7 +174,7 @@ let options = {
         "link",
         "unlink",
         "tabulation",
-        "image",
+        // "image",
         "hr",
         "eraser",
         "undo"

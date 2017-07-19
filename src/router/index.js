@@ -11,9 +11,9 @@ import klass from '@/pages/class/main'
 import post from '@/pages/class/post'
 import homework from '@/pages/class/homework'
 
-import contactHome from '@/pages/contact/main'
+import contactHome from '@/pages/contact/home'
 import contact from '@/pages/contact/main'
-import msg from '@/pages/contact/main'
+import msg from '@/pages/contact/msg'
 
 import studentHome from '@/pages/student/home'
 import student from '@/pages/student/main'
@@ -93,7 +93,6 @@ export default new Router({
             },
             {
               path: 'schoolcard',
-              name: 'schoolcard',
               component: schoolcard,
             },
             {
@@ -114,7 +113,6 @@ export default new Router({
             },
             {
               path: 'schoolcard',
-              name: 'schoolcard',
               component: schoolcard,
             },
             {
@@ -134,7 +132,7 @@ export default new Router({
               component: contact,
             },
             {
-              path: '/msg',
+              path: '/msg/:id',
               name: 'msg',
               component: msg,
             },
