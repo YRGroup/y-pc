@@ -178,7 +178,8 @@ export default {
   padding-left:80px;
   border: 1px solid #fff;
   &:hover{
-    border: 1px solid @main;
+    // border: 1px solid @main;
+    box-shadow: 0 3px 2px rgba(0,0,0,0.1);
   }
   .img {
     position: absolute;
