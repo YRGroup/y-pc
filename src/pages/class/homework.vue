@@ -1,11 +1,12 @@
 <template>
   <div>
   
-    <div class="title">
-      <span>班级作业</span>
-      <div class="btn" v-show="$store.state.role=='老师'">
-        <el-button type="primary" @click="showAddHomework = true">添加新作业</el-button>
-      </div>
+    <div class="addHomework">
+      <!-- <span>班级作业</span>
+        <div class="btn" v-show="$store.state.role=='老师'">
+          <el-button type="primary" @click="showAddHomework = true">添加新作业</el-button>
+        </div> -->
+      <div class="title" :class="showAddPost?null:'addbtn'" @click="showAddHomework = true">添加作业</div>
     </div>
   
     <div class="card" v-for="(i,index) in homework" :key="index">
@@ -20,9 +21,9 @@
         </div>
       </div>
     </div>
-    
+  
     <load-more @click.native="loadMore" :noMoreData="noMoreData"></load-more>
-
+  
     <el-dialog title="收货地址" :visible.sync="showAddHomework">
       <el-form :model="newHomeworkData" label-width="80px">
         <el-form-item label="标题">
@@ -44,7 +45,7 @@
                 </div>
                 <img :src="i">
               </div>
-            </div> 
+            </div>
           </div>
         </el-form-item>
       </el-form>
@@ -61,22 +62,22 @@
 import loadMore from '@//components/loadMore'
 
 export default {
-  components:{loadMore},
+  components: { loadMore },
   data() {
     return {
-      homework:[],
+      homework: [],
       currentPage: 1,
       pageSize: 10,
       noMoreData: false,
-      showAddHomework:false,
-      newHomeworkData:{
+      showAddHomework: false,
+      newHomeworkData: {
       },
       fileList: [],
     }
   },
-  computed:{
-    course:function(){
-      if(this.$store.state.currentUser.ExtendInfo.Course){
+  computed: {
+    course: function () {
+      if (this.$store.state.currentUser.ExtendInfo.Course) {
         return this.$store.state.currentUser.ExtendInfo.Course
       }
     }
@@ -91,12 +92,12 @@ export default {
         this.$API.uploadImg(imgFiles).then((res) => {
           res.forEach((val) => {
             this.fileList.push(val)
-            this.newHomeworkData.content += '<img style="max-width:100%;" src='+ val +'>'
+            this.newHomeworkData.content += '<img style="max-width:100%;" src=' + val + '>'
           })
         }).catch((err) => {
           this.$message.error(err)
         })
-      }else{
+      } else {
         this.$message.error('最多上传9张图片')
       }
     },
@@ -107,12 +108,12 @@ export default {
         }
       }
     },
-    getData(){
+    getData() {
       let para = {}
       para.cid = this.$store.state.currentClassId
       para.currentPage = this.currentPage
       para.pagesize = this.pageSize
-      this.$API.getHomeworkList(para).then(res=>{
+      this.$API.getHomeworkList(para).then(res => {
         if (res.length) {
           res.forEach((element) => {
             this.homework.push(element)
@@ -126,10 +127,10 @@ export default {
       this.currentPage++
       this.getData()
     },
-    addNewHomework(){
-      this.newHomeworkData['class_id']=this.$store.state.currentClassId
-      this.newHomeworkData['course_name']=this.$store.state.currentUser.ExtendInfo.Course
-      this.$API.addHomework(this.newHomeworkData).then(res=>{
+    addNewHomework() {
+      this.newHomeworkData['class_id'] = this.$store.state.currentClassId
+      this.newHomeworkData['course_name'] = this.$store.state.currentUser.ExtendInfo.Course
+      this.$API.addHomework(this.newHomeworkData).then(res => {
         this.showAddHomework = false
         this.getData()
       })
@@ -148,22 +149,26 @@ export default {
 @import '../../style/theme.less';
 @import 'https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css';
 
-.title {
-  border-bottom: 1px solid @border;
-  line-height: 50px;
-  padding:0 30px;
-  .btn{
-    float: right;
+.addHomework {
+  background: #fff;
+  text-align: center;
+  .title {
+    line-height: 50px;
+    cursor: pointer;
+    color: @main;
+    &:hover{
+      background: @main;
+      color:#fff;
+    }
   }
 }
-
 .card {
   margin: 15px 0;
   border: 1px solid @border;
   font-size: 13px;
   background: #fff;
   position: relative;
-  &:hover{
+  &:hover {
     border: 1px solid @main;
   }
   .course {
@@ -171,18 +176,18 @@ export default {
     width: 125px;
     display: inline-block;
     background: @main;
-    color:#fff;
+    color: #fff;
     font-size: 18px;
     line-height: 50px;
     text-align: center;
-    border-bottom-right-radius:20px;
+    border-bottom-right-radius: 20px;
   }
-  .header{
+  .header {
     line-height: 50px;
-    height:50px;
+    height: 50px;
     text-align: center;
     font-weight: bold;
-    margin-top:-50px;
+    margin-top: -50px;
   }
   .body {
     line-height: 2rem;
@@ -191,7 +196,7 @@ export default {
     .footer {
       text-align: right;
       .time {
-      padding-top:20px;
+        padding-top: 20px;
         color: @grey;
       }
       .btn {
@@ -270,12 +275,12 @@ export default {
       color: @main;
     }
     img {
-      width:100%;
+      width: 100%;
     }
   }
 }
 
-.addImgBtn{
-  padding:10px;
+.addImgBtn {
+  padding: 10px;
 }
 </style>

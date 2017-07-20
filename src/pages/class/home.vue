@@ -25,7 +25,11 @@
         </div>
         <div class="content">
           <el-select v-model="currentClass" @change="changeCurrentClass" placeholder="请选择">
-            <el-option v-for="item in $store.state.currentClassList" :key="item.id" :label="item.name" :value="item.id">
+            <el-option 
+              v-for="item in $store.state.currentClassList" 
+              :key="item.id" 
+              :label="item.name" 
+              :value="item.id">
             </el-option>
           </el-select>
         </div>
@@ -242,7 +246,6 @@ export default {
           display: inline-block;
           margin-bottom: 0;
           line-height: 0;
-          background: red;
         }
         img {
           width: 50px;

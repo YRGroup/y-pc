@@ -5,8 +5,7 @@
       <el-tab-pane name="profile">
         <span class="title" slot="label">个人</span>
         <div class="content info">
-
-          <div class="item">
+          <div class="itemList">
             <div class="item-content">
               <p>
                 <span class="title">姓名：</span>
@@ -17,31 +16,39 @@
                 <span>{{currentUser.Sex}}</span>
               </p>
               <p>
+                <span class="title">学科：</span>
+                <span>{{currentUser.ExtendInfo.Classes[0].CourseName}}</span>
+              </p>
+              <p>
                 <span class="title">手机：</span>
                 <span>{{currentUser.Mobilephone}}</span>
+              </p>
+              <p>
+                <span class="title">角色：</span>
+                <span>{{currentUser.Role}}</span>
               </p>
             </div>
           </div>
 
-          <div class="item">
+          <div class="itemList">
             <div class="header">教学经历</div>
             <div class="item-content">
               <p>
                 <span class="name">郑州航空港育人国际学校</span>
-                <span class="time">2017-5-6</span>
+                <span class="time">2016.8-- 2017.6</span>
               </p>
               <p>
                 <span class="name">郑州航空港育人国际学校</span>
-                <span class="time">2017-5-6</span>
+                <span class="time">2016.8-- 2017.6</span>
               </p>
             </div>
           </div>
 
-          <div class="item">
+          <div class="itemList">
             <div class="header">个人荣誉</div>
             <div class="item-content">
               <div class="img" v-for="i in 5" :key="i">
-                <img src="http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg">
+                <img src="https://modao.cc/uploads3/images/907/9074147/raw_1493192685.png">
               </div>
             </div>
           </div>
@@ -106,31 +113,38 @@ export default {
 @import '../../style/theme.less';
 
 .tabs {
-  margin-top:10px;
+  // margin-top:10px;
   .title {
     padding: 10px 30px;
   }
   .content {
     line-height: 2em;
-    .item{
-      padding: 30px 0;
-      border-bottom: 1px solid @grey;
+    .itemList{
+      padding:30px 20px;
+      border-bottom: 1px solid @border;
       .header{
-        line-height: 1em;
+        line-height: 32px;
+        font-size: 16px;
+        margin-bottom: 10px;
       }
       .item-content{
-        padding-top:30px;
-        text-align: center;
+        // padding-top:30px;
+        // text-align: center;
+        margin-left: 40px;
         line-height: 3em;
+        .name{
+          width: 500px;
+          display: inline-block;
+        }
         .title {
           color: @grey;
         }
         .img{
           display: inline-block;
-          padding:10px;
+          padding-right:15px;
           img{
             width:120px;
-            border-radius: 50%;
+            // border-radius: 50%;
           }
         }
       }

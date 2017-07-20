@@ -123,6 +123,11 @@ export default new Router({
           ]
         },
         {
+            path: 'schoolcard',
+            name: 'schoolcard',
+            component: schoolcard,
+        },
+        {
           path: '/contact',
           component: contactHome,
           children:[
