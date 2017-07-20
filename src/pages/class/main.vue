@@ -190,6 +190,7 @@ export default {
     top: 20px;
     img {
       width: 46px;
+      height: 46px;
       border-radius: 50%;
     }
   }
@@ -199,7 +200,7 @@ export default {
     top: 24px;
     border:1px solid @main;
     color:@main;
-    padding:1px 6px;
+    padding:1px 10px;
     border-radius: 3px;
     font-size: 12px;
   }

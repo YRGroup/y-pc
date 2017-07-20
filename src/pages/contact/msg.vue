@@ -2,7 +2,7 @@
   <div>
   
     <div class="card">
-      <div class="title">与 {{data.sendto_TrueName}} 的对话列表</div>
+      <div class="title">与 {{data.sendto_TrueName}} 的对话列表<span class="goreturn"><el-button size="small" @click="$router.push('/contact')" type="success" :plain="true" >返回</el-button></span></div>
       <li class="item" :class="(i.SendTo==userId)?'right':'left'" v-for="i in msgList" :key="i">
         <div class="header">
           <div class="img">
@@ -19,11 +19,13 @@
         暂无消息
       </li>
       <div class="newMsgContent">
-        <el-input v-model="newMsgData.content" placeholder="请输入内容">
+          <el-input class="input" style="width:90%" placeholder="请输入内容" v-model="newMsgData.content"></el-input>
+          <el-button @click="addMsg" class="btn" type="success">发送</el-button>
+        <!-- <el-input v-model="newMsgData.content" placeholder="请输入内容">
           <template slot="append">
-            <el-button type="primary" @click="addMsg" style="background-color:#20a0ff;color:#fff;border-color: #20a0ff;border-radius:0;">发送</el-button>
+            <el-button  @click="addMsg" style="background-color:#00c06f;color:#fff;border-color: #00c06f;border-radius:0;">发送</el-button>
           </template>
-        </el-input>
+        </el-input> -->
       </div>
     </div>
   
@@ -90,7 +92,11 @@ export default {
     border-bottom: 1px solid @border;
     font-size: 20px;
     line-height: 50px;
-    padding-left: 20px;
+    padding:0 20px;
+    .goreturn{
+      float: right;
+      font-size: 14px;
+    }
   }
   .item {
     padding: 5px 20px;
@@ -101,31 +107,30 @@ export default {
       .img {
         position: absolute;
         img {
-          width: 60px;
-          height: 60px;
+          width: 48px;
+          height: 48px;
           border-radius: 50%;
         }
       }
       .name,
       .time {
-        line-height: 30px;
-      }
-      .time {
-        color: @grey;
+        line-height: 24px;
       }
     }
     .content {
-      background: @main;
-      color: #fff;
       display: inline-block;
       max-width: calc(~"100% - 210px");
-      padding: 10px 30px;
-      border-radius: 15px;
-      margin: 5px;
+      padding:6px 10px;
+      border-radius: 6px;
+      margin:0 5px;
     }
   }
   .left {
     text-align: left;
+    .content{
+      background: @main;
+      color: #fff;
+    }
     .header {
       float: left;
       .img {
@@ -134,12 +139,17 @@ export default {
       }
       .name,
       .time {
-        padding-left: 75px;
+        padding-left: 60px;
       }
     }
   }
   .right {
     text-align: right;
+    .content{
+      background: #f5f5f5;
+      color: #333;
+      text-align: left;
+    }
     .header {
       float: right;
       .img {
@@ -148,13 +158,15 @@ export default {
       }
       .name,
       .time {
-        padding-right: 75px;
+        padding-right: 60px;
       }
     }
   }
 }
 
 .newMsgContent {
+  background: #edf1f5;
+  border:1px solid @border;
   padding: 10px 30px;
 }
 

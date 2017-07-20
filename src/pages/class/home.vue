@@ -6,7 +6,7 @@
     </div>
   
     <div class="right">
-      <div class="classInfo">
+      <div class="classInfo classbox">
         <div class="header">
           <img src="https://modao.cc/uploads3/images/900/9007936/raw_1493017171.jpeg">
         </div>
@@ -167,32 +167,8 @@ export default {
 .right {
   float: right;
   width: 260px;
-  .classInfo {
-    background: @main;
-    padding:20px;
-    color: #fff;
-    text-align: center;
-    margin-bottom: 15px;
-    .header {
-      img {
-        vertical-align: middle;
-        width: 90px;
-        border: 3px solid rgba(255, 255, 255, 0.5);
-        border-radius: 10px;
-      }
-    }
-    .content {
-      line-height: 30px;
-      font-size: 18px;
-      margin-top:10px;
-      .info {
-        font-size: 14px;
-        span{
-          margin:0 10px;
-        }
-      }
-    }
-  }
+
+
   .card {
     margin-bottom: 15px;
     // padding: 5px;

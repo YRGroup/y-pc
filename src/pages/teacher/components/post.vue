@@ -5,6 +5,7 @@
       <div class="img">
         <img :src="i.userImg">
       </div>
+      <div class="tips">{{i.category}}</div>
       <div class="header">{{i.auther}}</div>
       <div class="content" v-html="i.content"></div>
       <div class="albums">
@@ -108,6 +109,16 @@ export default {
         max-height:120px;
       }
     }
+  }
+    .tips{
+    position: absolute;
+    right: 0;
+    top: 6px;
+    border:1px solid @main;
+    color:@main;
+    padding:1px 10px;
+    border-radius: 3px;
+    font-size: 12px;
   }
   .footer {
     font-size:12px;
