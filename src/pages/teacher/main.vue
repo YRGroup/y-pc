@@ -17,7 +17,7 @@
               </p>
               <p>
                 <span class="title">学科：</span>
-                <span>{{currentUser.ExtendInfo.Classes[0].CourseName}}</span>
+                <span>{{currentUser.ExtendInfo.Course}}</span>
               </p>
               <p>
                 <span class="title">手机：</span>
@@ -33,13 +33,9 @@
           <div class="itemList">
             <div class="header">教学经历</div>
             <div class="item-content">
-              <p>
-                <span class="name">郑州航空港育人国际学校</span>
-                <span class="time">2016.8-- 2017.6</span>
-              </p>
-              <p>
-                <span class="name">郑州航空港育人国际学校</span>
-                <span class="time">2016.8-- 2017.6</span>
+              <p v-for="(i,index) in profileData.TeachExperience" :key="index">
+                <span class="name">{{i.SchoolName}}</span>
+                <span class="time">{{i.StartTime}} - {{i.EndTime}}</span>
               </p>
             </div>
           </div>
@@ -47,14 +43,16 @@
           <div class="itemList">
             <div class="header">个人荣誉</div>
             <div class="item-content">
-              <div class="img" v-for="i in 5" :key="i">
-                <img src="https://modao.cc/uploads3/images/907/9074147/raw_1493192685.png">
-              </div>
+              <li class="honorItem"  v-for="(i,index) in profileData.PersonalHonor" :key="index">
+                <img :src="i.ImgPath">
+                <div class="info">{{i.Description}}</div>
+              </li>
             </div>
           </div>
 
         </div>
       </el-tab-pane>
+
       <el-tab-pane name="post" >
         <span class="title" slot="label">动态</span>
         <div class="content">
@@ -63,6 +61,7 @@
 
         </div>
       </el-tab-pane>
+
       <el-tab-pane name="homework">
         <span class="title" slot="label">作业</span>
         <div class="content">
@@ -71,6 +70,16 @@
 
         </div>
       </el-tab-pane>
+
+      <el-tab-pane name="msg">
+        <span class="title" slot="label">消息</span>
+        <div class="content">
+
+          <msg></msg>
+
+        </div>
+      </el-tab-pane>
+
     </el-tabs>
 
   </div>
@@ -79,13 +88,15 @@
 <script>
 import teacherHomework from '@/pages/teacher/components/homework'
 import teacherPost from '@/pages/teacher/components/post'
+import msg from '@/pages/contact/main'
 
 export default {
   name: 'app',
-  components: {teacherHomework,teacherPost},
+  components: {teacherHomework,teacherPost,msg},
   data() {
     return {
       activeTab:'profile',
+      profileData:{},
       postData: [],
       homeworkData:[],
     }
@@ -97,7 +108,9 @@ export default {
   },
   methods: {
     getData(){
-
+      this.$API.getTeacherInfo(this.$store.state.currentUserId).then(res=>{
+        this.profileData = res
+      })
     },
   },
   created() {
@@ -149,6 +162,19 @@ export default {
         }
       }
     }
+  }
+}
+
+.honorItem {
+  max-width: 120px;
+  display: inline-block;
+  text-align: center;
+  padding: 20px;
+  img {
+    width: 100%;
+  }
+  .info {
+    color: @grey;
   }
 }
 

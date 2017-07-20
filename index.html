@@ -9,8 +9,8 @@
       position: absolute;
       top: 0;
       left: 0;
-      right: 0;
-      bottom: 0;
+      width: 100%;
+      height:95vh;
       z-index: -1;
     }
 
@@ -29,7 +29,7 @@
       window.addEventListener("hashchange", ifParticles);
       function ifParticles (){
         var url = window.location.hash
-        if (url == '#/login') {
+        if (url == '#/login' || url == '#/reg') {
           console.log('yes')
           bg.style.display = 'block'
         }else{

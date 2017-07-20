@@ -72,7 +72,10 @@ export default {
     submitChange(){
       this.data.role = 2
       this.$API.editParentInfo(this.data).then(res=>{
-				this.getData()
+				this.$API.getCurrentUser().then(user=>{
+          this.$store.commit('login',user)
+        })
+        this.$router.push('/parent')
 			})
     },
     handleAvatarSuccess(res, file) {
