@@ -1,11 +1,44 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>y-pc</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
+
+<head>
+  <meta charset="utf-8">
+  <title>y-pc</title>
+  <style>
+    #particles-js {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+  <div id="particles-js"></div>
+  <script src="./static/particles/particles.min.js"></script>
+  <script src="./static/particles/app.js"></script>
+  <script>
+    window.onload = function () {
+      var bg = document.getElementById('particles-js')
+      window.addEventListener("hashchange", ifParticles);
+      function ifParticles (){
+        var url = window.location.hash
+        if (url == '#/login') {
+          console.log('yes')
+          bg.style.display = 'block'
+        }else{
+          console.log('not')
+          bg.style.display = 'none'
+        }
+      }
+    }
+  </script>
+</body>
+
 </html>

@@ -2,7 +2,7 @@
   <div>
   
     <el-tabs v-model="activeTab" type="border-card" class="tabs">
-      <el-tab-pane name="main">
+      <el-tab-pane name="main" >
         <span class="title" slot="label">家长</span>
         <div class="content info">
 
