@@ -1,141 +1,166 @@
 <template>
   <div>
   
-    <div class="left">
-      <div class="card">
-        <div class="title">学生(40)</div>
-        <li class="item" v-for="i in 20" :key="i">
+    <div class="card">
+      <div class="title">与 {{data.sendto_TrueName}} 的对话列表</div>
+      <li class="item" :class="(i.SendTo==userId)?'right':'left'" v-for="i in msgList" :key="i">
+        <div class="header">
           <div class="img">
-            <img src="https://modao.cc/uploads3/images/900/9007936/raw_1493017171.jpeg">
+            <img :src="currentUser.img" v-if="i.SendTo==userId">
+            <img :src="data.sendto_Headimgurl" v-else>
           </div>
-          <div class="content">
-            <div class="name">李家长</div>
-            <div class="tel">1380012354</div>
-          </div>
-          <div class="btn">
-            <el-button>查看主页</el-button>
-          </div>
-        </li>
+          <div class="name" v-if="i.SendTo==userId">{{currentUser.name}}</div>
+          <div class="name" v-else>{{data.sendto_TrueName}}</div>
+          <div class="time">{{i.CreateTime}}</div>
+        </div>
+        <div class="content">{{i.Content}}</div>
+      </li>
+      <li class="noMsg" v-show="msgList.length==0">
+        暂无消息
+      </li>
+      <div class="newMsgContent">
+        <el-input v-model="newMsgData.content" placeholder="请输入内容">
+          <template slot="append">
+            <el-button type="primary" @click="addMsg" style="background-color:#20a0ff;color:#fff;border-color: #20a0ff;border-radius:0;">发送</el-button>
+          </template>
+        </el-input>
       </div>
     </div>
   
-    <div class="right">
-  
-      <div class="card">
-        <div class="title">
-          联系人
-        </div>
-        <div class="content">
-          <li class="item">老师(10)</li>
-          <li class="item">学生(40)</li>
-          <li class="item">家长(60)</li>
-        </div>
-      </div>
-  
-    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'app',
+  name: 'msg',
   components: {},
   data() {
     return {
-      newPost: {}
+      data: {},
+      msgList: [],
+      newMsgData: {},
+    }
+  },
+  computed: {
+    userId() {
+      return this.$route.params.id
+    },
+    currentUser() {
+      let user = {}
+      user.name = this.$store.state.currentUser.TrueName
+      user.img = this.$store.state.currentUser.Headimgurl
+      return user
     }
   },
   methods: {
-    updateData: function (data) {
-      this.newPost.content = data
+    getData() {
+      this.$API.getMsgInfo(this.userId).then(res => {
+        this.data = res
+        this.msgList = res.CL
+      })
+    },
+    addMsg() {
+      this.newMsgData.sendto = this.userId
+      this.$API.replyMsg(this.newMsgData).then(res => {
+        this.$message.success('发送消息成功')
+        this.getData()
+      })
     },
   },
   created() {
-
+    this.getData()
   },
   mounted() {
 
   },
+  watch: {
+    '$route': 'getData'
+  }
 }
 </script>
 
 <style lang="less" scoped>
 @import '../../style/theme.less';
-@import 'https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css';
 
-.left {
-  width: calc(~"100% - 300px");
-  float: left;
-  padding: 10px;
-  .card{
-    margin: 10px 0;  
-    background: #fff;
-    border: 1px solid @border;
-    .title{
-      border-bottom: 1px solid @border;
-      font-size: 20px;
-      line-height: 50px;
-      padding-left: 20px;
-    }
-    .item{
-      padding:5px 20px;
-      margin:5px 0;
-      &:hover{
-        background: @bg;
-      }
-      .img{
-        display: inline-block;
-        img{
-          width:60px;
+.card {
+  margin: 10px 0;
+  background: #fff;
+  border: 1px solid @border;
+  .title {
+    border-bottom: 1px solid @border;
+    font-size: 20px;
+    line-height: 50px;
+    padding-left: 20px;
+  }
+  .item {
+    padding: 5px 20px;
+    margin: 15px 0;
+    min-height: 60px;
+    .header {
+      position: relative;
+      .img {
+        position: absolute;
+        img {
+          width: 60px;
+          height: 60px;
           border-radius: 50%;
         }
       }
-      .content{
-        vertical-align: top;
-        display: inline-block;
+      .name,
+      .time {
         line-height: 30px;
-        padding-left:20px;
-        .tel{
-          color:@grey;
-        }
       }
-      .btn{
-        float: right;
-        line-height: 60px;
+      .time {
+        color: @grey;
+      }
+    }
+    .content {
+      background: @main;
+      color: #fff;
+      display: inline-block;
+      max-width: calc(~"100% - 210px");
+      padding: 10px 30px;
+      border-radius: 15px;
+      margin: 5px;
+    }
+  }
+  .left {
+    text-align: left;
+    .header {
+      float: left;
+      .img {
+        left: 0;
+        top: 0;
+      }
+      .name,
+      .time {
+        padding-left: 75px;
+      }
+    }
+  }
+  .right {
+    text-align: right;
+    .header {
+      float: right;
+      .img {
+        right: 0;
+        top: 0;
+      }
+      .name,
+      .time {
+        padding-right: 75px;
       }
     }
   }
 }
 
-.right {
-  float: right;
-  width: 260px;
-  padding: 20px 10px;
-  .card {
-    border: 1px solid @border;
-    margin-bottom: 20px;
-    background: #fff;
-    .title {
-      line-height: 60px;
-      padding: 0 10px;
-      background: @main;
-      color:#fff;
-      text-align: center;
-    }
-    .content {
-      line-height: 2em;
-      padding: 20px 0px;
-      font-size: 16px;
-      .item{
-        line-height: 40px;
-        cursor: pointer;
-        padding:5px 20px;
-        &:hover{
-          background: @main;
-          color:#fff;
-        }
-      }
-    }
-  }
+.newMsgContent {
+  padding: 10px 30px;
+}
+
+.noMsg {
+  text-align: center;
+  line-height: 200px;
+  color: @grey;
 }
 </style>

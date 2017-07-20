@@ -172,12 +172,12 @@ let options = {
         "align",
         "list",
         "link",
-        "unlink",
-        "tabulation",
-        "image",
+        // "unlink",
+        // "tabulation",
+        // "image",
         "hr",
-        "eraser",
-        "undo"
+        // "eraser",
+        // "undo"
     ],
 }
 Vue.use(VueHtml5Editor,options)

@@ -2,21 +2,96 @@
   <div>
   
     <div class="left">
-      
+  
       <router-view></router-view>
-
+  
     </div>
   
     <div class="right">
+  
+      <div class="classInfo">
+        <!-- <div class="header">
+          <img src="https://modao.cc/uploads3/images/900/9007936/raw_1493017171.jpeg">
+        </div> -->
+        <div class="content">
+          <p>{{classInfo.name}}</p>
+          <div class="info">
+            <span>班主任：{{classInfo.teacher.TrueName}}</span>
+            <span>人数：{{classInfo.student_count}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" v-show="showBackBtn">
+        <div class="backBtn">
+          <el-button @click="$router.push('/contact')">返回消息中心</el-button>
+        </div>
+      </div>
   
       <div class="card">
         <div class="title">
           联系人
         </div>
         <div class="content">
-          <li class="item">老师(10)</li>
-          <li class="item">学生(40)</li>
-          <li class="item">家长(60)</li>
+          <el-collapse v-model="activeName" accordion>
+            <el-collapse-item title="老师" name="1">
+              <li class="item" v-for="(i,index) in teachers" :key="index">
+  
+                <div class="top">
+                  <div class="img">
+                    <img :src="i.Headimgurl">
+                  </div>
+                  <div class="name">
+                    {{i.TrueName}}
+                    <span>{{i.Course}}</span>
+                  </div>
+                </div>
+  
+                <div class="bottom">
+                  <div class="tel">{{i.Mobilephone}}</div>
+                  <el-button size="mini" class="btn" @click="$router.push('/msg/'+i.Meid)">消息</el-button>
+                </div>
+  
+              </li>
+            </el-collapse-item>
+            <el-collapse-item title="学生" name="2">
+              <li class="item" v-for="(i,index) in students" :key="index">
+  
+                <div class="top">
+                  <div class="img">
+                    <img :src="i.Headimgurl">
+                  </div>
+                  <div class="name">{{i.TrueName}}</div>
+                </div>
+  
+                <div class="bottom">
+                  <div class="tel">学号：{{i.StudentID}}</div>
+                  <el-button size="mini" class="btn" @click="$router.push('/msg/'+i.Meid)">消息</el-button>
+                </div>
+  
+              </li>
+            </el-collapse-item>
+            <el-collapse-item title="家长" name="3">
+              <li class="item" v-for="(i,index) in parents" :key="index">
+  
+                <div class="top">
+                  <div class="img">
+                    <img :src="i.ParentHeadimgurl">
+                  </div>
+                  <div class="name">
+                    {{i.ParentTrueName}}
+                    <span> > {{i.StudentTrueName}}</span>
+                  </div>
+                </div>
+  
+                <div class="bottom">
+                  <div class="tel">{{i.ParentPhone}}</div>
+                  <el-button size="mini" class="btn" @click="$router.push('/msg/'+i.ParentMeid)">消息</el-button>
+                </div>
+  
+              </li>
+            </el-collapse-item>
+          </el-collapse>
         </div>
       </div>
   
@@ -26,30 +101,70 @@
 
 <script>
 export default {
-  name: 'app',
-  components: {},
   data() {
     return {
-      newPost: {}
+      activeName: '0',
+      classInfo: {
+        name:'',
+        teacher:'',
+        student_count:'',
+      },
+      teachers:[],
+      students:[],
+      parents:[],
+    }
+  },
+  computed:{
+    classId(){
+      return this.$store.state.currentClassId
+    },
+    showBackBtn(){
+      let url = this.$route.path.slice(0,4)
+      if(url=='/msg'){
+        return true
+      }else{
+        return false
+      }
     }
   },
   methods: {
-    updateData: function (data) {
-      this.newPost.content = data
+    getData(){
+      this.getClassInfo()
+      this.getStudentList()
+      this.getParentList()
+      this.getTeacherList()
+    },
+    getClassInfo(){
+      this.$API.getClassInfo(this.classId).then(res=>{
+        this.classInfo=res
+      })
+    },
+    getStudentList(){
+      this.$API.getStudentList(this.classId).then(res=>{
+        this.students=res
+      })
+    },
+    getParentList(){
+      this.$API.getParentList(this.classId).then(res=>{
+        this.parents=res
+      })
+    },
+    getTeacherList(){
+      this.$API.getTeacherList(this.classId).then(res=>{
+        this.teachers=res
+      })
     },
   },
   created() {
-
+    this.getData()
   },
   mounted() {
-
   },
 }
 </script>
 
 <style lang="less" scoped>
 @import '../../style/theme.less';
-@import 'https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css';
 
 .left {
   width: calc(~"100% - 300px");
@@ -66,25 +181,97 @@ export default {
     margin-bottom: 20px;
     background: #fff;
     .title {
-      line-height: 60px;
+      line-height: 40px;
       padding: 0 10px;
       background: @main;
-      color:#fff;
+      color: #fff;
       text-align: center;
     }
     .content {
       line-height: 2em;
-      padding: 20px 0px;
       font-size: 16px;
-      .item{
-        line-height: 40px;
-        cursor: pointer;
-        padding:5px 20px;
-        &:hover{
-          background: @main;
-          color:#fff;
+    }
+  }
+}
+
+.backBtn{
+  text-align: center;
+  padding:20px 0;
+}
+
+.classInfo {
+  background: @main;
+  padding: 20px;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 15px;
+  .header {
+    img {
+      vertical-align: middle;
+      width: 90px;
+      border: 3px solid rgba(255, 255, 255, 0.5);
+      border-radius: 10px;
+    }
+  }
+  .content {
+    line-height: 30px;
+    font-size: 18px;
+    margin-top: 10px;
+    .info {
+      font-size: 14px;
+      span {
+        margin: 0 10px;
+      }
+    }
+  }
+}
+
+.item {
+  padding: 5px;
+  margin: 5px 0;
+  position: relative;
+  cursor: default;
+  &:hover {
+    background: @bg;
+    .top {
+      .img {
+        margin-left: 5px;
+        img {
+          width: 50px;
         }
       }
+      .name {
+        padding-left: 65px;
+      }
+    }
+    .bottom {
+      display: block;
+    }
+  }
+  .top {
+    .img {
+      height: 30px;
+      float: left;
+      margin-top: 0px;
+      img {
+        width: 30px;
+        border-radius: 50%;
+      }
+    }
+    .name {
+      line-height: 30px;
+      padding-left: 45px;
+    }
+  }
+  .bottom {
+    display: none;
+    .tel {
+      padding-left: 65px;
+    }
+    .btn {
+      position: absolute;
+      top: 20px;
+      right: 5px;
     }
   }
 }
