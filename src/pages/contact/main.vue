@@ -2,8 +2,8 @@
   <div>
   
     <div class="card">
-      <div class="title">学生(40)</div>
-      <li class="item" v-for="(i,index) in data" :key="index">
+      <div class="title">消息列表</div>
+      <li class="item" v-for="(i,index) in data" :key="index" @click="$router.push('/msg/'+i.ToMeid)">
         <div class="img">
           <img :src="i.ToHeadImg">
         </div>
@@ -12,9 +12,6 @@
           <div class="time">{{i.LastTime}}</div>
           <div class="msg">{{i.Content}}</div>
         </div>
-        <!-- <div class="btn">
-          <el-button>查看主页</el-button>
-        </div> -->
       </li>
     </div>
   

@@ -1,18 +1,29 @@
 <template>
   <div>
   
-    <div class="left">
-      <div class="card">
-        <div class="title">对话列表</div>
-        <li class="item" v-for="i in 20" :key="i">
+    <div class="card">
+      <div class="title">与 {{data.sendto_TrueName}} 的对话列表</div>
+      <li class="item" :class="(i.SendTo==userId)?'right':'left'" v-for="i in msgList" :key="i">
+        <div class="header">
           <div class="img">
-            <img src="https://modao.cc/uploads3/images/900/9007936/raw_1493017171.jpeg">
+            <img :src="currentUser.img" v-if="i.SendTo==userId">
+            <img :src="data.sendto_Headimgurl" v-else>
           </div>
-          <div class="content">
-            <div class="name">李家长</div>
-            <div class="tel">1380012354</div>
-          </div>
-        </li>
+          <div class="name" v-if="i.SendTo==userId">{{currentUser.name}}</div>
+          <div class="name" v-else>{{data.sendto_TrueName}}</div>
+          <div class="time">{{i.CreateTime}}</div>
+        </div>
+        <div class="content">{{i.Content}}</div>
+      </li>
+      <li class="noMsg" v-show="msgList.length==0">
+        暂无消息
+      </li>
+      <div class="newMsgContent">
+        <el-input v-model="newMsgData.content" placeholder="请输入内容">
+          <template slot="append">
+            <el-button type="primary" @click="addMsg" style="background-color:#20a0ff;color:#fff;border-color: #20a0ff;border-radius:0;">发送</el-button>
+          </template>
+        </el-input>
       </div>
     </div>
   
@@ -25,17 +36,35 @@ export default {
   components: {},
   data() {
     return {
+      data: {},
+      msgList: [],
+      newMsgData: {},
     }
   },
-  computed:{
-    userId(){
+  computed: {
+    userId() {
       return this.$route.params.id
+    },
+    currentUser() {
+      let user = {}
+      user.name = this.$store.state.currentUser.TrueName
+      user.img = this.$store.state.currentUser.Headimgurl
+      return user
     }
   },
   methods: {
-    getData(){
-      this.$message(this.$route.params.id)
-      this.$API.getMsgInfo(this.userId)
+    getData() {
+      this.$API.getMsgInfo(this.userId).then(res => {
+        this.data = res
+        this.msgList = res.CL
+      })
+    },
+    addMsg() {
+      this.newMsgData.sendto = this.userId
+      this.$API.replyMsg(this.newMsgData).then(res => {
+        this.$message.success('发送消息成功')
+        this.getData()
+      })
     },
   },
   created() {
@@ -44,8 +73,8 @@ export default {
   mounted() {
 
   },
-  watch:{
-    '$route':'getData'
+  watch: {
+    '$route': 'getData'
   }
 }
 </script>
@@ -65,29 +94,73 @@ export default {
   }
   .item {
     padding: 5px 20px;
-    margin: 5px 0;
-    &:hover {
-      background: @bg;
-    }
-    .img {
-      display: inline-block;
-      img {
-        width: 60px;
-        border-radius: 50%;
+    margin: 15px 0;
+    min-height: 60px;
+    .header {
+      position: relative;
+      .img {
+        position: absolute;
+        img {
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+        }
       }
-    }
-    .content {
-      vertical-align: top;
-      display: inline-block;
-      line-height: 30px;
-      padding-left: 20px;
-      .tel {
+      .name,
+      .time {
+        line-height: 30px;
+      }
+      .time {
         color: @grey;
       }
     }
+    .content {
+      background: @main;
+      color: #fff;
+      display: inline-block;
+      max-width: calc(~"100% - 210px");
+      padding: 10px 30px;
+      border-radius: 15px;
+      margin: 5px;
+    }
   }
-  .right{
+  .left {
+    text-align: left;
+    .header {
+      float: left;
+      .img {
+        left: 0;
+        top: 0;
+      }
+      .name,
+      .time {
+        padding-left: 75px;
+      }
+    }
+  }
+  .right {
+    text-align: right;
+    .header {
+      float: right;
+      .img {
+        right: 0;
+        top: 0;
+      }
+      .name,
+      .time {
+        padding-right: 75px;
+      }
+    }
+  }
+}
 
-  }
+.newMsgContent {
+  padding: 10px 30px;
+}
+
+.noMsg {
+  text-align: center;
+  line-height: 200px;
+  color: @grey;
 }
 </style>

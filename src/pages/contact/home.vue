@@ -21,6 +21,12 @@
           </div>
         </div>
       </div>
+
+      <div class="card" v-show="showBackBtn">
+        <div class="backBtn">
+          <el-button @click="$router.push('/contact')">返回消息中心</el-button>
+        </div>
+      </div>
   
       <div class="card">
         <div class="title">
@@ -111,6 +117,14 @@ export default {
   computed:{
     classId(){
       return this.$store.state.currentClassId
+    },
+    showBackBtn(){
+      let url = this.$route.path.slice(0,4)
+      if(url=='/msg'){
+        return true
+      }else{
+        return false
+      }
     }
   },
   methods: {
@@ -145,7 +159,6 @@ export default {
     this.getData()
   },
   mounted() {
-
   },
 }
 </script>
@@ -179,6 +192,11 @@ export default {
       font-size: 16px;
     }
   }
+}
+
+.backBtn{
+  text-align: center;
+  padding:20px 0;
 }
 
 .classInfo {

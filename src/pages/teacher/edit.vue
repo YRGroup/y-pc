@@ -104,6 +104,9 @@ export default {
     submitChange(){
       this.data.role = 3
       this.$API.editTeacherInfo(this.data).then(res=>{
+        this.$API.getCurrentUser().then(user=>{
+          this.$store.commit('login',user)
+        })
         this.$router.push('/teacher')
 			})
     },
