@@ -6,7 +6,7 @@
         <div class="btn" v-show="$store.state.role=='老师'">
           <el-button type="primary" @click="showAddHomework = true">添加新作业</el-button>
         </div> -->
-      <div class="title" :class="showAddPost?null:'addbtn'" @click="showAddHomework = true">添加作业</div>
+      <div class="title" :class="showAddPost?null:'addbtn'" @click="showAddHomework = true"><i class="iconfont">&#xe623;</i>添加作业</div>
     </div>
   
     <div class="card" v-for="(i,index) in homework" :key="index">
@@ -152,6 +152,10 @@ export default {
 .addHomework {
   background: #fff;
   text-align: center;
+  .iconfont{
+      padding-right:8px;
+  } 
+  
   .title {
     line-height: 50px;
     cursor: pointer;

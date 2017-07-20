@@ -69,7 +69,7 @@ header {
   line-height: 78px;
   // box-shadow: 0 3px 1px @grey;
   border:1px solid #ddd;
-  background: #fff;
+  background: @main;
   z-index: 1000;
   .container {
     max-width: 1090px;
@@ -86,27 +86,24 @@ header {
   .nav {
     float: right;
     font-size: 16px;
+    color: #fff;
     .iconfont{
-      color: #919191;
       margin-right: 5px;
     }
   }
   .active{
-    color:@main;
-    .iconfont{
-      color:@main;
-    }
+    color:#fff;
+    opacity: 1;
+    border-bottom: 4px solid rgba(255,255,255,.8);
+    line-height: 70px;
   }
   li {
     display: inline-block;
-    padding: 0 20px;
+    padding: 0 15px;
     cursor: pointer;
+    opacity: .8;
     &:hover {
-      // background: @main;
-      color: @main;
-      .iconfont{
-      color:@main;
-    }
+      opacity: 1;
     }
   }
 }

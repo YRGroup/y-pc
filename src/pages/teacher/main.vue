@@ -6,6 +6,8 @@
         <span class="title" slot="label">个人</span>
         <div class="content info">
           <div class="itemList">
+            <div class="header"><i class="iconfont">&#xe668;</i>个人资料</div>
+            <div class="setBtn" @click="$router.push('/teacher/edit')">修改资料</div>
             <div class="item-content">
               <p>
                 <span class="title">姓名：</span>
@@ -16,6 +18,10 @@
                 <span>{{currentUser.Sex}}</span>
               </p>
               <p>
+                <span class="title">角色：</span>
+                <span>{{currentUser.Role}}</span>
+              </p>
+              <p>
                 <span class="title">学科：</span>
                 <span>{{currentUser.ExtendInfo.Classes[0].CourseName}}</span>
               </p>
@@ -23,15 +29,11 @@
                 <span class="title">手机：</span>
                 <span>{{currentUser.Mobilephone}}</span>
               </p>
-              <p>
-                <span class="title">角色：</span>
-                <span>{{currentUser.Role}}</span>
-              </p>
             </div>
           </div>
 
           <div class="itemList">
-            <div class="header">教学经历</div>
+            <div class="header"><i class="iconfont">&#xe69b;</i>教学经历</div>
             <div class="item-content">
               <p>
                 <span class="name">郑州航空港育人国际学校</span>
@@ -45,7 +47,7 @@
           </div>
 
           <div class="itemList">
-            <div class="header">个人荣誉</div>
+            <div class="header"><i class="iconfont">&#xe63d;</i>个人荣誉</div>
             <div class="item-content">
               <div class="img" v-for="i in 5" :key="i">
                 <img src="https://modao.cc/uploads3/images/907/9074147/raw_1493192685.png">
@@ -122,10 +124,30 @@ export default {
     .itemList{
       padding:30px 20px;
       border-bottom: 1px solid @border;
+      position: relative;
+      .setBtn{
+        position: absolute;
+        right: 20px;
+        top: 30px;
+        border:1px solid @main;
+        color:@main;
+        padding:1px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        &:hover{
+          background: @main;
+          color:#fff;
+        }
+      }
       .header{
-        line-height: 32px;
+        line-height: 28px;
         font-size: 16px;
         margin-bottom: 10px;
+        .iconfont{
+          margin-right:8px;
+          color:@grey;
+        }
+
       }
       .item-content{
         // padding-top:30px;

@@ -14,8 +14,8 @@
       </div>
       <div class="footer">
         <span class="time">{{i.date}}</span>
-        <span class="btn">
-          <span>like:{{i.like}}</span>
+        <span class="iconbtn">
+          <span title="点赞数"><i class="iconfont">&#xe646;</i>{{i.like}}</span>
         </span>
       </div>
     </div>
@@ -76,48 +76,53 @@ export default {
 
 .card {
   margin: 15px 0;
-  border: 1px solid @border;
+  border-bottom: 1px dashed @border;
   font-size: 13px;
   position: relative;
   background: #fff;
+  padding-left:70px;
+  padding-bottom:10px;
   .img {
-    display: inline-block;
-    padding: 20px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
     img {
-      width: 50px;
+      width: 46px;
+      height: 46px;
     }
   }
   .header {
-    line-height: 80px;
-    display: inline-block;
-    vertical-align: top;
+    line-height: 42px;
+    font-size: 16px;
   }
   .content {
     width: calc(~"100% - 120px");
-    padding: 10px;
-    margin-left: 85px;
-    margin-top: -30px;
-    line-height: 1.5rem;
   }
   .albums{
-    padding-left:85px;
+    // margin:10px 0;
     li{
       padding:10px;
       display: inline-block;
       img{
-        width:200px;
+        // width:200px;
+        max-height:120px;
       }
     }
   }
   .footer {
-    padding: 10px 30px;
+    font-size:12px;
     .time {
       color: @grey;
     }
-    .btn {
+    .iconbtn {
       float: right;
-      padding: 0 15px;
+      cursor: pointer;
+      &:hover{
+        color:@main;
+      }
     }
   }
+
+  
 }
 </style>
