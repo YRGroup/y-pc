@@ -49,7 +49,7 @@
 
       <div class="card" v-if="$store.state.role==='guest'">
         <div class="header">
-          <div class="title">登陆</div>
+          <div class="title">登录</div>
         </div>
         <div class="content">
           <p>000</p>
@@ -186,6 +186,7 @@ export default {
       }
       img {
         width: 100px;
+        height: 100px;
         position: absolute;
         left: 80px;
         top: 25px;
@@ -193,7 +194,7 @@ export default {
       }
     }
     .content {
-      margin-top: 80px;
+      margin-top: 60px;
       line-height: 2em;
       padding-bottom: 20px;
     }

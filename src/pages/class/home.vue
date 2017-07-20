@@ -19,7 +19,7 @@
         </div>
       </div>
   
-      <div class="card" v-show="$store.state.currentClassList.length">
+      <!-- <div class="card" v-show="$store.state.currentClassList.length">
         <div class="title">
           切换当前班级
         </div>
@@ -33,7 +33,7 @@
             </el-option>
           </el-select>
         </div>
-      </div>
+      </div> -->
   
       <div class="card">
         <div class="title">
@@ -195,7 +195,7 @@ export default {
   }
   .card {
     margin-bottom: 15px;
-    padding: 5px;
+    // padding: 5px;
     background: #fff;
     // &:hover{
     //   border: 1px solid @main;
@@ -203,8 +203,18 @@ export default {
     .title {
       border-bottom: 1px solid @border;
       line-height: 40px;
-      padding: 0 10px;
+      padding:3px 15px;
       font-size: 16px;
+      position: relative;
+      &:before{
+        content:'';
+        position:absolute;
+        top: 13px;
+        left:0;
+        width: 3px;
+        height: 20px;
+        background: @main;
+      }
       .btn {
         float: right;
         font-size: 0.8em;

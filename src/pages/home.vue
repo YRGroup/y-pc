@@ -3,22 +3,30 @@
   
     <header>
       <div class="container">
-        <div class="logo">logo</div>
+        <div class="logo"><img class="logopic" :src="logo"></div>
         <div class="nav">
-          <li @click="$router.push('/')" :class="link=='/'?'active':null">首页</li>
-          <li @click="$router.push('/class')" :class="link=='/class'?'active':null">班级主页</li>
-          <li @click="$router.push('/homework')" :class="link=='/homework'?'active':null">作业中心</li>
-          <li @click="$router.push('/schoolcard')" v-show="$store.state.role=='老师'" :class="link=='/schoolcard'?'active':null">一卡通</li>
-          <li @click="$router.push('/schoolcard')" v-show="$store.state.role=='家长'" :class="link=='/schoolcard'?'active':null">一卡通</li>
-          <li @click="$router.push('/teacher')" v-show="$store.state.role=='老师'" :class="link=='/teacher'?'active':null">个人主页</li>
-          <li @click="$router.push('/student/score')" v-show="$store.state.role=='家长'" :class="link=='/student/score'?'active':null">成绩报告</li>
-          <li @click="$router.push('/parent')" v-show="$store.state.role=='家长'" :class="link=='/parent'?'active':null">个人主页</li>
+          <li @click="$router.push('/')" :class="link=='/'?'active':null"><i class="iconfont">&#xe636;</i>首页</li>
+          <li @click="$router.push('/class')" :class="link=='/class'?'active':null"><i class="iconfont">&#xe633;</i>班级主页</li>
+          <li @click="$router.push('/homework')" :class="link=='/homework'?'active':null"><i class="iconfont">&#xe608;</i>作业中心</li>
+          <li @click="$router.push('/schoolcard')" v-show="$store.state.role=='老师'" :class="link=='/schoolcard'?'active':null"><i class="iconfont">&#xe67f;</i>一卡通</li>
+          <li @click="$router.push('/schoolcard')" v-show="$store.state.role=='家长'" :class="link=='/schoolcard'?'active':null"><i class="iconfont">&#xe67f;</i>一卡通</li>
+          <li @click="$router.push('/teacher')" v-show="$store.state.role=='老师'" :class="link=='/teacher'?'active':null"><i class="iconfont">&#xe64b;</i>个人主页</li>
+          <li @click="$router.push('/student/score')" v-show="$store.state.role=='家长'" :class="link=='/student/score'?'active':null"><i class="iconfont">&#xe60e;</i>成绩报告</li>
+          <li @click="$router.push('/parent')" v-show="$store.state.role=='家长'" :class="link=='/parent'?'active':null"><i class="iconfont">&#xe64b;</i>个人主页</li>
         </div>
       </div>
   
     </header>
-  
-    <router-view class="inview"></router-view>
+    <div class="mainbox">
+      <router-view class="inview"></router-view>
+    </div>
+    
+    <div class="footer">
+      <div class="mainCon">
+        <p>Copyright © 2017 yearnedu.com Inc. All Rights Reserved. 郑州育人教育集团</p>
+        <p>备案/许可证编号：豫ICP备16026588号</p>
+      </div>
+    </div>
   
   </div>
 </template>
@@ -29,6 +37,7 @@ export default {
   components: {},
   data() {
     return {
+      logo: require('@/assets/logo.png')
     }
   },
   computed:{
@@ -59,40 +68,69 @@ header {
   list-style: none;
   line-height: 78px;
   // box-shadow: 0 3px 1px @grey;
+  border:1px solid #ddd;
   background: #fff;
   z-index: 1000;
   .container {
     max-width: 1090px;
     margin: 0 auto;
+    overflow: hidden;
   }
   .logo {
     display: inline-block;
-    font-size: 40px;
-    color: @main;
-    font-weight: bold;
+    padding-top:15px;
+    img{
+      height: 48px;
+    }
   }
   .nav {
     float: right;
     font-size: 16px;
+    .iconfont{
+      color: #919191;
+      margin-right: 5px;
+    }
   }
   .active{
     color:@main;
+    .iconfont{
+      color:@main;
+    }
   }
   li {
     display: inline-block;
     padding: 0 20px;
     cursor: pointer;
     &:hover {
-      background: @main;
-      color: #fff;
+      // background: @main;
+      color: @main;
+      .iconfont{
+      color:@main;
+    }
     }
   }
 }
 
+.mainbox{
+  width: 100%;
+  background: #f3f0e0;  
+  padding:20px 0;
+}
 .inview {
   max-width: 1090px;
   margin: 0 auto;
-  margin-top: 20px;
+  overflow: hidden;
+}
+.footer{
+  background: #333;
+  .mainCon{
+    width: 1090px;
+    margin:0 auto;
+    text-align: center;
+    padding:20px 0; 
+    color:#aaa;
+    font-size: 12px;
+  }
 }
 
 </style>
