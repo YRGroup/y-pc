@@ -10,7 +10,7 @@
           <li @click="$router.push('/homework')" :class="link=='/homework'?'active':null"><i class="iconfont">&#xe608;</i>作业中心</li>
           <li @click="$router.push('/schoolcard')" v-show="$store.state.role=='老师'" :class="link=='/schoolcard'?'active':null"><i class="iconfont">&#xe67f;</i>一卡通</li>
           <li @click="$router.push('/schoolcard')" v-show="$store.state.role=='家长'" :class="link=='/schoolcard'?'active':null"><i class="iconfont">&#xe67f;</i>一卡通</li>
-            <li @click="$router.push('/contact')" :class="link=='/contact'?'active':null"><i class="iconfont">&#xe64b;</i>通讯录</li>  
+            <li @click="$router.push('/contact')" :class="link=='/contact'?'active':null"><i class="iconfont">&#xe6a5;</i>通讯录</li>  
           <li @click="$router.push('/teacher')" v-show="$store.state.role=='老师'" :class="link=='/teacher'?'active':null"><i class="iconfont">&#xe64b;</i>个人主页</li>
           <li @click="$router.push('/student/score')" v-show="$store.state.role=='家长'" :class="link=='/student/score'?'active':null"><i class="iconfont">&#xe60e;</i>成绩报告</li>
           <li @click="$router.push('/parent')" v-show="$store.state.role=='家长'" :class="link=='/parent'?'active':null"><i class="iconfont">&#xe64b;</i>个人主页</li>
@@ -61,15 +61,12 @@ export default {
 @import '../style/theme.less';
 
 header {
-  // position: fixed;
-  // top: 0;
   width: 100%;
   height: 78px;
   list-style: none;
   line-height: 78px;
-  // box-shadow: 0 3px 1px @grey;
   border:1px solid #ddd;
-  background: #fff;
+  background: @main;
   z-index: 1000;
   .container {
     max-width: 1090px;
@@ -78,7 +75,6 @@ header {
   }
   .logo {
     display: inline-block;
-    padding-top:15px;
     img{
       height: 48px;
     }
@@ -86,27 +82,24 @@ header {
   .nav {
     float: right;
     font-size: 16px;
+    color: #fff;
     .iconfont{
-      color: #919191;
       margin-right: 5px;
     }
   }
   .active{
-    color:@main;
-    .iconfont{
-      color:@main;
-    }
+    color:#fff;
+    opacity: 1;
+    border-bottom: 4px solid rgba(255,255,255,.8);
+    line-height: 70px;
   }
   li {
     display: inline-block;
     padding: 0 15px;
     cursor: pointer;
+    opacity: .8;
     &:hover {
-      // background: @main;
-      color: @main;
-      .iconfont{
-      color:@main;
-    }
+      opacity: 1;
     }
   }
 }

@@ -9,10 +9,10 @@
   
     <div class="right">
   
-      <div class="classInfo">
-        <!-- <div class="header">
+      <div class="classInfo classbox">
+         <div class="header">
           <img src="https://modao.cc/uploads3/images/900/9007936/raw_1493017171.jpeg">
-        </div> -->
+        </div> 
         <div class="content">
           <p>{{classInfo.name}}</p>
           <div class="info">
@@ -22,11 +22,11 @@
         </div>
       </div>
 
-      <div class="card" v-show="showBackBtn">
+      <!-- <div class="card" v-show="showBackBtn">
         <div class="backBtn">
-          <el-button @click="$router.push('/contact')">返回消息中心</el-button>
+          <el-button @click="$router.push('/contact')" type="success" :plain="true" >返回消息中心</el-button>
         </div>
-      </div>
+      </div> -->
   
       <div class="card">
         <div class="title">
@@ -197,33 +197,6 @@ export default {
 .backBtn{
   text-align: center;
   padding:20px 0;
-}
-
-.classInfo {
-  background: @main;
-  padding: 20px;
-  color: #fff;
-  text-align: center;
-  margin-bottom: 15px;
-  .header {
-    img {
-      vertical-align: middle;
-      width: 90px;
-      border: 3px solid rgba(255, 255, 255, 0.5);
-      border-radius: 10px;
-    }
-  }
-  .content {
-    line-height: 30px;
-    font-size: 18px;
-    margin-top: 10px;
-    .info {
-      font-size: 14px;
-      span {
-        margin: 0 10px;
-      }
-    }
-  }
 }
 
 .item {

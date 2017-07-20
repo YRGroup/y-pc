@@ -9,7 +9,7 @@
   
     <div class="right">
   
-      <div class="card">
+      <!-- <div class="card">
         <div class="header">
           <img :src="$store.state.currentUser.Headimgurl">
         </div>
@@ -25,7 +25,7 @@
             <el-button type="warning" @click.native="logout">登出</el-button>
           </div>
         </div>
-      </div>
+      </div> -->
       <div class="card" v-for="(i,index) in $store.state.currentUser.ExtendInfo.Classes" :key="index">
         <div class="header">
           {{i.ClassName}}

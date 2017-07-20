@@ -1,4 +1,4 @@
-@main:#49b849;
+@main:#00c06f;
 @sub:#ff673e;
 @bg:#f0f0f0;
 
@@ -20,6 +20,9 @@ body {
   line-height: 24px;
   overflow-x: hidden;
 }
+img{
+  vertical-align: middle;
+}
 ol,ul {
   list-style: none;
 }
@@ -32,6 +35,12 @@ a:hover{
 }
 
 
+
+// 时间
+.time{
+  color:@grey;
+  font-size: 12px;
+}
 //过渡动画
 *{
     transition:all 0.2s;
@@ -40,11 +49,11 @@ a:hover{
 // 字体图标
 @font-face {
   font-family: 'iconfont';  /* project id 291668 */
-  src: url('//at.alicdn.com/t/font_pg11j1yh30izfr.eot');
-  src: url('//at.alicdn.com/t/font_pg11j1yh30izfr.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_pg11j1yh30izfr.woff') format('woff'),
-  url('//at.alicdn.com/t/font_pg11j1yh30izfr.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_pg11j1yh30izfr.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_54e9mjt28pbke29.eot');
+  src: url('//at.alicdn.com/t/font_54e9mjt28pbke29.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_54e9mjt28pbke29.woff') format('woff'),
+  url('//at.alicdn.com/t/font_54e9mjt28pbke29.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_54e9mjt28pbke29.svg#iconfont') format('svg');
 }
 .iconfont {
   font-family: "iconfont";
@@ -70,3 +79,36 @@ a:hover{
     margin-right:5px; 
   }
 }
+// 班级右边卡片
+  .classbox{
+    background: #edfff7;
+    border:1px solid @main;
+    .header{
+      height: 88px;
+      background: url(../assets/classBg.png) no-repeat;
+      img{
+        margin-top:40px;
+        width: 80px;
+        height: 80px;
+        border: 3px solid rgba(255, 255, 255, 0.8);
+        border-radius: 10px;
+      }
+    }
+  }
+    .classInfo {
+    // background: @main;
+    color: #333;
+    text-align: center;
+    margin-bottom: 15px;
+    .content {
+      line-height: 30px;
+      font-size: 18px;
+      margin:50px 0 10px;
+      .info {
+        font-size: 14px;
+        span{
+          margin:0 10px;
+        }
+      }
+    }
+  }

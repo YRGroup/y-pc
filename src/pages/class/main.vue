@@ -2,7 +2,7 @@
   <div>
 
     <div class="addPost">
-      <div class="title" :class="showAddPost?null:'addbtn'" @click="showAddPost?showAddPost=false:showAddPost=true">添加动态</div>
+      <div class="title" :class="showAddPost?null:'addbtn'" @click="showAddPost?showAddPost=false:showAddPost=true"><i class="iconfont">&#xe623;</i>添加动态</div>
       <div calss="content" v-show="showAddPost">
         <vue-html5-editor :content="newPost.content" @change="updateData" :auto-height="true" :height="200"></vue-html5-editor>
       </div>
@@ -157,6 +157,9 @@ export default {
     cursor: pointer;
     background: #fff;
     color:@main;
+    .iconfont{
+      margin-right:8px;
+    }
     &:hover{
       background: @main;
       color:#fff;
@@ -187,6 +190,7 @@ export default {
     top: 20px;
     img {
       width: 46px;
+      height: 46px;
       border-radius: 50%;
     }
   }
@@ -196,7 +200,7 @@ export default {
     top: 24px;
     border:1px solid @main;
     color:@main;
-    padding:1px 6px;
+    padding:1px 10px;
     border-radius: 3px;
     font-size: 12px;
   }

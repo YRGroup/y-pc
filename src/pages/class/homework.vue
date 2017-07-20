@@ -6,17 +6,17 @@
         <div class="btn" v-show="$store.state.role=='老师'">
           <el-button type="primary" @click="showAddHomework = true">添加新作业</el-button>
         </div> -->
-      <div class="title" :class="showAddPost?null:'addbtn'" @click="showAddHomework = true">添加作业</div>
+      <div class="title" :class="showAddPost?null:'addbtn'" @click="showAddHomework = true"><i class="iconfont">&#xe623;</i>添加作业</div>
     </div>
   
-    <div class="card" v-for="(i,index) in homework" :key="index">
+    <div class="card panel" v-for="(i,index) in homework" :key="index">
       <div class="course">
         {{i.CourseName}}
       </div>
-      <div class="header">{{i.Title}}</div>
-      <div class="body">
-        <div class="content" v-html="i.Content"></div>
-        <div class="footer">
+      <div class="tasktitle">{{i.Title}}</div>
+      <div class="taskbox">
+        <div class="taskcon" v-html="i.Content"></div>
+        <div class="taskbottom">
           <span class="time">{{i.CreateTime}}</span>
         </div>
       </div>
@@ -24,7 +24,7 @@
   
     <load-more @click.native="loadMore" :noMoreData="noMoreData"></load-more>
   
-    <el-dialog title="收货地址" :visible.sync="showAddHomework">
+    <el-dialog title="添加作业" :visible.sync="showAddHomework">
       <el-form :model="newHomeworkData" label-width="80px">
         <el-form-item label="标题">
           <el-input v-model="newHomeworkData.title" auto-complete="off"></el-input>
@@ -32,7 +32,10 @@
         <el-form-item label="科目">
           <el-input v-model="course" :disabled="true"></el-input>
         </el-form-item>
-        <vue-html5-editor :content="newHomeworkData.content" @change="updateData" :auto-height="true" :height="200"></vue-html5-editor>
+        <el-form-item label="">
+          <vue-html5-editor :content="newHomeworkData.content" @change="updateData" :auto-height="true" :height="200"></vue-html5-editor>
+        </el-form-item>
+        
         <el-form-item class="addImgBtn">
           <div class="file">
             <a href="javascript:;" class="a-upload">
@@ -51,7 +54,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="showAddHomework = false">取 消</el-button>
-        <el-button type="primary" @click="addNewHomework">确 定</el-button>
+        <el-button type="success" @click="addNewHomework">确 定</el-button>
       </div>
     </el-dialog>
   
@@ -92,7 +95,7 @@ export default {
         this.$API.uploadImg(imgFiles).then((res) => {
           res.forEach((val) => {
             this.fileList.push(val)
-            this.newHomeworkData.content += '<img style="max-width:100%;" src=' + val + '>'
+            this.newHomeworkData.content += '<img style="max-width:320px;text-align:center" src=' + val + '>'
           })
         }).catch((err) => {
           this.$message.error(err)
@@ -152,6 +155,10 @@ export default {
 .addHomework {
   background: #fff;
   text-align: center;
+  .iconfont{
+      padding-right:8px;
+  } 
+  
   .title {
     line-height: 50px;
     cursor: pointer;
@@ -165,39 +172,51 @@ export default {
 .card {
   margin: 15px 0;
   border: 1px solid @border;
-  font-size: 13px;
-  background: #fff;
   position: relative;
   &:hover {
-    border: 1px solid @main;
+    // border: 1px solid @main;
+    box-shadow: 0 3px 2px rgba(0,0,0,0.1);
   }
   .course {
-    height: 50px;
-    width: 125px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding:0 24px 0 30px;
     display: inline-block;
     background: @main;
     color: #fff;
+    line-height: 36px;
+    opacity: 0.6;
+    &:before{
+      position: absolute;
+      content: '';
+      left: 0;
+      width: 0;
+      height: 0;
+      border:18px solid transparent;
+      border-left-color:#fff;
+    }
+  }
+  .tasktitle {
+    line-height: 36px;
     font-size: 18px;
-    line-height: 50px;
-    text-align: center;
-    border-bottom-right-radius: 20px;
+    margin-bottom: 10px;
   }
-  .header {
-    line-height: 50px;
-    height: 50px;
-    text-align: center;
-    font-weight: bold;
-    margin-top: -50px;
-  }
-  .body {
-    line-height: 2rem;
-    vertical-align: top;
-    padding: 10px 30px;
-    .footer {
+  .taskbox {
+    color: #666;
+    .taskcon{
+      margin:0 auto;
+      img{
+        text-align: center;
+        max-height: 100px;
+      }
+    }
+    .taskbottom {
       text-align: right;
       .time {
         padding-top: 20px;
         color: @grey;
+        font-size: 12px;
       }
       .btn {
         float: right;
@@ -281,6 +300,6 @@ export default {
 }
 
 .addImgBtn {
-  padding: 10px;
+  // padding: 10px;
 }
 </style>

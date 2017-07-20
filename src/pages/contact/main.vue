@@ -1,6 +1,5 @@
 <template>
   <div>
-  
     <div class="card">
       <div class="title">消息列表</div>
       <li class="item" v-for="(i,index) in data" :key="index" @click="$router.push('/msg/'+i.ToMeid)">
@@ -54,32 +53,38 @@ export default {
     padding-left: 20px;
   }
   .item {
-    padding: 5px 20px;
-    margin: 5px 0;
+    padding: 15px 20px;
     border-bottom: 1px dotted @border;
     cursor: pointer;
     &:hover {
-      border-bottom: 1px dotted @main;
+      // border-bottom: 1px dotted @main;
+      
     }
     .img {
       display: inline-block;
       img {
-        width: 60px;
+        width: 48px;
+        height: 48px;
         border-radius: 50%;
       }
     }
     .content {
       vertical-align: top;
       display: inline-block;
-      line-height: 30px;
-      padding-left: 20px;
+      padding-left: 10px;
       .name{
         display: inline-block;
+        line-height: 28px;
       }
       .time {
         padding-left:20px;
         display: inline-block;
+        color: #999;
+        font-size: 12px;
+      }
+      .msg{
         color: @grey;
+        font-size: 12px;
       }
     }
     .btn {
