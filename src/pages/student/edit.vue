@@ -102,7 +102,7 @@ export default {
     },
     handleAvatarSuccess(res, file) {
 			this.imageUrl = res.Content[0]
-			this.data.Headimgurl=this.imageUrl
+			this.data.Headimgurl=this.imageUrl+'?x-oss-process=style/f300'
 		},
     beforeAvatarUpload(file){
       const isJPG = file.type === 'image/jpeg'||'image/png'

@@ -181,12 +181,10 @@ export default {
     },
     handleAvatarSuccess(res, file) {
       this.imageUrl = res.Content[0]
-      this.data.Headimgurl = this.imageUrl
+      this.data.Headimgurl = this.imageUrl+'?x-oss-process=style/f300'
     },
     handleHonorSuccess(res, file) {
-      console.log(res)
-      this.addPersonalHonorData.ImgPath = res.Content[0]
-      console.log(this.addPersonalHonorData.ImgPath)
+      this.addPersonalHonorData.ImgPath = res.Content[0]+'?x-oss-process=style/f300'
     },
     addPersonalHonor() {
       this.data.role = 3
@@ -204,8 +202,6 @@ export default {
         this.$message.error('上传头像图片大小不能超过 2MB!');
       }
       return isJPG && isLt2M;
-    },
-    delPersonalHonor(val) {
     },
   },
   created() {
