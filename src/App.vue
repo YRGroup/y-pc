@@ -31,4 +31,8 @@ body{
 li{
   list-style: none;
 }
+
+#app{
+  min-height: 100vh;
+}
 </style>

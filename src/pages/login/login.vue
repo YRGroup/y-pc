@@ -1,7 +1,7 @@
 <template>
   <div class="body">
   
-    <div class="box" v-show="!showReg">
+    <div class="box">
 
       <div class="input">
         <div class="title">手机号：</div>
@@ -16,27 +16,8 @@
       </div>
 
       <div class="btn">
-        <el-button @click.native="showReg=true">注册</el-button>
+        <el-button @click.native="$router.push('/reg')">注册</el-button>
         <el-button @click.native="login" :disabled="isVerified" type="info">登陆</el-button>
-      </div>
-
-    </div>
-  
-    <div class="box" v-show="showReg">
-      <div class="input">
-        <div class="title">手机号：</div>
-        <el-input placeholder="请输入内容" v-model="regData.tel">
-        </el-input>
-      </div>
-  
-      <div class="input">
-        <div class="title">密码：</div>
-        <el-input class="input" placeholder="请输入内容" v-model="regData.tel">
-        </el-input>
-      </div>
-  
-      <div class="btn">
-        <el-button type="info" @click.native="showReg=true">注册</el-button>
       </div>
 
     </div>
@@ -46,7 +27,7 @@
 
 <script>
 export default {
-  name: 'app',
+  name: 'login',
   components: {},
   data() {
     return {
@@ -55,8 +36,6 @@ export default {
         password: '123456',
       },
       isVerified: Boolean(true),
-      showReg: false,
-      regData: {},
     }
   },
   methods: {
@@ -86,7 +65,7 @@ export default {
       } else {
         return true
       }
-    }
+    },
   },
   created() {
 

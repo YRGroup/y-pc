@@ -63,7 +63,7 @@
 
 <script>
 import addStudent from '@/pages/parent/addStudent'
-import msg from '@/pages/parent/msg'
+import msg from '@/pages/contact/main'
 
 export default {
   name: 'parent',

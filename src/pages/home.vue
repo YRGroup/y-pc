@@ -107,7 +107,7 @@ header {
   width: 100%;
   background: #f3f0e0;  
   padding:20px 0;
-  overflow-x: none;
+  min-height: calc(~"100vh - 208px")
 }
 .inview {
   max-width: 1090px;
@@ -116,6 +116,10 @@ header {
 }
 .footer{
   background: #333;
+  position: relative;
+  bottom:0;
+  left:0;
+  right:0;
   .mainCon{
     width: 1090px;
     margin:0 auto;

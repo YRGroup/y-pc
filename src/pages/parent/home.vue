@@ -28,7 +28,7 @@
         <div class="header">
           暂无学生
         </div>
-        <div class="login">
+        <div class="">
           <div class="btn">
             <el-button type="warning" @click="$router.push('/addStudent')">添加学生</el-button>
           </div>
@@ -101,9 +101,9 @@ export default {
     text-align: center;
     background: #fff;
     margin-bottom: 20px;
-    &:hover{
-    border: 1px solid @main;
-  }
+    &:hover {
+      border: 1px solid @main;
+    }
     .header {
       height: 75px;
       position: relative;
@@ -125,10 +125,10 @@ export default {
       padding-bottom: 20px;
       padding: 20px;
       text-align: left;
-      .btn {
-        text-align: center;
-        margin: 10px 0;
-      }
+    }
+    .btn {
+      text-align: center;
+      margin: 10px 0;
     }
   }
 }
