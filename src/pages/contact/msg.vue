@@ -186,7 +186,7 @@ export default {
 }
 
 .newMsgContent {
-  background: #edf1f5;
+  // background: #edf1f5;
   border:1px solid @border;
   padding: 10px 30px;
 }
