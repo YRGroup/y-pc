@@ -65,6 +65,7 @@ export default {
       this.newMsgData.sendto = this.userId
       this.$API.replyMsg(this.newMsgData).then(res => {
         this.$message.success('发送消息成功')
+        this.newMsgData.content = ""
         this.getData()
       })
     },
@@ -85,9 +86,8 @@ export default {
 @import '../../style/theme.less';
 
 .card {
-  margin: 10px 0;
   background: #fff;
-  border: 1px solid @border;
+  padding-top: 10px;
   .title {
     border-bottom: 1px solid @border;
     font-size: 20px;
@@ -128,8 +128,18 @@ export default {
   .left {
     text-align: left;
     .content{
-      background: @main;
-      color: #fff;
+      background: #bfe778;
+      position: relative;
+      &:before{
+        position: absolute;
+        content: '';
+        left: -12px;
+        top: 10px;
+        width: 0;
+        height: 0;
+        border:6px solid transparent;
+        border-right-color:#bfe778;
+      }
     }
     .header {
       float: left;
@@ -149,6 +159,17 @@ export default {
       background: #f5f5f5;
       color: #333;
       text-align: left;
+      position: relative;
+      &:before{
+        position: absolute;
+        content: '';
+        right: -12px;
+        top: 10px;
+        width: 0;
+        height: 0;
+        border:6px solid transparent;
+        border-left-color:#f5f5f5;
+      }
     }
     .header {
       float: right;

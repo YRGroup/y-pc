@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="card">
-      <div class="title">消息列表</div>
+      <div class="title"><i class="iconfont">&#xe649;</i>消息列表</div>
       <li class="item" v-for="(i,index) in data" :key="index" @click="$router.push('/msg/'+i.ToMeid)">
         <div class="img">
           <img :src="i.ToHeadImg">
@@ -43,14 +43,17 @@ export default {
 @import '../../style/theme.less';
 
 .card {
-  margin: 10px 0;
   background: #fff;
-  border: 1px solid @border;
+  padding:10px 0 20px;
   .title {
     border-bottom: 1px solid @border;
     font-size: 20px;
     line-height: 50px;
     padding-left: 20px;
+    .iconfont{
+      color: @main;
+      margin-right: 8px;
+    }
   }
   .item {
     padding: 15px 20px;

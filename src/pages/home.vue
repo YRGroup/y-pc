@@ -61,7 +61,6 @@ export default {
 @import '../style/theme.less';
 
 header {
-  width: 100%;
   height: 78px;
   list-style: none;
   line-height: 78px;
@@ -76,7 +75,7 @@ header {
   .logo {
     display: inline-block;
     img{
-      height: 48px;
+      height: 42px;
     }
   }
   .nav {
@@ -95,7 +94,7 @@ header {
   }
   li {
     display: inline-block;
-    padding: 0 15px;
+    padding: 0 14px;
     cursor: pointer;
     opacity: .8;
     &:hover {
@@ -108,6 +107,7 @@ header {
   width: 100%;
   background: #f3f0e0;  
   padding:20px 0;
+  overflow-x: none;
 }
 .inview {
   max-width: 1090px;

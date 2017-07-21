@@ -212,7 +212,8 @@ export default {
       }
     }
     .taskbottom {
-      text-align: right;
+      // text-align: right;
+      margin-top: 10px;
       .time {
         padding-top: 20px;
         color: @grey;
