@@ -3,7 +3,7 @@
 
     <div class="addPost">
       <div class="title" :class="showAddPost?null:'addbtn'" @click="showAddPost?showAddPost=false:showAddPost=true"><i class="iconfont">&#xe623;</i>添加动态</div>
-      <div calss="content" v-show="showAddPost">
+      <div class="content" v-show="showAddPost">
         <vue-html5-editor :content="newPost.content" @change="updateData" :auto-height="true" :height="200"></vue-html5-editor>
       </div>
       <div class="footer" v-show="showAddPost">
@@ -151,6 +151,7 @@ export default {
     padding-left: 20px;
     background: @main;
     color:#fff;
+    margin-bottom: 10px;
   }
   .addbtn{
     text-align: center;
@@ -165,12 +166,15 @@ export default {
       color:#fff;
     }
   }
+  .content{
+    padding:10px 20px;
+  }
   .btn {
     text-align: center;
     padding: 10px 50px;
   }
   .albums {
-    padding: 20px;
+    padding:0 20px;
   }
 }
 
@@ -179,7 +183,6 @@ export default {
   position: relative;
   background: #fff;
   padding-left:80px;
-  border: 1px solid #fff;
   &:hover{
     // border: 1px solid @main;
     box-shadow: 0 3px 2px rgba(0,0,0,0.1);
@@ -196,13 +199,23 @@ export default {
   }
   .tips{
     position: absolute;
-    right: 20px;
-    top: 24px;
-    border:1px solid @main;
-    color:@main;
-    padding:1px 10px;
-    border-radius: 3px;
-    font-size: 12px;
+    top: 0;
+    right: 0;
+    padding:0 24px 0 30px;
+    display: inline-block;
+    background: @main;
+    color: #fff;
+    line-height: 36px;
+    opacity: 0.6;
+    &:before{
+      position: absolute;
+      content: '';
+      left: 0;
+      width: 0;
+      height: 0;
+      border:18px solid transparent;
+      border-left-color:#fff;
+    }
   }
   .header {
     display: inline-block;

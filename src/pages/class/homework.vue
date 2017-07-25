@@ -155,6 +155,7 @@ export default {
 .addHomework {
   background: #fff;
   text-align: center;
+  margin-bottom: 15px;
   .iconfont{
       padding-right:8px;
   } 
@@ -170,8 +171,8 @@ export default {
   }
 }
 .card {
-  margin: 15px 0;
-  border: 1px solid @border;
+  margin-bottom: 15px;
+  // border: 1px solid @border;
   position: relative;
   &:hover {
     // border: 1px solid @main;
