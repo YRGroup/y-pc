@@ -9,7 +9,7 @@
           {{data.auther}}
         </div>
         <div class="tips">{{data.category}}</div>
-        <div class="content" v-html="data.content"></div>
+        <div class="content">{{data.content}}</div>
         <div class="albums">
           <li v-for="(p,index) in data.albums" :key="index">
             <img :src="p">

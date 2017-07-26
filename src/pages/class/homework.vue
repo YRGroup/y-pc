@@ -15,7 +15,7 @@
       </div>
       <div class="tasktitle">{{i.Title}}</div>
       <div class="taskbox">
-        <div class="taskcon" v-html="i.Content"></div>
+        <div class="taskcon">{{i.Content}}</div>
         <div class="taskbottom">
           <span class="time">{{i.CreateTime}}</span>
         </div>
