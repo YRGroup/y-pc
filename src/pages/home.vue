@@ -6,8 +6,8 @@
         <div class="logo"><img class="logopic" :src="logo"></div>
         <div class="nav">
           <li @click="$router.push('/')" :class="link=='/'?'active':null"><i class="iconfont">&#xe636;</i>首页</li>
-          <li @click="$router.push('/class')" :class="link=='/class'?'active':null"><i class="iconfont">&#xe633;</i>班级主页</li>
-          <li @click="$router.push('/homework')" :class="link=='/homework'?'active':null"><i class="iconfont">&#xe608;</i>作业中心</li>
+          <li @click="$router.push('/class')" :class="link=='/class'?'active':null"><i class="iconfont">&#xe633;</i>我的班级</li>
+          <!-- <li @click="$router.push('/homework')" :class="link=='/homework'?'active':null"><i class="iconfont">&#xe608;</i>作业中心</li> -->
           <li @click="$router.push('/schoolcard')" v-show="$store.state.role=='老师'" :class="link=='/schoolcard'?'active':null"><i class="iconfont">&#xe67f;</i>一卡通</li>
           <li @click="$router.push('/schoolcard')" v-show="$store.state.role=='家长'" :class="link=='/schoolcard'?'active':null"><i class="iconfont">&#xe67f;</i>一卡通</li>
             <li @click="$router.push('/contact')" :class="link=='/contact'?'active':null"><i class="iconfont">&#xe6a5;</i>通讯录</li>  
@@ -61,7 +61,6 @@ export default {
 @import '../style/theme.less';
 
 header {
-  width: 100%;
   height: 78px;
   list-style: none;
   line-height: 78px;
@@ -76,7 +75,7 @@ header {
   .logo {
     display: inline-block;
     img{
-      height: 48px;
+      height: 42px;
     }
   }
   .nav {
@@ -95,7 +94,7 @@ header {
   }
   li {
     display: inline-block;
-    padding: 0 15px;
+    padding: 0 14px;
     cursor: pointer;
     opacity: .8;
     &:hover {

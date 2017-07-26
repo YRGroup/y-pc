@@ -8,6 +8,7 @@
         <div class="header">
           {{data.auther}}
         </div>
+        <div class="tips">{{data.category}}</div>
         <div class="content" v-html="data.content"></div>
         <div class="albums">
           <li v-for="(p,index) in data.albums" :key="index">
@@ -25,9 +26,9 @@
       </div>
       <div class="replybox">
         <div class="reply">
-          <el-input class="input" v-model="replyData.content" placeholder="请输入内容" v-show="showReply"></el-input>
+          <el-input class="input" v-model.trim="replyData.content" placeholder="请输入内容" v-show="showReply"></el-input>
           <el-button class="btn" type="success" v-show="showReply" @click="submitReply">回复</el-button>
-          <el-button class="btn" style="margin-left:500px;" :plain="true" type="success" v-show="!showReply" @click.native="showReply=true">添加回复</el-button>
+          <el-button class="btn" style="margin-left:500px;" :plain="true" type="success" v-show="!showReply" @click.native="showReply=true">回复</el-button>
         </div>
         <div class="replyList">
           <div class="title">全部回复</div>
@@ -116,8 +117,28 @@ export default {
     font-size: 16px;
     line-height: 42px;
   }
+  .tips{
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding:0 24px 0 30px;
+    display: inline-block;
+    background: @main;
+    color: #fff;
+    line-height: 36px;
+    opacity: 0.6;
+    &:before{
+      position: absolute;
+      content: '';
+      left: 0;
+      width: 0;
+      height: 0;
+      border:18px solid transparent;
+      border-left-color:#fff;
+    }
+  }
   .content {
-    width: calc(~"100% - 120px");
+    // width: calc(~"100% - 120px");
   }
   .albums {
     li {
@@ -145,6 +166,7 @@ export default {
 .replybox{
   background: #fff;
   margin-top: 20px;
+  padding-bottom: 20px;
 }
 .reply {
   float: right;
@@ -167,7 +189,8 @@ export default {
   }
   .item {
     border-bottom: 1px dotted @border;
-    padding:10px 40px;
+    margin:10px 40px;
+    padding:10px 0;
     .name{
       color:@grey;
     }

@@ -1,12 +1,12 @@
 <template>
   <div>
   
-    <div class="addHomework">
-      <!-- <span>班级作业</span>
-        <div class="btn" v-show="$store.state.role=='老师'">
+    <div class="addHomework"  v-show="$store.state.role=='老师'">
+       <!-- <span>班级作业</span>
+        <div class="btn">
           <el-button type="primary" @click="showAddHomework = true">添加新作业</el-button>
-        </div> -->
-      <div class="title" :class="showAddPost?null:'addbtn'" @click="showAddHomework = true"><i class="iconfont">&#xe623;</i>添加作业</div>
+        </div>  -->
+      <div class="title" :class="showAddHomework?null:'addbtn'" @click="showAddHomework = true"><i class="iconfont">&#xe623;</i>布置作业</div>
     </div>
   
     <div class="card panel" v-for="(i,index) in homework" :key="index">
@@ -24,22 +24,24 @@
   
     <load-more @click.native="loadMore" :noMoreData="noMoreData"></load-more>
   
-    <el-dialog title="添加作业" :visible.sync="showAddHomework">
+    <el-dialog title="布置作业" :visible.sync="showAddHomework">
       <el-form :model="newHomeworkData" label-width="80px">
         <el-form-item label="标题">
-          <el-input v-model="newHomeworkData.title" auto-complete="off"></el-input>
+          <el-input v-model.trim="newHomeworkData.title" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="科目">
           <el-input v-model="course" :disabled="true"></el-input>
         </el-form-item>
         <el-form-item label="">
-          <vue-html5-editor :content="newHomeworkData.content" @change="updateData" :auto-height="true" :height="200"></vue-html5-editor>
+          <!-- <vue-html5-editor :content="newHomeworkData.content" @change="updateData" :auto-height="true" :height="200"></vue-html5-editor> -->
+          <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model.trim="newHomeworkData.content">
+          </el-input>
         </el-form-item>
         
         <el-form-item class="addImgBtn">
           <div class="file">
             <a href="javascript:;" class="a-upload">
-              <input type="file" accept="image/jpeg,image/png" multiple="multiple" id="imgFiles" @change="addImg"> 点击这里上传图片
+              <input type="file" accept="image/jpeg,image/png" multiple="multiple" id="imgFiles" @change="addImg">上传图片
             </a>
             <div class="imgPreviewContainer">
               <div class="imgPreview" v-for="(i,index) in fileList" :key="index">
@@ -53,7 +55,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="showAddHomework = false">取 消</el-button>
+        <!-- <el-button @click="showAddHomework = false">取 消</el-button> -->
         <el-button type="success" @click="addNewHomework">确 定</el-button>
       </div>
     </el-dialog>
@@ -135,7 +137,10 @@ export default {
       this.newHomeworkData['course_name'] = this.$store.state.currentUser.ExtendInfo.Course
       this.$API.addHomework(this.newHomeworkData).then(res => {
         this.showAddHomework = false
+        this.$message('发布作业成功')
         this.getData()
+        this.newHomeworkData.title = ""
+        this.newHomeworkData.content = ""
       })
     },
   },
@@ -155,6 +160,7 @@ export default {
 .addHomework {
   background: #fff;
   text-align: center;
+  margin-bottom: 15px;
   .iconfont{
       padding-right:8px;
   } 
@@ -170,8 +176,8 @@ export default {
   }
 }
 .card {
-  margin: 15px 0;
-  border: 1px solid @border;
+  margin-bottom: 15px;
+  // border: 1px solid @border;
   position: relative;
   &:hover {
     // border: 1px solid @main;
@@ -212,7 +218,8 @@ export default {
       }
     }
     .taskbottom {
-      text-align: right;
+      // text-align: right;
+      margin-top: 10px;
       .time {
         padding-top: 20px;
         color: @grey;

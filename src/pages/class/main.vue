@@ -1,29 +1,48 @@
 <template>
   <div>
-
-    <div class="addPost">
-      <div class="title" :class="showAddPost?null:'addbtn'" @click="showAddPost?showAddPost=false:showAddPost=true"><i class="iconfont">&#xe623;</i>添加动态</div>
-      <div calss="content" v-show="showAddPost">
-        <vue-html5-editor :content="newPost.content" @change="updateData" :auto-height="true" :height="200"></vue-html5-editor>
-      </div>
-      <div class="footer" v-show="showAddPost">
+  
+    <div class="addPost" v-show="$store.state.role=='老师'">
+      <div class="title addbtn" @click="showAddPost=true">
+        <i class="iconfont">&#xe623;</i>发布动态</div>
+      <!-- <div class="content" v-show="showAddPost">
+        <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model.trim="newPost.content">
+        </el-input>
+         <vue-html5-editor :content="newPost.content" @change="updateData" :auto-height="true" :height="200"></vue-html5-editor> 
+      </div> -->
+  
+      <!-- <div class="footer" v-show="showAddPost">
         <div class="albums">
-          <el-upload
-            :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'"
-            list-type="picture-card"
-            :on-preview="handlePictureCardPreview"
-            :on-remove="handleRemove"
-            :before-upload="beforePictureUpload"
-            ref="upload">
+          <el-upload :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
             <i class="el-icon-plus"></i>
           </el-upload>
         </div>
         <div class="btn">
           <el-button type="primary" @click.native="addNewPost">发布</el-button>
         </div>
-      </div>
-      
+      </div> -->
+  
     </div>
+
+    <el-dialog title="发布动态" :visible.sync="showAddPost">
+      <el-form :model="newPost">
+        <el-form-item>
+          <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model.trim="newPost.content">
+          </el-input>
+        </el-form-item>
+      </el-form>
+      <el-form :model="newPost">
+        <el-form-item label="">
+          <el-upload :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <!-- <el-button type="success" :plain="true" @click="showAddPost = false">取 消</el-button> -->
+        <el-button type="success" @click="addNewPost">发 布</el-button>
+      </div>
+    </el-dialog>
   
     <div class="card panel" v-for="i in data" :key="i.id">
       <div class="img">
@@ -31,7 +50,7 @@
       </div>
       <div class="tips">{{i.category}}</div>
       <div class="header">{{i.auther}}</div>
-      <div class="content" v-html="i.content" @click="$router.push('/post/'+i.id)"></div>
+      <div class="content" @click="$router.push('/post/'+i.id)">{{i.content}}</div>
       <div class="albums">
         <li v-for="(p,index) in i.albums" :key="index">
           <img :src="p">
@@ -41,7 +60,8 @@
         <span class="time">{{i.date}}</span>
         <span class="iconbtn">
           <!-- <span title="阅读数"><i class="iconfont">&#xe6c3;</i>{{i.like}}</span> -->
-          <span title="点赞数"  @click="doLike(i.id),i.like++"><i class="iconfont">&#xe646;</i>{{i.like}}</span>
+          <span title="点赞数" @click="doLike(i.id),i.like++">
+            <i class="iconfont">&#xe646;</i>{{i.like}}</span>
         </span>
       </div>
     </div>
@@ -65,7 +85,7 @@ export default {
       currentPage: 1,
       pageSize: 10,
       noMoreData: false,
-      showAddPost:false,
+      showAddPost: false,
     }
   },
   methods: {
@@ -124,6 +144,7 @@ export default {
       this.newPost.cid = this.$store.state.currentClassId
       this.newPost['img_url_list'] = this.fileList.join(',')
       this.$API.postNewClassDynamic(this.newPost).then(res => {
+        this.showAddPost = false
         this.$message('发布动态成功')
         this.getData()
       })
@@ -150,27 +171,31 @@ export default {
     line-height: 50px;
     padding-left: 20px;
     background: @main;
-    color:#fff;
+    color: #fff;
+    margin-bottom: 10px;
   }
-  .addbtn{
+  .addbtn {
     text-align: center;
     cursor: pointer;
     background: #fff;
-    color:@main;
-    .iconfont{
-      margin-right:8px;
+    color: @main;
+    .iconfont {
+      margin-right: 8px;
     }
-    &:hover{
+    &:hover {
       background: @main;
-      color:#fff;
+      color: #fff;
     }
+  }
+  .content {
+    padding: 10px 20px;
   }
   .btn {
     text-align: center;
     padding: 10px 50px;
   }
   .albums {
-    padding: 20px;
+    padding: 0 20px;
   }
 }
 
@@ -178,11 +203,10 @@ export default {
   margin: 15px 0;
   position: relative;
   background: #fff;
-  padding-left:80px;
-  border: 1px solid #fff;
-  &:hover{
+  padding-left: 80px;
+  &:hover {
     // border: 1px solid @main;
-    box-shadow: 0 3px 2px rgba(0,0,0,0.1);
+    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.1);
   }
   .img {
     position: absolute;
@@ -194,15 +218,25 @@ export default {
       border-radius: 50%;
     }
   }
-  .tips{
+  .tips {
     position: absolute;
-    right: 20px;
-    top: 24px;
-    border:1px solid @main;
-    color:@main;
-    padding:1px 10px;
-    border-radius: 3px;
-    font-size: 12px;
+    top: 0;
+    right: 0;
+    padding: 0 24px 0 30px;
+    display: inline-block;
+    background: @main;
+    color: #fff;
+    line-height: 36px;
+    opacity: 0.6;
+    &:before {
+      position: absolute;
+      content: '';
+      left: 0;
+      width: 0;
+      height: 0;
+      border: 18px solid transparent;
+      border-left-color: #fff;
+    }
   }
   .header {
     display: inline-block;
@@ -211,6 +245,8 @@ export default {
   }
   .content {
     // width: calc(~"100% - 120px");
+    word-warp:break-word;
+    word-break:break-all; 
     cursor: pointer;
   }
   .albums {
@@ -219,19 +255,20 @@ export default {
       display: inline-block;
       img {
         max-height: 120px;
+        margin-right:15px;
       }
     }
   }
   .footer {
-    font-size:12px;
+    font-size: 12px;
     .time {
       color: @grey;
     }
     .iconbtn {
       float: right;
       cursor: pointer;
-      &:hover{
-        color:@main;
+      &:hover {
+        color: @main;
       }
     }
   }

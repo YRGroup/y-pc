@@ -167,15 +167,13 @@ export default {
 @import '../../style/theme.less';
 
 .left {
-  width: calc(~"100% - 300px");
+  width: calc(~"100% - 280px");
   float: left;
-  padding: 10px;
 }
 
 .right {
   float: right;
   width: 260px;
-  padding: 20px 10px;
   .card {
     border: 1px solid @border;
     margin-bottom: 20px;
@@ -224,6 +222,7 @@ export default {
   .top {
     .img {
       height: 30px;
+      width: 30px;
       float: left;
       margin-top: 0px;
       img {

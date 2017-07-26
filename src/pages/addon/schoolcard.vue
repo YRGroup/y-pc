@@ -20,7 +20,7 @@
         </div>
       </div>
     
-      <div class="cardList">
+      <div class="cardList leftCon">
         <div class="header">消费记录
           <!-- <el-select v-model="pageSize" class="pagesize" @change="changePagesize" >
             <el-option

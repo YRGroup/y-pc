@@ -1,7 +1,6 @@
 <template>
   <div>
-  
-    <el-tabs v-model="activeTab" type="border-card" class="tabs">
+    <el-tabs v-model="activeTab" type="border-card" class="tabs leftCon">
       <el-tab-pane name="profile">
         <span class="title" slot="label">个人</span>
         <div class="content info">
@@ -198,6 +197,10 @@ export default {
   .info {
     color: @grey;
   }
+}
+.el-tabs--border-card .el-tabs__item.is-active{
+  border-top: 2px solid @main;
+  color: @main ;
 }
 
 </style>
