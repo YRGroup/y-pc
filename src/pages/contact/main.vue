@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="card">
+    <div class="card leftCon">
       <div class="title"><i class="iconfont">&#xe649;</i>消息列表</div>
       <li class="item" v-for="(i,index) in data" :key="index" @click="$router.push('/msg/'+i.ToMeid)">
         <div class="img">
@@ -75,6 +75,7 @@ export default {
       vertical-align: top;
       display: inline-block;
       padding-left: 10px;
+      max-width: calc(~"100% - 70px");
       .name{
         display: inline-block;
         line-height: 28px;
@@ -88,6 +89,8 @@ export default {
       .msg{
         color: @grey;
         font-size: 12px;
+        max-height: 4em;
+        overflow: hidden;
       }
     }
     .btn {
