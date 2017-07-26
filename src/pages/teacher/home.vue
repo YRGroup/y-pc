@@ -9,7 +9,7 @@
   
     <div class="right">
   
-      <!-- <div class="card">
+       <div class="card">
         <div class="header">
           <img :src="$store.state.currentUser.Headimgurl">
         </div>
@@ -18,14 +18,14 @@
           <p>姓名：{{$store.state.currentUser.TrueName}}</p>
           <p>身份：{{$store.state.currentUser.Role}}</p>
           <p>科目：{{$store.state.currentUser.ExtendInfo.Course}}</p>
-          <div class="btn">
+          <!-- <div class="btn">
             <el-button type="primary" @click.native="$router.push('/teacher/edit')">修改资料</el-button>
-          </div>
+          </div> -->
           <div class="btn">
-            <el-button type="warning" @click.native="logout">登出</el-button>
+            <el-button type="warning" @click.native="logout">退出</el-button>
           </div>
         </div>
-      </div> -->
+      </div> 
       <div class="card" v-for="(i,index) in $store.state.currentUser.ExtendInfo.Classes" :key="index">
         <div class="header">
           {{i.ClassName}}

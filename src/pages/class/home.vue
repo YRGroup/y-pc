@@ -53,7 +53,7 @@
       <div class="card">
         <div class="title">
           班级作业
-          <div class="btn">更多</div>
+          <div class="btn" @click="$router.push('/homework')">更多</div>
         </div>
         <div class="content">
           <div class="homeworkItem" v-for="i in homework" :key="i.HID">
@@ -195,6 +195,7 @@ export default {
         float: right;
         font-size: 0.8em;
         color: @grey;
+        cursor: pointer;
       }
     }
     .content {

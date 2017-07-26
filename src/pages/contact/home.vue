@@ -222,6 +222,7 @@ export default {
   .top {
     .img {
       height: 30px;
+      width: 30px;
       float: left;
       margin-top: 0px;
       img {

@@ -42,7 +42,7 @@
           <img :src="$store.state.currentUser.Headimgurl">
         </div>
         <div class="content">
-          <p>{{ $store.state.currentUser.TrueName }} 【{{ $store.state.currentUser.ExtendInfo.Course }}】</p>
+          <p class="name">{{ $store.state.currentUser.TrueName }} - {{ $store.state.currentUser.ExtendInfo.Course }}</p>
           <p>经开区育人国际学校</p>
         </div>
       </div>
@@ -191,12 +191,16 @@ export default {
         left: 80px;
         top: 25px;
         border-radius: 50%;
+        border:3px solid rgba(255,255,255,.5);
       }
     }
     .content {
       margin-top: 60px;
       line-height: 2em;
       padding-bottom: 20px;
+      .name{
+        font-size: 16px;
+      }
     }
   }
 }
