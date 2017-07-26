@@ -32,12 +32,19 @@
         <el-form-item label="科目">
           <el-input v-model="course" :disabled="true"></el-input>
         </el-form-item>
-        <el-form-item label="">
+        <el-form-item>
           <!-- <vue-html5-editor :content="newHomeworkData.content" @change="updateData" :auto-height="true" :height="200"></vue-html5-editor> -->
           <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model.trim="newHomeworkData.content">
           </el-input>
         </el-form-item>
-        
+
+        <el-form-item>
+          <el-upload :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </el-input>
+        </el-form-item>
+<!--         
         <el-form-item class="addImgBtn">
           <div class="file">
             <a href="javascript:;" class="a-upload">
@@ -52,7 +59,7 @@
               </div>
             </div>
           </div>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <!-- <el-button @click="showAddHomework = false">取 消</el-button> -->
@@ -127,6 +134,25 @@ export default {
           this.noMoreData = true
         }
       })
+    },
+    handleRemove(file, fileList) {
+      console.log(fileList);
+      let c = file.response.Content[0]
+    },
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
+    },
+    beforePictureUpload(file) {
+      const isJPG = (file.type === 'image/jpeg' || file.type === 'image/png')
+      const isLt5M = file.size / 1024 / 1024 < 5;
+      if (!isJPG) {
+        this.$message.error('上传图片只能是 JPG或PNG 格式!');
+      }
+      if (!isLt5M) {
+        this.$message.error('上传图片大小不能超过 5MB!');
+      }
+      return isJPG && isLt5M;
     },
     loadMore() {
       this.currentPage++
