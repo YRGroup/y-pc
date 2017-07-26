@@ -24,7 +24,7 @@
   
     <load-more @click.native="loadMore" :noMoreData="noMoreData"></load-more>
   
-    <el-dialog title="布置作业" :visible.sync="showAddHomework">
+    <el-dialog title="布置作业" :visible.sync="showAddHomework" >
       <el-form :model="newHomeworkData" label-width="80px">
         <el-form-item label="标题">
           <el-input v-model.trim="newHomeworkData.title" auto-complete="off"></el-input>
@@ -273,7 +273,6 @@ export default {
   justify-content: center;
   margin: 0;
   padding: 0;
-  display: none;
   .imgPreview {
     position: relative;
     width: 33.33%;
@@ -301,7 +300,8 @@ export default {
       color: @main;
     }
     img {
-      width: 100%;
+      width: 150px;
+      height: 150px;
     }
   }
 }
