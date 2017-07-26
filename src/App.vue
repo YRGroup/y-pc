@@ -7,13 +7,17 @@
 <script>
 export default {
   name: 'app',
-  created(){
-    if(localStorage.hasLogin){
-      this.$store.commit('login',JSON.parse(localStorage.user))
-    }else{
+  created() {
+    if (localStorage.hasLogin) {
+      this.$store.commit('login', JSON.parse(localStorage.user))
+    } else {
       this.$router.push('/login')
     }
     console.log(this.$store.getters._APIurl)
+    if (this.$store.state.role == '家长' && !this.$store.state.currentStudentId) {
+      this.$router.push('/parent/addStudent')
+
+    }
   }
 }
 </script>
@@ -21,18 +25,20 @@ export default {
 <style lang="less">
 @import './style/theme.less';
 
-body{
-  background: @bg;
+body {
+  // background: @bg;
 }
-*{
-  margin:0;
-  padding:0;
+
+* {
+  margin: 0;
+  padding: 0;
 }
-li{
+
+li {
   list-style: none;
 }
 
-#app{
+#app {
   min-height: 100vh;
 }
 </style>

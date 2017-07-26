@@ -2,7 +2,7 @@
   <div class="body">
   
     <div class="box">
-
+  
       <div class="input">
         <div class="title">手机号：</div>
         <el-input placeholder="请输入手机号" autofocus @blur="verifyTel" v-model="loginData.phone">
@@ -11,15 +11,15 @@
   
       <div class="input">
         <div class="title">密码：</div>
-        <el-input class="input" placeholder="请输入密码" :minlength='6' @keyup.enter.native="login" v-model="loginData.password">
+        <el-input class="input" type="password" placeholder="请输入密码" :minlength='6' @keyup.enter.native="login" v-model="loginData.password">
         </el-input>
       </div>
-
+  
       <div class="btn">
-        <el-button @click.native="$router.push('/reg')">注册</el-button>
-        <el-button @click.native="login" :disabled="isVerified" type="info">登陆</el-button>
+        <el-button @click.native="$router.push('/reg')" type="info">注册</el-button>
+        <el-button @click.native="login" type="warning">登陆</el-button>
       </div>
-
+  
     </div>
   
   </div>
@@ -44,6 +44,8 @@ export default {
         this.$store.dispatch('login', this.loginData).then(res => {
           this.$message('登录成功')
           this.$router.push('/')
+        }).catch(err=>{
+          this.$message.error(err.msg)
         })
       } else {
         console.error('xxx')
@@ -84,6 +86,7 @@ export default {
   .box {
     width: 400px;
     height: 150px;
+    z-index: 10;
     background: @main;
     border-radius: 20px;
     padding: 50px;
@@ -92,14 +95,14 @@ export default {
     left: calc(~"50vw - 250px");
     .input {
       margin: 10px 0;
-      .title{
-        color:#fff;
-        width:70px;
+      .title {
+        color: #fff;
+        width: 70px;
         text-align: right;
         display: inline-block;
       }
-      .el-input{
-        width:300px;
+      .el-input {
+        width: 300px;
       }
     }
     .btn {

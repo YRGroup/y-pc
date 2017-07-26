@@ -8,12 +8,11 @@ import _APIurl from './config'
 
 // 登陆
 API.login = (logData) => {
+  document.cookie=""
   return new Promise((resolve, reject) => {
-    axios.post(_APIurl+'/api/User/LoginByPhone',logData).then((res)=>{
-      // let token = res.data.Content.Token
-      // store.commit('setToken', token)
+    axios.post(_APIurl + '/api/User/LoginByPhone', logData).then((res) => {
       resolve(res.data.Content)
-    }).catch((err)=>{
+    }).catch((err) => {
       reject(err)
     })
   })
@@ -22,11 +21,12 @@ API.login = (logData) => {
 
 // 用户注册
 API.userReg = (regdata) => {
+  document.cookie=""
   return new Promise((resolve, reject) => {
-    axios.post(_APIurl+'/api/User/RegisterByPhone',regdata).then((res)=>{
+    axios.post(_APIurl + '/api/User/RegisterByPhone', regdata).then((res) => {
       resolve(res.data.Content)
-    }).catch((err)=>{
-      console.log(err)      
+    }).catch((err) => {
+      console.log(err)
       reject(err)
     })
   })
@@ -36,10 +36,10 @@ API.userReg = (regdata) => {
 // 修改密码
 API.changePassword = (data) => {
   return new Promise((resolve, reject) => {
-    axios.post(_APIurl+'/api/User/ModifyPassword',data).then((res)=>{
+    axios.post(_APIurl + '/api/User/ModifyPassword', data).then((res) => {
       resolve(res.data.Content)
-    }).catch((err)=>{
-      console.log(err)      
+    }).catch((err) => {
+      console.log(err)
       reject(err)
     })
   })
@@ -49,9 +49,9 @@ API.changePassword = (data) => {
 // 家长添加学生
 API.addStudent = (addStudentData) => {
   return new Promise((resolve, reject) => {
-    axios.post(_APIurl+'/api/Parent/BindStudent',addStudentData).then((res)=>{
+    axios.post(_APIurl + '/api/Parent/BindStudent', addStudentData).then((res) => {
       resolve(res)
-    }).catch((err)=>{
+    }).catch((err) => {
       console.log(err)
       reject(err)
     })
@@ -62,9 +62,9 @@ API.addStudent = (addStudentData) => {
 // 修改家长资料
 API.editParentInfo = (editData) => {
   return new Promise((resolve, reject) => {
-    axios.post(_APIurl+'/api/Parent/ModifyInfo',editData).then((res)=>{
+    axios.post(_APIurl + '/api/Parent/ModifyInfo', editData).then((res) => {
       resolve(res)
-    }).catch((err)=>{
+    }).catch((err) => {
       console.log(err)
       reject(err)
     })
@@ -75,9 +75,9 @@ API.editParentInfo = (editData) => {
 // 修改教师资料
 API.editTeacherInfo = (editData) => {
   return new Promise((resolve, reject) => {
-    axios.post(_APIurl+'/api/Teacher/ModifyInfo',editData).then((res)=>{
+    axios.post(_APIurl + '/api/Teacher/ModifyInfo', editData).then((res) => {
       resolve(res)
-    }).catch((err)=>{
+    }).catch((err) => {
       console.log(err)
       reject(err)
     })
@@ -88,17 +88,17 @@ API.editTeacherInfo = (editData) => {
 // 获取当前用户信息
 API.getCurrentUser = () => {
   return new Promise((resolve, reject) => {
-    axios.get(_APIurl+'/api/User/GetInfo').then((res)=>{
-      if(res.data.Status===1){
+    axios.get(_APIurl + '/api/User/GetInfo').then((res) => {
+      if (res.data.Status === 1) {
         resolve(res.data.Content)
-      }else{
-        let error ={}
+      } else {
+        let error = {}
         error.status = res.data.Status
         error.msg = res.data.Msg
         reject(error)
       }
-    }).catch((err)=>{
-      console.log(err)      
+    }).catch((err) => {
+      console.log(err)
       reject(err)
     })
   })
@@ -108,9 +108,9 @@ API.getCurrentUser = () => {
 // 家长添加学生
 API.addStudent = (addStudentData) => {
   return new Promise((resolve, reject) => {
-    axios.post(_APIurl+'/api/Parent/BindStudent',addStudentData).then((res)=>{
+    axios.post(_APIurl + '/api/Parent/BindStudent', addStudentData).then((res) => {
       resolve(res)
-    }).catch((err)=>{
+    }).catch((err) => {
       console.log(err)
       reject(err)
     })
@@ -121,11 +121,11 @@ API.addStudent = (addStudentData) => {
 // 获取一卡通消费记录
 API.getCardList = (para) => {
   return new Promise((resolve, reject) => {
-    axios.get(_APIurl+'/api/User/GetFinanceLog',{
-      params:para
-    }).then((res)=>{
+    axios.get(_APIurl + '/api/User/GetFinanceLog', {
+      params: para
+    }).then((res) => {
       resolve(res.data.Content)
-    }).catch((err)=>{
+    }).catch((err) => {
       reject(err)
     })
   })

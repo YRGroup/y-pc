@@ -55,11 +55,15 @@
           班级作业
           <div class="btn" @click="$router.push('/homework')">更多</div>
         </div>
-        <div class="content">
+        <div class="content" v-if="homework.length">
           <div class="homeworkItem" v-for="i in homework" :key="i.HID">
             <span>【{{i.CourseName}}】</span>
-            <span class="homeworkCon">{{i.Title}}</span>
-            <!-- <span class="time">{{i.CreateTime}}</span> -->
+            <span class="homeworkCon">{{i.Title || '班级作业'}}</span>
+          </div>
+        </div>
+        <div class="content" v-else>
+          <div class="homeworkItem">
+            <span>班级暂时没有作业</span>
           </div>
         </div>
       </div>

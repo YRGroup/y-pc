@@ -38,6 +38,7 @@
   
           <li class="honorItem" v-for="(i,index) in data.PersonalHonor" :key="index">
             <img :src="i.ImgPath">
+            <div class="delHonorBtn" @click="delHonor(index)">X</div>
             <div class="name">{{i.Description}}</div>
           </li>
   
@@ -63,6 +64,45 @@
             <span slot="footer" class="dialog-footer">
               <el-button @click="addPersonalHonor = false">取 消</el-button>
               <el-button type="primary" @click="addPersonalHonor">确 定</el-button>
+            </span>
+          </el-dialog>
+  
+          <el-dialog title="修改密码" :visible.sync="showEditPw" size="mini">
+            <div>
+              <el-form :inline="true" label-width="100px">
+                <div>
+                  <el-form-item label="手机号">
+                    <el-input v-model="editPwData.phone" :disabled="true">
+                    </el-input>
+                  </el-form-item>
+                </div>
+                <div>
+                  <el-form-item label="验证码">
+                    <el-input v-model="editPwData.code">
+                    </el-input>
+                  </el-form-item>
+                  <el-button type="primary" @click="getCheckNum">获取验证码</el-button>
+                </div>
+                <div>
+                  <el-form-item label="新密码">
+                    <el-input type="password" v-model="editPwData.newpwd">
+                    </el-input>
+                  </el-form-item>
+                </div>
+                <div>
+                  <el-form-item label="重复新密码">
+                    <el-input type="password" v-model="editPwData.newpwd2">
+                    </el-input>
+                  </el-form-item>
+                </div>
+  
+              </el-form>
+  
+            </div>
+  
+            <span slot="footer" class="dialog-footer">
+              <el-button @click="showEditPw = false">取 消</el-button>
+              <el-button type="primary" @click="editPw">确 定</el-button>
             </span>
           </el-dialog>
   
@@ -92,49 +132,16 @@
           <div class="addBtn">
             <el-button type="primary" @click.native="data.TeachExperience.push({SchoolName:'',StartTime:'',EndTime:''})">添加教学经历</el-button>
           </div>
-
-          <br /><br />
-  
-          <!-- <br />
-          <hr />
-          <br />
-  
-          <el-form-item label="Professional">
-            <el-input v-model="data.Professional"></el-input>
-          </el-form-item>
   
           <br />
-          <hr />
           <br />
-  
-          <el-form-item label="科目">
-            <el-input v-model="data.Course"></el-input>
-          </el-form-item>
-          <el-form-item label="PoliticalStatus">
-            <el-input v-model="data.PoliticalStatus"></el-input>
-          </el-form-item>
-          <el-form-item label="Remark">
-            <el-input v-model="data.Remark"></el-input>
-          </el-form-item>
-          <el-form-item label="Title">
-            <el-input v-model="data.Title"></el-input>
-          </el-form-item>
-          <el-form-item label="Resume">
-            <el-input v-model="data.Resume"></el-input>
-          </el-form-item>
-          <el-form-item label="SchoolAge">
-            <el-input v-model="data.SchoolAge"></el-input>
-          </el-form-item>
-          <el-form-item label="Volk">
-            <el-input v-model="data.Volk"></el-input>
-          </el-form-item> -->
   
         </el-form>
   
       </div>
       <div class="footer">
         <div class="btn">
-          <el-button type="warning" style="float:left;" @click.native="submitChange">修改密码</el-button>
+          <el-button type="warning" style="float:left;" @click.native="startEditPw">修改密码</el-button>
           <el-button type="primary" @click.native="submitChange">提交修改</el-button>
         </div>
       </div>
@@ -149,9 +156,19 @@ export default {
   components: {},
   data() {
     return {
-      data: {},
+      data: {
+        PersonalHonor: [],
+        PersonalHonor: [],
+      },
       showEditHeadImg: false,
       showAddPersonalHonor: false,
+      showEditPw: false,
+      editPwData: {
+        phone:'',
+        code:'',
+        newpwd:'',
+        newpwd2:''
+      },
       addPersonalHonorData: {
         Description: '',
         ImgPath: ''
@@ -181,18 +198,51 @@ export default {
     },
     handleAvatarSuccess(res, file) {
       this.imageUrl = res.Content[0]
-      this.data.Headimgurl = this.imageUrl
+      this.data.Headimgurl = this.imageUrl + '?x-oss-process=style/f300'
     },
     handleHonorSuccess(res, file) {
-      console.log(res)
-      this.addPersonalHonorData.ImgPath = res.Content[0]
-      console.log(this.addPersonalHonorData.ImgPath)
+      this.addPersonalHonorData.ImgPath = res.Content[0] + '?x-oss-process=style/f300'
     },
     addPersonalHonor() {
       this.data.role = 3
       this.data.PersonalHonor.push(this.addPersonalHonorData)
       this.addPersonalHonorData = { Description: '', ImgPath: '' }
       this.showAddPersonalHonor = false
+    },
+    delHonor(index){
+      this.data.PersonalHonor.splice(index,1)
+    },
+    startEditPw() {
+      this.showEditPw = true
+      this.editPwData.phone = this.data.Mobilephone
+    },
+    getCheckNum() {
+      this.$API.getSms().then(res => {
+        this.$message.success('获取验证码成功，请查收短信')
+      }).catch(err=>{
+        this.$message.error(err.msg)
+      })
+    },
+    editPw() {
+      if(this.editPwData.code == ''){
+        this.$message.error('短信验证码不能为空')
+      }
+      else if (this.editPwData.newpwd !== this.editPwData.newpwd2) {
+        this.$message.error('两次输入的密码不一致，请检查!')
+      }else if(this.editPwData.newpwd.length<6){
+        this.$message.error('密码不能小于6位数')
+      }
+       else {
+        this.$API.editPWBySms(this.editPwData).then(res => {
+          this.$message.success('修改密码成功')
+          this.showEditPw=false
+        }).catch(err=>{
+          this.$message.error(err.msg)
+          this.editPwData.code=''
+          this.editPwData.newpwd=''
+          this.editPwData.newpwd2=''
+        })
+      }
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg' || 'image/png'
@@ -204,8 +254,6 @@ export default {
         this.$message.error('上传头像图片大小不能超过 2MB!');
       }
       return isJPG && isLt2M;
-    },
-    delPersonalHonor(val) {
     },
   },
   created() {
@@ -299,18 +347,36 @@ export default {
   display: inline-block;
   text-align: center;
   padding: 20px;
+  position: relative;
   img {
     width: 100%;
+  }
+  &:hover .delHonorBtn{
+    display: block;
+  }
+  .delHonorBtn {
+    display: none;
+    position: absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right: 0;
+    line-height: 170px;
+    font-size: 50px;
+    background: rgba(0,0,0,.3);
+    color:#fff;
+    cursor: pointer;
   }
   .name {
     color: @grey;
   }
 }
 
-.delBtn{
-  color:red;
+.delBtn {
+  color: red;
   cursor: pointer;
 }
+
 .center {
   text-align: center;
 }
