@@ -1,62 +1,93 @@
 <template>
-  <div class="body">
-  
+  <div class="loginbox">
+    <div class="gmbg"></div>
     <div class="box" v-show="regStep==1">
-      <div class="input">
-        <div class="title">手机号：</div>
-        <el-input placeholder="请输入手机号" autofocus @blur="verifyTel" v-model="regData.phone">
+      <ul class="loginnav">
+        <li  @click="$router.push('/login')" >登录</li>
+        <li>·</li>
+        <li class="navcurrent">注册</li>
+      </ul>
+
+      <div class="item">
+        <!-- <div class="title">手机号：</div> -->
+        <el-input size="large" placeholder="请输入手机号" autofocus @blur="verifyTel" v-model="regData.phone">
+          <template slot="prepend">
+            <i class="iconfont">&#xe60b;</i>
+          </template>
         </el-input>
       </div>
   
-      <div class="input sms">
-        <div class="title">验证码：</div>
-        <el-input placeholder="请输入短信验证码" autofocus v-model="regData.code">
+      <div class="item sms">
+        <!-- <div class="title">验证码：</div> -->
+        <el-input size="large" placeholder="请输入短信验证码" autofocus v-model="regData.code">
+          
         </el-input>
-        <el-button type="info" @click="getSms">获取短信</el-button>
+        <el-button size="large" type="success" @click="getSms">获取验证码</el-button>
       </div>
   
-      <div class="input">
-        <div class="title">密码：</div>
-        <el-input type="password" placeholder="请输入密码" :minlength='6' @keyup.enter.native="reg" v-model="regData.password">
+      <div class="item">
+        <!-- <div class="title">密码：</div> -->
+        <el-input size="large" type="password" placeholder="请输入密码" :minlength='6' @keyup.enter.native="reg" v-model="regData.password">
+          <template slot="prepend">
+            <i class="iconfont">&#xe692;</i>
+          </template>
         </el-input>
       </div>
   
-      <div class="btn">
-        <el-button type="info" @click="$router.push('/login')">返回登陆</el-button>
-        <el-button type="warning" @click="reg">注册</el-button>
+      <div class="btn item">
+        <!-- <el-button type="info" @click="$router.push('/login')">返回登陆</el-button> -->
+        <el-button type="success" @click="reg">注册</el-button>
       </div>
   
     </div>
   
     <div class="box afterReg" v-show="regStep==2">
+      <div class="loginnav">
+        您的登录帐号
+      </div>
       <div class="info">
-        <div>您的登录帐号</div>
         <div class="phone">13900000006</div>
       </div>
   
-      <div class="btn">
-        <el-button type="info" @click="$router.push('/')">进入主页</el-button>
-      </div>
-      <div class="btn">
-        <el-button type="warning" @click="regStep=3">完善资料</el-button>
+      <div class="item">
+        <el-button size="large" type="warning" @click="regStep=3">完善资料</el-button>
+        <el-button size="large" type="success" @click="$router.push('/')">进入主页</el-button>
       </div>
     </div>
-
+  
     <div class="box afterReg" v-show="regStep==3">
-      <div class="input">
-        <div class="title">姓名：</div>
-        <el-input placeholder="请输入真实姓名" autofocus @blur="verifyTel" v-model="regData.phone">
+      <div class="loginnav">
+        绑定孩子
+      </div>
+      <div class="item">
+        <!-- <div class="title">姓名：</div> -->
+        <el-input size="large" placeholder="请输入您的姓名" autofocus @blur="verifyTel" v-model="regData.phone">
+          <template slot="prepend">
+            <i class="iconfont">&#xe678;</i>
+          </template>
         </el-input>
       </div>
 
-      <div class="input">
-        <div class="title">学生ID：</div>
-        <el-input placeholder="请输入手机号" autofocus @blur="verifyTel" v-model="regData.phone">
+      <div class="item">
+        <!-- <div class="title">姓名：</div> -->
+        <el-input size="large" placeholder="请输入孩子的姓名" @blur="verifyTel" v-model="regData.phone">
+          <template slot="prepend">
+            <i class="iconfont">&#xe719;</i>
+          </template>
         </el-input>
       </div>
-
+  
+      <div class="item">
+        <!-- <div class="title">学生ID：</div> -->
+        <el-input size="large" placeholder="请输入孩子学号" @blur="verifyTel" v-model="regData.phone">
+          <template slot="prepend">
+            <i class="iconfont">&#xe692;</i>
+          </template>
+        </el-input>
+      </div>
+  
       <div class="btn">
-        <el-button type="warning" @click="regStep=3">完善资料</el-button>
+        <el-button size="large"  type="success" @click="regStep=3">完善资料</el-button>
       </div>
     </div>
   
@@ -75,7 +106,7 @@ export default {
         code: '',
         password: ''
       },
-      regStep: 2
+      regStep: 3
     }
   },
   methods: {
@@ -145,51 +176,61 @@ export default {
   overflow: hidden;
 }
 
-.box {
-  width: 400px;
-  height: 200px;
-  z-index: 10;
-  background: @main;
-  border-radius: 20px;
-  padding: 50px;
-  position: absolute;
-  top: calc(~"50vh - 150px");
-  left: calc(~"50vw - 250px");
-  .input {
-    margin: 10px 0;
-    .title {
-      color: #fff;
-      width: 70px;
-      text-align: right;
-      display: inline-block;
-    }
-    .el-input {
-      width: 300px;
-    }
-  }
-  .btn {
-    text-align: center;
-    margin: 20px 0;
-  }
-  .sms {
-    .el-input {
-      width: 200px;
-    }
-    .el-button {
-      width: 90px;
-    }
-  }
-}
+// .box {
+//   width: 400px;
+//   height: 200px;
+//   z-index: 10;
+//   background: @main;
+//   border-radius: 20px;
+//   padding: 50px;
+//   position: absolute;
+//   top: calc(~"50vh - 150px");
+//   left: calc(~"50vw - 250px");
+//   .input {
+//     margin: 10px 0;
+//     .title {
+//       color: #fff;
+//       width: 70px;
+//       text-align: right;
+//       display: inline-block;
+//     }
+//     .el-input {
+//       width: 300px;
+//     }
+//   }
+//   .btn {
+//     text-align: center;
+//     margin: 20px 0;
+//   }
+//   .sms {
+//     .el-input {
+//       width: 200px;
+//     }
+//     .el-button {
+//       width: 90px;
+//     }
+//   }
+// }
 
-.afterReg{
-  .info{
+.afterReg {
+  text-align: center;
+  .info {
     text-align: center;
-    color:#fff;
-    line-height: 50px;
-    .phone{
-      background: #ccc;
-      border-radius: 15px;
+    line-height: 42px;
+    margin-bottom: 50px;
+    .title{
+      font-size: 20px;
+      margin-bottom: 10px;
     }
+    .phone {
+      background: #f5f5f5;
+      margin:0 20px;
+      font-size: 16px;
+      border-radius: 4px;
+    }
+  }
+  .el-button{
+    margin: 0 20px;
   }
 }
 </style>

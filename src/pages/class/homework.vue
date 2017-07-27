@@ -16,6 +16,11 @@
       <div class="tasktitle">{{i.Title}}</div>
       <div class="taskbox">
         <div class="taskcon">{{i.Content}}</div>
+        <div class="albums">
+          <li v-for="(p,index) in i.albums" :key="index">
+            <img :src="p">
+          </li>
+        </div>
         <div class="taskbottom">
           <span class="time">{{i.CreateTime}}</span>
         </div>
@@ -39,7 +44,7 @@
         </el-form-item>
 
         <el-form-item>
-          <el-upload :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
+          <el-upload :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
             <i class="el-icon-plus"></i>
           </el-upload>
         </el-input>
@@ -139,10 +144,6 @@ export default {
       console.log(fileList);
       let c = file.response.Content[0]
     },
-    handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
-    },
     beforePictureUpload(file) {
       const isJPG = (file.type === 'image/jpeg' || file.type === 'image/png')
       const isLt5M = file.size / 1024 / 1024 < 5;
@@ -161,12 +162,17 @@ export default {
     addNewHomework() {
       this.newHomeworkData['class_id'] = this.$store.state.currentClassId
       this.newHomeworkData['course_name'] = this.$store.state.currentUser.ExtendInfo.Course
+      this.$refs.upload.uploadFiles.forEach((obj) => {
+        this.fileList.push(obj.response.Content[0])
+      })
       this.$API.addHomework(this.newHomeworkData).then(res => {
         this.showAddHomework = false
         this.$message('发布作业成功')
         this.getData()
         this.newHomeworkData.title = ""
         this.newHomeworkData.content = ""
+        console.log(11111)
+        console.log(this.homework)
       })
     },
   },

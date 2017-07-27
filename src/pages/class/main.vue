@@ -32,7 +32,7 @@
       </el-form>
       <el-form :model="newPost">
         <el-form-item>
-          <el-upload :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
+          <el-upload :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
             <i class="el-icon-plus"></i>
           </el-upload>
         </el-input>
@@ -149,6 +149,8 @@ export default {
           this.showAddPost = false
           this.$message('发布动态成功')
           this.getData()
+          console.log(111111)
+          console.log(this.data)
         })
       }else{
         this.$message('内容不能为空')
