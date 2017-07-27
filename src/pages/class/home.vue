@@ -73,7 +73,7 @@
           班级教师
         </div>
         <div class="content">
-          <div class="teacherItem" v-for="i in teachers" :key="i.Meid">
+          <div class="teacherItem" v-for="i in teachers" :key="i.Meid" @click="$router.push('/teacher/?id='+i.Meid)">
             <span class="teacherImg"><img :src="i.Headimgurl"></span>
             <span>{{i.TrueName}}</span>
           </div>
@@ -231,6 +231,7 @@ export default {
         width: 33%;
         display: inline-block;
         margin-bottom: 20px;
+        cursor: pointer;
         .teacherImg{
           height: 50px;
         }

@@ -9,7 +9,7 @@
   
     <div class="right">
   
-       <div class="card">
+      <div class="card">
         <div class="header">
           <img :src="$store.state.currentUser.Headimgurl">
         </div>
@@ -19,13 +19,13 @@
           <p>身份：{{$store.state.currentUser.Role}}</p>
           <p>科目：{{$store.state.currentUser.ExtendInfo.Course}}</p>
           <!-- <div class="btn">
-            <el-button type="primary" @click.native="$router.push('/teacher/edit')">修改资料</el-button>
-          </div> -->
+              <el-button type="primary" @click.native="$router.push('/teacher/edit')">修改资料</el-button>
+            </div> -->
           <div class="btn">
             <el-button type="warning" @click.native="logout">退出</el-button>
           </div>
         </div>
-      </div> 
+      </div>
       <div class="card" v-for="(i,index) in $store.state.currentUser.ExtendInfo.Classes" :key="index">
         <div class="header">
           {{i.ClassName}}
@@ -50,10 +50,15 @@ export default {
   components: {},
   data() {
     return {
-
+      data: {}
     }
   },
   methods: {
+    getData() {
+      if (this.$route.query.id) {
+
+      }
+    },
     changeClass(val) {
       this.$store.commit('changeCurrentClass', val)
     },
@@ -78,22 +83,20 @@ export default {
 
 .left {
   width: calc(~"100% - 280px");
-  float: left;
-  // padding: 10px;
+  float: left; // padding: 10px;
 }
 
 .right {
   float: right;
-  width: 260px;
-  // padding: 20px 10px;
+  width: 260px; // padding: 20px 10px;
   .card {
     border: 1px solid @border;
     text-align: center;
     background: #fff;
     margin-bottom: 20px;
-    &:hover{
-    // border: 1px solid @main;
-  }
+    &:hover {
+      // border: 1px solid @main;
+    }
     .header {
       height: 75px;
       position: relative;
@@ -120,8 +123,8 @@ export default {
         margin: 10px 0;
       }
     }
-    .noHeadImg{
-      margin-top:10px;
+    .noHeadImg {
+      margin-top: 10px;
     }
   }
 }

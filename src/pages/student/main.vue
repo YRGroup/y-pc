@@ -1,73 +1,25 @@
 <template>
   <div>
   
-    <div class="nav">
-      <span>首页 > </span>
-      <span>学生主页</span>
-    </div>
-  
-    <div class="card">
-
-      <div class="info">
-        <div class="header">资料</div>
-        <div class="content">
-          <div class="item">
-            <span class="title">姓名：</span>
-            <span>李明</span>
-          </div>
-          <div class="item">
-            <span class="title">性别：</span>
-            <span>男</span>
-          </div>
-          <div class="item">
-            <span class="title">手机：</span>
-            <span>13817485974</span>
-          </div>
-          <div class="item">
-            <span class="title">地址：</span>
-            <span>银河</span>
-          </div>
-        </div>
-        <div class="btn">
-          <el-button>修改</el-button>
-        </div>
-      </div>
-
-      <div class="info">
-        <div class="header">家长</div>
-        <div class="content">
-          <div class="item">
-            <span class="title">姓名：</span>
-            <span>李明</span>
-          </div>
-          <div class="item">
-            <span class="title">手机：</span>
-            <span>13817485974</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="info">
-        <div class="header">一卡通</div>
-        <div class="content">
-          <div class="item">
-            <span class="title">姓名：</span>
-            <span>李明</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
+    <el-tabs v-model="activeTab" type="border-card" class="tabs">
+      <el-tab-pane name="profile">
+        <span class="title" slot="label">个人</span>
+        <y-profile></y-profile>
+      </el-tab-pane>
+    </el-tabs>
   
   </div>
 </template>
 
 <script>
+import YProfile from './coms/profile'
+
 export default {
-  name: 'app',
-  components: {},
+  name: 'studentMain',
+  components: { YProfile },
   data() {
     return {
+      activeTab: 'profile',
       poster: require('@/assets/img/post.jpg')
     }
   },
@@ -96,27 +48,27 @@ export default {
   border: 1px solid @border;
   font-size: 13px;
   background: #fff;
-  .info{
+  .info {
     border-bottom: 1px dotted @border;
     position: relative;
-    .header{
+    .header {
       font-size: 20px;
       line-height: 40px;
       font-weight: bold;
     }
-    .content{
-      padding:20px 20%;
-      .item{
+    .content {
+      padding: 20px 20%;
+      .item {
         line-height: 30px;
-        .title{
-          color:@grey;
+        .title {
+          color: @grey;
         }
       }
     }
-    .btn{
+    .btn {
       position: absolute;
-      right:30px;
-      top:30px;
+      right: 30px;
+      top: 30px;
     }
   }
 }
