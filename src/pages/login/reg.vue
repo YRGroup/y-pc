@@ -106,7 +106,7 @@ export default {
         code: '',
         password: ''
       },
-      regStep: 3
+      regStep: 1
     }
   },
   methods: {
