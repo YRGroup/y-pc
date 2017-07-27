@@ -15,7 +15,8 @@ const store = new Vuex.Store({
 
     currentUserId: null,
     currentClassId: null,
-    currentClassList:[],
+    currentClassInfo: {},
+    currentClassList: [],
     currentStudentId: null,
 
     token: null,
@@ -25,9 +26,9 @@ const store = new Vuex.Store({
     hasNewMsg: '0',
   },
   getters: {
-    _APIurl:()=>{
+    _APIurl: () => {
       let a = require('@/server/config.js')
-        return a.default
+      return a.default
     }
   },
   mutations: {
@@ -49,13 +50,13 @@ const store = new Vuex.Store({
 
       if (val.Role == '老师') {
         if (val.ExtendInfo.Classes.length != 0) {
-            state.currentClassId = val.ExtendInfo.Classes[0].ClassID
-            val.ExtendInfo.Classes.forEach(obj=>{
-                let a = {}
-                a.name = obj.ClassName
-                a.id = obj.ClassID
-                state.currentClassList.push(a)
-            })
+          state.currentClassId = val.ExtendInfo.Classes[0].ClassID
+          val.ExtendInfo.Classes.forEach(obj => {
+            let a = {}
+            a.name = obj.ClassName
+            a.id = obj.ClassID
+            state.currentClassList.push(a)
+          })
         }
       }
 
@@ -81,8 +82,8 @@ const store = new Vuex.Store({
     changeRole(state, val) {
       state.role = val.toString()
     },
-    getClassInfo(state, val) {
-      state.classInfo = val
+    setCurrentClassInfo(state, val) {
+      state.currentClassInfo = val
     },
     changeTitle(state, val) {
       state.title = val.toString()
@@ -117,19 +118,45 @@ const store = new Vuex.Store({
         })
       }
     },
-    login({ getters,commit,state }, payload) {
+    getCurrentUser({
+      getters,
+      commit,
+      state
+    }, payload) {
+      API.getCurrentUser().then(res => {
+        commit('login', res)
+      })
+    },
+    getCurrentClassInfo({
+      getters,
+      commit,
+      state
+    }, payload){
+      API.getClassInfo(state.currentClassId).then(res => {
+        commit('setCurrentClassInfo',res)
+      })
+    },
+    login({
+      getters,
+      commit,
+      state
+    }, payload) {
       return new Promise((resolve, reject) => {
         API.login(payload).then(res => {
           localStorage.setItem('user', JSON.stringify(res))
           commit('setToken', res.Token)
           commit('login', res)
           resolve(res)
-        }).catch(err=>{
+        }).catch(err => {
           reject(err)
         })
       })
     },
-    logout({ getters,commit,state }, payload) {
+    logout({
+      getters,
+      commit,
+      state
+    }, payload) {
       return new Promise((resolve, reject) => {
         commit('setToken', null)
         commit('logout')

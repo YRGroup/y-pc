@@ -35,7 +35,7 @@ import md5 from 'js-md5'
 
 import axios from 'axios'
 axios.defaults.withCredentials=true
-axios.interceptors.request.use( config => {    
+axios.interceptors.request.use( config => { 
     let now = new Date().getTime()
     let token = store.state.token
     let sigh = md5(token+now)

@@ -2,11 +2,11 @@
   <div>
   
     <div class="left">
-
+  
       <router-view></router-view>
   
     </div>
-
+  
     <div class="right">
       <div class="card">
         <div class="header">
@@ -19,7 +19,7 @@
           <p>学号：{{currentStudent.StudentID}}</p>
         </div>
       </div>
-
+  
       <div class="card" v-for="(i,index) in parents" :key="index">
         <div class="header">
           <img :src="i.ParentHeadimgurl">
@@ -40,32 +40,35 @@ export default {
   components: {},
   data() {
     return {
-      currentStudent:{
-        school:'',
-        Headimgurl:'',
-        TrueName:'',
-        StudentID:'',
-        Class:'',
+      data:{},
+      currentStudent: {
+        school: '',
+        Headimgurl: '',
+        TrueName: '',
+        StudentID: '',
+        Class: '',
       },
-      parents:[],
+      parents: [],
     }
   },
-  computed:{
+  computed: {
 
   },
   methods: {
-    getData(){
-      if(this.currentStudent.StudentID==''){
-        this.$API.getStudentInfo(this.$store.state.currentStudentId).then(res=>{
-          this.currentStudent.school=res.School.Name
-          this.currentStudent.Class=res.Class.Name
-          this.currentStudent.Headimgurl=res.user.Headimgurl
-          this.currentStudent.TrueName=res.user.TrueName
-          this.currentStudent.StudentID=res.user.StudentID
-          this.parents = res.Parents
+    getData() {
+      if (this.$route.query.studentId) {
+        this.$API.getStudentInfo(this.$route.query.studentId).then(res => {
+          this.data = res
         })
       }
-      
+      // this.$API.getStudentInfo(this.$store.state.currentStudentId).then(res => {
+      //   this.currentStudent.school = res.School.Name
+      //   this.currentStudent.Class = res.Class.Name
+      //   this.currentStudent.Headimgurl = res.user.Headimgurl
+      //   this.currentStudent.TrueName = res.user.TrueName
+      //   this.currentStudent.StudentID = res.user.StudentID
+      //   this.parents = res.Parents
+      // })
     }
   },
   created() {
@@ -82,22 +85,20 @@ export default {
 
 .left {
   width: calc(~"100% - 280px");
-  float: left;
-  // padding: 10px;
+  float: left; // padding: 10px;
 }
 
 .right {
   float: right;
-  width: 260px;
-  // padding: 20px 10px;
+  width: 260px; // padding: 20px 10px;
   .card {
     border: 1px solid @border;
     text-align: center;
     background: #fff;
     margin-bottom: 20px;
-    &:hover{
-    border: 1px solid @main;
-  }
+    &:hover {
+      border: 1px solid @main;
+    }
     .header {
       height: 75px;
       position: relative;

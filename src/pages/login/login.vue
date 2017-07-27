@@ -50,9 +50,9 @@ export default {
   },
   methods: {
     login() {
+      document.cookie = "meid=aa; expires=" +new Date(2011,1,1).toGMTString();
       if (this.verifyTel() && this.verifyPw()) {
         this.$store.dispatch('login', this.loginData).then(res => {
-          this.$message('登录成功')
           this.$router.push('/')
         }).catch(err => {
           this.$message.error(err.msg)

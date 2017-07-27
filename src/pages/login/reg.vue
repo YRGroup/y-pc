@@ -3,11 +3,11 @@
     <div class="gmbg"></div>
     <div class="box" v-show="regStep==1">
       <ul class="loginnav">
-        <li  @click="$router.push('/login')" >登录</li>
+        <li @click="$router.push('/login')">登录</li>
         <li>·</li>
         <li class="navcurrent">注册</li>
       </ul>
-
+  
       <div class="item">
         <!-- <div class="title">手机号：</div> -->
         <el-input size="large" placeholder="请输入手机号" autofocus @blur="verifyTel" v-model="regData.phone">
@@ -20,7 +20,7 @@
       <div class="item sms">
         <!-- <div class="title">验证码：</div> -->
         <el-input size="large" placeholder="请输入短信验证码" autofocus v-model="regData.code">
-          
+  
         </el-input>
         <el-button size="large" type="success" @click="getSms">获取验证码</el-button>
       </div>
@@ -61,16 +61,16 @@
       </div>
       <div class="item">
         <!-- <div class="title">姓名：</div> -->
-        <el-input size="large" placeholder="请输入您的姓名" autofocus @blur="verifyTel" v-model="regData.phone">
+        <el-input size="large" placeholder="请输入您的姓名" autofocus @blur="verifyTel" v-model="editUserData.TrueName">
           <template slot="prepend">
             <i class="iconfont">&#xe678;</i>
           </template>
         </el-input>
       </div>
-
+  
       <div class="item">
         <!-- <div class="title">姓名：</div> -->
-        <el-input size="large" placeholder="请输入孩子的姓名" @blur="verifyTel" v-model="regData.phone">
+        <el-input size="large" placeholder="请输入孩子的姓名" @blur="verifyTel" v-model="addStudentData.truename">
           <template slot="prepend">
             <i class="iconfont">&#xe719;</i>
           </template>
@@ -79,7 +79,7 @@
   
       <div class="item">
         <!-- <div class="title">学生ID：</div> -->
-        <el-input size="large" placeholder="请输入孩子学号" @blur="verifyTel" v-model="regData.phone">
+        <el-input size="large" placeholder="请输入孩子学号" @blur="verifyTel" v-model="addStudentData.student_id">
           <template slot="prepend">
             <i class="iconfont">&#xe692;</i>
           </template>
@@ -87,7 +87,7 @@
       </div>
   
       <div class="btn">
-        <el-button size="large"  type="success" @click="regStep=3">完善资料</el-button>
+        <el-button size="large" type="success" @click="addMoreInfo">完善资料</el-button>
       </div>
     </div>
   
@@ -105,6 +105,14 @@ export default {
         phone: '',
         code: '',
         password: ''
+      },
+      editUserData: {
+        TrueName: ''
+      },
+      addStudentData: {
+        'student_id': '',
+        truename: '',
+        type: 100
       },
       regStep: 1
     }
@@ -152,13 +160,31 @@ export default {
           loginData.password = this.regData.password
           this.$store.dispatch('login', loginData).then(res => {
             this.$message('登录成功')
-            this.$router.push('/')
+            // this.$router.push('/')
+            this.step = 2
           })
         }).catch(err => {
           this.$message.error(err.msg)
         })
       }
     },
+    addMoreInfo() {
+      if (this.editUserData.TrueName && this.addStudentData.student_id && this.addStudentData.truename) {
+        this.$API.editParentInfo(this.editUserData).then(res => {
+          this.$API.addStudent(this.addStudentData).then(res => {
+            this.$message('添加学生成功！')
+            this.$router.push('/')
+          }).catch(err => {
+            this.$message.error(err.msg)
+          })
+        }).catch(err => {
+          this.$message.error(err.msg)
+        })
+      } else {
+        this.$message.error('资料不完整')
+      }
+
+    }
   },
   created() {
 
@@ -211,25 +237,24 @@ export default {
 //     }
 //   }
 // }
-
 .afterReg {
   text-align: center;
   .info {
     text-align: center;
     line-height: 42px;
     margin-bottom: 50px;
-    .title{
+    .title {
       font-size: 20px;
       margin-bottom: 10px;
     }
     .phone {
       background: #f5f5f5;
-      margin:0 20px;
+      margin: 0 20px;
       font-size: 16px;
       border-radius: 4px;
     }
   }
-  .el-button{
+  .el-button {
     margin: 0 20px;
   }
 }

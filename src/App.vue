@@ -15,8 +15,8 @@ export default {
     }
     console.log(this.$store.getters._APIurl)
     if (this.$store.state.role == '家长' && !this.$store.state.currentStudentId) {
-      this.$router.push('/parent/addStudent')
-
+      this.$message('请先添加学生')
+      this.$router.push('/parent?tab=addStudent')
     }
   }
 }
