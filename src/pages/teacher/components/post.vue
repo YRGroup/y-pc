@@ -5,7 +5,7 @@
       <div class="img">
         <img :src="i.userImg">
       </div>
-      <div class="tips">{{i.category}}</div>
+      <div class="del" @click="del(i.id)">删除</div>
       <div class="header">{{i.auther}}</div>
       <div class="content" v-html="i.content"></div>
       <div class="albums">
@@ -16,11 +16,12 @@
       <div class="footer">
         <span class="time">{{i.date}}</span>
         <span class="iconbtn">
-          <span title="点赞数"><i class="iconfont">&#xe646;</i>{{i.like}}</span>
+          <span title="点赞数">
+            <i class="iconfont">&#xe646;</i>{{i.like}}</span>
         </span>
       </div>
     </div>
-
+  
     <load-more @click.native="loadMore" :noMoreData="noMoreData"></load-more>
   
   </div>
@@ -30,7 +31,7 @@
 import loadMore from '@//components/loadMore'
 
 export default {
-  components:{loadMore},
+  components: { loadMore },
   data() {
     return {
       data: [],
@@ -81,8 +82,8 @@ export default {
   font-size: 13px;
   position: relative;
   background: #fff;
-  padding-left:70px;
-  padding-bottom:10px;
+  padding-left: 70px;
+  padding-bottom: 10px;
   .img {
     position: absolute;
     top: 10px;
@@ -99,41 +100,42 @@ export default {
   .content {
     width: calc(~"100% - 120px");
   }
-  .albums{
-    // margin:10px 0;
-    li{
-      padding:10px;
+  .albums {
+    li {
+      padding: 10px;
       display: inline-block;
-      img{
-        // width:200px;
-        max-height:120px;
+      img {
+        max-height: 120px;
       }
     }
   }
-    .tips{
+  .del {
     position: absolute;
     right: 0;
     top: 6px;
-    border:1px solid @main;
-    color:@main;
-    padding:1px 10px;
+    border: 1px solid @grey;
+    color: @grey;
+    padding: 1px 10px;
     border-radius: 3px;
     font-size: 12px;
+    cursor: pointer;
+    &:hover{
+      border: 1px solid @sub;
+      color: @sub;
+    }
   }
   .footer {
-    font-size:12px;
+    font-size: 12px;
     .time {
       color: @grey;
     }
     .iconbtn {
       float: right;
       cursor: pointer;
-      &:hover{
-        color:@main;
+      &:hover {
+        color: @main;
       }
     }
   }
-
-  
 }
 </style>
