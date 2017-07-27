@@ -14,8 +14,8 @@
         </el-form-item>
       </el-form>
       <el-form :model="newPost">
-        <el-form-item label="">
-          <el-upload :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
+        <el-form-item>
+          <el-upload :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
             <i class="el-icon-plus"></i>
           </el-upload>
           </el-input>
@@ -147,17 +147,24 @@ export default {
       return isJPG && isLt5M;
     },
     addNewPost() {
-      this.$refs.upload.uploadFiles.forEach((obj) => {
-        this.fileList.push(obj.response.Content[0])
-      })
-      this.newPost.type = 1
-      this.newPost.cid = this.$store.state.currentClassId
-      this.newPost['img_url_list'] = this.fileList.join(',')
-      this.$API.postNewClassDynamic(this.newPost).then(res => {
-        this.showAddPost = false
-        this.$message('发布动态成功')
-        this.getData()
-      })
+      let inputCon= this.newPost.content
+      if(inputCon != undefined){  
+        this.$refs.upload.uploadFiles.forEach((obj) => {
+          this.fileList.push(obj.response.Content[0])
+        })
+        this.newPost.type = 1
+        this.newPost.cid = this.$store.state.currentClassId
+        this.newPost['img_url_list'] = this.fileList.join(',')
+        this.$API.postNewClassDynamic(this.newPost).then(res => {
+          this.showAddPost = false
+          this.$message('发布动态成功')
+          this.getData()
+          console.log(111111)
+          console.log(this.data)
+        })
+      }else{
+        this.$message('内容不能为空')
+      }
     },
   },
   created() {
@@ -259,6 +266,7 @@ export default {
     word-warp: break-word;
     word-break: break-all;
     cursor: pointer;
+    color: #666;
   }
   .albums {
     margin: 10px 0;
