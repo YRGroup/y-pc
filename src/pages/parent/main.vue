@@ -86,7 +86,9 @@ export default {
     },
   },
   created() {
-    this.getData()
+    if(this.$route.query.tab){
+      this.activeTab=this.$route.query.tab
+    }
   },
   mounted() {
 

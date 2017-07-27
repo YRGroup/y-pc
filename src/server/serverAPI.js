@@ -89,6 +89,19 @@ API.editPWBySms = (data) => {
   })
 }
 
+// 班主任删除动态
+API.deletePost = (params) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl+'/api/Class/DeleteDynamic',params).then((res)=>{
+      resolve(res.data.Content)
+    }).catch((err)=>{
+      console.log('获取信息失败：')
+      console.log(err)
+      reject(err)
+    })
+  })
+}
+
 
 // 空API模板
 API.test = () => {

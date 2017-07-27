@@ -31,9 +31,11 @@
           {{i.ClassName}}
         </div>
         <div class="content noHeadImg">
-          <p>ID：{{i.ClassID}}</p>
           <p>执教科目：{{i.CourseName}}</p>
           <div class="btn">
+            <el-button type="info" @click.native="changeClass(i.ClassID),$router.push('/class')">班级主页</el-button>
+          </div>
+          <div class="btn" v-show="$store.state.currentUser.ExtendInfo.Classes.length>1">
             <el-button type="warning" @click.native="changeClass(i.ClassID)">设为当前班级</el-button>
           </div>
         </div>

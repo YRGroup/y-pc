@@ -55,7 +55,8 @@ export default {
       if(this.data.truename && this.data['student_id']){
         this.$API.addStudent(this.data).then(res=>{
           this.$message.success('学生绑定成功！')
-          this.$router.push('/user')
+          this.$store.dispatch('getCurrentUser')
+          this.$router.push('/class')
         })
       }else{
         this.$message.error('数据不完整');

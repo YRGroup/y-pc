@@ -4,25 +4,8 @@
     <div class="addPost" v-show="$store.state.role=='老师'">
       <div class="title addbtn" @click="showAddPost=true">
         <i class="iconfont">&#xe623;</i>发布动态</div>
-      <!-- <div class="content" v-show="showAddPost">
-        <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model.trim="newPost.content">
-        </el-input>
-         <vue-html5-editor :content="newPost.content" @change="updateData" :auto-height="true" :height="200"></vue-html5-editor> 
-      </div> -->
-  
-      <!-- <div class="footer" v-show="showAddPost">
-        <div class="albums">
-          <el-upload :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
-            <i class="el-icon-plus"></i>
-          </el-upload>
-        </div>
-        <div class="btn">
-          <el-button type="primary" @click.native="addNewPost">发布</el-button>
-        </div>
-      </div> -->
-  
     </div>
-
+  
     <el-dialog title="发布动态" :visible.sync="showAddPost">
       <el-form :model="newPost">
         <el-form-item>
@@ -35,11 +18,10 @@
           <el-upload :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
             <i class="el-icon-plus"></i>
           </el-upload>
-        </el-input>
+          </el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <!-- <el-button type="success" :plain="true" @click="showAddPost = false">取 消</el-button> -->
         <el-button type="success" @click="addNewPost">发 布</el-button>
       </div>
     </el-dialog>
@@ -59,9 +41,13 @@
       <div class="footer">
         <span class="time">{{i.date}}</span>
         <span class="iconbtn">
-          <!-- <span title="阅读数"><i class="iconfont">&#xe6c3;</i>{{i.like}}</span> -->
+          <span title="删除" class="delBtn" v-if="isAdmin">
+            <i class="iconfont">&#xe641;</i>
+            <span class="delBtnTitle" @click="delPost(i.id)">删除此条动态</span>
+          </span>
           <span title="点赞数" @click="doLike(i.id),i.like++">
-            <i class="iconfont">&#xe646;</i>{{i.like}}</span>
+            <i class="iconfont">&#xe646;</i>{{i.like}}
+          </span>
         </span>
       </div>
     </div>
@@ -86,6 +72,11 @@ export default {
       pageSize: 10,
       noMoreData: false,
       showAddPost: false,
+    }
+  },
+  computed: {
+    isAdmin() {
+      return this.$store.state.currentUser.Meid == this.$store.state.currentClassInfo.teacher.Meid
     }
   },
   methods: {
@@ -114,7 +105,26 @@ export default {
     },
     doLike(id) {
       this.$API.doLikeThisPost(id).then((res) => {
-        this.$message.success('点赞成功');
+        this.$message.success('点赞成功')
+      })
+    },
+    delPost(id) {
+      let para = {
+        did: id
+      }
+      this.$API.deletePost(para).then(() => {
+        this.$message({
+          message: '删除成功',
+          type: 'success',
+        })
+        this.data=[]
+        this.getData()
+      }).catch((err) => {
+        console.error('fff>>>>', err)
+        this.$message({
+          message: '删除失败了哦!',
+          type: 'error',
+        })
       })
     },
     handleRemove(file, fileList) {
@@ -152,6 +162,7 @@ export default {
   },
   created() {
     this.getData()
+    console.log(this.isAdmin)
   },
   mounted() {
   },
@@ -245,8 +256,8 @@ export default {
   }
   .content {
     // width: calc(~"100% - 120px");
-    word-warp:break-word;
-    word-break:break-all; 
+    word-warp: break-word;
+    word-break: break-all;
     cursor: pointer;
   }
   .albums {
@@ -255,7 +266,7 @@ export default {
       display: inline-block;
       img {
         max-height: 120px;
-        margin-right:15px;
+        margin-right: 15px;
       }
     }
   }
@@ -269,6 +280,24 @@ export default {
       cursor: pointer;
       &:hover {
         color: @main;
+      }
+    }
+    .delBtn {
+      color: red;
+      width: 50px;
+      .iconfont {
+        display: inline-block;
+      }
+      .delBtnTitle {
+        display: none;
+      }
+      &:hover {
+        .iconfont {
+          display: none;
+        }
+        .delBtnTitle {
+          display: inline-block;
+        }
       }
     }
   }

@@ -13,7 +13,7 @@
         <div class="content">
           <p>{{classInfo.name}}</p>
           <div class="info">
-            <span>班主任：{{classInfo.teacherName}}</span>
+            <span>班主任：{{classInfo.teacher.TrueName}}</span>
             <span>人数：{{classInfo.student_count}}</span>
           </div>
         </div>
@@ -90,11 +90,15 @@ export default {
   components: {},
   data() {
     return {
-      classInfo: {},
       teachers: [],
       notice: {},
       homework: [],
       currentClass: '',
+    }
+  },
+  computed:{
+    classInfo(){
+      return this.$store.state.currentClassInfo
     }
   },
   methods: {
@@ -131,10 +135,7 @@ export default {
       })
     },
     getClassInfo() {
-      this.$API.getClassInfo(this.$store.state.currentClassId).then(res => {
-        this.classInfo = res
-        this.classInfo.teacherName = res.teacher.TrueName
-      })
+      this.$store.dispatch('getCurrentClassInfo')
     },
     getData() {
       this.getClassInfo()
