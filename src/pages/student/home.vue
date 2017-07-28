@@ -92,12 +92,12 @@ export default {
   float: right;
   width: 260px; // padding: 20px 10px;
   .card {
-    border: 1px solid @border;
+    // border: 1px solid @border;
     text-align: center;
     background: #fff;
     margin-bottom: 20px;
     &:hover {
-      border: 1px solid @main;
+      // border: 1px solid @main;
     }
     .header {
       height: 75px;

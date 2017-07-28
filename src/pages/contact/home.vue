@@ -175,7 +175,7 @@ export default {
   float: right;
   width: 260px;
   .card {
-    border: 1px solid @border;
+    // border: 1px solid @border;
     margin-bottom: 20px;
     background: #fff;
     .title {
