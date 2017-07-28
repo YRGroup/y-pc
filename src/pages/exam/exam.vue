@@ -22,18 +22,23 @@
           总分：500
         </div>
   
-        <el-table :data="summaryScore" height="250" border style="width: 100%">
-          <el-table-column prop="StudentID" label="学号" width="150">
+        <el-table :data="data.StudentSummary" height="250" border style="width: 100%">
+          <el-table-column prop="StudentID" label="学号" width="150" sortable>
           </el-table-column>
           <el-table-column prop="TrueName" label="姓名">
           </el-table-column>
-          <el-table-column prop="语文" label="语文">
+          <el-table-column :label="i.CourseName" sortable sort-method="sort" v-for="(i,index) in data.StudentSummary[0].Courses" :key="index">
+            <template scope="scope">
+               <div v-if="data.StudentSummary[scope.$index].Courses[index]">{{data.StudentSummary[scope.$index].Courses[index].Score}}</div> 
+            </template>
           </el-table-column>
-          <el-table-column prop="数学" label="数学">
+          <!-- <el-table-column prop="Meid" :label="i.CourseName + index" sortable v-for="(i,index) in data.StudentSummary[0].Courses">
+          </el-table-column> -->
+          <!-- <el-table-column prop="数学" label="数学" sortable>
+          </el-table-column> -->
+          <el-table-column prop="TotalScore" label="总分" sortable>
           </el-table-column>
-          <el-table-column prop="TotalScore" label="总分">
-          </el-table-column>
-          <el-table-column prop="Ranking" label="排名">
+          <el-table-column prop="Ranking" label="总排名" sortable>
           </el-table-column>
         </el-table>
       </el-tab-pane>
@@ -115,16 +120,19 @@ export default {
         return val.ExamID = this.$route.params.examId
       })
     },
+    sort(a,b){
+      console.log(a)
+    },
     summaryScore() {
       let all= []
-      this.data.StudentSummary.forEach(obj => {
+      this.data.StudentSummary.forEach((obj,index) => {
         let a = {}
         a.StudentID = obj.StudentID
         a.TrueName = obj.TrueName
         a.TotalScore = obj.TotalScore
-        a.Ranking = obj.Ranking
-        obj.Courses.forEach(c=>{
-          a[c.CourseName]=c.Score
+        a.Ranking = index+1
+        obj.Courses.forEach((c,n)=>{
+          a['course'+n]=c.Score
         })
         all.push(a)
       })
