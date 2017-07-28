@@ -19,6 +19,8 @@ const store = new Vuex.Store({
     currentClassList: [],
     currentStudentId: null,
 
+    currentExamList: [],
+
     token: null,
     currentUser: null,
     hasNoStudent: false,
@@ -37,6 +39,7 @@ const store = new Vuex.Store({
       state.currentUser = val
       state.currentUserId = val.Meid
       state.role = val.Role
+      state.token = val.Token
 
       if (val.Role == '家长') {
         if (val.ExtendInfo.Students.length != 0) {
@@ -97,6 +100,9 @@ const store = new Vuex.Store({
     changeCurrentClass(state, val) {
       state.currentClassId = val
     },
+    setExamList(state, val) {
+      state.currentExamList = val
+    },
     setToken(state, val) {
       state.token = val
     },
@@ -131,9 +137,9 @@ const store = new Vuex.Store({
       getters,
       commit,
       state
-    }, payload){
+    }, payload) {
       API.getClassInfo(state.currentClassId).then(res => {
-        commit('setCurrentClassInfo',res)
+        commit('setCurrentClassInfo', res)
       })
     },
     login({
@@ -144,7 +150,6 @@ const store = new Vuex.Store({
       return new Promise((resolve, reject) => {
         API.login(payload).then(res => {
           localStorage.setItem('user', JSON.stringify(res))
-          commit('setToken', res.Token)
           commit('login', res)
           resolve(res)
         }).catch(err => {
@@ -163,6 +168,20 @@ const store = new Vuex.Store({
         resolve('logout OK!')
       })
     },
+    getExamList({
+      getters,
+      commit,
+      state
+    }, payload) {
+      return new Promise((resolve, reject) => {
+        API.getClassExamList(state.currentClassId).then(res => {
+          commit('setExamList', res)
+          resolve(res)
+        }).catch(err => {
+          reject(err)
+        })
+      })
+    }
   },
 })
 

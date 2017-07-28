@@ -3,17 +3,29 @@
   
     <header>
       <div class="container">
-        <div class="logo"><img class="logopic" :src="logo"></div>
+        <div class="logo">
+          <img class="logopic" :src="logo">
+        </div>
         <div class="nav">
-          <li @click="$router.push('/')" :class="link=='/'?'active':null"><i class="iconfont">&#xe636;</i>首页</li>
-          <li @click="$router.push('/class')" :class="link=='/class'?'active':null"><i class="iconfont">&#xe633;</i>我的班级</li>
+          <li @click="$router.push('/')" :class="link=='main'?'active':null">
+            <i class="iconfont">&#xe636;</i>首页</li>
+          <li @click="$router.push('/class')" :class="link=='klass'?'active':null">
+            <i class="iconfont">&#xe633;</i>我的班级</li>
           <!-- <li @click="$router.push('/homework')" :class="link=='/homework'?'active':null"><i class="iconfont">&#xe608;</i>作业中心</li> -->
-          <li @click="$router.push('/schoolcard')" v-show="$store.state.role=='老师'" :class="link=='/schoolcard'?'active':null"><i class="iconfont">&#xe67f;</i>一卡通</li>
-          <li @click="$router.push('/schoolcard')" v-show="$store.state.role=='家长'" :class="link=='/schoolcard'?'active':null"><i class="iconfont">&#xe67f;</i>一卡通</li>
-            <li @click="$router.push('/contact')" :class="link=='/contact'?'active':null"><i class="iconfont">&#xe6a5;</i>通讯录</li>  
-          <li @click="$router.push('/teacher')" v-show="$store.state.role=='老师'" :class="link=='/teacher'?'active':null"><i class="iconfont">&#xe64b;</i>个人主页</li>
-          <li @click="$router.push('/student/score')" v-show="$store.state.role=='家长'" :class="link=='/student/score'?'active':null"><i class="iconfont">&#xe60e;</i>成绩报告</li>
-          <li @click="$router.push('/parent')" v-show="$store.state.role=='家长'" :class="link=='/parent'?'active':null"><i class="iconfont">&#xe64b;</i>个人主页</li>
+          <li @click="$router.push('/examList')" v-show="$store.state.role=='老师'" :class="link=='examList'?'active':null">
+            <i class="iconfont">&#xe67f;</i>考试</li>
+          <li @click="$router.push('/schoolcard')" v-show="$store.state.role=='老师'" :class="link=='schoolcard'?'active':null">
+            <i class="iconfont">&#xe67f;</i>一卡通</li>
+          <li @click="$router.push('/schoolcard')" v-show="$store.state.role=='家长'" :class="link=='schoolcard'?'active':null">
+            <i class="iconfont">&#xe67f;</i>一卡通</li>
+          <li @click="$router.push('/contact')" :class="link=='contact'?'active':null">
+            <i class="iconfont">&#xe6a5;</i>通讯录</li>
+          <li @click="$router.push('/teacher')" v-show="$store.state.role=='老师'" :class="link=='teacher'?'active':null">
+            <i class="iconfont">&#xe64b;</i>个人主页</li>
+          <li @click="$router.push('/student/score')" v-show="$store.state.role=='家长'" :class="link=='score'?'active':null">
+            <i class="iconfont">&#xe60e;</i>成绩报告</li>
+          <li @click="$router.push('/parent')" v-show="$store.state.role=='家长'" :class="link=='parent'?'active':null">
+            <i class="iconfont">&#xe64b;</i>个人主页</li>
         </div>
       </div>
   
@@ -21,7 +33,7 @@
     <div class="mainbox">
       <router-view class="inview"></router-view>
     </div>
-    
+  
     <div class="footer">
       <div class="mainCon">
         <p>Copyright © 2017 yearnedu.com Inc. All Rights Reserved. 郑州育人教育集团</p>
@@ -41,19 +53,26 @@ export default {
       logo: require('@/assets/logo.png')
     }
   },
-  computed:{
-    link(){
-      return this.$route.path
+  computed: {
+    link() {
+      return this.$route.name
     }
   },
   methods: {
 
   },
   created() {
+    console.log(this.$route.name)
   },
   mounted() {
 
   },
+  watch: {
+    '$route': function () {
+      console.log(this.$route.name)
+
+    }
+  }
 }
 </script>
 
@@ -64,7 +83,7 @@ header {
   height: 78px;
   list-style: none;
   line-height: 78px;
-  border:1px solid #ddd;
+  border: 1px solid #ddd;
   background: @main;
   z-index: 1000;
   .container {
@@ -74,7 +93,7 @@ header {
   }
   .logo {
     display: inline-block;
-    img{
+    img {
       height: 42px;
     }
   }
@@ -82,14 +101,14 @@ header {
     float: right;
     font-size: 16px;
     color: #fff;
-    .iconfont{
+    .iconfont {
       margin-right: 5px;
     }
   }
-  .active{
-    color:#fff;
+  .active {
+    color: #fff;
     opacity: 1;
-    border-bottom: 4px solid rgba(255,255,255,.8);
+    border-bottom: 4px solid rgba(255, 255, 255, .8);
     line-height: 70px;
   }
   li {
@@ -103,31 +122,32 @@ header {
   }
 }
 
-.mainbox{
+.mainbox {
   width: 100%;
-  background: #f3f0e0;  
-  padding:20px 0;
+  background: #f3f0e0;
+  padding: 20px 0;
   min-height: calc(~"100vh - 208px")
 }
+
 .inview {
   max-width: 1090px;
   margin: 0 auto;
   overflow: hidden;
 }
-.footer{
+
+.footer {
   background: #333;
   position: relative;
-  bottom:0;
-  left:0;
-  right:0;
-  .mainCon{
+  bottom: 0;
+  left: 0;
+  right: 0;
+  .mainCon {
     width: 1090px;
-    margin:0 auto;
+    margin: 0 auto;
     text-align: center;
-    padding:20px 0; 
-    color:#aaa;
+    padding: 20px 0;
+    color: #aaa;
     font-size: 12px;
   }
 }
-
 </style>

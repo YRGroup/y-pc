@@ -1,11 +1,36 @@
 <template>
   <div>
   
-    <el-tabs v-model="activeTab" type="border-card" class="tabs">
+    <el-tabs v-model="activeTab" type="border-card" class="tabs leftCon">
+
       <el-tab-pane name="profile">
-        <span class="title" slot="label">个人</span>
+        <span class="title" slot="label">信息</span>
+
         <y-profile></y-profile>
+
       </el-tab-pane>
+
+      <el-tab-pane name="edit">
+        <span class="title" slot="label">修改资料</span>
+
+        <y-edit></y-edit>
+
+      </el-tab-pane>
+
+      <el-tab-pane name="score">
+        <span class="title" slot="label">成绩</span>
+
+        <y-score></y-score>
+        
+      </el-tab-pane>
+
+      <el-tab-pane name="card">
+        <span class="title" slot="label">一卡通</span>
+
+        <y-profile></y-profile>
+        
+      </el-tab-pane>
+
     </el-tabs>
   
   </div>
@@ -13,18 +38,20 @@
 
 <script>
 import YProfile from './coms/profile'
+import YEdit from './edit'
+import YScore from './score'
 
 export default {
   name: 'studentMain',
-  components: { YProfile },
+  components: { YProfile,YEdit,YScore },
   data() {
     return {
       activeTab: 'profile',
-      poster: require('@/assets/img/post.jpg')
+      profileData:{}
     }
   },
   methods: {
-
+    
   },
   created() {
 
@@ -38,38 +65,9 @@ export default {
 <style lang="less" scoped>
 @import '../../style/theme.less';
 
-.nav {
-  font-size: 12px;
-}
-
-.card {
-  margin: 15px 0;
-  padding: 10px 20px;
-  border: 1px solid @border;
-  font-size: 13px;
-  background: #fff;
-  .info {
-    border-bottom: 1px dotted @border;
-    position: relative;
-    .header {
-      font-size: 20px;
-      line-height: 40px;
-      font-weight: bold;
-    }
-    .content {
-      padding: 20px 20%;
-      .item {
-        line-height: 30px;
-        .title {
-          color: @grey;
-        }
-      }
-    }
-    .btn {
-      position: absolute;
-      right: 30px;
-      top: 30px;
-    }
+.tabs{
+  .title{
+    padding:10px 30px;
   }
 }
 </style>
