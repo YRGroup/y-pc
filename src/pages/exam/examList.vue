@@ -25,17 +25,11 @@
         考试列表
       </div>
       <div class="content">
-        <li class="item">
-          <div class="index">1</div>
-          <div class="name">三年级二班第一次月考</div>
-          <div class="info">年级统一闭卷考试</div>
-          <div class="type">全科目</div>
-        </li>
         <li class="item" v-for="(i,index) in data" :key="index" @click="$router.push('/exam/'+i.ExamID)">
-          <div class="index">{{index}}</div>
-          <div class="name">i.Name</div>
-          <div class="info">i.Remark</div>
-          <div class="type">i.Type</div>
+          <div class="index">{{index+1}}</div>
+          <div class="name">{{i.Name}}</div>
+          <div class="time">{{i.CreateTime}}</div>
+          <div class="type">类别：{{i.Type}}</div>
         </li>
       </div>
     </div>
@@ -114,7 +108,6 @@ export default {
     },
     getData() {
       this.$store.dispatch('getExamList')
-      console.log(this.data)
     },
     addNewExam() {
 
@@ -169,7 +162,7 @@ export default {
         line-height: 30px;
         font-size: 20px;
       }
-      .info {
+      .time {
         padding-left: 30px;
         color: @grey;
       }
