@@ -22,20 +22,19 @@
           总分：500
         </div>
   
-        <el-table :data="data.StudentSummary" height="250" border style="width: 100%">
+        <el-table :data="summaryScore" height="750" border style="width: 100%">
           <el-table-column prop="StudentID" label="学号" width="150" sortable>
           </el-table-column>
           <el-table-column prop="TrueName" label="姓名">
           </el-table-column>
-          <el-table-column :label="i.CourseName" sortable sort-method="sort" v-for="(i,index) in data.StudentSummary[0].Courses" :key="index">
+          <!-- <el-table-column :label="i.CourseName" sortable v-for="(i,index) in data.StudentSummary[0].Courses" :key="index">
             <template scope="scope">
                <div v-if="data.StudentSummary[scope.$index].Courses[index]">{{data.StudentSummary[scope.$index].Courses[index].Score}}</div> 
             </template>
-          </el-table-column>
-          <!-- <el-table-column prop="Meid" :label="i.CourseName + index" sortable v-for="(i,index) in data.StudentSummary[0].Courses">
-          </el-table-column> -->
-          <!-- <el-table-column prop="数学" label="数学" sortable>
-          </el-table-column> -->
+          </el-table-column>  -->
+
+          <el-table-column :prop="i" :label="i" sortable v-for="i in courseList" :key="i">
+          </el-table-column> 
           <el-table-column prop="TotalScore" label="总分" sortable>
           </el-table-column>
           <el-table-column prop="Ranking" label="总排名" sortable>
@@ -47,13 +46,13 @@
         <div class="info">
           总分：{{i.FullScore}} 平均分：{{i.AverageScore}}
           <div class="btn">
-            <el-button type="warning" @click="startEdit=i.CourseID" v-show="startEdit!=i.CourseID">批量修改</el-button>
-            <el-button @click="startEdit=0" v-show="startEdit==i.CourseID">取消修改</el-button>
-            <el-button type="primary" @click="startEdit=i.CourseID" v-show="startEdit==i.CourseID">全部提交</el-button>
+            <el-button type="warning" @click="startEdit=i.CourseName" v-show="startEdit!=i.CourseName">批量修改</el-button>
+            <el-button @click="startEdit=0" v-show="startEdit==i.CourseName">取消修改</el-button>
+            <el-button type="primary" @click="submitAllScore(i.CourseName)" v-show="startEdit==i.CourseName">全部提交</el-button>
           </div>
         </div>
   
-        <el-table :data="i.Scores" height="250" border style="width: 100%">
+        <el-table :data="i.Scores" height="750" border style="width: 100%">
           <el-table-column prop="StudentID" label="学号" width="150" sortable>
           </el-table-column>
           <el-table-column prop="TrueName" label="姓名">
@@ -64,8 +63,8 @@
           </el-table-column>
           <el-table-column prop="Score" label="编辑分数" width="200">
             <template scope="scope">
-              <el-input :class="(startEdit!=scope.row.ExamCourseID)?'inline':null" size="small" :disabled="startEdit!=scope.row.ExamCourseID" v-model="scope.row.Score" type="number" placeholder="修改分数"></el-input>
-              <el-button @click.native="startEditOneScore(scope.row)" v-show="startEdit!=scope.row.ExamCourseID">编辑</el-button>
+              <el-input :class="(startEdit!=scope.row.ExamCourseID)?'inline':null" size="small" :disabled="startEdit!=i.CourseName" v-model="scope.row.Score" type="number" placeholder="修改分数"></el-input>
+              <el-button @click.native="startEditOneScore(scope.row)" v-show="startEdit!=i.CourseName">编辑</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -108,6 +107,9 @@ export default {
         Score2: 60,
         rank: 10
       }],
+      courseList:[
+        
+      ],
       startEdit: 0,
       showEditOneScore: false,
       editScoreOneData: {},
@@ -117,14 +119,14 @@ export default {
   computed: {
     data() {
       return this.$store.state.currentExamList.find(val => {
-        return val.ExamID = this.$route.params.examId
+        return val.ExamID == this.$route.params.examId
       })
-    },
-    sort(a,b){
-      console.log(a)
     },
     summaryScore() {
       let all= []
+      this.data.StudentSummary[0].Courses.forEach(c=>{
+          this.courseList.push(c.CourseName)
+      })
       this.data.StudentSummary.forEach((obj,index) => {
         let a = {}
         a.StudentID = obj.StudentID
@@ -132,7 +134,7 @@ export default {
         a.TotalScore = obj.TotalScore
         a.Ranking = index+1
         obj.Courses.forEach((c,n)=>{
-          a['course'+n]=c.Score
+          a[c.CourseName]=c.Score
         })
         all.push(a)
       })
@@ -150,19 +152,43 @@ export default {
     }
   },
   methods: {
+    sort(a,b){
+  console.log(a)
+    },
     startEditOneScore(val) {
       this.showEditOneScore = true
       this.editScoreOneData = val
     },
     submitEditOneScore() {
-
+      let editData=[]
+      editData.push(this.editScoreOneData)
+      this.$API.addExamScore(editData).then(res=>{
+        this.$message.success('添加成绩成功')
+        this.editScoreOneData={}
+        this.showEditOneScore = false
+      }).catch(err=>{
+        this.$message.error(err)
+      })
+    },
+    submitAllScore(n){
+      let allData = this.data.CoursesSummary.find(el=>{
+        return el.CourseName == n
+      })
+      this.$API.addExamScore(allData.Scores).then(res=>{
+        this.$message.success('添加成绩成功')
+        this.editScoreOneData={}
+      }).catch(err=>{
+        this.$message.error(err)
+      })
     },
     getData() {
-      console.log(this.data)
+
     }
   },
   created() {
     this.getData()
+  },
+  mounted(){
   }
 }
 </script>

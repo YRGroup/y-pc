@@ -42,22 +42,19 @@
           </el-select>
         </el-form-item>
         <el-form-item label="考试名称">
-          <el-input v-model="newExamData.Name" auto-complete="off"></el-input>
+          <el-input v-model="newExamData.ExamName" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="考试备注">
-          <el-input v-model="newExamData.Remark" auto-complete="off"></el-input>
+        <el-form-item label="考试类别">
+          <el-input v-model="newExamData.Type" auto-complete="off"></el-input>
         </el-form-item>
-        <el-checkbox-group v-model="newExamData.Courses">
-          <el-checkbox label="语文"></el-checkbox>
-          <el-checkbox label="数学"></el-checkbox>
-          <el-checkbox label="英语"></el-checkbox>
-          <el-checkbox label="物理"></el-checkbox>
-          <el-checkbox label="化学"></el-checkbox>
-          <el-checkbox label="生物"></el-checkbox>
-          <el-checkbox label="政治"></el-checkbox>
-          <el-checkbox label="历史"></el-checkbox>
-          <el-checkbox label="地理"></el-checkbox>
+
+        <el-checkbox-group v-model="newExamData.courses">
+          <el-checkbox :label="i.CourseId" v-for="i in courseList" :key="i.id">
+            {{i.name}}
+            <el-input v-model="i.FullScore" size="mini" style="width:50px;" placeholder="总分"></el-input>
+          </el-checkbox>
         </el-checkbox-group>
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="showAddExam = false">取 消</el-button>
@@ -74,11 +71,29 @@ export default {
     return {
       currentClass: '',
       showAddExam: false,
+      courseList: [
+        {
+          CourseId: 1,
+          FullScore:100,
+          name: '语文'
+        },
+        {
+          CourseId: 2,
+          FullScore:100,
+          name: '数学'
+        },
+        {
+          CourseId: 3,
+          FullScore:100,
+          name: '英语'
+        },
+      ],
       newExamData: {
         Name: '',
         Remark: '',
         ClassID: '',
-        Courses: ''
+        ExamCourses:[],
+        courses:[]
       },
     }
   },
@@ -110,7 +125,18 @@ export default {
       this.$store.dispatch('getExamList')
     },
     addNewExam() {
-
+      this.newExamData.courses.forEach(obj=>{
+        let a = this.courseList.find(obj2=>{
+          return obj2.CourseId==obj
+        })
+        console.log(a)
+        this.newExamData.ExamCourses.push(a)
+      })
+      this.$API.addExam(this.newExamData).then(res=>{
+        this.$message.success('添加考试成功')
+      }).catch(err=>{
+        this.$message.error(err.msg)
+      })
     }
   },
   created() {
