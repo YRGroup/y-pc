@@ -1,7 +1,14 @@
 <template>
   <div>
   
-      <div class="body card panel">
+    <div class="body card">
+      <div class="maintitle">
+        <i class="iconfont">&#xe737;</i>动态详情
+        <span class="goreturn">
+          <el-button size="small" @click="$router.push('/class')" type="success" :plain="true">返回</el-button>
+        </span>
+      </div>
+      <div class="mainCon">
         <div class="img">
           <img :src="data.userImg">
         </div>
@@ -18,30 +25,32 @@
         <div class="footer">
           <span class="time">{{data.date}}</span>
           <span class="iconbtn">
-          <span title="点赞数" @click="doLike(data.id),data.like++"><i class="iconfont">&#xe646;</i>{{data.like}}</span>
-        </span>
-          
+            <span title="点赞数" @click="doLike(data.id),data.like++">
+              <i class="iconfont">&#xe646;</i>{{data.like}}</span>
+          </span>
+  
           <!-- <div class="btn" @click="doLike(data.id),data.like++">like:{{data.like}}</div> -->
         </div>
       </div>
-      <div class="replybox">
-        <div class="reply">
-          <el-input class="input" v-model.trim="replyData.content" placeholder="请输入内容" v-show="showReply"></el-input>
-          <el-button class="btn" type="success" v-show="showReply" @click="submitReply">回复</el-button>
-          <el-button class="btn" style="margin-left:500px;" :plain="true" type="success" v-show="!showReply" @click.native="showReply=true">回复</el-button>
-        </div>
-        <div class="replyList">
-          <div class="title">全部回复</div>
-          <ul class="list">
-            <li class="item" v-for="i in data.comment" :key="i.id">
-                <div><span class="name">{{i.TrueName}}：</span>{{i.content}}</div>
-                <div class="time">{{i.addTime}}</div>
-            </li>
-          </ul>
-        </div>
+    </div>
+    <div class="replybox">
+      <div class="reply">
+        <el-input class="input" v-model.trim="replyData.content" placeholder="请输入内容" v-show="showReply"></el-input>
+        <el-button class="btn" type="success" v-show="showReply" @click="submitReply">回复</el-button>
+        <el-button class="btn" style="margin-left:500px;" :plain="true" type="success" v-show="!showReply" @click.native="showReply=true">回复</el-button>
+      </div>
+      <div class="replyList">
+        <div class="title">全部回复</div>
+        <ul class="list">
+          <li class="item" v-for="i in data.comment" :key="i.id">
+            <div>
+              <span class="name">{{i.TrueName}}：</span>{{i.content}}</div>
+            <div class="time">{{i.addTime}}</div>
+          </li>
+        </ul>
       </div>
     </div>
-  
+  </div>
 </template>
 
 <script>
@@ -51,10 +60,10 @@ export default {
   data() {
     return {
       data: {},
-      showReply:false,
+      showReply: false,
       replyData: {
-        did:'',
-        content:''
+        did: '',
+        content: ''
       }
     }
   },
@@ -64,9 +73,9 @@ export default {
         this.data = res
       })
     },
-    submitReply(){
-      this.replyData.did=this.data.id
-      this.$API.postNewComment(this.replyData).then(res=>{
+    submitReply() {
+      this.replyData.did = this.data.id
+      this.$API.postNewComment(this.replyData).then(res => {
         this.$message('添加回复成功！')
         this.showReply = false
         this.replyData.content = ''
@@ -96,78 +105,76 @@ export default {
 }
 
 .card {
-  // margin: 15px 0;
-  border: 1px solid @border;
-  font-size: 13px;
-  position: relative;
-  padding-left:80px;
   background: #fff;
-  .img {
-    position: absolute;
-    left: 20px;
-    top: 20px;
-    img {
-      width: 46px;
-      height:46px;
-      border-radius: 50%;
-    }
-  }
-  .header {
-    display: inline-block;
-    font-size: 16px;
-    line-height: 42px;
-  }
-  .tips{
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding:0 24px 0 30px;
-    display: inline-block;
-    background: @main;
-    color: #fff;
-    line-height: 36px;
-    opacity: 0.6;
-    &:before{
+  .mainCon {
+    position: relative;
+    padding:0 20px 20px 80px;
+    .img {
       position: absolute;
-      content: '';
-      left: 0;
-      width: 0;
-      height: 0;
-      border:18px solid transparent;
-      border-left-color:#fff;
-    }
-  }
-  .content {
-    // width: calc(~"100% - 120px");
-  }
-  .albums {
-    li {
-      padding: 10px 10px 10px 0;
-      display: inline-block;
+      left: 20px;
+      top: 20px;
       img {
-        max-height: 120px;
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
       }
     }
-  }
-  .footer {
-    font-size:12px;
-    .time {
-      color: @grey;
+    .header {
+      display: inline-block;
+      font-size: 16px;
+      line-height: 42px;
     }
-    .iconbtn {
-      float: right;
-      cursor: pointer;
-      &:hover{
-        color:@main;
+    .tips {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 0 24px 0 30px;
+      display: inline-block;
+      background: @main;
+      color: #fff;
+      line-height: 36px;
+      opacity: 0.6;
+      &:before {
+        position: absolute;
+        content: '';
+        left: 0;
+        width: 0;
+        height: 0;
+        border: 18px solid transparent;
+        border-left-color: #fff;
+      }
+    }
+    .albums {
+      li {
+        padding: 10px 10px 10px 0;
+        display: inline-block;
+        img {
+          max-height: 120px;
+        }
+      }
+    }
+    .footer {
+      font-size: 12px;
+      .time {
+        color: @grey;
+      }
+      .iconbtn {
+        float: right;
+        cursor: pointer;
+        &:hover {
+          color: @main;
+        }
       }
     }
   }
 }
-.replybox{
+
+.replybox {
   background: #fff;
   margin-top: 20px;
   padding-bottom: 20px;
 }
+
 .reply {
   float: right;
   width: 600px;
@@ -189,19 +196,19 @@ export default {
   }
   .item {
     border-bottom: 1px dotted @border;
-    margin:10px 40px;
-    padding:10px 0;
-    .name{
-      color:@grey;
+    margin: 10px 40px;
+    padding: 10px 0;
+    .name {
+      color: @grey;
     }
     .time {
       color: #999;
       font-size: 12px;
     }
-    .reply-content{
+    .reply-content {
       display: inline-block;
-      margin-left:20px;
-      margin-top:10px;
+      margin-left: 20px;
+      margin-top: 10px;
       vertical-align: top;
     }
   }

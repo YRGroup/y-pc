@@ -31,14 +31,14 @@
     <div class="scoreList panel">
       <div class="header">
         历次成绩报告
-        <el-select v-model="pagesize" class="pagesize" @change="currentPage=1" >
+        <!-- <el-select v-model="pagesize" class="pagesize" @change="currentPage=1" >
           <el-option
             v-for="item in allPagesize"
             :key="item"
             :label="'每页显示'+item+'条'"
             :value="item">
           </el-option>
-        </el-select>
+        </el-select> -->
       </div>
   
       <div class="item" v-for="(i,index) in currentScoreList" :key="index">
@@ -146,7 +146,7 @@ export default {
     margin-top: 20px;
     .item {
       // border: 1px solid @border;
-      background: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 1);
       display: inline-block;
       width: 100px;
       height: 80px;

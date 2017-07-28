@@ -1,7 +1,7 @@
 <template>
   <div>
   
-    <div class="addPost" v-show="$store.state.role=='老师'">
+    <div class="addPost">
       <div class="title addbtn" @click="showAddPost=true">
         <i class="iconfont">&#xe623;</i>发布动态</div>
     </div>
@@ -156,11 +156,16 @@ export default {
         this.newPost.cid = this.$store.state.currentClassId
         this.newPost['img_url_list'] = this.fileList.join(',')
         this.$API.postNewClassDynamic(this.newPost).then(res => {
+          console.log(1111)
+          console.log(this.newPost['img_url_list'])
           this.showAddPost = false
+          this.data = []
           this.$message('发布动态成功')
           this.getData()
-          console.log(111111)
-          console.log(this.data)
+          this.newPost.content = ''
+          this.newPost.img_url_list = ''
+          this.fileList = []
+          this.$refs.upload.uploadFiles=[]
         })
       }else{
         this.$message('内容不能为空')
@@ -275,6 +280,7 @@ export default {
       img {
         max-height: 120px;
         margin-right: 15px;
+        margin-bottom: 15px;
       }
     }
   }

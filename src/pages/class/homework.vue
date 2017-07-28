@@ -169,10 +169,7 @@ export default {
         this.showAddHomework = false
         this.$message('发布作业成功')
         this.getData()
-        this.newHomeworkData.title = ""
-        this.newHomeworkData.content = ""
-        console.log(11111)
-        console.log(this.homework)
+        this.newHomeworkData = {}
       })
     },
   },

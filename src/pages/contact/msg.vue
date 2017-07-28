@@ -2,7 +2,8 @@
   <div>
   
     <div class="card leftCon">
-      <div class="title">与 {{data.sendto_TrueName}} 的对话列表
+      <div class="maintitle">
+        <i class="iconfont">&#xe649;</i>与 {{data.sendto_TrueName}} 的对话列表
         <span class="goreturn">
           <el-button size="small" @click="$router.push('/contact')" type="success" :plain="true">返回</el-button>
         </span>
@@ -95,18 +96,8 @@ export default {
 
 .card {
   background: #fff;
-  padding-top: 10px;
+  padding-bottom: 50px;
   position: relative;
-  .title {
-    border-bottom: 1px solid @border;
-    font-size: 20px;
-    line-height: 50px;
-    padding: 0 20px;
-    .goreturn {
-      float: right;
-      font-size: 14px;
-    }
-  }
   .item {
     padding: 5px 20px;
     margin: 15px 0;

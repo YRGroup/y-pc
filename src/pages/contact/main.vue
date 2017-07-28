@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="card leftCon">
-      <div class="title"><i class="iconfont">&#xe649;</i>消息列表</div>
+      <div class="maintitle"><i class="iconfont">&#xe649;</i>消息列表</div>
       <li class="item" v-for="(i,index) in data" :key="index" @click="$router.push('/msg/'+i.ToMeid)">
         <div class="img">
           <img :src="i.ToHeadImg">
@@ -44,24 +44,14 @@ export default {
 
 .card {
   background: #fff;
-  padding:10px 0 20px;
-  .title {
-    border-bottom: 1px solid @border;
-    font-size: 20px;
-    line-height: 50px;
-    padding-left: 20px;
-    .iconfont{
-      color: @main;
-      margin-right: 8px;
-    }
-  }
+  padding-bottom:20px;
   .item {
     padding: 15px 20px;
     border-bottom: 1px dotted @border;
     cursor: pointer;
     &:hover {
       // border-bottom: 1px dotted @main;
-      
+      background: #f5f5f5;
     }
     .img {
       display: inline-block;
