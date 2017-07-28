@@ -5,7 +5,7 @@
       <div class="img">
         <img :src="i.userImg">
       </div>
-      <div class="del" @click="del(i.id)">删除</div>
+      <div class="del" @click="del(i.id)" v-if="!$route.query.id">删除</div>
       <div class="header">{{i.auther}}</div>
       <div class="content" @click="$router.push('/post/'+i.id)">{{i.content}}</div>
       <div class="albums">

@@ -37,7 +37,7 @@
             <el-collapse-item title="老师" name="1">
               <li class="item" v-for="(i,index) in teachers" :key="index">
   
-                <div class="top">
+                <div class="top" @click="$router.push('/t/?id='+i.Meid)">
                   <div class="img">
                     <img :src="i.Headimgurl">
                   </div>
@@ -57,7 +57,7 @@
             <el-collapse-item title="学生" name="2">
               <li class="item" v-for="(i,index) in students" :key="index">
   
-                <div class="top">
+                <div class="top" @click="$router.push('/s/?id='+i.Meid)">
                   <div class="img">
                     <img :src="i.Headimgurl">
                   </div>
@@ -201,7 +201,7 @@ export default {
   padding: 5px;
   margin: 5px 0;
   position: relative;
-  cursor: default;
+  cursor: pointer;
   &:hover {
     background: @bg;
     .top {

@@ -31,6 +31,9 @@ import parent from '@/pages/parent/main'
 import editparent from '@/pages/parent/edit'
 import addStudent from '@/pages/parent/addStudent'
 
+import examList from '@/pages/exam/examList'
+import exam from '@/pages/exam/exam'
+
 import schoolcard from '@/pages/addon/schoolcard'
 
 
@@ -41,12 +44,10 @@ import login from '@/pages/login/login'
 Vue.use(Router)
 
 export default new Router({
-  routes: [
-    {
+  routes: [{
       path: '/',
       component: home,
-      children:[
-        {
+      children: [{
           path: '',
           name: 'main',
           component: main,
@@ -59,8 +60,7 @@ export default new Router({
         {
           path: '/class',
           component: classHome,
-          children:[
-            {
+          children: [{
               path: '',
               name: 'klass',
               component: klass,
@@ -78,10 +78,13 @@ export default new Router({
           ]
         },
         {
+          path: '/s',
+          component: student
+        },
+        {
           path: '/student',
           component: studentHome,
-          children:[
-            {
+          children: [{
               path: '',
               name: 'student',
               component: student,
@@ -103,10 +106,13 @@ export default new Router({
           ]
         },
         {
+          path: '/t',
+          component: teacher
+        },
+        {
           path: '/teacher',
           component: teacherHome,
-          children:[
-            {
+          children: [{
               path: '',
               name: 'teacher',
               component: teacher,
@@ -123,15 +129,14 @@ export default new Router({
           ]
         },
         {
-            path: 'schoolcard',
-            name: 'schoolcard',
-            component: schoolcard,
+          path: 'schoolcard',
+          name: 'schoolcard',
+          component: schoolcard,
         },
         {
           path: '/contact',
           component: contactHome,
-          children:[
-            {
+          children: [{
               path: '',
               name: 'contact',
               component: contact,
@@ -146,8 +151,7 @@ export default new Router({
         {
           path: '/parent',
           component: parentHome,
-          children:[
-            {
+          children: [{
               path: '',
               name: 'parent',
               component: parent,
@@ -157,13 +161,23 @@ export default new Router({
               name: 'editparent',
               component: editparent,
             },
-            
+
             {
               path: 'addStudent',
               name: 'addStudent',
               component: addStudent,
             },
           ]
+        },
+        {
+          path: '/examList',
+          name: 'examList',
+          component: examList,
+        },
+        {
+          path: '/exam/:examId',
+          name: 'exam',
+          component: exam,
         },
       ]
     },

@@ -28,18 +28,15 @@
               <el-button @click="showEditHeadImg=true">修改头像</el-button>
             </div>
             <div class="right" v-show="showEditHeadImg">
-              <el-upload
-                class="avatar-uploader"
-                :action="$store.getters._APIurl+'/api/Upload/ImageUpload'"
-                :show-file-list="false"
-                :on-success="handleAvatarSuccess"
-                :before-upload="beforeAvatarUpload">
+              <el-upload class="avatar-uploader" :action="$store.getters._APIurl+'/api/Upload/ImageUpload'" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
                 <img v-if="imageUrl" :src="imageUrl" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
             </div>
           </div>
-          <br /><hr /><br />
+          <br />
+          <hr />
+          <br />
           <el-form-item label="国家">
             <el-input v-model="data.County"></el-input>
           </el-form-item>
@@ -58,8 +55,7 @@
           <el-form-item label="生日">
             <el-input v-model="data.Birthday"></el-input>
           </el-form-item>
-          
-          
+  
         </el-form>
       </div>
       <div class="footer">
@@ -79,8 +75,8 @@ export default {
   data() {
     return {
       data: {},
-      showEditHeadImg:false,
-      imageUrl:''
+      showEditHeadImg: false,
+      imageUrl: ''
     }
   },
   computed: {
@@ -89,31 +85,38 @@ export default {
     }
   },
   methods: {
-    getData(){
-      this.$API.getStudentInfo(this.$store.state.currentStudentId).then(res=>{
-        this.data=res.user
+    getData() {
+      if (this.$route.query.id) {
+        this.$API.getStudentInfo(this.$route.query.id).then(res => {
+          this.data = res.user
+        })
+      } else {
+        this.$API.getStudentInfo(this.$store.state.currentStudentId).then(res => {
+          this.data = res.user
+        })
+      }
+    },
+    submitChange() {
+      this.data.role = 1
+      this.$API.editStudentInfo(this.data).then(res => {
+        this.$message.success('修改成功')
+        this.$router.go(-1)
       })
     },
-    submitChange(){
-      this.data.role = 1
-      this.$API.editStudentInfo(this.data).then(res=>{
-        this.$router.push('/student')
-			})
-    },
     handleAvatarSuccess(res, file) {
-			this.imageUrl = res.Content[0]
-			this.data.Headimgurl=this.imageUrl+'?x-oss-process=style/f300'
-		},
-    beforeAvatarUpload(file){
-      const isJPG = file.type === 'image/jpeg'||'image/png'
-			const isLt2M = file.size / 1024 / 1024 < 2;
-			if (!isJPG) {
-				this.$message.error('上传头像图片只能是 JPG或PNG 格式!');
-			}
-			if (!isLt2M) {
-				this.$message.error('上传头像图片大小不能超过 2MB!');
-			}
-			return isJPG && isLt2M;
+      this.imageUrl = res.Content[0]
+      this.data.Headimgurl = this.imageUrl + '?x-oss-process=style/f300'
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg' || 'image/png'
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG或PNG 格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!');
+      }
+      return isJPG && isLt2M;
     },
   },
   created() {
@@ -128,9 +131,10 @@ export default {
 <style lang="less" scoped>
 @import '../../style/theme.less';
 
-.headImg{
+.headImg {
   text-align: center;
-  .left,.right{
+  .left,
+  .right {
     display: inline-block
   }
   .avatar-uploader .el-upload {
@@ -157,8 +161,8 @@ export default {
     display: block;
   }
 }
- 
-  
+
+
 .card {
   margin: 15px 0;
   border: 1px solid @border;
@@ -175,7 +179,7 @@ export default {
   .header {
     line-height: 40px;
     vertical-align: middle;
-    padding-left:30px;
+    padding-left: 30px;
   }
   .content {
     width: calc(~"100% - 120px");
