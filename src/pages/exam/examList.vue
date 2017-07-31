@@ -1,43 +1,27 @@
 <template>
   <div>
-<!--   
-    <div class="card panel">
-      <div class="title">
-        当前班级:{{currentClassInfo.name}}
-        <div class="btn">
-          <el-select v-model="currentClass" placeholder="班级" @change="changeCurrentClass">
-            <el-option :label="i.name" :value="i.id" v-for="i in currentClassList" :key="i.id"></el-option>
-          </el-select>
-        </div>
-      </div>
-      <div class="content">
-        当前班级:{{currentClassInfo.name}}
-      </div>
-      <div class="footer">
-        <div class="btn">
-          <el-button @click="showAddExam=true" size="small">添加新考试</el-button>
-        </div>
-      </div>
-    </div> -->
   
     <div class="card panel">
       <div class="examselect">
           <el-select v-model="currentClass" placeholder="班级" @change="changeCurrentClass">
-            <el-option :label="'班级'+i" :value="i" v-for="i in 10" :key="i"></el-option>
+            <el-option :label="'班级'+i.name" :value="i.id" v-for="i in currentClassList" :key="i.id"></el-option>
           </el-select>
           <el-button @click="showAddExam=true" type="success" class="ml20">添加新考试</el-button>
       </div>
       <div class="examlist">
-        <li class="item" v-for="(i,index) in data" :key="index" @click="$router.push('/exam/'+i.ExamID)">
-          <!-- <div class="index">{{index+1}}</div> -->
-          <div class="examtitle">{{i.Name}}</div>
+        <li class="item" v-for="(i,index) in data" :key="index">
+           <!-- <div class="index">{{index+1}}</div>  -->
+          <div class="examtitle">{{i.ExamName}}</div>
           <div class="examinfo">
             <span><i class="iconfont">&#xe621;</i>创建时间：{{i.CreateTime}}</span>
-            <span><i class="iconfont">&#xe6b4;</i>{{i.CoursesList[0].CourseName}}</span>
+            <span><i class="iconfont">&#xe6b4;</i>学科：
+               <span v-if="i.Courses.length>5">多学科</span>
+              <span v-else v-for="c in i.Courses" :key="c.ID">{{c.CourseName}}</span> 
+            </span>
           </div>
           <div class="exambtn">
-            <el-button :plain="true" type="danger" @click="delExam(i.ExamID)">删除</el-button>
-            <el-button type="success" class="type">查看成绩</el-button>
+            <el-button :plain="true" type="danger" @click="delExam(i.ID)">删除</el-button>
+            <el-button type="success" class="type" @click="$router.push('/exam/'+i.ID)">查看成绩</el-button>
           </div>
         </li>
       </div>
@@ -54,9 +38,10 @@
           <el-input v-model="newExamData.ExamName" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="考试类别">
-          <el-radio class="radio" v-model="newExamData.Type" label="1">备选项</el-radio>
-          <el-radio class="radio" v-model="newExamData.Type" label="2">备选项</el-radio>
-          <el-input v-model="newExamData.Type" auto-complete="off"></el-input>
+          <el-radio-group v-model="newExamData.Type" @change="examType">
+            <el-radio class="radio" label="0">全学科</el-radio>
+            <el-radio class="radio" label="1">自选学科</el-radio>
+          </el-radio-group>
         </el-form-item>
   
         <el-checkbox-group v-model="newExamData.courses" class="checkbox">
@@ -80,7 +65,6 @@
 export default {
   data() {
     return {
-      currentClass: 1,
       showAddExam: false,
       courseList: [
         {
@@ -132,18 +116,23 @@ export default {
       newExamData: {
         Name: '',
         Remark: '',
-        ClassID: 1,
-        ExamCourses:[],
-        courses:[]
+        ClassID: '',
+        Type: '',
+        ExamCourses: [],
+        courses: []
       },
+      data:[]
     }
   },
   computed: {
     isClassAdmin() {
       return false
     },
-    data() {
-      return this.$store.state.currentExamList
+    // data() {
+    //   return this.$store.state.currentExamList
+    // },
+    currentClass(){
+      return this.$store.state.currentClassId
     },
     currentClassInfo() {
       if (!this.$store.state.currentClassInfo) {
@@ -163,16 +152,20 @@ export default {
       this.$store.dispatch('getExamList')
     },
     getData() {
-      this.$store.dispatch('getExamList')
-      this.currentClass = this.$store.state.currentClassId
+      // this.$store.dispatch('getExamList')
       this.newExamData.ClassID = this.currentClass
+      this.$API.getClassExamList(this.currentClass).then(res=>{
+        this.data = res
+      })
+      this.$API.getCourseList().then(res=>{
+        this.courseList = res
+      })
     },
     addNewExam() {
       this.newExamData.courses.forEach(obj => {
         let a = this.courseList.find(obj2 => {
           return obj2.CourseId == obj
         })
-        console.log(a)
         this.newExamData.ExamCourses.push(a)
       })
       this.$API.addExam(this.newExamData).then(res => {
@@ -183,15 +176,28 @@ export default {
         this.$message.error(err.msg)
       })
     },
+    examType(n) {
+      if(n==0){
+        this.newExamData.courses=[1,2,3,4,5,6,7,8,9]
+      }
+      if(n==1){
+        this.newExamData.courses=[]
+      }
+    },
     delExam(n) {
-      let para = {}
-      para.ExamID = n
-      this.$API.deleteExam(para).then(res => {
-        this.$message.warning('删除考试' + n + '成功')
-        this.getData()
-      }).catch(err => {
-        this.$message.error('删除考试失败：'+err.msg)
+      this.$confirm('确认删除该记录吗?', '提示', {
+        type: 'warning'
+      }).then(() => {
+        let para = {}
+        para.ExamID = n
+        this.$API.deleteExam(para).then(res => {
+          this.$message.warning('删除考试' + n + '成功')
+          this.getData()
+        }).catch(err => {
+          this.$message.error('删除考试失败：' + err.msg)
+        })
       })
+
     }
   },
   created() {

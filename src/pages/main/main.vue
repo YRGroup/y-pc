@@ -45,8 +45,7 @@
   
       <div class="card" v-if="$store.state.role==='老师'">
         <div class="header">
-          <img :src="$store.state.currentUser.Headimgurl" v-if="$store.state.currentUser.Headimgurl!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && $store.state.currentUser.Headimgurl!=''">
-          <div class="headTextImg" v-else>{{$store.state.currentUser.TrueName.substr(0,1)}}</div>
+          <img :src="$store.state.currentUser.Headimgurl" >
         </div>
         <div class="content">
           <p class="name">{{ $store.state.currentUser.TrueName }} - {{ $store.state.currentUser.ExtendInfo.Course }}</p>
