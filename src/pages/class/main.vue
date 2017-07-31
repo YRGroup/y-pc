@@ -167,8 +167,6 @@ export default {
         this.newPost.cid = this.$store.state.currentClassId
         this.newPost['img_url_list'] = this.fileList.join(',')
         this.$API.postNewClassDynamic(this.newPost).then(res => {
-          console.log(1111)
-          console.log(this.newPost['img_url_list'])
           this.showAddPost = false
           this.data = []
           this.$message('发布动态成功')
