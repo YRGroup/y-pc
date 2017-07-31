@@ -2,17 +2,10 @@
   <div>
   
     <div class="card">
-  
       <div class="title">
-        当前考试:{{data.Name}}
+        当前考试:{{data.Name}}  
+        <span class="time"> 考试时间： {{data.CreateTime}}</span>
       </div>
-  
-      <div class="content">
-        <p>当前考试:{{data.Name}}</p>
-        <p>当前考试:{{data.Remark}}</p>
-        <p>当前考试:{{data.CreateTime}}</p>
-      </div>
-  
     </div>
   
     <el-tabs v-model="currentCourse" type="border-card">
@@ -22,18 +15,12 @@
           总分：500
         </div>
   
-        <el-table :data="summaryScore" height="750" border style="width: 100%">
+        <el-table :data="summaryScore" height="600" border style="width: 100%">
           <el-table-column prop="StudentID" label="学号" width="150" sortable>
           </el-table-column>
           <el-table-column prop="TrueName" label="姓名">
           </el-table-column>
-          <!-- <el-table-column :label="i.CourseName" sortable v-for="(i,index) in data.StudentSummary[0].Courses" :key="index">
-            <template scope="scope">
-               <div v-if="data.StudentSummary[scope.$index].Courses[index]">{{data.StudentSummary[scope.$index].Courses[index].Score}}</div> 
-            </template>
-          </el-table-column>  -->
-
-          <el-table-column :prop="i" :label="i" sortable v-for="i in courseList" :key="i">
+          <el-table-column :prop="i.CourseName" :label="i.CourseName" sortable v-for="i in data.CoursesList" :key="i.ID">
           </el-table-column> 
           <el-table-column prop="TotalScore" label="总分" sortable>
           </el-table-column>
@@ -52,7 +39,7 @@
           </div>
         </div>
   
-        <el-table :data="i.Scores" height="750" border style="width: 100%">
+        <el-table :data="i.Scores" height="600" border style="width: 100%">
           <el-table-column prop="StudentID" label="学号" width="150" sortable>
           </el-table-column>
           <el-table-column prop="TrueName" label="姓名">
@@ -100,16 +87,7 @@
 export default {
   data() {
     return {
-      fakeData: [{
-        StudentID: '123',
-        TrueName: '张三',
-        Score1: 50,
-        Score2: 60,
-        rank: 10
-      }],
-      courseList:[
-        
-      ],
+      data:{},
       startEdit: 0,
       showEditOneScore: false,
       editScoreOneData: {},
@@ -117,28 +95,8 @@ export default {
     }
   },
   computed: {
-    data() {
-      return this.$store.state.currentExamList.find(val => {
-        return val.ExamID == this.$route.params.examId
-      })
-    },
     summaryScore() {
-      let all= []
-      this.data.StudentSummary[0].Courses.forEach(c=>{
-          this.courseList.push(c.CourseName)
-      })
-      this.data.StudentSummary.forEach((obj,index) => {
-        let a = {}
-        a.StudentID = obj.StudentID
-        a.TrueName = obj.TrueName
-        a.TotalScore = obj.TotalScore
-        a.Ranking = index+1
-        obj.Courses.forEach((c,n)=>{
-          a[c.CourseName]=c.Score
-        })
-        all.push(a)
-      })
-      return all
+      return this.data.VueData
     },
     currentClassInfo() {
       if (!this.$store.state.currentClassInfo) {
@@ -147,14 +105,8 @@ export default {
         return this.$store.state.currentClassInfo
       }
     },
-    courselist() {
-      return this.data.Courses
-    }
   },
   methods: {
-    sort(a,b){
-  console.log(a)
-    },
     startEditOneScore(val) {
       this.showEditOneScore = true
       this.editScoreOneData = val
@@ -182,13 +134,18 @@ export default {
       })
     },
     getData() {
-
+      this.$API.getExamInfo(this.$route.params.examId).then(res=>{
+        this.data=res
+      })
     }
   },
   created() {
     this.getData()
   },
   mounted(){
+  },
+  watch:{
+    '$route':'getData'
   }
 }
 </script>

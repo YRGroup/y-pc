@@ -11,14 +11,17 @@
       <div class="examlist">
         <li class="item" v-for="(i,index) in data" :key="index">
            <!-- <div class="index">{{index+1}}</div>  -->
-          <div class="examtitle">{{i.Name}}</div>
+          <div class="examtitle">{{i.ExamName}}</div>
           <div class="examinfo">
             <span><i class="iconfont">&#xe621;</i>创建时间：{{i.CreateTime}}</span>
-            <span><i class="iconfont">&#xe6b4;</i>学科：语文</span>
+            <span><i class="iconfont">&#xe6b4;</i>学科：
+               <span v-if="i.Courses.length>5">多学科</span>
+              <span v-else v-for="c in i.Courses" :key="c.ID">{{c.CourseName}}</span> 
+            </span>
           </div>
           <div class="exambtn">
-            <el-button :plain="true" type="danger" @click="delExam(i.ExamID)">删除</el-button>
-            <el-button type="success" class="type" @click="$router.push('/exam/'+i.ExamID)">查看成绩</el-button>
+            <el-button :plain="true" type="danger" @click="delExam(i.ID)">删除</el-button>
+            <el-button type="success" class="type" @click="$router.push('/exam/'+i.ID)">查看成绩</el-button>
           </div>
         </li>
       </div>
@@ -62,7 +65,6 @@
 export default {
   data() {
     return {
-      currentClass: 1,
       showAddExam: false,
       courseList: [
         {
@@ -119,14 +121,18 @@ export default {
         ExamCourses: [],
         courses: []
       },
+      data:[]
     }
   },
   computed: {
     isClassAdmin() {
       return false
     },
-    data() {
-      return this.$store.state.currentExamList
+    // data() {
+    //   return this.$store.state.currentExamList
+    // },
+    currentClass(){
+      return this.$store.state.currentClassId
     },
     currentClassInfo() {
       if (!this.$store.state.currentClassInfo) {
@@ -146,9 +152,11 @@ export default {
       this.$store.dispatch('getExamList')
     },
     getData() {
-      this.$store.dispatch('getExamList')
-      this.currentClass = this.$store.state.currentClassId
+      // this.$store.dispatch('getExamList')
       this.newExamData.ClassID = this.currentClass
+      this.$API.getClassExamList(this.currentClass).then(res=>{
+        this.data = res
+      })
       this.$API.getCourseList().then(res=>{
         this.courseList = res
       })
