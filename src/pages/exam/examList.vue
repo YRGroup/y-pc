@@ -1,38 +1,24 @@
 <template>
   <div>
   
-    <div class="card">
-      <div class="title">
-        当前班级:{{currentClassInfo.name}}
-        <div class="btn">
+    <div class="card panel">
+      <div class="examselect">
           <el-select v-model="currentClass" placeholder="班级" @change="changeCurrentClass">
-            <el-option :label="i.name" :value="i.id" v-for="i in currentClassList" :key="i.id"></el-option>
+            <el-option :label="'班级'+i.name" :value="i.id" v-for="i in currentClassList" :key="i.id"></el-option>
           </el-select>
-        </div>
+          <el-button @click="showAddExam=true" type="success" class="ml20">添加新考试</el-button>
       </div>
-      <div class="content">
-        当前班级:{{currentClassInfo.name}}
-      </div>
-      <div class="footer">
-        <div class="btn">
-          <el-button @click="showAddExam=true" size="small">添加新考试</el-button>
-        </div>
-      </div>
-    </div>
-  
-    <div class="card">
-      <div class="title">
-        考试列表
-      </div>
-      <div class="content">
+      <div class="examlist">
         <li class="item" v-for="(i,index) in data" :key="index">
-          <div class="index">{{index+1}}</div>
-          <div class="name">
-            <span @click="$router.push('/exam/'+i.ExamID)">{{i.Name}}</span>
+           <!-- <div class="index">{{index+1}}</div>  -->
+          <div class="examtitle">{{i.Name}}</div>
+          <div class="examinfo">
+            <span><i class="iconfont">&#xe621;</i>创建时间：{{i.CreateTime}}</span>
+            <span><i class="iconfont">&#xe6b4;</i>学科：语文</span>
           </div>
-          <div class="time">{{i.CreateTime}}</div>
-          <div class="del">
+          <div class="exambtn">
             <el-button :plain="true" type="danger" @click="delExam(i.ExamID)">删除</el-button>
+            <el-button type="success" class="type" @click="$router.push('/exam/'+i.ExamID)">查看成绩</el-button>
           </div>
         </li>
       </div>
@@ -64,8 +50,8 @@
   
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="showAddExam = false">取 消</el-button>
-        <el-button type="primary" @click="addNewExam">确 定</el-button>
+        <el-button @click="showAddExam = false" :plain="true" type="success">取 消</el-button>
+        <el-button type="success" @click="addNewExam">确 定</el-button>
       </div>
     </el-dialog>
   
@@ -76,7 +62,7 @@
 export default {
   data() {
     return {
-      currentClass: '',
+      currentClass: 1,
       showAddExam: false,
       courseList: [
         {
@@ -163,6 +149,9 @@ export default {
       this.$store.dispatch('getExamList')
       this.currentClass = this.$store.state.currentClassId
       this.newExamData.ClassID = this.currentClass
+      this.$API.getCourseList().then(res=>{
+        this.courseList = res
+      })
     },
     addNewExam() {
       this.newExamData.courses.forEach(obj => {
@@ -213,55 +202,49 @@ export default {
 @import '../../style/theme.less';
 
 .card {
-  background: #fff;
-  margin: 15px 0;
-  padding: 15px;
-  .title {
-    border-bottom: 1px solid @border;
-    line-height: 50px;
-    padding-left: 30px;
-    font-size: 1.5rem;
-    .btn {
-      float: right;
-    }
+  margin-bottom: 15px;
+  .ml20{
+    margin-left: 20px;
   }
-  .content {
+  .examselect{
+    margin:0 20px;
+  }
+  .examlist {
     padding: 20px 0;
     .item {
-      border-bottom: 1px dotted @border;
-      padding: 10px;
+      &:first-child{
+        border-top: 1px solid @border;
+      }
+      border-bottom: 1px solid @border;
+      padding: 20px 30px;
       position: relative;
       &:hover {
-        border-bottom: 1px dotted @main;
+        background: @border;
       }
-      .index {
-        position: absolute;
-        left: 0;
-        top: 10px;
-        width: 30px;
-        height: 30px;
+      .examtitle {
         line-height: 30px;
-        border-radius: 50%;
-        background: @main;
-        color: #fff;
-        text-align: center;
+        font-size: 18px;
       }
-      .name {
-        padding-left: 30px;
+      .examinfo{
         line-height: 30px;
-        font-size: 20px;
-        span {
-          cursor: pointer;
+        color: #888;
+        span{
+          margin-right: 20px;
+        }
+        .iconfont{
+          margin-right: 8px;
+          color: @main;
+          font-size: 16px;
         }
       }
       .time {
-        padding-left: 30px;
+        padding-left: 10px;
         color: @grey;
       }
-      .del {
+      .exambtn {
         position: absolute;
-        right: 10px;
-        top: 10px;
+        right: 30px;
+        top: 24px;
       }
     }
   }
