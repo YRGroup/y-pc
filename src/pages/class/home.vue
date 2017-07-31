@@ -19,22 +19,6 @@
         </div>
       </div>
   
-      <!-- <div class="card" v-show="$store.state.currentClassList.length">
-        <div class="title">
-          切换当前班级
-        </div>
-        <div class="content">
-          <el-select v-model="currentClass" @change="changeCurrentClass" placeholder="请选择">
-            <el-option 
-              v-for="item in $store.state.currentClassList" 
-              :key="item.id" 
-              :label="item.name" 
-              :value="item.id">
-            </el-option>
-          </el-select>
-        </div>
-      </div> -->
-  
       <div class="card">
         <div class="title">
           公告
@@ -74,7 +58,10 @@
         </div>
         <div class="content">
           <div class="teacherItem" v-for="i in teachers" :key="i.Meid" @click="$router.push('/teacher/?id='+i.Meid)">
-            <span class="teacherImg"><img :src="i.Headimgurl"></span>
+            <span class="teacherImg">
+              <img :src="i.Headimgurl" v-if="i.Headimgurl!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && i.Headimgurl!=''">
+              <div class="headTextImg" v-else>{{i.TrueName.substr(0,1)}}</div>
+            </span>
             <span>{{i.TrueName}}</span>
           </div>
         </div>
@@ -93,11 +80,10 @@ export default {
       teachers: [],
       notice: {},
       homework: [],
-      currentClass: '',
     }
   },
-  computed:{
-    classInfo(){
+  computed: {
+    classInfo() {
       return this.$store.state.currentClassInfo
     }
   },
@@ -143,10 +129,6 @@ export default {
       this.getNotice()
       this.getHomeWork()
     },
-    changeCurrentClass() {
-      this.$store.commit('changeCurrentClass', this.currentClass)
-      this.getData()
-    },
   },
   created() {
     this.getData()
@@ -175,23 +157,21 @@ export default {
 
 
   .card {
-    margin-bottom: 15px;
-    // padding: 5px;
-    background: #fff;
-    // &:hover{
+    margin-bottom: 15px; // padding: 5px;
+    background: #fff; // &:hover{
     //   border: 1px solid @main;
     // }
     .title {
       border-bottom: 1px solid @border;
       line-height: 40px;
-      padding:3px 15px;
+      padding: 3px 15px;
       font-size: 16px;
       position: relative;
-      &:before{
-        content:'';
-        position:absolute;
+      &:before {
+        content: '';
+        position: absolute;
         top: 13px;
-        left:0;
+        left: 0;
         width: 3px;
         height: 20px;
         background: @main;
@@ -205,14 +185,14 @@ export default {
     }
     .content {
       // line-height: 2em;
-      padding:10px;
+      padding: 10px;
       font-size: 14px;
       .noticeItem {
         .footer {
           color: @grey;
-          font-size:12px;
-          span{
-            margin-right:10px;
+          font-size: 12px;
+          span {
+            margin-right: 10px;
           }
         }
       }
@@ -232,10 +212,10 @@ export default {
         display: inline-block;
         margin-bottom: 20px;
         cursor: pointer;
-        .teacherImg{
+        .teacherImg {
           height: 50px;
         }
-        span{
+        span {
           display: inline-block;
           margin-bottom: 0;
           line-height: 0;

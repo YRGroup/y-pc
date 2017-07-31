@@ -16,7 +16,7 @@
         <div class="content">
           <p>账号：{{data.Mobilephone}}</p>
           <p>姓名：{{data.TrueName}}</p>
-          <p>科目：{{data.Course}}</p>
+          <p>科目：{{data.ExtendInfo.Course}}</p>
           <!-- <div class="btn">
                 <el-button type="primary" @click.native="$router.push('/teacher/edit')">修改资料</el-button>
               </div> -->

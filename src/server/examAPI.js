@@ -41,6 +41,18 @@ API.addExam = (data) => {
 }
 // testing
 
+// 删除考试
+API.deleteExam = (data) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl+'/api/class/DeleteExam',data).then((res)=>{
+      resolve(res.data.Content)
+    }).catch((err)=>{
+      reject(err)
+    })
+  })
+}
+// testing
+
 // 添加考试成绩
 API.addExamScore = (data) => {
   return new Promise((resolve, reject) => {

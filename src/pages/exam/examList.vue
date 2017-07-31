@@ -6,7 +6,7 @@
         当前班级:{{currentClassInfo.name}}
         <div class="btn">
           <el-select v-model="currentClass" placeholder="班级" @change="changeCurrentClass">
-            <el-option :label="'班级'+i" :value="i" v-for="i in 10" :key="i"></el-option>
+            <el-option :label="i.name" :value="i.id" v-for="i in currentClassList" :key="i.id"></el-option>
           </el-select>
         </div>
       </div>
@@ -25,11 +25,15 @@
         考试列表
       </div>
       <div class="content">
-        <li class="item" v-for="(i,index) in data" :key="index" @click="$router.push('/exam/'+i.ExamID)">
+        <li class="item" v-for="(i,index) in data" :key="index">
           <div class="index">{{index+1}}</div>
-          <div class="name">{{i.Name}}</div>
+          <div class="name">
+            <span @click="$router.push('/exam/'+i.ExamID)">{{i.Name}}</span>
+          </div>
           <div class="time">{{i.CreateTime}}</div>
-          <div class="type">类别：{{i.Type}}</div>
+          <div class="del">
+            <el-button :plain="true" type="danger" @click="delExam(i.ExamID)">删除</el-button>
+          </div>
         </li>
       </div>
     </div>
@@ -45,16 +49,18 @@
           <el-input v-model="newExamData.ExamName" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="考试类别">
+          <el-radio class="radio" v-model="newExamData.Type" label="1">备选项</el-radio>
+          <el-radio class="radio" v-model="newExamData.Type" label="2">备选项</el-radio>
           <el-input v-model="newExamData.Type" auto-complete="off"></el-input>
         </el-form-item>
-
-        <el-checkbox-group v-model="newExamData.courses">
-          <el-checkbox :label="i.CourseId" v-for="i in courseList" :key="i.id">
-            {{i.name}}
+  
+        <el-checkbox-group v-model="newExamData.courses" class="checkbox">
+          <el-checkbox :label="i.CourseId" v-for="i in courseList" :key="i.id" class="item">
+            {{i.name}}，总分：
             <el-input v-model="i.FullScore" size="mini" style="width:50px;" placeholder="总分"></el-input>
           </el-checkbox>
         </el-checkbox-group>
-
+  
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="showAddExam = false">取 消</el-button>
@@ -74,26 +80,56 @@ export default {
       courseList: [
         {
           CourseId: 1,
-          FullScore:100,
+          FullScore: 100,
           name: '语文'
         },
         {
           CourseId: 2,
-          FullScore:100,
+          FullScore: 100,
           name: '数学'
         },
         {
           CourseId: 3,
-          FullScore:100,
+          FullScore: 100,
           name: '英语'
+        },
+        {
+          CourseId: 4,
+          FullScore: 100,
+          name: '物理'
+        },
+        {
+          CourseId: 5,
+          FullScore: 100,
+          name: '化学'
+        },
+        {
+          CourseId: 6,
+          FullScore: 100,
+          name: '生物'
+        },
+        {
+          CourseId: 7,
+          FullScore: 100,
+          name: '历史'
+        },
+        {
+          CourseId: 8,
+          FullScore: 100,
+          name: '地理'
+        },
+        {
+          CourseId: 9,
+          FullScore: 100,
+          name: '政治'
         },
       ],
       newExamData: {
         Name: '',
         Remark: '',
         ClassID: '',
-        ExamCourses:[],
-        courses:[]
+        ExamCourses: [],
+        courses: []
       },
     }
   },
@@ -123,19 +159,33 @@ export default {
     },
     getData() {
       this.$store.dispatch('getExamList')
+      this.currentClass = this.$store.state.currentClassId
+      this.newExamData.ClassID = this.currentClass
     },
     addNewExam() {
-      this.newExamData.courses.forEach(obj=>{
-        let a = this.courseList.find(obj2=>{
-          return obj2.CourseId==obj
+      this.newExamData.courses.forEach(obj => {
+        let a = this.courseList.find(obj2 => {
+          return obj2.CourseId == obj
         })
         console.log(a)
         this.newExamData.ExamCourses.push(a)
       })
-      this.$API.addExam(this.newExamData).then(res=>{
+      this.$API.addExam(this.newExamData).then(res => {
         this.$message.success('添加考试成功')
-      }).catch(err=>{
+        this.newExamData = {}
+        this.showAddExam = false
+      }).catch(err => {
         this.$message.error(err.msg)
+      })
+    },
+    delExam(n) {
+      let para = {}
+      para.ExamID = n
+      this.$API.deleteExam(para).then(res => {
+        this.$message.warning('删除考试' + n + '成功')
+        this.getData()
+      }).catch(err => {
+        this.$message.error('删除考试失败：'+err.msg)
       })
     }
   },
@@ -167,7 +217,6 @@ export default {
       border-bottom: 1px dotted @border;
       padding: 10px;
       position: relative;
-      cursor: pointer;
       &:hover {
         border-bottom: 1px dotted @main;
       }
@@ -187,19 +236,18 @@ export default {
         padding-left: 30px;
         line-height: 30px;
         font-size: 20px;
+        span {
+          cursor: pointer;
+        }
       }
       .time {
         padding-left: 30px;
         color: @grey;
       }
-      .type {
+      .del {
         position: absolute;
         right: 10px;
         top: 10px;
-        background: @main;
-        color: #fff;
-        padding: 5px 10px;
-        border-radius: 5px;
       }
     }
   }
@@ -210,6 +258,13 @@ export default {
       padding-right: 30px;
       text-align: right;
     }
+  }
+}
+
+.checkbox {
+  padding: 10px;
+  .item {
+    margin: 10px;
   }
 }
 </style>

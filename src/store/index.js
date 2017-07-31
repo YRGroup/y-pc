@@ -79,6 +79,9 @@ const store = new Vuex.Store({
       state.role = 'guest'
       state.hasNoStudent = false
       state.hasNewPost = false
+      state.currentClassId = null
+      state.currentClassInfo = {}
+      state.currentClassList = []
 
       localStorage.clear()
     },

@@ -28,14 +28,15 @@
   
     <div class="card panel" v-for="i in data" :key="i.id">
       <div class="img">
-        <img :src="i.userImg">
+        <img :src="i.userImg" v-if="i.userImg!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && i.userImg!=''">
+        <div class="headTextImg" v-else>{{i.auther.substr(0,1)}}</div>
       </div>
       <div class="tips">{{i.category}}</div>
       <div class="header">{{i.auther}}</div>
       <div class="content" @click="$router.push('/post/'+i.id)">{{i.content}}</div>
       <div class="albums">
         <li v-for="(p,index) in i.albums" :key="index">
-          <img :src="p">
+          <img :src="p" @click="openImgBig(p)">
         </li>
       </div>
       <div class="footer">
@@ -54,6 +55,10 @@
   
     <load-more @click.native="loadMore" :noMoreData="noMoreData"></load-more>
   
+    <el-dialog :visible.sync="showImgBig" class="bigImg">
+      <img :src="imgBig">
+    </el-dialog>
+  
   </div>
 </template>
 
@@ -70,6 +75,8 @@ export default {
       fileList: [],
       currentPage: 1,
       pageSize: 10,
+      imgBig: '',
+      showImgBig: false,
       noMoreData: false,
       showAddPost: false,
     }
@@ -117,7 +124,7 @@ export default {
           message: '删除成功',
           type: 'success',
         })
-        this.data=[]
+        this.data = []
         this.getData()
       }).catch((err) => {
         console.error('fff>>>>', err)
@@ -126,6 +133,10 @@ export default {
           type: 'error',
         })
       })
+    },
+    openImgBig(val) {
+      this.imgBig = val
+      this.showImgBig = true
     },
     handleRemove(file, fileList) {
       console.log(fileList);
@@ -147,8 +158,8 @@ export default {
       return isJPG && isLt5M;
     },
     addNewPost() {
-      let inputCon= this.newPost.content
-      if(inputCon != undefined){  
+      let inputCon = this.newPost.content
+      if (inputCon != undefined) {
         this.$refs.upload.uploadFiles.forEach((obj) => {
           this.fileList.push(obj.response.Content[0])
         })
@@ -165,9 +176,9 @@ export default {
           this.newPost.content = ''
           this.newPost.img_url_list = ''
           this.fileList = []
-          this.$refs.upload.uploadFiles=[]
+          this.$refs.upload.uploadFiles = []
         })
-      }else{
+      } else {
         this.$message('内容不能为空')
       }
     },

@@ -19,7 +19,7 @@
         <div class="content">{{data.content}}</div>
         <div class="albums">
           <li v-for="(p,index) in data.albums" :key="index">
-            <img :src="p">
+            <img :src="p" @click="openImgBig(p)">
           </li>
         </div>
         <div class="footer">
@@ -50,6 +50,11 @@
         </ul>
       </div>
     </div>
+
+    <el-dialog :visible.sync="showImgBig" class="bigImg">
+      <img :src="imgBig">
+    </el-dialog>
+
   </div>
 </template>
 
@@ -61,6 +66,8 @@ export default {
     return {
       data: {},
       showReply: false,
+      imgBig: '',
+      showImgBig: false,
       replyData: {
         did: '',
         content: ''
@@ -81,6 +88,10 @@ export default {
         this.replyData.content = ''
         this.getData()
       })
+    },
+    openImgBig(val) {
+      this.imgBig = val
+      this.showImgBig = true
     },
     doLike(id) {
       this.$API.doLikeThisPost(id).then((res) => {

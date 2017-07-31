@@ -10,9 +10,9 @@
     <div class="right">
   
       <div class="classInfo classbox">
-         <div class="header">
+        <div class="header">
           <img src="https://modao.cc/uploads3/images/900/9007936/raw_1493017171.jpeg">
-        </div> 
+        </div>
         <div class="content">
           <p>{{classInfo.name}}</p>
           <div class="info">
@@ -21,12 +21,6 @@
           </div>
         </div>
       </div>
-
-      <!-- <div class="card" v-show="showBackBtn">
-        <div class="backBtn">
-          <el-button @click="$router.push('/contact')" type="success" :plain="true" >返回消息中心</el-button>
-        </div>
-      </div> -->
   
       <div class="card">
         <div class="title">
@@ -39,7 +33,8 @@
   
                 <div class="top" @click="$router.push('/t/?id='+i.Meid)">
                   <div class="img">
-                    <img :src="i.Headimgurl">
+                    <img :src="i.Headimgurl" v-if="i.Headimgurl!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && i.Headimgurl!=''">
+                    <div class="headTextImg" v-else>{{i.TrueName.substr(0,1)}}</div>
                   </div>
                   <div class="name">
                     {{i.TrueName}}
@@ -59,7 +54,8 @@
   
                 <div class="top" @click="$router.push('/s/?id='+i.Meid)">
                   <div class="img">
-                    <img :src="i.Headimgurl">
+                    <img :src="i.Headimgurl" v-if="i.Headimgurl!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && i.Headimgurl!=''">
+                    <div class="headTextImg" v-else>{{i.TrueName.substr(0,1)}}</div>
                   </div>
                   <div class="name">{{i.TrueName}}</div>
                 </div>
@@ -76,7 +72,8 @@
   
                 <div class="top">
                   <div class="img">
-                    <img :src="i.ParentHeadimgurl">
+                    <img :src="i.ParentHeadimgurl" v-if="i.ParentHeadimgurl!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && i.ParentHeadimgurl!=''">
+                     <div class="headTextImg" v-else>{{i.StudentTrueName.substr(0,1) || 'null'}}</div> 
                   </div>
                   <div class="name">
                     {{i.ParentTrueName}}
@@ -105,53 +102,53 @@ export default {
     return {
       activeName: '0',
       classInfo: {
-        name:'',
-        teacher:'',
-        student_count:'',
+        name: '',
+        teacher: '',
+        student_count: '',
       },
-      teachers:[],
-      students:[],
-      parents:[],
+      teachers: [],
+      students: [],
+      parents: [],
     }
   },
-  computed:{
-    classId(){
+  computed: {
+    classId() {
       return this.$store.state.currentClassId
     },
-    showBackBtn(){
-      let url = this.$route.path.slice(0,4)
-      if(url=='/msg'){
+    showBackBtn() {
+      let url = this.$route.path.slice(0, 4)
+      if (url == '/msg') {
         return true
-      }else{
+      } else {
         return false
       }
     }
   },
   methods: {
-    getData(){
+    getData() {
       this.getClassInfo()
       this.getStudentList()
       this.getParentList()
       this.getTeacherList()
     },
-    getClassInfo(){
-      this.$API.getClassInfo(this.classId).then(res=>{
-        this.classInfo=res
+    getClassInfo() {
+      this.$API.getClassInfo(this.classId).then(res => {
+        this.classInfo = res
       })
     },
-    getStudentList(){
-      this.$API.getStudentList(this.classId).then(res=>{
-        this.students=res
+    getStudentList() {
+      this.$API.getStudentList(this.classId).then(res => {
+        this.students = res
       })
     },
-    getParentList(){
-      this.$API.getParentList(this.classId).then(res=>{
-        this.parents=res
+    getParentList() {
+      this.$API.getParentList(this.classId).then(res => {
+        this.parents = res
       })
     },
-    getTeacherList(){
-      this.$API.getTeacherList(this.classId).then(res=>{
-        this.teachers=res
+    getTeacherList() {
+      this.$API.getTeacherList(this.classId).then(res => {
+        this.teachers = res
       })
     },
   },
@@ -192,9 +189,9 @@ export default {
   }
 }
 
-.backBtn{
+.backBtn {
   text-align: center;
-  padding:20px 0;
+  padding: 20px 0;
 }
 
 .item {
@@ -209,6 +206,12 @@ export default {
         margin-left: 5px;
         img {
           width: 50px;
+        }
+        .headTextImg {
+          width: 48px;
+          height: 48px;
+          line-height: 48px;
+          font-size: 22px;
         }
       }
       .name {
@@ -228,6 +231,12 @@ export default {
       img {
         width: 30px;
         border-radius: 50%;
+      }
+      .headTextImg {
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        font-size: 18px;
       }
     }
     .name {
