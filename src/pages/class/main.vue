@@ -41,11 +41,11 @@
       <div class="footer">
         <span class="time">{{i.date}}</span>
         <span class="iconbtn">
-          <span title="删除" class="delBtn" v-if="isAdmin">
-            <i class="iconfont">&#xe641;</i>
-            <span class="delBtnTitle" @click="delPost(i.id)">删除此条动态</span>
+          <span title="删除" class="delBtn" v-if="isAdmin" @click="delPost(i.id)">
+            <i class="iconfont">&#xe630;</i>
+            <span class="delBtnTitle">删除</span> 
           </span>
-          <span title="点赞数" @click="doLike(i.id),i.like++">
+          <span title="点赞" @click="doLike(i.id),i.like++">
             <i class="iconfont">&#xe646;</i>{{i.like}}
           </span>
         </span>
@@ -292,23 +292,26 @@ export default {
     .iconbtn {
       float: right;
       cursor: pointer;
-      &:hover {
-        color: @main;
+      span{
+        margin:0 10px;
+        &:hover{
+          color: @main;
+        }
       }
+      // &:hover {
+      //   color: @main;
+      // }
     }
     .delBtn {
-      color: red;
       width: 50px;
       .iconfont {
         display: inline-block;
       }
       .delBtnTitle {
         display: none;
+        margin: 0;
       }
       &:hover {
-        .iconfont {
-          display: none;
-        }
         .delBtnTitle {
           display: inline-block;
         }

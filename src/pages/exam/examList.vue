@@ -1,7 +1,7 @@
 <template>
   <div>
-  
-    <div class="card">
+<!--   
+    <div class="card panel">
       <div class="title">
         当前班级:{{currentClassInfo.name}}
         <div class="btn">
@@ -18,18 +18,26 @@
           <el-button @click="showAddExam=true" size="small">添加新考试</el-button>
         </div>
       </div>
-    </div>
+    </div> -->
   
-    <div class="card">
-      <div class="title">
-        考试列表
+    <div class="card panel">
+      <div class="exambtn">
+          <el-select v-model="currentClass" placeholder="班级" @change="changeCurrentClass">
+            <el-option :label="'班级'+i" :value="i" v-for="i in 10" :key="i"></el-option>
+          </el-select>
+          <el-button @click="showAddExam=true" type="success" class="ml20">添加新考试</el-button>
       </div>
-      <div class="content">
+      <div class="examlist">
         <li class="item" v-for="(i,index) in data" :key="index" @click="$router.push('/exam/'+i.ExamID)">
-          <div class="index">{{index+1}}</div>
-          <div class="name">{{i.Name}}</div>
-          <div class="time">{{i.CreateTime}}</div>
-          <div class="type">类别：{{i.Type}}</div>
+          <!-- <div class="index">{{index+1}}</div> -->
+          <div class="examtitle">{{i.Name}}</div>
+          <div class="examinfo">
+            <span><i class="iconfont">&#xe621;</i>创建时间：{{i.CreateTime}}</span>
+            <span><i class="iconfont">&#xe6b4;</i>学科：语文</span>
+          </div>
+          <!-- <div class="time">{{i.CreateTime}}</div> -->
+           <!-- <div class="type">查看成绩</div>  -->
+           <el-button type="success" class="type">查看成绩</el-button>
         </li>
       </div>
     </div>
@@ -44,21 +52,23 @@
         <el-form-item label="考试名称">
           <el-input v-model="newExamData.ExamName" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="考试类别">
+        <!-- <el-form-item label="考试类别">
           <el-input v-model="newExamData.Type" auto-complete="off"></el-input>
-        </el-form-item>
-
-        <el-checkbox-group v-model="newExamData.courses">
+        </el-form-item> -->
+        <el-form-item>
+          <el-checkbox-group v-model="newExamData.courses">
           <el-checkbox :label="i.CourseId" v-for="i in courseList" :key="i.id">
             {{i.name}}
             <el-input v-model="i.FullScore" size="mini" style="width:50px;" placeholder="总分"></el-input>
           </el-checkbox>
         </el-checkbox-group>
+        </el-form-item>
+        
 
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="showAddExam = false">取 消</el-button>
-        <el-button type="primary" @click="addNewExam">确 定</el-button>
+        <el-button @click="showAddExam = false" :plain="true" type="success">取 消</el-button>
+        <el-button type="success" @click="addNewExam">确 定</el-button>
       </div>
     </el-dialog>
   
@@ -69,7 +79,7 @@
 export default {
   data() {
     return {
-      currentClass: '',
+      currentClass: 1,
       showAddExam: false,
       courseList: [
         {
@@ -91,7 +101,7 @@ export default {
       newExamData: {
         Name: '',
         Remark: '',
-        ClassID: '',
+        ClassID: 1,
         ExamCourses:[],
         courses:[]
       },
@@ -149,57 +159,50 @@ export default {
 @import '../../style/theme.less';
 
 .card {
-  background: #fff;
-  margin: 15px 0;
-  padding: 15px;
-  .title {
-    border-bottom: 1px solid @border;
-    line-height: 50px;
-    padding-left: 30px;
-    font-size: 1.5rem;
-    .btn {
-      float: right;
-    }
+  margin-bottom: 15px;
+  .ml20{
+    margin-left: 20px;
   }
-  .content {
+  .exambtn{
+    margin:0 20px;
+  }
+  .examlist {
     padding: 20px 0;
     .item {
-      border-bottom: 1px dotted @border;
-      padding: 10px;
+      &:first-child{
+        border-top: 1px solid @border;
+      }
+      border-bottom: 1px solid @border;
+      padding: 20px 30px;
       position: relative;
       cursor: pointer;
       &:hover {
-        border-bottom: 1px dotted @main;
+        background: @border;
       }
-      .index {
-        position: absolute;
-        left: 0;
-        top: 10px;
-        width: 30px;
-        height: 30px;
+      .examtitle {
         line-height: 30px;
-        border-radius: 50%;
-        background: @main;
-        color: #fff;
-        text-align: center;
+        font-size: 18px;
       }
-      .name {
-        padding-left: 30px;
+      .examinfo{
         line-height: 30px;
-        font-size: 20px;
+        color: #888;
+        span{
+          margin-right: 20px;
+        }
+        .iconfont{
+          margin-right: 8px;
+          color: @main;
+          font-size: 16px;
+        }
       }
       .time {
-        padding-left: 30px;
+        padding-left: 10px;
         color: @grey;
       }
       .type {
         position: absolute;
-        right: 10px;
-        top: 10px;
-        background: @main;
-        color: #fff;
-        padding: 5px 10px;
-        border-radius: 5px;
+        right: 30px;
+        top: 24px;
       }
     }
   }
