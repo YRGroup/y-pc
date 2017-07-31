@@ -42,7 +42,7 @@ export default {
   data() {
     return {
       loginData: {
-        phone: '13130000034',
+        phone: '13130000000',
         password: '123456',
       },
       isVerified: Boolean(true),

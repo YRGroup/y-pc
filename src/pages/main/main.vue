@@ -11,13 +11,19 @@
       <div class="card" v-for="i in 6" :key="i">
         <div class="img"></div>
         <div class="cardCon">
-          <div class="cardtitle"><a href="#">【6月学习活动】奏起征战号角，打响学习第一枪！</a></div>
-          <div class="content">猫刀老师BEC公开课6月27日倾情开课！一节公开课为你扫盲BEC备考！快快扫描下方二维码关注公开课吧 <a href="#">[ 详情 ]</a></div>
+          <div class="cardtitle">
+            <a href="#">【6月学习活动】奏起征战号角，打响学习第一枪！</a>
+          </div>
+          <div class="content">猫刀老师BEC公开课6月27日倾情开课！一节公开课为你扫盲BEC备考！快快扫描下方二维码关注公开课吧
+            <a href="#">[ 详情 ]</a>
+          </div>
           <div class="cardfooter">
             <span class="time">2017-06-08 20:26</span>
             <span class="iconbtn">
-              <span title="阅读数"><i class="iconfont">&#xe6c3;</i>200</span>
-              <span title="点赞数"><i class="iconfont">&#xe646;</i>200</span>
+              <span title="阅读数">
+                <i class="iconfont">&#xe6c3;</i>200</span>
+              <span title="点赞数">
+                <i class="iconfont">&#xe646;</i>200</span>
             </span>
   
           </div>
@@ -25,7 +31,7 @@
       </div>
     </div>
     <div class="right">
-      <div class="card"  v-if="$store.state.role==='家长'">
+      <div class="card" v-if="$store.state.role==='家长'">
         <div class="header">
           <img src="https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png">
         </div>
@@ -39,14 +45,15 @@
   
       <div class="card" v-if="$store.state.role==='老师'">
         <div class="header">
-          <img :src="$store.state.currentUser.Headimgurl">
+          <img :src="$store.state.currentUser.Headimgurl" v-if="$store.state.currentUser.Headimgurl!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && $store.state.currentUser.Headimgurl!=''">
+          <div class="headTextImg" v-else>{{$store.state.currentUser.TrueName.substr(0,1)}}</div>
         </div>
         <div class="content">
           <p class="name">{{ $store.state.currentUser.TrueName }} - {{ $store.state.currentUser.ExtendInfo.Course }}</p>
           <p>经开区育人国际学校</p>
         </div>
       </div>
-
+  
       <div class="card" v-if="$store.state.role==='guest'">
         <div class="header">
           <div class="title">登录</div>
@@ -97,8 +104,8 @@ export default {
     border-bottom: 1px solid @border;
     line-height: 36px;
     margin-bottom: -1px;
-    .active{
-      color:@main;
+    .active {
+      color: @main;
       border-bottom: 3px solid @main;
     }
     li {
@@ -106,8 +113,8 @@ export default {
       padding: 5px 15px;
       cursor: pointer;
       font-weight: bold;
-      font-size:15px;
-      color:#666;
+      font-size: 15px;
+      color: #666;
       &:hover {
         color: @main;
       }
@@ -116,13 +123,13 @@ export default {
   .card {
     height: 130px;
     font-size: 13px;
-    padding:15px 10px;
+    padding: 15px 10px;
     position: relative;
     border-bottom: 1px solid @border;
-    &:hover{
+    &:hover {
       background: #fcfcfc;
     }
-    
+
     .img {
       height: 100%;
       width: 225px;
@@ -136,33 +143,33 @@ export default {
       line-height: 2rem;
       vertical-align: top;
       margin-left: 10px;
-      .cardtitle{
+      .cardtitle {
         font-size: 16px;
         line-height: 32px;
         height: 32px;
         overflow: hidden;
         margin-top: 5px;
-        a{
+        a {
           color: #333;
-          &:hover{
-            color:@main;
+          &:hover {
+            color: @main;
           }
         }
       }
-      .content{
-        margin-top:8px;
+      .content {
+        margin-top: 8px;
         line-height: 24px;
         color: #666;
         height: 48px;
         overflow: hidden;
-        a{
+        a {
           color: @main;
-          margin-left:5px;
+          margin-left: 5px;
         }
       }
       .cardfooter {
-          color: @grey;
-          font-size: 12px;
+        color: @grey;
+        font-size: 12px;
       }
     }
   }
@@ -180,8 +187,8 @@ export default {
       height: 75px;
       position: relative;
       background: @main;
-      .title{
-        color:#fff;
+      .title {
+        color: #fff;
         line-height: 75px;
       }
       img {
@@ -191,14 +198,14 @@ export default {
         left: 80px;
         top: 25px;
         border-radius: 50%;
-        border:3px solid rgba(255,255,255,.5);
+        border: 3px solid rgba(255, 255, 255, .5);
       }
     }
     .content {
       margin-top: 60px;
       line-height: 2em;
       padding-bottom: 20px;
-      .name{
+      .name {
         font-size: 16px;
       }
     }

@@ -1,10 +1,12 @@
 <template>
   <div>
     <div class="card leftCon">
-      <div class="maintitle"><i class="iconfont">&#xe649;</i>消息列表</div>
+      <div class="maintitle">
+        <i class="iconfont">&#xe649;</i>消息列表</div>
       <li class="item" v-for="(i,index) in data" :key="index" @click="$router.push('/msg/'+i.ToMeid)">
         <div class="img">
-          <img :src="i.ToHeadImg">
+          <img :src="i.ToHeadImg" v-if="i.ToHeadImg!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && i.ToHeadImg!=''">
+          <div class="headTextImg" v-else>{{i.ToName.substr(0,1)}}</div>
         </div>
         <div class="content">
           <div class="name">{{i.ToName}}</div>
@@ -44,7 +46,7 @@ export default {
 
 .card {
   background: #fff;
-  padding-bottom:20px;
+  padding-bottom: 20px;
   .item {
     padding: 15px 20px;
     border-bottom: 1px dotted @border;
@@ -66,17 +68,17 @@ export default {
       display: inline-block;
       padding-left: 10px;
       max-width: calc(~"100% - 70px");
-      .name{
+      .name {
         display: inline-block;
         line-height: 28px;
       }
       .time {
-        padding-left:20px;
+        padding-left: 20px;
         display: inline-block;
         color: #999;
         font-size: 12px;
       }
-      .msg{
+      .msg {
         color: @grey;
         font-size: 12px;
         max-height: 4em;

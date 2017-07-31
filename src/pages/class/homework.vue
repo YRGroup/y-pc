@@ -1,12 +1,13 @@
 <template>
   <div>
   
-    <div class="addHomework"  v-show="$store.state.role=='老师'">
-       <!-- <span>班级作业</span>
-        <div class="btn">
-          <el-button type="primary" @click="showAddHomework = true">添加新作业</el-button>
-        </div>  -->
-      <div class="title" :class="showAddHomework?null:'addbtn'" @click="showAddHomework = true"><i class="iconfont">&#xe623;</i>布置作业</div>
+    <div class="addHomework" v-show="$store.state.role=='老师'">
+      <!-- <span>班级作业</span>
+          <div class="btn">
+            <el-button type="primary" @click="showAddHomework = true">添加新作业</el-button>
+          </div>  -->
+      <div class="title" :class="showAddHomework?null:'addbtn'" @click="showAddHomework = true">
+        <i class="iconfont">&#xe623;</i>布置作业</div>
     </div>
   
     <div class="card panel" v-for="(i,index) in homework" :key="index">
@@ -29,7 +30,7 @@
   
     <load-more @click.native="loadMore" :noMoreData="noMoreData"></load-more>
   
-    <el-dialog title="布置作业" :visible.sync="showAddHomework" >
+    <el-dialog title="布置作业" :visible.sync="showAddHomework">
       <el-form :model="newHomeworkData" label-width="80px">
         <el-form-item label="标题">
           <el-input v-model.trim="newHomeworkData.title" auto-complete="off"></el-input>
@@ -37,37 +38,20 @@
         <el-form-item label="科目">
           <el-input v-model="course" :disabled="true"></el-input>
         </el-form-item>
-        <el-form-item>
-          <!-- <vue-html5-editor :content="newHomeworkData.content" @change="updateData" :auto-height="true" :height="200"></vue-html5-editor> -->
-          <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model.trim="newHomeworkData.content">
+        <el-form-item label="内容">
+          <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model.trim="newHomeworkData.content">
           </el-input>
         </el-form-item>
-
+  
         <el-form-item>
           <el-upload :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
             <i class="el-icon-plus"></i>
           </el-upload>
-        </el-input>
         </el-form-item>
-<!--         
-        <el-form-item class="addImgBtn">
-          <div class="file">
-            <a href="javascript:;" class="a-upload">
-              <input type="file" accept="image/jpeg,image/png" multiple="multiple" id="imgFiles" @change="addImg">上传图片
-            </a>
-            <div class="imgPreviewContainer">
-              <div class="imgPreview" v-for="(i,index) in fileList" :key="index">
-                <div class="deleteImg">
-                  <span @click="deleteImg(index)">X</span>
-                </div>
-                <img :src="i">
-              </div>
-            </div>
-          </div>
-        </el-form-item> -->
+  
       </el-form>
+      
       <div slot="footer" class="dialog-footer">
-        <!-- <el-button @click="showAddHomework = false">取 消</el-button> -->
         <el-button type="success" @click="addNewHomework">确 定</el-button>
       </div>
     </el-dialog>
@@ -190,46 +174,46 @@ export default {
   background: #fff;
   text-align: center;
   margin-bottom: 15px;
-  .iconfont{
-      padding-right:8px;
-  } 
-  
+  .iconfont {
+    padding-right: 8px;
+  }
+
   .title {
     line-height: 50px;
     cursor: pointer;
     color: @main;
-    &:hover{
+    &:hover {
       background: @main;
-      color:#fff;
+      color: #fff;
     }
   }
 }
+
 .card {
-  margin-bottom: 15px;
-  // border: 1px solid @border;
+  margin-bottom: 15px; // border: 1px solid @border;
   position: relative;
   &:hover {
     // border: 1px solid @main;
-    box-shadow: 0 3px 2px rgba(0,0,0,0.1);
+    box-shadow: 0 3px 2px rgba(0, 0, 0, 0.1);
   }
   .course {
     position: absolute;
     top: 0;
     right: 0;
-    padding:0 24px 0 30px;
+    padding: 0 24px 0 30px;
     display: inline-block;
     background: @main;
     color: #fff;
     line-height: 36px;
     opacity: 0.6;
-    &:before{
+    &:before {
       position: absolute;
       content: '';
       left: 0;
       width: 0;
       height: 0;
-      border:18px solid transparent;
-      border-left-color:#fff;
+      border: 18px solid transparent;
+      border-left-color: #fff;
     }
   }
   .tasktitle {
@@ -239,9 +223,9 @@ export default {
   }
   .taskbox {
     color: #666;
-    .taskcon{
-      margin:0 auto;
-      img{
+    .taskcon {
+      margin: 0 auto;
+      img {
         text-align: center;
         max-height: 100px;
       }
