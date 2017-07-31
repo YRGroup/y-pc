@@ -49,9 +49,10 @@
           <el-input v-model="newExamData.ExamName" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="考试类别">
-          <el-radio class="radio" v-model="newExamData.Type" label="1">备选项</el-radio>
-          <el-radio class="radio" v-model="newExamData.Type" label="2">备选项</el-radio>
-          <el-input v-model="newExamData.Type" auto-complete="off"></el-input>
+          <el-radio-group v-model="newExamData.Type" @change="examType">
+            <el-radio class="radio" label="0">全学科</el-radio>
+            <el-radio class="radio" label="1">自选学科</el-radio>
+          </el-radio-group>
         </el-form-item>
   
         <el-checkbox-group v-model="newExamData.courses" class="checkbox">
@@ -128,6 +129,7 @@ export default {
         Name: '',
         Remark: '',
         ClassID: '',
+        Type: '',
         ExamCourses: [],
         courses: []
       },
@@ -167,7 +169,6 @@ export default {
         let a = this.courseList.find(obj2 => {
           return obj2.CourseId == obj
         })
-        console.log(a)
         this.newExamData.ExamCourses.push(a)
       })
       this.$API.addExam(this.newExamData).then(res => {
@@ -178,15 +179,28 @@ export default {
         this.$message.error(err.msg)
       })
     },
+    examType(n) {
+      if(n==0){
+        this.newExamData.courses=[1,2,3,4,5,6,7,8,9]
+      }
+      if(n==1){
+        this.newExamData.courses=[]
+      }
+    },
     delExam(n) {
-      let para = {}
-      para.ExamID = n
-      this.$API.deleteExam(para).then(res => {
-        this.$message.warning('删除考试' + n + '成功')
-        this.getData()
-      }).catch(err => {
-        this.$message.error('删除考试失败：'+err.msg)
+      this.$confirm('确认删除该记录吗?', '提示', {
+        type: 'warning'
+      }).then(() => {
+        let para = {}
+        para.ExamID = n
+        this.$API.deleteExam(para).then(res => {
+          this.$message.warning('删除考试' + n + '成功')
+          this.getData()
+        }).catch(err => {
+          this.$message.error('删除考试失败：' + err.msg)
+        })
       })
+
     }
   },
   created() {
