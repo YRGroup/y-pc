@@ -4,7 +4,7 @@
     <div class="card panel">
       <div class="examselect">
           <el-select v-model="currentClass" placeholder="班级" @change="changeCurrentClass">
-            <el-option :label="'班级'+i.name" :value="i.id" v-for="i in currentClassList" :key="i.id"></el-option>
+            <el-option :label="i.name" :value="i.id" v-for="i in currentClassList" :key="i.id"></el-option>
           </el-select>
           <el-button @click="showAddExam=true" type="success" class="ml20">添加新考试</el-button>
       </div>
@@ -27,7 +27,7 @@
       </div>
     </div>
   
-    <el-dialog title="创建新考试" :visible.sync="showAddExam">
+    <el-dialog title="创建新考试" :visible.sync="showAddExam"  size="tiny">
       <el-form :model="newExamData" label-width="100px">
         <el-form-item label="所属班级">
           <el-select v-model="newExamData.ClassID" placeholder="请选择班级">
@@ -37,25 +37,30 @@
         <el-form-item label="考试名称">
           <el-input v-model="newExamData.ExamName" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="考试类别">
+        <el-form-item label="考试科目">
           <el-radio-group v-model="newExamData.Type" @change="examType">
             <el-radio class="radio" label="0">全学科</el-radio>
             <el-radio class="radio" label="1">自选学科</el-radio>
           </el-radio-group>
         </el-form-item>
-  
-        <el-checkbox-group v-model="newExamData.courses" class="checkbox">
-          <el-checkbox :label="i.CourseId" v-for="i in courseList" :key="i.CourseId" class="item">
-            {{i.name}}，总分：
-            <el-input v-model="i.FullScore" size="mini" style="width:50px;" placeholder="总分"></el-input>
-          </el-checkbox>
-        </el-checkbox-group>
-  
+        <el-form-item>
+          <el-checkbox-group v-model="newExamData.courses" class="checkbox">
+            <el-checkbox :label="i.CourseId" v-for="i in courseList" :key="i.CourseId" class="item">
+              {{i.name}} 
+              <span style="font-size:12px">（总分
+                <el-input v-model="i.FullScore" size="mini" style="width:50px;" placeholder="总分"></el-input>）
+              </span>
+            </el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="success" @click.native="addNewExam">确 定</el-button>
+          <el-button @click="showAddExam = false" :plain="true" type="success">取 消</el-button>
+        </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="showAddExam = false" :plain="true" type="success">取 消</el-button>
-        <el-button type="success" @click.native="addNewExam">确 定</el-button>
-      </div>
+      <!-- <div slot="footer" class="dialog-footer">
+       
+      </div> -->
     </el-dialog>
   
   </div>
@@ -264,9 +269,10 @@ export default {
 }
 
 .checkbox {
-  padding: 10px;
+  // padding: 10px;
   .item {
-    margin: 10px;
+    margin-right: 40px;
+    margin-left: 0;
   }
 }
 </style>

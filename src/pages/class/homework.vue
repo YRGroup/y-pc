@@ -30,8 +30,8 @@
   
     <load-more @click.native="loadMore" :noMoreData="noMoreData"></load-more>
   
-    <el-dialog title="布置作业" :visible.sync="showAddHomework">
-      <el-form :model="newHomeworkData" label-width="80px">
+    <el-dialog title="布置作业" :visible.sync="showAddHomework"  size="tiny">
+      <el-form :model="newHomeworkData" label-width="60px">
         <el-form-item label="标题">
           <el-input v-model.trim="newHomeworkData.title" auto-complete="off"></el-input>
         </el-form-item>
