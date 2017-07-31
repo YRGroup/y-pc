@@ -2,96 +2,101 @@
   <div>
   
     <div class="card">
-  
-      <div class="title">
-        当前考试:{{data.Name}}
+      <div class="maintitle">
+        <i class="iconfont">&#xe737;</i>考试详情
+        <span class="goreturn">
+          <el-button size="small" @click="$router.push('/examList')" type="success" :plain="true">返回列表</el-button>
+        </span>
       </div>
-  
-      <div class="content">
-        <p>当前考试:{{data.Name}}</p>
-        <p>当前考试:{{data.Remark}}</p>
-        <p>当前考试:{{data.CreateTime}}</p>
+      <div class="panel">
+        <div class="examinfo">
+          <p class="title">{{data.Name}}</p>
+          <!-- <p>当前考试:{{data.Remark}}</p> -->
+          <p class="examtime">创建时间：{{data.CreateTime}}</p>
+        </div>
+        <el-tabs v-model="currentCourse">
+    
+          <el-tab-pane label="成绩汇总" name="成绩汇总">
+            <!-- <div class="info">
+              总分：500
+            </div> -->
+    
+            <el-table :data="summaryScore" height="750" border style="width: 100%">
+              <el-table-column prop="StudentID" label="学号" width="150" sortable  align="center">
+              </el-table-column>
+              <el-table-column prop="TrueName" label="姓名"  align="center">
+              </el-table-column>
+              <!-- <el-table-column :label="i.CourseName" sortable v-for="(i,index) in data.StudentSummary[0].Courses" :key="index">
+                  <template scope="scope">
+                    <div v-if="data.StudentSummary[scope.$index].Courses[index]">{{data.StudentSummary[scope.$index].Courses[index].Score}}</div> 
+                  </template>
+                </el-table-column>  -->
+    
+              <el-table-column :prop="i" :label="i" sortable v-for="i in courseList" :key="i"  align="center">
+              </el-table-column>
+              <el-table-column prop="TotalScore" label="总分" sortable  align="center">
+              </el-table-column>
+              <el-table-column prop="Ranking" label="班级总排名" sortable  align="center">
+              </el-table-column>
+            </el-table>
+          </el-tab-pane>
+    
+          <el-tab-pane :label="i.CourseName" :name="i.CourseName" v-for="(i,index) in data.CoursesSummary" :key="index">
+            <div class="info">
+               <span>总分：<b>{{i.FullScore}}</b></span>  <span>平均分：<b>{{i.AverageScore}}</b></span>
+              <div class="btn">
+                <el-button size="small" type="warning" @click="startEdit=i.CourseName" v-show="startEdit!=i.CourseName">批量修改</el-button>
+                <el-button size="small" :plain="true" type="success" @click="startEdit=0" v-show="startEdit==i.CourseName">取消</el-button>
+                <el-button size="small"  type="success" @click="submitAllScore(i.CourseName)" v-show="startEdit==i.CourseName">全部提交</el-button>
+              </div>
+            </div>
+    
+            <el-table :data="i.Scores" height="750" border style="width: 100%">
+              <el-table-column prop="StudentID" label="学号" width="150" sortable  align="center">
+              </el-table-column>
+              <el-table-column prop="TrueName" label="姓名"  align="center">
+              </el-table-column>
+              <el-table-column prop="Score" label="分数" sortable  align="center">
+              </el-table-column>
+              <el-table-column prop="Ranking" label="班级排名" sortable  align="center">
+              </el-table-column>
+              <el-table-column prop="Score" label="操作" width="220"  align="center">
+                <template scope="scope">
+                  <el-input :class="(startEdit!=scope.row.ExamCourseID)?'inline':null" size="small" :disabled="startEdit!=i.CourseName" v-model="scope.row.Score" type="number" placeholder="修改分数"></el-input>
+                  <el-button @click.native="startEditOneScore(scope.row)" v-show="startEdit!=i.CourseName" type="text">修改</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </el-tab-pane>
+    
+        </el-tabs>
+    
+        <el-dialog title="修改成绩" :visible.sync="showEditOneScore">
+          <el-form label-width="220px">
+            <el-form-item label="当前考试">
+              <el-input v-model="data.Name" :disabled="true" style="width:200px"></el-input>
+            </el-form-item>
+            <el-form-item label="学号">
+              <el-input v-model="editScoreOneData.StudentID" :disabled="true" style="width:200px"></el-input>
+            </el-form-item>
+            <el-form-item label="姓名">
+              <el-input v-model="editScoreOneData.TrueName" :disabled="true" style="width:200px"></el-input>
+            </el-form-item>
+            <el-form-item label="分数">
+              <el-input v-model="editScoreOneData.Score" style="width:200px"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="success" @click="submitEditOneScore">确 定</el-button>
+              <el-button type="success" :plain="true" @click="showEditOneScore = false">取 消</el-button>
+            </el-form-item>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            
+          </div>
+        </el-dialog>
       </div>
   
     </div>
-  
-    <el-tabs v-model="currentCourse" type="border-card">
-  
-      <el-tab-pane label="成绩汇总" name="成绩汇总">
-        <div class="info">
-          总分：500
-        </div>
-  
-        <el-table :data="summaryScore" height="750" border style="width: 100%">
-          <el-table-column prop="StudentID" label="学号" width="150" sortable>
-          </el-table-column>
-          <el-table-column prop="TrueName" label="姓名">
-          </el-table-column>
-          <!-- <el-table-column :label="i.CourseName" sortable v-for="(i,index) in data.StudentSummary[0].Courses" :key="index">
-            <template scope="scope">
-               <div v-if="data.StudentSummary[scope.$index].Courses[index]">{{data.StudentSummary[scope.$index].Courses[index].Score}}</div> 
-            </template>
-          </el-table-column>  -->
-
-          <el-table-column :prop="i" :label="i" sortable v-for="i in courseList" :key="i">
-          </el-table-column> 
-          <el-table-column prop="TotalScore" label="总分" sortable>
-          </el-table-column>
-          <el-table-column prop="Ranking" label="总排名" sortable>
-          </el-table-column>
-        </el-table>
-      </el-tab-pane>
-  
-      <el-tab-pane :label="i.CourseName" :name="i.CourseName" v-for="(i,index) in data.CoursesSummary" :key="index">
-        <div class="info">
-          总分：{{i.FullScore}} 平均分：{{i.AverageScore}}
-          <div class="btn">
-            <el-button type="warning" @click="startEdit=i.CourseName" v-show="startEdit!=i.CourseName">批量修改</el-button>
-            <el-button @click="startEdit=0" v-show="startEdit==i.CourseName">取消修改</el-button>
-            <el-button type="primary" @click="submitAllScore(i.CourseName)" v-show="startEdit==i.CourseName">全部提交</el-button>
-          </div>
-        </div>
-  
-        <el-table :data="i.Scores" height="750" border style="width: 100%">
-          <el-table-column prop="StudentID" label="学号" width="150" sortable>
-          </el-table-column>
-          <el-table-column prop="TrueName" label="姓名">
-          </el-table-column>
-          <el-table-column prop="Score" label="分数" sortable>
-          </el-table-column>
-          <el-table-column prop="Ranking" label="排名" sortable>
-          </el-table-column>
-          <el-table-column prop="Score" label="编辑分数" width="200">
-            <template scope="scope">
-              <el-input :class="(startEdit!=scope.row.ExamCourseID)?'inline':null" size="small" :disabled="startEdit!=i.CourseName" v-model="scope.row.Score" type="number" placeholder="修改分数"></el-input>
-              <el-button @click.native="startEditOneScore(scope.row)" v-show="startEdit!=i.CourseName">编辑</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-      </el-tab-pane>
-  
-    </el-tabs>
-  
-    <el-dialog title="修改单条成绩" :visible.sync="showEditOneScore">
-      <el-form label-width="70px">
-        <el-form-item label="当前考试">
-          <el-input v-model="data.Name" :disabled="true"></el-input>
-        </el-form-item>
-        <el-form-item label="学号">
-          <el-input v-model="editScoreOneData.StudentID" :disabled="true"></el-input>
-        </el-form-item>
-        <el-form-item label="姓名">
-          <el-input v-model="editScoreOneData.TrueName" :disabled="true"></el-input>
-        </el-form-item>
-        <el-form-item label="分数">
-          <el-input v-model="editScoreOneData.Score"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="showEditOneScore = false">取 消</el-button>
-        <el-button type="primary" @click="submitEditOneScore">确 定</el-button>
-      </div>
-    </el-dialog>
   
   </div>
 </template>
@@ -107,8 +112,8 @@ export default {
         Score2: 60,
         rank: 10
       }],
-      courseList:[
-        
+      courseList: [
+
       ],
       startEdit: 0,
       showEditOneScore: false,
@@ -123,18 +128,18 @@ export default {
       })
     },
     summaryScore() {
-      let all= []
-      this.data.StudentSummary[0].Courses.forEach(c=>{
-          this.courseList.push(c.CourseName)
+      let all = []
+      this.data.StudentSummary[0].Courses.forEach(c => {
+        this.courseList.push(c.CourseName)
       })
-      this.data.StudentSummary.forEach((obj,index) => {
+      this.data.StudentSummary.forEach((obj, index) => {
         let a = {}
         a.StudentID = obj.StudentID
         a.TrueName = obj.TrueName
         a.TotalScore = obj.TotalScore
-        a.Ranking = index+1
-        obj.Courses.forEach((c,n)=>{
-          a[c.CourseName]=c.Score
+        a.Ranking = index + 1
+        obj.Courses.forEach((c, n) => {
+          a[c.CourseName] = c.Score
         })
         all.push(a)
       })
@@ -152,32 +157,32 @@ export default {
     }
   },
   methods: {
-    sort(a,b){
-  console.log(a)
+    sort(a, b) {
+      console.log(a)
     },
     startEditOneScore(val) {
       this.showEditOneScore = true
       this.editScoreOneData = val
     },
     submitEditOneScore() {
-      let editData=[]
+      let editData = []
       editData.push(this.editScoreOneData)
-      this.$API.addExamScore(editData).then(res=>{
+      this.$API.addExamScore(editData).then(res => {
         this.$message.success('添加成绩成功')
-        this.editScoreOneData={}
+        this.editScoreOneData = {}
         this.showEditOneScore = false
-      }).catch(err=>{
+      }).catch(err => {
         this.$message.error(err)
       })
     },
-    submitAllScore(n){
-      let allData = this.data.CoursesSummary.find(el=>{
+    submitAllScore(n) {
+      let allData = this.data.CoursesSummary.find(el => {
         return el.CourseName == n
       })
-      this.$API.addExamScore(allData.Scores).then(res=>{
+      this.$API.addExamScore(allData.Scores).then(res => {
         this.$message.success('添加成绩成功')
-        this.editScoreOneData={}
-      }).catch(err=>{
+        this.editScoreOneData = {}
+      }).catch(err => {
         this.$message.error(err)
       })
     },
@@ -188,7 +193,7 @@ export default {
   created() {
     this.getData()
   },
-  mounted(){
+  mounted() {
   }
 }
 </script>
@@ -198,22 +203,16 @@ export default {
 
 .card {
   background: #fff;
-  margin: 15px 0;
-  padding: 15px;
-  .title {
-    border-bottom: 1px solid @border;
-    line-height: 50px;
-    padding-left: 30px;
-    font-size: 1.5rem;
-    .btn {
-      float: right;
+  .examinfo {
+    text-align: center;
+    .title{
+      font-size: 24px;
+      line-height: 36px;
     }
-  }
-  .content {
-    padding: 20px 0;
+    .examtime{
+      color: @grey;
+    }
     .item {
-      border-bottom: 1px dotted @border;
-      padding: 10px;
       position: relative;
       cursor: pointer;
       &:hover {
@@ -262,14 +261,29 @@ export default {
 }
 
 .info {
-  line-height: 50px;
+  color: @grey;
+  span{
+    margin-right: 20px;
+  }
+  b{
+    color: @sub;
+  }
   .btn {
     float: right;
+    margin-bottom: 5px;
   }
 }
 
 .inline {
   display: inline-block;
   width: 90px;
+}
+.el-tabs{
+  margin:10px 0;
+  padding:10px 20px; 
+  background: #f8f8f8;
+  .el-tabs__nav-wrap{
+    background: red;
+  }
 }
 </style>

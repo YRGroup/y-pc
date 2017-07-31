@@ -33,7 +33,7 @@
           <div class="examtitle">{{i.Name}}</div>
           <div class="examinfo">
             <span><i class="iconfont">&#xe621;</i>创建时间：{{i.CreateTime}}</span>
-            <span><i class="iconfont">&#xe6b4;</i>学科：语文</span>
+            <span><i class="iconfont">&#xe6b4;</i>{{i.CoursesList[0].CourseName}}</span>
           </div>
           <div class="exambtn">
             <el-button :plain="true" type="danger" @click="delExam(i.ExamID)">删除</el-button>
