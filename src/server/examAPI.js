@@ -5,6 +5,18 @@ import axios from 'axios'
 // API根目录
 import _APIurl from './config'
 
+// 获取学科列表
+API.getCourseList = () => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl+'/api/school/GetCourseList').then((res)=>{
+      resolve(res.data.Content)
+    }).catch((err)=>{
+      reject(err)
+    })
+  })
+}
+// testing
+
 // 获取班级考试列表
 API.getClassExamList = (classId) => {
   return new Promise((resolve, reject) => {
@@ -31,8 +43,8 @@ API.sendExamSms = (para) => {
 
 // 添加考试
 API.addExam = (data) => {
-  return new Promise((resolve, reject) => {
     axios.post(_APIurl+'/api/class/AddExam',data).then((res)=>{
+  return new Promise((resolve, reject) => {
       resolve(res.data.Content)
     }).catch((err)=>{
       reject(err)
