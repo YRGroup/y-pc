@@ -52,8 +52,8 @@ API.sendExamSms = (para) => {
 
 // 添加考试
 API.addExam = (data) => {
-    axios.post(_APIurl+'/api/class/AddExam',data).then((res)=>{
   return new Promise((resolve, reject) => {
+    axios.post(_APIurl+'/api/class/AddExam',data).then((res)=>{
       resolve(res.data.Content)
     }).catch((err)=>{
       reject(err)
@@ -78,7 +78,7 @@ API.deleteExam = (data) => {
 API.addExamScore = (data) => {
   return new Promise((resolve, reject) => {
     axios.post(_APIurl+'/api/class/AddExamScore',data).then((res)=>{
-      resolve(res.data.Content)
+      resolve(res)
     }).catch((err)=>{
       reject(err)
     })

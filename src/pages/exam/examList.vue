@@ -45,7 +45,7 @@
         </el-form-item>
   
         <el-checkbox-group v-model="newExamData.courses" class="checkbox">
-          <el-checkbox :label="i.CourseId" v-for="i in courseList" :key="i.id" class="item">
+          <el-checkbox :label="i.CourseId" v-for="i in courseList" :key="i.CourseId" class="item">
             {{i.name}}，总分：
             <el-input v-model="i.FullScore" size="mini" style="width:50px;" placeholder="总分"></el-input>
           </el-checkbox>
@@ -54,7 +54,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="showAddExam = false" :plain="true" type="success">取 消</el-button>
-        <el-button type="success" @click="addNewExam">确 定</el-button>
+        <el-button type="success" @click.native="addNewExam">确 定</el-button>
       </div>
     </el-dialog>
   
@@ -152,13 +152,9 @@ export default {
       this.$store.dispatch('getExamList')
     },
     getData() {
-      // this.$store.dispatch('getExamList')
       this.newExamData.ClassID = this.currentClass
       this.$API.getClassExamList(this.currentClass).then(res=>{
         this.data = res
-      })
-      this.$API.getCourseList().then(res=>{
-        this.courseList = res
       })
     },
     addNewExam() {
@@ -172,6 +168,7 @@ export default {
         this.$message.success('添加考试成功')
         this.newExamData = {}
         this.showAddExam = false
+        this.getData()
       }).catch(err => {
         this.$message.error(err.msg)
       })
