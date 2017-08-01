@@ -53,7 +53,7 @@ export default {
     cursor: pointer;
     &:hover {
       // border-bottom: 1px dotted @main;
-      background: #f5f5f5;
+      background: @border;
     }
     .img {
       display: inline-block;

@@ -14,14 +14,13 @@
           <img :src="data.Headimgurl">
         </div>
         <div class="content">
-          <p>账号：{{data.Mobilephone}}</p>
-          <p>姓名：{{data.TrueName}}</p>
-          <p>科目：{{data.ExtendInfo.Course}}</p>
+          <p class="title">{{data.TrueName}}</p>
+          <p><span><i class="iconfont">&#xe690;</i>{{data.ExtendInfo.Course}}</span><span><i class="iconfont">&#xe618;</i>{{data.Mobilephone}}</span></p>
           <!-- <div class="btn">
                 <el-button type="primary" @click.native="$router.push('/teacher/edit')">修改资料</el-button>
               </div> -->
           <div class="btn" v-if="!$route.query.id">
-            <el-button type="warning" @click.native="logout">退出</el-button>
+            <el-button :plain="true" type="text" @click.native="logout">退出</el-button>
           </div>
           <div class="btn" v-else>
             <el-button type="info" @click.native="$router.push('/msg/'+data.Meid)">发消息</el-button>
@@ -72,7 +71,7 @@ export default {
     },
     logout() {
       this.$store.dispatch('logout').then(res => {
-        this.$message('登出成功')
+        this.$message('退出成功')
         this.$router.push('/login')
       })
     },
@@ -98,37 +97,42 @@ export default {
   float: right;
   width: 260px; // padding: 20px 10px;
   .card {
-    border: 1px solid @border;
+    border: 1px solid @main;
     text-align: center;
-    background: #fff;
+    background: #edfff7;
     margin-bottom: 20px;
     &:hover {
       // border: 1px solid @main;
     }
     .header {
       height: 75px;
-      position: relative;
       background: @main;
       line-height: 75px;
       color: #fff;
       font-size: 25px;
       img {
+        margin-top: 20px;
         width: 100px;
-        position: absolute;
-        left: 80px;
-        top: 25px;
         border-radius: 50%;
       }
     }
     .content {
       margin-top: 40px;
       line-height: 2em;
-      padding-bottom: 20px;
       padding: 20px;
-      text-align: left;
+      text-align: center;
+      .title{
+        font-size: 20px;
+      }
+      span{
+        margin:0 10px;
+        color: @grey;
+        .iconfont{
+          margin-right: 5px;
+        }
+      }
       .btn {
         text-align: center;
-        margin: 10px 0;
       }
     }
     .noHeadImg {

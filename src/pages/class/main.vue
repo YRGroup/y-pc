@@ -277,6 +277,7 @@ export default {
   }
   .content {
     // width: calc(~"100% - 120px");
+    line-height: 24px;
     word-warp: break-word;
     word-break: break-all;
     cursor: pointer;

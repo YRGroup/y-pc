@@ -69,11 +69,13 @@ export default {
 @import '../../../style/theme.less';
 
 .homework-card {
-  margin: 20px 0;
-  padding-bottom: 10px;
+  padding: 10px;
   background: #fff;
   position: relative;
   border-bottom: 1px solid @border;
+  &:hover{
+    background: @border;
+  }
   .course {
     position: absolute;
     top: 0;
@@ -103,6 +105,7 @@ export default {
     color: #666;
     .taskcon {
       margin: 0 auto;
+      line-height: 24px;
       img {
         text-align: center;
         max-height: 100px;

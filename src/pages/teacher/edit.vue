@@ -1,152 +1,164 @@
 <template>
-  <div>
+  <div class="card">
+    <!-- <div class="header">修改教师资料</div> -->
+    <div class="content">
   
-    <div class="card">
-      <div class="header">修改教师资料</div>
-      <div class="content">
-        <el-form label-width="100px">
-          <el-form-item label="手机号">
-            <el-input v-model="data.Mobilephone" :disabled="true"></el-input>
-          </el-form-item>
-          <el-form-item label="姓名">
-            <el-input v-model="data.TrueName"></el-input>
-          </el-form-item>
-          <el-form-item label="身份证">
-            <el-input v-model="data.IDCard"></el-input>
-          </el-form-item>
-          <el-form-item label="性别">
-            <template>
-              <el-radio class="radio" v-model="data.Sex" label="男">男</el-radio>
-              <el-radio class="radio" v-model="data.Sex" label="女">女</el-radio>
-            </template>
-          </el-form-item>
-          <div class="headImg">
-            <div class="left" v-show="!showEditHeadImg">
-              <el-button @click="showEditHeadImg=true">修改头像</el-button>
+      <el-form label-width="100px">
+        <div class="itemList">
+          <div class="header">
+            <i class="iconfont">&#xe668;</i>个人资料
+          </div>
+          <div class="item-content" style="padding:0 150px 0 50px">
+            <el-form-item label="手机号">
+              <el-input v-model="data.Mobilephone" :disabled="true"></el-input>
+            </el-form-item>
+            <el-form-item label="姓名">
+              <el-input v-model="data.TrueName"></el-input>
+            </el-form-item>
+            <el-form-item label="身份证">
+              <el-input v-model="data.IDCard"></el-input>
+            </el-form-item>
+            <el-form-item label="性别">
+              <template>
+                <el-radio class="radio" v-model="data.Sex" label="男">男</el-radio>
+                <el-radio class="radio" v-model="data.Sex" label="女">女</el-radio>
+              </template>
+            </el-form-item>
+            <el-form-item>
+              <div class="headImg">
+                <div class="left" v-show="!showEditHeadImg">
+                  <el-button @click="showEditHeadImg=true">修改头像</el-button>
+                </div>
+                <div class="right" v-show="showEditHeadImg">
+                  <el-upload list-type="picture-card" class="avatar-uploader" :action="$store.getters._APIurl+'/api/Upload/ImageUpload'" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+                    <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                  </el-upload>
+                </div>
+              </div>
+            </el-form-item>
+          </div>
+        </div>
+        <div class="itemList">
+          <div class="header">
+            <i class="iconfont">&#xe63d;</i>个人荣誉
+            <div class="addBtn">
+              <el-button type="text" @click.native="showAddPersonalHonor=true" size="small"><i class="iconfont">&#xe623;</i>新增荣誉</el-button>
             </div>
-            <div class="right" v-show="showEditHeadImg">
-              <el-upload class="avatar-uploader" :action="$store.getters._APIurl+'/api/Upload/ImageUpload'" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-              </el-upload>
+            <el-dialog title="个人荣誉" :visible.sync="showAddPersonalHonor" size="tiny">
+  
+                <el-form-item label="上传图片">
+                  <el-upload list-type="picture-card" class="avatar-uploader" :action="$store.getters._APIurl+'/api/Upload/ImageUpload'" :show-file-list="false" :on-success="handleHonorSuccess">
+                    <img v-if="addPersonalHonorData.ImgPath" :src="addPersonalHonorData.ImgPath" class="avatar">
+                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                  </el-upload>
+                  
+                </el-form-item>
+  
+                <el-form-item label="描述">
+                  <el-input v-model="addPersonalHonorData.Description">
+                  </el-input>
+                </el-form-item>
+
+                <el-form-item>
+                  <el-button type="success" @click="addPersonalHonor">确 定</el-button>
+                  <el-button :plain="true" type="success" @click="showAddPersonalHonor = false">取 消</el-button>
+                </el-form-item>
+  
+              <span slot="footer" class="dialog-footer">
+              </span>
+            </el-dialog>
+          </div>
+          <div class="item-content">
+            <div class="honorItem" v-for="(i,index) in data.PersonalHonor" :key="index">
+              <img :src="i.ImgPath">
+              <div class="delHonorBtn" @click="delHonor(index)">
+                <i class="iconfont">&#xe630;</i>
+              </div>
+              <div class="name">{{i.Description}}</div>
             </div>
           </div>
+        </div>
   
-          <br />
-          <hr />
-          <br />
+        <el-dialog title="修改密码" :visible.sync="showEditPw" size="mini">
+          <div>
+            <el-form :inline="true" label-width="100px">
+              <div>
+                <el-form-item label="手机号">
+                  <el-input v-model="editPwData.phone" :disabled="true">
+                  </el-input>
+                </el-form-item>
+              </div>
+              <div>
+                <el-form-item label="验证码">
+                  <el-input v-model="editPwData.code">
+                  </el-input>
+                </el-form-item>
+                <el-button type="primary" @click="getCheckNum">获取验证码</el-button>
+              </div>
+              <div>
+                <el-form-item label="新密码">
+                  <el-input type="password" v-model="editPwData.newpwd">
+                  </el-input>
+                </el-form-item>
+              </div>
+              <div>
+                <el-form-item label="重复新密码">
+                  <el-input type="password" v-model="editPwData.newpwd2">
+                  </el-input>
+                </el-form-item>
+              </div>
   
-          <li class="honorItem" v-for="(i,index) in data.PersonalHonor" :key="index">
-            <img :src="i.ImgPath">
-            <div class="delHonorBtn" @click="delHonor(index)">X</div>
-            <div class="name">{{i.Description}}</div>
-          </li>
+            </el-form>
   
-          <div class="addBtn">
-            <el-button type="primary" @click.native="showAddPersonalHonor=true">添加个人荣誉</el-button>
           </div>
   
-          <el-dialog title="个人荣誉" :visible.sync="showAddPersonalHonor" size="small">
-            <div class="center">
-              <span>请选择图片</span>
-  
-              <el-upload class="avatar-uploader" :action="$store.getters._APIurl+'/api/Upload/ImageUpload'" :show-file-list="false" :on-success="handleHonorSuccess">
-                <img v-if="addPersonalHonorData.ImgPath" :src="addPersonalHonorData.ImgPath" class="avatar">
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-              </el-upload>
-  
-              <el-form-item label="描述">
-                <el-input v-model="addPersonalHonorData.Description">
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="showEditPw = false">取 消</el-button>
+            <el-button type="primary" @click="editPw">确 定</el-button>
+          </span>
+        </el-dialog>
+        <div class="itemList">
+          <div class="header">
+            <i class="iconfont">&#xe69b;</i>教学经历
+            <div class="addBtn">
+              <el-button size="small" type="text" @click.native="data.TeachExperience.unshift({SchoolName:'',StartTime:'',EndTime:''})"><i class="iconfont">&#xe623;</i>新增教学经历</el-button>
+            </div>
+          </div>
+          <div class="item-content" style="padding-right:100px">
+            <li v-for="(i,index) in data.TeachExperience" :key="index" class="oldwork">
+              <el-form-item label="任职学校">
+                <el-input v-model="i.SchoolName">
+                  <template slot="append">
+                    <span class="delBtn" @click="data.TeachExperience.splice(index,1)">
+                      <i class="iconfont">&#xe630;</i>
+                    </span>
+                  </template>
                 </el-input>
               </el-form-item>
-            </div>
+              <el-form-item label="执教时间">
+                <el-col :span="11">
+                  <el-date-picker type="date" placeholder="选择开始日期" v-model="i.StartTime" style="width: 100%;"></el-date-picker>
+                </el-col>
+                <el-col style="text-align:center" :span="2">-</el-col>
+                <el-col :span="11">
+                  <el-date-picker type="date" placeholder="选择结束日期" v-model="i.EndTime" style="width: 100%;"></el-date-picker>
+                </el-col>
+              </el-form-item>
+            </li>
   
-            <span slot="footer" class="dialog-footer">
-              <el-button @click="addPersonalHonor = false">取 消</el-button>
-              <el-button type="primary" @click="addPersonalHonor">确 定</el-button>
-            </span>
-          </el-dialog>
-  
-          <el-dialog title="修改密码" :visible.sync="showEditPw" size="mini">
-            <div>
-              <el-form :inline="true" label-width="100px">
-                <div>
-                  <el-form-item label="手机号">
-                    <el-input v-model="editPwData.phone" :disabled="true">
-                    </el-input>
-                  </el-form-item>
-                </div>
-                <div>
-                  <el-form-item label="验证码">
-                    <el-input v-model="editPwData.code">
-                    </el-input>
-                  </el-form-item>
-                  <el-button type="primary" @click="getCheckNum">获取验证码</el-button>
-                </div>
-                <div>
-                  <el-form-item label="新密码">
-                    <el-input type="password" v-model="editPwData.newpwd">
-                    </el-input>
-                  </el-form-item>
-                </div>
-                <div>
-                  <el-form-item label="重复新密码">
-                    <el-input type="password" v-model="editPwData.newpwd2">
-                    </el-input>
-                  </el-form-item>
-                </div>
-  
-              </el-form>
-  
-            </div>
-  
-            <span slot="footer" class="dialog-footer">
-              <el-button @click="showEditPw = false">取 消</el-button>
-              <el-button type="primary" @click="editPw">确 定</el-button>
-            </span>
-          </el-dialog>
-  
-          <br />
-          <hr />
-          <br />
-  
-          <li v-for="(i,index) in data.TeachExperience" :key="index">
-            <el-form-item label="任职学校">
-              <el-input v-model="i.SchoolName">
-                <template slot="append">
-                  <span class="delBtn" @click="data.TeachExperience.splice(index,1)"> X </span>
-                </template>
-              </el-input>
-            </el-form-item>
-            <el-form-item label="执教时间">
-              <el-col :span="11">
-                <el-date-picker type="date" placeholder="选择开始日期" v-model="i.StartTime" style="width: 100%;"></el-date-picker>
-              </el-col>
-              <el-col style="text-align:center" :span="2">-</el-col>
-              <el-col :span="11">
-                <el-date-picker type="date" placeholder="选择结束日期" v-model="i.EndTime" style="width: 100%;"></el-date-picker>
-              </el-col>
-            </el-form-item>
-          </li>
-  
-          <div class="addBtn">
-            <el-button type="primary" @click.native="data.TeachExperience.push({SchoolName:'',StartTime:'',EndTime:''})">添加教学经历</el-button>
           </div>
-  
-          <br />
-          <br />
-  
-        </el-form>
-  
-      </div>
-      <div class="footer">
-        <div class="btn">
-          <el-button type="warning" style="float:left;" @click.native="startEditPw">修改密码</el-button>
-          <el-button type="primary" @click.native="submitChange">提交修改</el-button>
         </div>
+  
+      </el-form>
+  
+    </div>
+    <div class="footer">
+      <div class="btn center">
+        <el-button type="warning"  @click.native="startEditPw">修改密码</el-button>
+        <el-button type="success" @click.native="submitChange">提交修改</el-button>
       </div>
     </div>
-  
   </div>
 </template>
 
@@ -164,10 +176,10 @@ export default {
       showAddPersonalHonor: false,
       showEditPw: false,
       editPwData: {
-        phone:'',
-        code:'',
-        newpwd:'',
-        newpwd2:''
+        phone: '',
+        code: '',
+        newpwd: '',
+        newpwd2: ''
       },
       addPersonalHonorData: {
         Description: '',
@@ -209,8 +221,8 @@ export default {
       this.addPersonalHonorData = { Description: '', ImgPath: '' }
       this.showAddPersonalHonor = false
     },
-    delHonor(index){
-      this.data.PersonalHonor.splice(index,1)
+    delHonor(index) {
+      this.data.PersonalHonor.splice(index, 1)
     },
     startEditPw() {
       this.showEditPw = true
@@ -219,28 +231,28 @@ export default {
     getCheckNum() {
       this.$API.getSms().then(res => {
         this.$message.success('获取验证码成功，请查收短信')
-      }).catch(err=>{
+      }).catch(err => {
         this.$message.error(err.msg)
       })
     },
     editPw() {
-      if(this.editPwData.code == ''){
+      if (this.editPwData.code == '') {
         this.$message.error('短信验证码不能为空')
       }
       else if (this.editPwData.newpwd !== this.editPwData.newpwd2) {
         this.$message.error('两次输入的密码不一致，请检查!')
-      }else if(this.editPwData.newpwd.length<6){
+      } else if (this.editPwData.newpwd.length < 6) {
         this.$message.error('密码不能小于6位数')
       }
-       else {
+      else {
         this.$API.editPWBySms(this.editPwData).then(res => {
           this.$message.success('修改密码成功')
-          this.showEditPw=false
-        }).catch(err=>{
+          this.showEditPw = false
+        }).catch(err => {
           this.$message.error(err.msg)
-          this.editPwData.code=''
-          this.editPwData.newpwd=''
-          this.editPwData.newpwd2=''
+          this.editPwData.code = ''
+          this.editPwData.newpwd = ''
+          this.editPwData.newpwd2 = ''
         })
       }
     },
@@ -269,46 +281,16 @@ export default {
 @import '../../style/theme.less';
 
 .headImg {
-  text-align: center;
+  // text-align: center;
   .left,
   .right {
     display: inline-block
   }
 }
-
-.avatar-uploader .el-upload {
-  border: 1px dashed #d9d9d9;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-
-.avatar-uploader .el-upload:hover {
-  border-color: #20a0ff;
-}
-
-.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 178px;
-  height: 178px;
-  line-height: 178px;
-  text-align: center;
-  vertical-align: top;
-}
-
-.avatar {
-  width: 178px;
-  height: 178px;
-  display: inline-block;
-}
-
-
 .card {
-  margin: 15px 0;
-  border: 1px solid @border;
-  font-size: 13px;
+  // margin: 15px 0;
+  // border: 1px solid @border;
+  padding: 0 20px 20px;
   position: relative;
   background: #fff;
   .img {
@@ -318,21 +300,48 @@ export default {
       width: 50px;
     }
   }
-  .header {
-    line-height: 40px;
-    vertical-align: middle;
-    padding-left: 30px;
-  }
   .content {
-    width: calc(~"100% - 120px");
-    padding: 10px;
-    margin-left: 25px;
     line-height: 1.5rem;
+    .itemList {
+      padding: 30px 20px;
+      border-bottom: 1px solid @border;
+      position: relative;
+      &:last-child{
+        border:none;
+      }
+      .header {
+        line-height: 28px;
+        font-size: 16px;
+        margin-bottom: 30px;
+        color: @main;
+        position: relative;
+        .iconfont {
+          margin-right: 8px;
+        }
+        .addBtn{
+          position: absolute;
+          right: 0;
+          top: 0;
+        }
+      }
+      .item-content {
+        // padding-top:30px;
+        // text-align: center;
+        margin-left: 40px;
+        overflow: hidden;
+        .oldwork {
+          border-bottom: 1px dashed @border;
+          margin-bottom: 15px;
+          .el-form-item {
+            margin-bottom: 15px;
+          }
+        }
+      }
+    }
   }
   .footer {
-    padding: 10px 30px;
+    padding-bottom:30px;
     .btn {
-      text-align: right;
       padding: 0 15px;
     }
   }
@@ -344,36 +353,39 @@ export default {
 
 .honorItem {
   max-width: 120px;
-  display: inline-block;
+  // display: inline-block;
+  overflow: hidden;
+  padding:10px;
+  float: left;
   text-align: center;
-  padding: 20px;
   position: relative;
   img {
     width: 100%;
   }
-  &:hover .delHonorBtn{
+  &:hover .delHonorBtn {
     display: block;
   }
   .delHonorBtn {
     display: none;
     position: absolute;
-    top:0;
-    bottom:0;
-    left:0;
+    top: 0;
+    bottom: 0;
+    left: 0;
     right: 0;
     line-height: 170px;
-    font-size: 50px;
-    background: rgba(0,0,0,.3);
-    color:#fff;
+    font-size: 30px;
+    background: rgba(0, 0, 0, .5);
+    color: #fff;
     cursor: pointer;
   }
   .name {
     color: @grey;
+    height: 28px;
+    line-height: 20px;
   }
 }
 
 .delBtn {
-  color: red;
   cursor: pointer;
 }
 
