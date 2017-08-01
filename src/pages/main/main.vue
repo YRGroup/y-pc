@@ -1,35 +1,54 @@
 <template>
-  <div>
+  <div style="background:#fff">
     <img class="poster" :src="poster">
   
-    <div class="left panel">
-      <ul class="title">
-        <li class="active">校园动态</li>
-        <li>资料库</li>
-      </ul>
+    <!-- <div class="left panel"> -->
+
+      <el-tabs v-model="activeName" @tab-click="handleSwitchTab">
+        <el-tab-pane label=" 校 园 动 态 " name="1">
+
+          <div class="card" v-for="(i,index) in data" :key="index">
+            <div class="img" v-if="i.ImgUrl">
+              <img :src="i.ImgUrl">
+            </div>
+            <div class="cardCon">
+              <div class="cardtitle">
+                <a @click="$router.push('/news?id='+i.ID)">{{i.Title}}</a>
+              </div>
+              <div class="content">{{i.Describtion}}
+                <a @click="$router.push('/news?id='+i.ID)">[ 详情 ]</a>
+              </div>
+              <div class="cardfooter">
+                <span class="time">{{i.AddTime}}</span>
+              </div>
+            </div>
+          </div>
+
+        </el-tab-pane>
+        <el-tab-pane label=" 资 料 库 " name="2">
+          
+          <div class="card" v-for="(i,index) in data" :key="index">
+            <div class="img" v-if="i.ImgUrl">
+              <img :src="i.ImgUrl">
+            </div>
+            <div class="cardCon">
+              <div class="cardtitle">
+                <a @click="$router.push('/news?id='+i.ID)">{{i.Title}}</a>
+              </div>
+              <div class="content">{{i.Describtion}}
+                <a @click="$router.push('/news?id='+i.ID)">[ 详情 ]</a>
+              </div>
+              <div class="cardfooter">
+                <span class="time">{{i.AddTime}}</span>
+              </div>
+            </div>
+          </div>
+
+        </el-tab-pane>
+        
+      </el-tabs>
   
-      <div class="card" v-for="i in 6" :key="i">
-        <div class="img"></div>
-        <div class="cardCon">
-          <div class="cardtitle">
-            <a href="#">【6月学习活动】奏起征战号角，打响学习第一枪！</a>
-          </div>
-          <div class="content">猫刀老师BEC公开课6月27日倾情开课！一节公开课为你扫盲BEC备考！快快扫描下方二维码关注公开课吧
-            <a href="#">[ 详情 ]</a>
-          </div>
-          <div class="cardfooter">
-            <span class="time">2017-06-08 20:26</span>
-            <span class="iconbtn">
-              <span title="阅读数">
-                <i class="iconfont">&#xe6c3;</i>200</span>
-              <span title="点赞数">
-                <i class="iconfont">&#xe646;</i>200</span>
-            </span>
-  
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- </div>
     <div class="right">
       <div class="card" v-if="$store.state.role==='家长'">
         <div class="header">
@@ -45,7 +64,7 @@
   
       <div class="card" v-if="$store.state.role==='老师'">
         <div class="header">
-          <img :src="$store.state.currentUser.Headimgurl" >
+          <img :src="$store.state.currentUser.Headimgurl">
         </div>
         <div class="content">
           <p class="name">{{ $store.state.currentUser.TrueName }} - {{ $store.state.currentUser.ExtendInfo.Course }}</p>
@@ -61,7 +80,7 @@
           <p>000</p>
           <p>经开区育人国际学校</p>
         </div>
-      </div>
+      </div> -->
   
     </div>
   </div>
@@ -73,14 +92,28 @@ export default {
   components: {},
   data() {
     return {
-      poster: require('@/assets/img/post.jpg')
+      activeName: '1',
+      poster: require('@/assets/img/post.jpg'),
+      data: [],
+      page: 1,
     }
   },
   methods: {
-
+    handleSwitchTab(tab, event){
+      console.log(tab.name)
+      this.getData()
+    },
+    getData() {
+      let para = {
+        category: this.activeName,
+        currentPage: this.page,
+        pagesize: 10,
+      }
+      this.$API.getNewsList(para).then(res => this.data = res)
+    }
   },
   created() {
-    // this.$router.push('/class')
+    this.getData()
   },
   mounted() {
 
@@ -96,29 +129,6 @@ export default {
   margin-bottom: 10px;
 }
 
-.left {
-  width: calc(~"100% - 320px");
-  float: left;
-  .title {
-    border-bottom: 1px solid @border;
-    line-height: 36px;
-    margin-bottom: -1px;
-    .active {
-      color: @main;
-      border-bottom: 3px solid @main;
-    }
-    li {
-      display: inline-block;
-      padding: 5px 15px;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 15px;
-      color: #666;
-      &:hover {
-        color: @main;
-      }
-    }
-  }
   .card {
     height: 130px;
     font-size: 13px;
@@ -132,9 +142,11 @@ export default {
     .img {
       height: 100%;
       width: 225px;
-      background-image: url('https://modao.cc/uploads3/images/1080/10800322/raw_1499235662.png');
-      background-position: center;
       display: inline-block;
+      overflow: hidden;
+      img {
+        width: 100%;
+      }
     }
     .cardCon {
       width: calc(~"100% - 240px");
@@ -172,42 +184,67 @@ export default {
       }
     }
   }
-}
 
-.right {
-  float: right;
-  width: 260px;
-  .card {
-    border: 1px solid @border;
-    text-align: center;
-    background: #fff;
-    margin-bottom: 20px;
-    .header {
-      height: 75px;
-      position: relative;
-      background: @main;
-      .title {
-        color: #fff;
-        line-height: 75px;
-      }
-      img {
-        width: 100px;
-        height: 100px;
-        position: absolute;
-        left: 80px;
-        top: 25px;
-        border-radius: 50%;
-        border: 3px solid rgba(255, 255, 255, .5);
-      }
-    }
-    .content {
-      margin-top: 60px;
-      line-height: 2em;
-      padding-bottom: 20px;
-      .name {
-        font-size: 16px;
-      }
-    }
-  }
-}
+// .left {
+//   width: calc(~"100% - 320px");
+//   float: left;
+//   .title {
+//     border-bottom: 1px solid @border;
+//     line-height: 36px;
+//     margin-bottom: -1px;
+//     .active {
+//       color: @main;
+//       border-bottom: 3px solid @main;
+//     }
+//     li {
+//       display: inline-block;
+//       padding: 5px 15px;
+//       cursor: pointer;
+//       font-weight: bold;
+//       font-size: 15px;
+//       color: #666;
+//       &:hover {
+//         color: @main;
+//       }
+//     }
+//   }
+
+// }
+
+// .right {
+//   float: right;
+//   width: 260px;
+//   .card {
+//     border: 1px solid @border;
+//     text-align: center;
+//     background: #fff;
+//     margin-bottom: 20px;
+//     .header {
+//       height: 75px;
+//       position: relative;
+//       background: @main;
+//       .title {
+//         color: #fff;
+//         line-height: 75px;
+//       }
+//       img {
+//         width: 100px;
+//         height: 100px;
+//         position: absolute;
+//         left: 80px;
+//         top: 25px;
+//         border-radius: 50%;
+//         border: 3px solid rgba(255, 255, 255, .5);
+//       }
+//     }
+//     .content {
+//       margin-top: 60px;
+//       line-height: 2em;
+//       padding-bottom: 20px;
+//       .name {
+//         font-size: 16px;
+//       }
+//     }
+//   }
+// }
 </style>

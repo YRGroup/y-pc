@@ -102,6 +102,44 @@ API.deletePost = (params) => {
   })
 }
 
+// 获取校园新闻
+API.getNewsList = params => { 
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl+`/api/School/GetArticleList`,{params: params }).then(res => {
+     resolve(res.data.Content)
+    }).catch((err)=>{
+      console.log('获取信息失败：')
+      console.log(err)
+      reject(err)
+    })
+  })
+}
+
+// 获取单条新闻
+API.getNewsInfo = params => { 
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl+`/api/School/GetArticle`,{params: params }).then(res => {
+     resolve(res.data.Content)
+    }).catch((err)=>{
+      console.log('获取信息失败：')
+      console.log(err)
+      reject(err)
+    })
+  })
+}
+
+// 添加新闻评论
+API.addNewsComment = (params) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl+'/api/School/AddArticleComment',params).then((res)=>{
+      resolve(res.data.Content)
+    }).catch((err)=>{
+      console.log('获取信息失败：')
+      console.log(err)
+      reject(err)
+    })
+  })
+}
 
 // 空API模板
 API.test = () => {
