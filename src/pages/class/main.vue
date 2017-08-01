@@ -6,7 +6,7 @@
         <i class="iconfont">&#xe623;</i>发布动态</div>
     </div>
   
-    <el-dialog title="发布动态" :visible.sync="showAddPost">
+    <el-dialog title="发布动态" :visible.sync="showAddPost"  size="tiny">
       <el-form :model="newPost">
         <el-form-item>
           <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model.trim="newPost.content">

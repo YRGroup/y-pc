@@ -133,7 +133,8 @@ export default {
     .header {
       display: inline-block;
       font-size: 16px;
-      line-height: 42px;
+      // line-height: 42px;
+      margin-top: 24px;
     }
     .tips {
       position: absolute;
