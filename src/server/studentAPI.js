@@ -34,7 +34,6 @@ API.editStudentInfo = (data) => {
 // testing
 
 
-
 // 获取学生的成绩单
 API.getExamScore = (userId,examid) => {
   return new Promise((resolve, reject) => {

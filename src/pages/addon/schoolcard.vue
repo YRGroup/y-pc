@@ -68,7 +68,9 @@ export default {
       para.pagesize=this.pageSize
       this.$API.getCardList(para).then(res=>{
         if(res){
-          this.balance=res.Blance
+          if (this.Blance == 0) {
+            this.Blance = res.Blance
+          }
           if (res.Log.length) {
             res.Log.forEach((element) => {
               this.alllog.push(element)

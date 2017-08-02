@@ -48,7 +48,7 @@
         
       </el-tabs>
   
-    <!-- </div>
+     <!-- </div>
     <div class="right">
       <div class="card" v-if="$store.state.role==='家长'">
         <div class="header">
@@ -80,9 +80,9 @@
           <p>000</p>
           <p>经开区育人国际学校</p>
         </div>
-      </div> -->
+      </div> 
   
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -100,7 +100,6 @@ export default {
   },
   methods: {
     handleSwitchTab(tab, event){
-      console.log(tab.name)
       this.getData()
     },
     getData() {
