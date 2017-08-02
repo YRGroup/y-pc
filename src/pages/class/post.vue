@@ -136,6 +136,9 @@ export default {
       // line-height: 42px;
       margin-top: 24px;
     }
+    .content{
+      margin-top: 10px;
+    }
     .tips {
       position: absolute;
       top: 0;

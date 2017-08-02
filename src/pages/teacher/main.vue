@@ -137,7 +137,6 @@
       </el-tab-pane>
   
     </el-tabs>
-  
   </div>
 </template>
 
@@ -199,6 +198,9 @@ export default {
       padding: 30px 20px;
       border-bottom: 1px solid @border;
       position: relative;
+      &:last-child{
+        border:none;
+      }
       .setBtn {
         position: absolute;
         right: 20px;
@@ -217,9 +219,9 @@ export default {
         line-height: 28px;
         font-size: 16px;
         margin-bottom: 10px;
+        color: @main;
         .iconfont {
           margin-right: 8px;
-          color: @grey;
         }
       }
       .item-content {

@@ -77,13 +77,18 @@ export default {
 @import '../../../style/theme.less';
 
 .card {
-  margin: 15px 0;
   border-bottom: 1px dashed @border;
-  font-size: 13px;
   position: relative;
   background: #fff;
+  font-size: 12px;
   padding-left: 70px;
   padding-bottom: 10px;
+  &:hover{
+    background: @border;
+  }
+  &:hover .del{
+    display: block;
+  }
   .img {
     position: absolute;
     top: 10px;
@@ -91,6 +96,7 @@ export default {
     img {
       width: 46px;
       height: 46px;
+      border-radius: 50%;
     }
   }
   .header {
@@ -98,7 +104,8 @@ export default {
     font-size: 16px;
   }
   .content {
-    width: calc(~"100% - 120px");
+    width: calc(~"100% - 80px");
+    line-height: 24px;
   }
   .albums {
     li {
@@ -111,14 +118,15 @@ export default {
   }
   .del {
     position: absolute;
-    right: 0;
-    top: 6px;
+    right: 10px;
+    top: 10px;
     border: 1px solid @grey;
     color: @grey;
     padding: 1px 10px;
     border-radius: 3px;
     font-size: 12px;
     cursor: pointer;
+    display: none;
     &:hover{
       border: 1px solid @sub;
       color: @sub;
