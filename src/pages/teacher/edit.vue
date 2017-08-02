@@ -1,6 +1,12 @@
 <template>
   <div class="card">
     <!-- <div class="header">修改教师资料</div> -->
+    <div class="maintitle">
+      个人主页
+      <span class="goreturn">
+        <el-button size="small" @click="$router.go(-1)" type="success" :plain="true">返回</el-button>
+      </span>
+    </div>
     <div class="content">
   
       <el-form label-width="100px">
@@ -43,27 +49,28 @@
           <div class="header">
             <i class="iconfont">&#xe63d;</i>个人荣誉
             <div class="addBtn">
-              <el-button type="text" @click.native="showAddPersonalHonor=true" size="small"><i class="iconfont">&#xe623;</i>新增荣誉</el-button>
+              <el-button type="text" @click.native="showAddPersonalHonor=true" size="small">
+                <i class="iconfont">&#xe623;</i>新增荣誉</el-button>
             </div>
             <el-dialog title="个人荣誉" :visible.sync="showAddPersonalHonor" size="tiny">
   
-                <el-form-item label="上传图片">
-                  <el-upload list-type="picture-card" class="avatar-uploader" :action="$store.getters._APIurl+'/api/Upload/ImageUpload'" :show-file-list="false" :on-success="handleHonorSuccess">
-                    <img v-if="addPersonalHonorData.ImgPath" :src="addPersonalHonorData.ImgPath" class="avatar">
-                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                  </el-upload>
-                  
-                </el-form-item>
+              <el-form-item label="上传图片">
+                <el-upload list-type="picture-card" class="avatar-uploader" :action="$store.getters._APIurl+'/api/Upload/ImageUpload'" :show-file-list="false" :on-success="handleHonorSuccess">
+                  <img v-if="addPersonalHonorData.ImgPath" :src="addPersonalHonorData.ImgPath" class="avatar">
+                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
   
-                <el-form-item label="描述">
-                  <el-input v-model="addPersonalHonorData.Description">
-                  </el-input>
-                </el-form-item>
-
-                <el-form-item>
-                  <el-button type="success" @click="addPersonalHonor">确 定</el-button>
-                  <el-button :plain="true" type="success" @click="showAddPersonalHonor = false">取 消</el-button>
-                </el-form-item>
+              </el-form-item>
+  
+              <el-form-item label="描述">
+                <el-input v-model="addPersonalHonorData.Description">
+                </el-input>
+              </el-form-item>
+  
+              <el-form-item>
+                <el-button type="success" @click="addPersonalHonor">确 定</el-button>
+                <el-button :plain="true" type="success" @click="showAddPersonalHonor = false">取 消</el-button>
+              </el-form-item>
   
               <span slot="footer" class="dialog-footer">
               </span>
@@ -79,50 +86,12 @@
             </div>
           </div>
         </div>
-  
-        <el-dialog title="修改密码" :visible.sync="showEditPw" size="mini">
-          <div>
-            <el-form :inline="true" label-width="100px">
-              <div>
-                <el-form-item label="手机号">
-                  <el-input v-model="editPwData.phone" :disabled="true">
-                  </el-input>
-                </el-form-item>
-              </div>
-              <div>
-                <el-form-item label="验证码">
-                  <el-input v-model="editPwData.code">
-                  </el-input>
-                </el-form-item>
-                <el-button type="primary" @click="getCheckNum">获取验证码</el-button>
-              </div>
-              <div>
-                <el-form-item label="新密码">
-                  <el-input type="password" v-model="editPwData.newpwd">
-                  </el-input>
-                </el-form-item>
-              </div>
-              <div>
-                <el-form-item label="重复新密码">
-                  <el-input type="password" v-model="editPwData.newpwd2">
-                  </el-input>
-                </el-form-item>
-              </div>
-  
-            </el-form>
-  
-          </div>
-  
-          <span slot="footer" class="dialog-footer">
-            <el-button @click="showEditPw = false">取 消</el-button>
-            <el-button type="primary" @click="editPw">确 定</el-button>
-          </span>
-        </el-dialog>
         <div class="itemList">
           <div class="header">
             <i class="iconfont">&#xe69b;</i>教学经历
             <div class="addBtn">
-              <el-button size="small" type="text" @click.native="data.TeachExperience.unshift({SchoolName:'',StartTime:'',EndTime:''})"><i class="iconfont">&#xe623;</i>新增教学经历</el-button>
+              <el-button size="small" type="text" @click.native="data.TeachExperience.unshift({SchoolName:'',StartTime:'',EndTime:''})">
+                <i class="iconfont">&#xe623;</i>新增教学经历</el-button>
             </div>
           </div>
           <div class="item-content" style="padding-right:100px">
@@ -155,7 +124,6 @@
     </div>
     <div class="footer">
       <div class="btn center">
-        <el-button type="warning"  @click.native="startEditPw">修改密码</el-button>
         <el-button type="success" @click.native="submitChange">提交修改</el-button>
       </div>
     </div>
@@ -174,13 +142,6 @@ export default {
       },
       showEditHeadImg: false,
       showAddPersonalHonor: false,
-      showEditPw: false,
-      editPwData: {
-        phone: '',
-        code: '',
-        newpwd: '',
-        newpwd2: ''
-      },
       addPersonalHonorData: {
         Description: '',
         ImgPath: ''
@@ -224,38 +185,6 @@ export default {
     delHonor(index) {
       this.data.PersonalHonor.splice(index, 1)
     },
-    startEditPw() {
-      this.showEditPw = true
-      this.editPwData.phone = this.data.Mobilephone
-    },
-    getCheckNum() {
-      this.$API.getSms().then(res => {
-        this.$message.success('获取验证码成功，请查收短信')
-      }).catch(err => {
-        this.$message.error(err.msg)
-      })
-    },
-    editPw() {
-      if (this.editPwData.code == '') {
-        this.$message.error('短信验证码不能为空')
-      }
-      else if (this.editPwData.newpwd !== this.editPwData.newpwd2) {
-        this.$message.error('两次输入的密码不一致，请检查!')
-      } else if (this.editPwData.newpwd.length < 6) {
-        this.$message.error('密码不能小于6位数')
-      }
-      else {
-        this.$API.editPWBySms(this.editPwData).then(res => {
-          this.$message.success('修改密码成功')
-          this.showEditPw = false
-        }).catch(err => {
-          this.$message.error(err.msg)
-          this.editPwData.code = ''
-          this.editPwData.newpwd = ''
-          this.editPwData.newpwd2 = ''
-        })
-      }
-    },
     beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg' || 'image/png'
       const isLt2M = file.size / 1024 / 1024 < 2;
@@ -287,10 +216,11 @@ export default {
     display: inline-block
   }
 }
+
 .card {
   // margin: 15px 0;
   // border: 1px solid @border;
-  padding: 0 20px 20px;
+  // padding: 0 20px 20px;
   position: relative;
   background: #fff;
   .img {
@@ -302,12 +232,13 @@ export default {
   }
   .content {
     line-height: 1.5rem;
+    padding:0 20px 20px;
     .itemList {
       padding: 30px 20px;
       border-bottom: 1px solid @border;
       position: relative;
-      &:last-child{
-        border:none;
+      &:last-child {
+        border: none;
       }
       .header {
         line-height: 28px;
@@ -318,7 +249,7 @@ export default {
         .iconfont {
           margin-right: 8px;
         }
-        .addBtn{
+        .addBtn {
           position: absolute;
           right: 0;
           top: 0;
@@ -340,7 +271,7 @@ export default {
     }
   }
   .footer {
-    padding-bottom:30px;
+    padding-bottom: 30px;
     .btn {
       padding: 0 15px;
     }
@@ -352,10 +283,9 @@ export default {
 }
 
 .honorItem {
-  max-width: 120px;
-  // display: inline-block;
+  max-width: 120px; // display: inline-block;
   overflow: hidden;
-  padding:10px;
+  padding: 10px;
   float: left;
   text-align: center;
   position: relative;

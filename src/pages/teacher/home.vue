@@ -15,16 +15,65 @@
         </div>
         <div class="content">
           <p class="title">{{data.TrueName}}</p>
-          <p><span><i class="iconfont">&#xe690;</i>{{data.ExtendInfo.Course}}</span><span><i class="iconfont">&#xe618;</i>{{data.Mobilephone}}</span></p>
+          <p>
+            <span>
+              <i class="iconfont">&#xe690;</i>{{data.ExtendInfo.Course}}</span>
+            <span>
+              <i class="iconfont">&#xe618;</i>{{data.Mobilephone}}</span>
+          </p>
           <!-- <div class="btn">
-                <el-button type="primary" @click.native="$router.push('/teacher/edit')">修改资料</el-button>
-              </div> -->
+                      <el-button type="primary" @click.native="$router.push('/teacher/edit')">修改资料</el-button>
+                    </div> -->
           <div class="btn" v-if="!$route.query.id">
-            <el-button :plain="true" type="text" @click.native="logout">退出</el-button>
+            <el-button :plain="true" type="text" @click.native="startEditPw" size="small">修改密码</el-button>
+            <el-button :plain="true" type="text" @click.native="logout" size="small">退出</el-button>
           </div>
           <div class="btn" v-else>
             <el-button type="info" @click.native="$router.push('/msg/'+data.Meid)">发消息</el-button>
           </div>
+          <el-dialog title="修改密码" :visible.sync="showEditPw" size="tiny" style="text-align:left">
+            <div>
+              <el-form :inline="true" label-width="120px">
+                <div>
+                  <el-form-item label="手机号">
+                    <el-input v-model="editPwData.phone" :disabled="true" style="width:308px">
+                    </el-input>
+                  </el-form-item>
+                </div>
+                <div>
+                  <el-form-item label="验证码">
+                    <el-input v-model="editPwData.code">
+                    </el-input>
+                  </el-form-item>
+                  <el-button type="success" @click="getCheckNum">获取验证码</el-button>
+                </div>
+                <div>
+                  <el-form-item label="新密码">
+                    <el-input type="password" v-model="editPwData.newpwd"  style="width:308px">
+                    </el-input>
+                  </el-form-item>
+                </div>
+                <div>
+                  <el-form-item label="重复新密码">
+                    <el-input type="password" v-model="editPwData.newpwd2"  style="width:308px">
+                    </el-input>
+                  </el-form-item>
+                </div>
+                <div>
+                  <el-form-item label=" ">
+                      <el-button type="success" @click="editPw">确 定</el-button>
+                      <el-button type="success" :plain="true" @click="showEditPw = false">取 消</el-button>
+                  </el-form-item>
+                </div>
+              </el-form>
+  
+            </div>
+<!--   
+            <span slot="footer" class="dialog-footer">
+              <el-button type="success" :plain="true" @click="showEditPw = false">取 消</el-button>
+              <el-button type="success" @click="editPw">确 定</el-button>
+            </span> -->
+          </el-dialog>
         </div>
       </div>
       <div class="card" v-for="(i,index) in data.Classes" :key="index">
@@ -52,8 +101,15 @@ export default {
   data() {
     return {
       data: {
-        ExtendInfo:{}
-      }
+        ExtendInfo: {},
+      },
+      showEditPw: false,
+      editPwData: {
+        phone: '',
+        code: '',
+        newpwd: '',
+        newpwd2: ''
+      },
     }
   },
   methods: {
@@ -68,6 +124,38 @@ export default {
     },
     changeClass(val) {
       this.$store.commit('changeCurrentClass', val)
+    },
+    startEditPw() {
+      this.showEditPw = true
+      this.editPwData.phone = this.data.Mobilephone
+    },
+    getCheckNum() {
+      this.$API.getSms().then(res => {
+        this.$message.success('获取验证码成功，请查收短信')
+      }).catch(err => {
+        this.$message.error(err.msg)
+      })
+    },
+    editPw() {
+      if (this.editPwData.code == '') {
+        this.$message.error('短信验证码不能为空')
+      }
+      else if (this.editPwData.newpwd !== this.editPwData.newpwd2) {
+        this.$message.error('两次输入的密码不一致，请检查!')
+      } else if (this.editPwData.newpwd.length < 6) {
+        this.$message.error('密码不能小于6位数')
+      }
+      else {
+        this.$API.editPWBySms(this.editPwData).then(res => {
+          this.$message.success('修改密码成功')
+          this.showEditPw = false
+        }).catch(err => {
+          this.$message.error(err.msg)
+          this.editPwData.code = ''
+          this.editPwData.newpwd = ''
+          this.editPwData.newpwd2 = ''
+        })
+      }
     },
     logout() {
       this.$store.dispatch('logout').then(res => {
@@ -106,28 +194,30 @@ export default {
     }
     .header {
       height: 75px;
-      background: @main;
+      background: url(../../assets/header.jpg) no-repeat;
+      background-size: cover;
       line-height: 75px;
       color: #fff;
       font-size: 25px;
       img {
-        margin-top: 20px;
-        width: 100px;
+        margin-top: 30px;
+        width: 80px;
         border-radius: 50%;
+        border: 3px solid rgba(255, 255, 255, 0.5)
       }
     }
     .content {
-      margin-top: 40px;
+      margin-top: 26px;
       line-height: 2em;
       padding: 20px;
       text-align: center;
-      .title{
-        font-size: 20px;
+      .title {
+        font-size: 18px;
+        margin-bottom: 10px;
       }
-      span{
-        margin:0 10px;
-        color: @grey;
-        .iconfont{
+      span {
+        margin: 0 10px;
+        .iconfont {
           margin-right: 5px;
         }
       }
