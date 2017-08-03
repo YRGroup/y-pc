@@ -1,120 +1,242 @@
 <template>
-  <div>
-  
-    <el-tabs v-model="activeTab" type="card" style="background:#fff;">
-      <el-tab-pane label="添加教师" name="addTeacher">
-        <div style="background:rgba(52, 152, 219,0.3)">
-          <el-form label-width="80px">
-            <el-form-item label="添加方式">
-              <el-radio-group v-model="type">
-                <el-radio :label="1">
-                  <span>网页添加</span>
-                </el-radio>
-                <el-radio :label="2">
-                  <span>文件添加</span>
-                </el-radio>
-              </el-radio-group>
-            </el-form-item>
-            <el-form-item label="所属班级">
+  <div class="panel">
+    <ul class="classinfo classbox">
+      <li class="list name">{{classInfo.name}}</li>
+      <li class="list">
+        <span>
+          <i class="iconfont">&#xe607;</i>学生人数：</span> {{studentList.length}}</li>
+      <li class="list">
+        <span>
+          <i class="iconfont">&#xe605;</i>教师人数：</span> {{teacherList.length}}</li>
+      <li class="list">
+        <el-button type="success" @click="showAddTeacher=true">
+          <i class="iconfont">&#xe623;</i>添加老师</el-button>
+        <el-button type="info" @click="showAddStudent=true">
+          <i class="iconfont">&#xe623;</i>添加学生</el-button>
+      </li>
+    </ul>
+    <el-dialog title="添加学生" :visible.sync="showAddStudent" size="tiny">
+      <el-form label-width="80px">
+        <el-form-item label="">
+          <el-radio-group v-model="type">
+            <el-radio :label="1">
+              <span>单个添加</span>
+            </el-radio>
+            <el-radio :label="2">
+              <span>批量导入</span>
+            </el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <!-- <el-form-item label="所属班级">
               <el-select v-model="ClassID" placeholder="请选择">
                 <el-option v-for="item in classList" :key="item.cid" :label="item.Name" :value="item.cid">
                 </el-option>
               </el-select>
-            </el-form-item>
-          </el-form>
-          <div v-show="type==1">
-            <el-form label-width="80px" :inline="true" v-for="(i,index) in teacherData" :key="index">
-              <el-form-item label="姓名">
-                <el-input v-model="i.TrueName" palceholder="请输入姓名" style="width:210px;"></el-input>
+            </el-form-item> -->
+      </el-form>
+      <div v-show="type==1">
+        <el-form label-width="80px" :inline="true" v-for="(i,index) in studentData" :key="index">
+          <el-form-item label="姓名">
+            <el-input v-model="i.TrueName" palceholder="请输入姓名" style="width:280px;"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="text" :plain="true" @click.native="studentData.splice(index,1)">
+              <i class="iconfont">&#xe630;</i>
+            </el-button>
+          </el-form-item>
+        </el-form>
+        <el-form label-width="80px">
+          <el-form-item>
+            <el-button @click.native="studentData.push({ClassID: '',TrueName: ''})" type="text">
+              <i class="iconfont">&#xe623;</i> 添加学生</el-button>
+          </el-form-item>
+          <el-form-item>
+            <el-button @click.native="submitAddStudent" type="success">提 交</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+      <el-form label-width="80px" v-show="type==2">
+        <el-form-item label="">
+          <el-upload :action="$store.getters._APIurl+'/api/Upload/FileUpload'" :on-success="handleSuccess">
+            <el-button slot="trigger" size="small">下载模板</el-button>
+            <el-button slot="trigger" size="small" type="primary">上传文件</el-button>
+            <div slot="tip" class="el-upload__tip">请先下载模板，按照格式编辑后在此上传，只能上传xls/xlsx文件</div>
+          </el-upload>
+        </el-form-item>
+        <el-form-item>
+          <el-button @click.native="submitStudentFile" type="success">提 交</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+    <el-dialog title="添加老师" :visible.sync="showAddTeacher" size="tiny">
+      <el-form label-width="80px">
+        <el-form-item label="">
+          <el-radio-group v-model="type">
+            <el-radio :label="1">
+              <span>单个添加</span>
+            </el-radio>
+            <el-radio :label="2">
+              <span>批量导入</span>
+            </el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <!-- <el-form-item label="所属班级">
+          <el-select v-model="ClassID" placeholder="请选择">
+            <el-option v-for="item in classList" :key="item.cid" :label="item.Name" :value="item.cid">
+            </el-option>
+          </el-select>
+        </el-form-item> -->
+      </el-form>
+      <div v-show="type==1">
+        <el-form label-width="80px" :inline="true" v-for="(i,index) in teacherData" :key="index"  class="teacherlist">
+          <el-form-item label="姓名">
+            <el-input v-model="i.TrueName" palceholder="请输入姓名" style="width:280px;"></el-input>
+          </el-form-item>
+          <el-form-item label="手机号">
+            <el-input v-model="i.MobilePhone" palceholder="请输入手机号" style="width:280px;"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="text" :plain="true" @click.native="teacherData.splice(index,1)"> <i class="iconfont">&#xe630;</i> </el-button>
+          </el-form-item>
+        </el-form>
+        <el-form label-width="80px">
+          <el-form-item>
+            <el-button @click.native="teacherData.push({ClassID: '',TrueName: '',MobilePhone: ''})" type="text">
+              <i class="iconfont">&#xe623;</i> 添加老师</el-button>
+            </el-button>
+          </el-form-item>
+          <el-form-item>
+            <el-button @click.native="submitAddTeacher" type="success">提 交</el-button>
+          </el-form-item>
+        </el-form>
+      </div>
+      <el-form label-width="80px" v-show="type==2">
+        <el-form-item label="">
+          <el-upload :action="$store.getters._APIurl+'/api/Upload/FileUpload'" :on-success="handleSuccess">
+            <el-button slot="trigger" size="small">下载模板</el-button>
+            <el-button slot="trigger" size="small" type="primary">上传文件</el-button>
+            <div slot="tip" class="el-upload__tip">请先下载模板，按照格式编辑后在此上传，只能上传xls/xlsx文件</div>
+          </el-upload>
+        </el-form-item>
+        <el-form-item>
+          <el-button @click.native="submitTeacherFile" type="success">提 交</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+    <!-- <el-tabs v-model="activeTab" type="card" style="background:#fff;">
+        <el-tab-pane label="添加教师" name="addTeacher">
+          <div style="background:rgba(52, 152, 219,0.3)">
+            <el-form label-width="80px">
+              <el-form-item label="添加方式">
+                <el-radio-group v-model="type">
+                  <el-radio :label="1">
+                    <span>网页添加</span>
+                  </el-radio>
+                  <el-radio :label="2">
+                    <span>文件添加</span>
+                  </el-radio>
+                </el-radio-group>
               </el-form-item>
-              <el-form-item label="手机号">
-                <el-input v-model="i.MobilePhone" palceholder="请输入手机号" style="width:210px;"></el-input>
-              </el-form-item>
-              <el-form-item>
-                <el-button type="danger" :plain="true" @click.native="teacherData.splice(index,1)"> X </el-button>
+              <el-form-item label="所属班级">
+                <el-select v-model="ClassID" placeholder="请选择">
+                  <el-option v-for="item in classList" :key="item.cid" :label="item.Name" :value="item.cid">
+                  </el-option>
+                </el-select>
               </el-form-item>
             </el-form>
-            <el-form label-width="80px">
-              <el-form-item>
-                <el-button @click.native="teacherData.push({ClassID: '',TrueName: '',MobilePhone: ''})" type="">添加一项</el-button>
+            <div v-show="type==1">
+              <el-form label-width="80px" :inline="true" v-for="(i,index) in teacherData" :key="index">
+                <el-form-item label="姓名">
+                  <el-input v-model="i.TrueName" palceholder="请输入姓名" style="width:210px;"></el-input>
+                </el-form-item>
+                <el-form-item label="手机号">
+                  <el-input v-model="i.MobilePhone" palceholder="请输入手机号" style="width:210px;"></el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-button type="danger" :plain="true" @click.native="teacherData.splice(index,1)"> X </el-button>
+                </el-form-item>
+              </el-form>
+              <el-form label-width="80px">
+                <el-form-item>
+                  <el-button @click.native="teacherData.push({ClassID: '',TrueName: '',MobilePhone: ''})" type="">添加一项</el-button>
+                </el-form-item>
+                <el-form-item>
+                  <el-button @click.native="submitAddTeacher" type="success">确认提交表单</el-button>
+                </el-form-item>
+              </el-form>
+            </div>
+            <el-form label-width="80px" v-show="type==2">
+              <el-form-item label="表格">
+                <el-upload :action="$store.getters._APIurl+'/api/Upload/FileUpload'" :on-success="handleSuccess">
+                  <el-button slot="trigger" size="small">下载模板</el-button>
+                  <el-button slot="trigger" size="small" type="primary">选择编辑好的文件点此上传</el-button>
+                  <div slot="tip" class="el-upload__tip">请先下载模板，按照格式编辑后在此上传，只能上传xls/xlsx文件</div>
+                </el-upload>
               </el-form-item>
               <el-form-item>
-                <el-button @click.native="submitAddTeacher" type="success">确认提交表单</el-button>
+                <el-button @click.native="submitTeacherFile" type="success">确认提交文件</el-button>
               </el-form-item>
             </el-form>
           </div>
-          <el-form label-width="80px" v-show="type==2">
-            <el-form-item label="表格">
-              <el-upload :action="$store.getters._APIurl+'/api/Upload/FileUpload'" :on-success="handleSuccess">
-                <el-button slot="trigger" size="small">下载模板</el-button>
-                <el-button slot="trigger" size="small" type="primary">选择编辑好的文件点此上传</el-button>
-                <div slot="tip" class="el-upload__tip">请先下载模板，按照格式编辑后在此上传，只能上传xls/xlsx文件</div>
-              </el-upload>
-            </el-form-item>
-            <el-form-item>
-              <el-button @click.native="submitTeacherFile" type="success">确认提交文件</el-button>
-            </el-form-item>
-          </el-form>
-        </div>
-      </el-tab-pane>
-      <el-tab-pane label="添加学生" name="addStudent">
-        <div style="background:rgba(231, 76, 60,0.3)">
-          <el-form label-width="80px">
-            <el-form-item label="添加方式">
-              <el-radio-group v-model="type">
-                <el-radio :label="1">
-                  <span>网页添加</span>
-                </el-radio>
-                <el-radio :label="2">
-                  <span>文件添加</span>
-                </el-radio>
-              </el-radio-group>
-            </el-form-item>
-            <el-form-item label="所属班级">
-              <el-select v-model="ClassID" placeholder="请选择">
-                <el-option v-for="item in classList" :key="item.cid" :label="item.Name" :value="item.cid">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-form>
-          <div v-show="type==1">
-            <el-form label-width="80px" :inline="true" v-for="(i,index) in studentData" :key="index">
-              <el-form-item label="姓名">
-                <el-input v-model="i.TrueName" palceholder="请输入姓名" style="width:210px;"></el-input>
+        </el-tab-pane>
+        <el-tab-pane label="添加学生" name="addStudent">
+          <div style="background:rgba(231, 76, 60,0.3)">
+            <el-form label-width="80px">
+              <el-form-item label="添加方式">
+                <el-radio-group v-model="type">
+                  <el-radio :label="1">
+                    <span>网页添加</span>
+                  </el-radio>
+                  <el-radio :label="2">
+                    <span>文件添加</span>
+                  </el-radio>
+                </el-radio-group>
               </el-form-item>
-              <el-form-item>
-                <el-button type="danger" :plain="true" @click.native="studentData.splice(index,1)"> X </el-button>
+              <el-form-item label="所属班级">
+                <el-select v-model="ClassID" placeholder="请选择">
+                  <el-option v-for="item in classList" :key="item.cid" :label="item.Name" :value="item.cid">
+                  </el-option>
+                </el-select>
               </el-form-item>
             </el-form>
-            <el-form label-width="80px">
-              <el-form-item>
-                <el-button @click.native="studentData.push({ClassID: '',TrueName: ''})" type="">添加一项</el-button>
+            <div v-show="type==1">
+              <el-form label-width="80px" :inline="true" v-for="(i,index) in studentData" :key="index">
+                <el-form-item label="姓名">
+                  <el-input v-model="i.TrueName" palceholder="请输入姓名" style="width:210px;"></el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-button type="danger" :plain="true" @click.native="studentData.splice(index,1)"> X </el-button>
+                </el-form-item>
+              </el-form>
+              <el-form label-width="80px">
+                <el-form-item>
+                  <el-button @click.native="studentData.push({ClassID: '',TrueName: ''})" type="">添加一项</el-button>
+                </el-form-item>
+                <el-form-item>
+                  <el-button @click.native="submitAddStudent" type="success">确认提交表单</el-button>
+                </el-form-item>
+              </el-form>
+            </div>
+            <el-form label-width="80px" v-show="type==2">
+              <el-form-item label="表格">
+                <el-upload :action="$store.getters._APIurl+'/api/Upload/FileUpload'" :on-success="handleSuccess">
+                  <el-button slot="trigger" size="small">下载模板</el-button>
+                  <el-button slot="trigger" size="small" type="primary">选择编辑好的文件点此上传</el-button>
+                  <div slot="tip" class="el-upload__tip">请先下载模板，按照格式编辑后在此上传，只能上传xls/xlsx文件</div>
+                </el-upload>
               </el-form-item>
               <el-form-item>
-                <el-button @click.native="submitAddStudent" type="success">确认提交表单</el-button>
+                <el-button @click.native="submitStudentFile" type="success">确认提交文件</el-button>
               </el-form-item>
             </el-form>
           </div>
-          <el-form label-width="80px" v-show="type==2">
-            <el-form-item label="表格">
-              <el-upload :action="$store.getters._APIurl+'/api/Upload/FileUpload'" :on-success="handleSuccess">
-                <el-button slot="trigger" size="small">下载模板</el-button>
-                <el-button slot="trigger" size="small" type="primary">选择编辑好的文件点此上传</el-button>
-                <div slot="tip" class="el-upload__tip">请先下载模板，按照格式编辑后在此上传，只能上传xls/xlsx文件</div>
-              </el-upload>
-            </el-form-item>
-            <el-form-item>
-              <el-button @click.native="submitStudentFile" type="success">确认提交文件</el-button>
-            </el-form-item>
-          </el-form>
-        </div>
-      </el-tab-pane>
-    </el-tabs>
+        </el-tab-pane>
+      </el-tabs> -->
     <div class="content">
       <div class="card">
-        <el-row :gutter="20">
+        <el-row :gutter="40">
           <el-col :span="12">
-            <div class="tableHeader">教师列表，共有 {{teacherList.length}} 人</div>
+            <div class="tableHeader">班级教师（ {{teacherList.length}} 人）</div>
             <el-table :data="teacherList" stripe>
               <el-table-column prop="Mobilephone" label="手机号">
               </el-table-column>
@@ -128,7 +250,7 @@
             </el-table>
           </el-col>
           <el-col :span="12">
-            <div class="tableHeader">学生列表，共有 {{studentList.length}} 人</div>
+            <div class="tableHeader">班级学生（ {{studentList.length}} 人）</div>
             <el-table :data="studentList" stripe>
               <el-table-column prop="StudentID" label="学号">
               </el-table-column>
@@ -209,6 +331,11 @@ export default {
         TrueName: '',
         MobilePhone: ''
       }],
+      classInfo: {
+        name: '',
+        teacher: '',
+        student_count: '',
+      },
       studentData: [{
         TrueName: ''
       }],
@@ -223,11 +350,21 @@ export default {
       editStudentData: {
 
       },
+      showAddStudent: false,
+      showAddTeacher: false
+    }
+  },
+  computed: {
+    classId() {
+      return this.$store.state.currentClassId
     }
   },
   methods: {
     getData() {
       this.ClassID = this.$store.state.currentClassId
+      this.$API.getClassInfo(this.classId).then(res => {
+        this.classInfo = res
+      })
       this.$API.getClassList(this.ClassID).then(res => {
         this.classList = res
       })
@@ -244,6 +381,7 @@ export default {
       })
       this.$API.addTeacher(this.teacherData).then(res => {
         this.$message.success('添加老师成功')
+        this.showAddTeacher = fasle
         this.teacherData = []
         this.getData()
       })
@@ -254,6 +392,7 @@ export default {
       })
       this.$API.addStudentAccount(this.studentData).then(res => {
         this.$message.success('添加学生成功')
+        this.showAddStudent = fasle
         this.studentData = []
         this.getData()
       })
@@ -263,33 +402,33 @@ export default {
     },
     submitTeacherFile() {
       // this.$API.getClassList(this.data).then(res => {
-      this.$message.success('提交批量添加表格成功')
+      this.$message.success('批量添加老师成功')
       // })
     },
     submitStudentFile() {
       // this.$API.getClassList(this.data).then(res => {
-      this.$message.success('提交批量添加表格成功')
+      this.$message.success('批量添加学生成功')
       // })
     },
     startEditTeacher(val) {
-      this.editTeacherData=val
-      this.showEditTeacher=true
+      this.editTeacherData = val
+      this.showEditTeacher = true
     },
     submitEditTeacher() {
       this.$API.editTeacherInfo(this.editTeacherData).then(() => {
         this.$message.success('修改教师信息成功')
-        this.showEditTeacher=false
+        this.showEditTeacher = false
         this.editTeacherData = {}
       })
     },
     startEditStudent(val) {
-      this.editStudentData=val
-      this.showEditStudent=true
+      this.editStudentData = val
+      this.showEditStudent = true
     },
     submitEditStudent() {
       this.$API.editStudentInfo(this.editStudentData).then(() => {
         this.$message.success('修改学生信息成功')
-        this.showEditStudent=false
+        this.showEditStudent = false
         this.editStudentData = {}
       })
     },
@@ -305,6 +444,36 @@ export default {
 
 <style lang="less" scoped>
 @import '../../style/theme.less';
+.panel{
+  padding: 20px;
+}
+.classbox {
+  border: 1px solid @border;
+  background: #fff;
+  padding: 20px 60px;
+  .name {
+    font-weight: 16px;
+    font-weight: 600;
+    color: #333;
+  }
+  .list {
+    display: inline-block;
+    border-right: 1px dashed @border;
+    margin-right: 40px;
+    padding-right: 40px;
+    line-height: 60px;
+    &:last-child {
+      border-right: none;
+      float: right;
+    }
+    span {
+      color: @grey;
+    }
+    .iconfont {
+      margin-right: 5px;
+    }
+  }
+}
 
 .typeRadio {
   line-height: 5em;
@@ -332,9 +501,12 @@ export default {
 
 .tableHeader {
   line-height: 50px;
-  padding-left: 30px;
-  font-size: 20px;
-  background: @main;
-  color: #fff;
+  font-size: 16px;
+}
+.teacherlist{
+  margin-bottom: 20px;
+  .el-form-item{
+    margin-bottom: 10px;
+  }
 }
 </style>

@@ -8,7 +8,6 @@
     </div>
   
     <div class="right">
-  
       <div class="classInfo classbox">
         <div class="header">
           <img src="https://modao.cc/uploads3/images/900/9007936/raw_1493017171.jpeg">

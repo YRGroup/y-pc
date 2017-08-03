@@ -17,7 +17,7 @@
         <div class="time">{{data.AddTime}}</div>
         <div class="content" v-html="data.content"></div>
         <div class="footer">
-          <div class="btn">share</div>
+          <div class="btn"><i class="iconfont">&#xe60c;</i></div>
         </div>
       </div>
   
@@ -118,8 +118,9 @@ export default {
       line-height: 2em;
       text-indent: 2em;
       text-align: left;
-      img{
-        text-align: center;
+      .ql-align-center{
+        text-align: center!important;
+        margin:10px 0;
       }
     }
     .footer {
@@ -132,6 +133,8 @@ export default {
         background: @main;
         display: inline-block;
         margin: 20px;
+        font-size: 20px;
+        cursor: pointer;
       }
     }
   }
