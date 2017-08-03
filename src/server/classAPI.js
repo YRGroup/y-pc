@@ -166,6 +166,14 @@ API.addClassTeacher = (data) => {
     })
   })
 }
-// testing
+
+// 获取班级列表
+API.getClassList = () => { 
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl+'/api/Class/GetClassList').then((res)=>{
+        resolve(res.data.Content)
+    })
+  })
+}
 
 export default API

@@ -21,6 +21,15 @@
   
       <div class="card">
         <div class="title">
+          班级管理
+        </div>
+        <div class="content" style="text-align:center;">
+          <el-button type="danger" @click="$router.push('/admin')">班级管理</el-button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="title">
           公告
         </div>
         <div class="content">
@@ -59,7 +68,7 @@
         <div class="content">
           <div class="teacherItem" v-for="i in teachers" :key="i.Meid" @click="$router.push('/teacher/?id='+i.Meid)">
             <span class="teacherImg">
-              <img :src="i.Headimgurl" v-if="i.Headimgurl!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && i.Headimgurl!=''">
+              <img :src="i.Headimgurl" v-if="i.Headimgurl!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' ">
               <div class="headTextImg" v-else>{{i.TrueName.substr(0,1)}}</div>
             </span>
             <span>{{i.TrueName}}</span>

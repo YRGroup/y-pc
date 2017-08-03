@@ -141,6 +141,32 @@ API.addNewsComment = (params) => {
   })
 }
 
+// 添加老师账号
+API.addTeacher = (params) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl+'/api/User/AddTeacher',params).then((res)=>{
+      resolve(res.data.Content)
+    }).catch((err)=>{
+      console.log('获取信息失败：')
+      console.log(err)
+      reject(err)
+    })
+  })
+}
+
+// 添加学生账号
+API.addStudentAccount = (params) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl+'/api/User/AddStudent',params).then((res)=>{
+      resolve(res.data.Content)
+    }).catch((err)=>{
+      console.log('获取信息失败：')
+      console.log(err)
+      reject(err)
+    })
+  })
+}
+
 // 空API模板
 API.test = () => {
   return new Promise((resolve, reject) => {
