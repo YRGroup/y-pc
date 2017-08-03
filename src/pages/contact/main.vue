@@ -2,18 +2,21 @@
   <div>
     <div class="card leftCon">
       <div class="maintitle">
-        <i class="iconfont">&#xe649;</i>消息列表</div>
-      <li class="item" v-for="(i,index) in data" :key="index" @click="$router.push('/msg/'+i.ToMeid)">
-        <div class="img">
-          <img :src="i.ToHeadImg" v-if="i.ToHeadImg!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && i.ToHeadImg!=''">
-          <div class="headTextImg" v-else>{{i.ToName.substr(0,1)}}</div>
-        </div>
-        <div class="content">
-          <div class="name">{{i.ToName}}</div>
-          <div class="time">{{i.LastTime}}</div>
-          <div class="msg">{{i.Content}}</div>
-        </div>
-      </li>
+        <i class="iconfont">&#xe649;</i>消息列表
+      </div>
+      <div style="padding:0 20px">
+        <li class="item" v-for="(i,index) in data" :key="index" @click="$router.push('/msg/'+i.ToMeid)">
+          <div class="img">
+            <img :src="i.ToHeadImg" v-if="i.ToHeadImg!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && i.ToHeadImg!=''">
+            <div class="headTextImg" v-else>{{i.ToName.substr(0,1)}}</div>
+          </div>
+          <div class="content">
+            <div class="name">{{i.ToName}}</div>
+            <div class="time">{{i.LastTime}}</div>
+            <div class="msg">{{i.Content}}</div>
+          </div>
+        </li>
+      </div>
     </div>
   
   </div>

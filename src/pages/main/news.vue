@@ -1,12 +1,17 @@
 <template>
   <div>
-  
-    <div class="nav">
+    <!-- <div class="nav">
       <span>首页 > </span>
       <span>校园动态</span>
-    </div>
-    
+    </div> -->
+  
     <div class="card">
+      <div class="maintitle">
+        <i class="iconfont">&#xe737;</i>校园动态
+        <span class="goreturn">
+          <el-button size="small" @click="$router.go(-1)" type="success" :plain="true">返回</el-button>
+        </span>
+      </div>
       <div class="body">
         <div class="title">{{data.Title}}</div>
         <div class="time">{{data.AddTime}}</div>
@@ -17,8 +22,8 @@
       </div>
   
       <div class="reply">
-        <el-input class="input" size="large" v-model="commentData.Content" placeholder="请输入内容" @keyup.enter.native="addComment"></el-input>
-        <el-button class="btn" type="primary" @click="addComment">回复</el-button>
+        <el-input class="input" v-model="commentData.Content" placeholder="请输入内容" @keyup.enter.native="addComment"></el-input>
+        <el-button class="btn" type="success" @click="addComment">回复</el-button>
       </div>
       <div class="replyList">
         <div class="title">全部回复（{{data.Comments.length}}）</div>
@@ -49,10 +54,10 @@ export default {
   data() {
     return {
       data: {
-        Title:'',
-        content:'',
-        AddTime:'',
-        Comments:[]
+        Title: '',
+        content: '',
+        AddTime: '',
+        Comments: []
       },
       commentData: {},
     }
@@ -70,7 +75,7 @@ export default {
       this.commentData.ArticleID = this.$route.query.id
       this.$API.addNewsComment(this.commentData).then(res => {
         this.$message.success('添加评论成功！')
-        this.commentData.Content=''
+        this.commentData.Content = ''
         this.getData()
       })
     },
@@ -89,19 +94,21 @@ export default {
 
 .nav {
   font-size: 12px;
+  margin-top: -10px;
 }
 
 .card {
-  margin: 15px 0;
-  padding: 10px 20px;
+  // margin: 15px 0;
+  // padding: 20px 40px;
   border: 1px solid @border;
-  font-size: 13px;
   background: #fff;
   .body {
+    padding: 20px 80px;
     text-align: center;
     .title {
-      line-height: 80px;
-      font-size: 25px;
+      margin-top: 10px;
+      line-height: 36px;
+      font-size: 24px;
     }
     .time {
       color: @grey;
@@ -111,6 +118,9 @@ export default {
       line-height: 2em;
       text-indent: 2em;
       text-align: left;
+      img{
+        text-align: center;
+      }
     }
     .footer {
       .btn {
@@ -126,6 +136,7 @@ export default {
     }
   }
   .reply {
+    text-align: center;
     padding: 20px;
     .input {
       display: inline-block;
@@ -136,20 +147,23 @@ export default {
     }
   }
   .replyList {
+    .list{
+      padding:0 40px 20px;
+    }
     .title {
       padding: 10px 20px;
       border-bottom: 1px solid @border;
     }
     .item {
-      margin-left: 80px;
+      padding-left: 80px;
       padding-top: 10px;
       position: relative;
       min-height: 70px;
-      border-bottom: 1px dotted @border;
+      border-bottom: 1px dashed @border;
     }
     .img {
       position: absolute;
-      left: -70px;
+      left: 20px;
       top: 10px;
       img {
         border-radius: 50%;
@@ -158,8 +172,10 @@ export default {
     }
     .top {
       line-height: 30px;
+      margin-bottom: 5px;
       .time {
         color: @grey;
+        margin-left: 20px;
       }
     }
   }
