@@ -40,7 +40,7 @@ export default {
   components: {},
   data() {
     return {
-      data:{},
+      data: {},
       currentStudent: {
         school: '',
         Headimgurl: '',
@@ -59,16 +59,24 @@ export default {
       if (this.$route.query.studentId) {
         this.$API.getStudentInfo(this.$route.query.studentId).then(res => {
           this.data = res
+          this.currentStudent.school = res.School.Name
+          this.currentStudent.Class = res.Class.Name
+          this.currentStudent.Headimgurl = res.user.Headimgurl
+          this.currentStudent.TrueName = res.user.TrueName
+          this.currentStudent.StudentID = res.user.StudentID
+          this.parents = res.Parents
+        })
+      } else {
+        this.$API.getStudentInfo(this.$store.state.currentStudentId).then(res => {
+          this.data = res
+          this.currentStudent.school = res.School.Name
+          this.currentStudent.Class = res.Class.Name
+          this.currentStudent.Headimgurl = res.user.Headimgurl
+          this.currentStudent.TrueName = res.user.TrueName
+          this.currentStudent.StudentID = res.user.StudentID
+          this.parents = res.Parents
         })
       }
-      // this.$API.getStudentInfo(this.$store.state.currentStudentId).then(res => {
-      //   this.currentStudent.school = res.School.Name
-      //   this.currentStudent.Class = res.Class.Name
-      //   this.currentStudent.Headimgurl = res.user.Headimgurl
-      //   this.currentStudent.TrueName = res.user.TrueName
-      //   this.currentStudent.StudentID = res.user.StudentID
-      //   this.parents = res.Parents
-      // })
     }
   },
   created() {

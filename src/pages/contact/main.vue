@@ -3,7 +3,7 @@
     <div class="card leftCon">
       <div class="maintitle">
         <i class="iconfont">&#xe649;</i>消息列表</div>
-      <li class="item" v-for="(i,index) in data" :key="index" @click="$router.push('/msg/'+i.ToMeid)">
+      <li class="item" v-for="(i,index) in data" :key="index" @click="$router.push('/msg/'+i.Meid)">
         <div class="img">
           <img :src="i.HeadImg" v-if="i.HeadImg!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && i.HeadImg!=''">
           <div class="headTextImg" v-else>{{i.Name.substr(0,1)}}</div>
@@ -12,6 +12,7 @@
           <div class="name">{{i.Name}}</div>
           <div class="time">{{i.LastTime}}</div>
           <div class="msg">{{i.Content}}</div>
+          <div class="num" v-show="i.UnReadCount">{{ i.UnReadCount }}</div>
         </div>
       </li>
     </div>
@@ -51,6 +52,7 @@ export default {
     padding: 15px 20px;
     border-bottom: 1px dotted @border;
     cursor: pointer;
+    position: relative;
     &:hover {
       // border-bottom: 1px dotted @main;
       background: @border;
@@ -83,6 +85,18 @@ export default {
         font-size: 12px;
         max-height: 4em;
         overflow: hidden;
+      }
+      .num{
+        position: absolute;
+        right:1em;
+        top:1em;
+        height:30px;
+        width:30px;
+        background: @sub;
+        color:#fff;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 30px;
       }
     }
     .btn {

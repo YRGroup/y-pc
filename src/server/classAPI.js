@@ -109,6 +109,16 @@ API.doLikeThisPost = (classDynamicId) => {
 }
 // testing
 
+// 获取班级点赞列表
+API.postLikedList = (classDynamicId) => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl+'/api/Class/GetZan?did='+classDynamicId).then((res)=>{
+      resolve(res.data.Content)
+    })
+  })
+}
+// testing
+
 
 // 获取班级的教师列表
 API.getTeacherList = (classId) => {

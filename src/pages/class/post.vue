@@ -10,7 +10,8 @@
       </div>
       <div class="mainCon">
         <div class="img">
-          <img :src="data.userImg">
+          <img :src="data.userImg" v-if="data.userImg!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && data.userImg!=''">
+          <div class="headTextImg" v-else>{{data.auther.substr(0,1)}}</div>
         </div>
         <div class="header">
           {{data.auther}}
@@ -25,11 +26,20 @@
         <div class="footer">
           <span class="time">{{data.date}}</span>
           <span class="iconbtn">
-            <span title="点赞数" @click="doLike(data.id),data.like++">
+            <span @click="doLike(data.id),data.like++">
               <i class="iconfont">&#xe646;</i>{{data.like}}</span>
           </span>
-  
-          <!-- <div class="btn" @click="doLike(data.id),data.like++">like:{{data.like}}</div> -->
+          <div class="liked">
+            <div class="item" v-for="(i,index) in data.zans" :key="index">
+              <div class="img">
+                <img :src="i.HeadImg" v-if="i.HeadImg!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && i.HeadImg!=''">
+                <div class="headTextImg" v-else>{{i.TrueName.substr(0,1)}}</div>
+              </div>
+              <div class="name">
+                {{i.TrueName}}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -178,6 +188,28 @@ export default {
         cursor: pointer;
         &:hover {
           color: @main;
+        }
+      }
+      .liked{
+        .item{
+          display: inline-block;
+          position: relative;
+          text-align: center;
+          margin:5px;
+          .img{
+            position: static;
+            img{
+              width:30px;
+              height:30px;
+              border-radius: 50%;
+            }
+            .headTextImg{
+              width:30px;
+              height:30px;
+              line-height: 30px;
+              font-size: 20px;
+            }
+          }
         }
       }
     }
