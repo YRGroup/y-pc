@@ -10,7 +10,6 @@ export default {
   components:{},
   data (){
     return{
-      msg:'123456789'
     }
   },
   methods:{

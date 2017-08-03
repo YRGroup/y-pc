@@ -20,11 +20,9 @@ import student from '@/pages/student/main'
 import score from '@/pages/student/score'
 import editStudent from '@/pages/student/edit'
 
-
 import teacherHome from '@/pages/teacher/home'
 import teacher from '@/pages/teacher/main'
 import editTeacher from '@/pages/teacher/edit'
-
 
 import parentHome from '@/pages/parent/home'
 import parent from '@/pages/parent/main'
@@ -36,6 +34,7 @@ import exam from '@/pages/exam/exam'
 
 import schoolcard from '@/pages/addon/schoolcard'
 
+import admin from '@/pages/admin/admin'
 
 import reg from '@/pages/login/reg'
 import login from '@/pages/login/login'
@@ -178,6 +177,11 @@ export default new Router({
           path: '/exam/:examId',
           name: 'exam',
           component: exam,
+        },
+        {
+          path: '/admin',
+          name: 'admin',
+          component: admin,
         },
       ]
     },
