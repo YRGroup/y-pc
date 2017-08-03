@@ -71,7 +71,7 @@
               <img :src="i.Headimgurl" v-if="i.Headimgurl!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' ">
               <div class="headTextImg" v-else>{{i.TrueName.substr(0,1)}}</div>
             </span>
-            <span>{{i.TrueName}}</span>
+            <div>{{i.TrueName}}</div>
           </div>
         </div>
       </div>
@@ -223,6 +223,9 @@ export default {
         cursor: pointer;
         .teacherImg {
           height: 50px;
+          .headTextImg{
+            vertical-align: top;
+          }
         }
         span {
           display: inline-block;
