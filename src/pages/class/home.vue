@@ -71,7 +71,8 @@
               <img :src="i.Headimgurl" v-if="i.Headimgurl!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' ">
               <div class="headTextImg" v-else>{{i.TrueName.substr(0,1)}}</div>
             </span>
-            <div>{{i.TrueName}}</div>
+            <div>{{i.TrueName  || '未命名'}}</div>
+            <div>{{i.Course || '无学科'}}</div>
           </div>
         </div>
       </div>

@@ -39,6 +39,8 @@ import admin from '@/pages/admin/admin'
 import reg from '@/pages/login/reg'
 import login from '@/pages/login/login'
 
+import errorPage from '@/pages/sys/404'
+
 
 Vue.use(Router)
 
@@ -195,5 +197,16 @@ export default new Router({
       name: 'login',
       component: login,
     },
+    {
+      path: '/404',
+      name: 'errorPage',
+      component: errorPage,
+    },
+    {
+      path: '*',
+      redirect: {
+        path: '/404'
+      }
+    }
   ]
 })
