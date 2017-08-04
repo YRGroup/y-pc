@@ -121,7 +121,7 @@ export default {
     smsLogin() {
       this.smsLoginData.phone = this.phone
       document.cookie = "meid=aa; expires=" + new Date(2011, 1, 1).toGMTString();
-      this.$store.dispatch('smsLogin', this.smsLogin).then(res => {
+      this.$store.dispatch('smsLogin', this.smsLoginData).then(res => {
         this.$router.push('/')
       }).catch(err => {
         this.$message.error(err.msg)
@@ -142,7 +142,8 @@ export default {
       // this.getsmsCount = 60
       // this.step = 2
       // this.startCount()
-      this.$API.getLoginSms(this.loginData.phone).then(res => {
+      this.$API.getLoginSms(this.phone).then(res => {
+        this.$message.success('验证码已发出，请查收短信！')
         this.getsmsCount = 60
         this.step = 2
         this.startCount()
@@ -160,7 +161,7 @@ export default {
             this.step = 2
             this.startCount()
           } else {
-            this.$router.push('/reg')
+            this.$router.push('/reg?tel='+this.phone)
           }
         })
       } else if (this.phone.slice(0, 1) == 8 && this.phone.length === 9) {
