@@ -92,7 +92,7 @@ API.editPWBySms = (data) => {
 // 获取登陆验证码
 API.getLoginSms = (tel) => {
   return new Promise((resolve, reject) => {
-    axios.get(_APIurl+'/api/user/SendRegSMS?phone='+tel).then((res)=>{
+    axios.get(_APIurl+'/api/user/SendLoginSMS?phone='+tel).then((res)=>{
       resolve(res.data.Content)
     }).catch((err)=>{
       console.log('获取信息失败：')
