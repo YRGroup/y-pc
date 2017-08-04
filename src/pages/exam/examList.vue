@@ -15,12 +15,13 @@
           <div class="examinfo">
             <span><i class="iconfont">&#xe621;</i>创建时间：{{i.CreateTime}}</span>
             <span><i class="iconfont">&#xe6b4;</i>学科：
-               <span v-if="i.Courses.length>5">多学科</span>
+               <span v-if="i.Courses.length>3">多学科</span>
               <span v-else v-for="c in i.Courses" :key="c.ID">{{c.CourseName}}</span> 
             </span>
           </div>
           <div class="exambtn">
-            <el-button :plain="true" type="danger" @click="delExam(i.ID)">删除</el-button>
+            <el-button class="delbtn" :plain="true" type="text" @click="delExam(i.ID)" size="small"><i class="iconfont">&#xe630;</i> 删除</el-button>
+            <el-button type="info">发通知</el-button>
             <el-button type="success" class="type" @click="$router.push('/exam/'+i.ID)">查看成绩</el-button>
           </div>
         </li>
@@ -231,6 +232,9 @@ export default {
       &:hover {
         background: @border;
       }
+      &:hover .exambtn .delbtn{
+        display: inline-block;
+      }
       .examtitle {
         line-height: 30px;
         font-size: 18px;
@@ -242,7 +246,7 @@ export default {
           margin-right: 20px;
         }
         .iconfont{
-          margin-right: 8px;
+          margin-right: 5px;
           color: @main;
           font-size: 16px;
         }
@@ -255,6 +259,9 @@ export default {
         position: absolute;
         right: 30px;
         top: 24px;
+        .delbtn{
+          display: none;
+        }
       }
     }
   }

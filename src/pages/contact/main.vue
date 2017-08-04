@@ -94,13 +94,14 @@ export default {
         position: absolute;
         right:1em;
         top:1em;
-        height:30px;
-        width:30px;
-        background: @sub;
+        height:18px;
+        width:18px;
+        background: #ff7e00;
         color:#fff;
         border-radius: 50%;
         text-align: center;
-        line-height: 30px;
+        line-height: 18px;
+        font-size: 12px;
       }
     }
     .btn {

@@ -9,19 +9,15 @@
       </ul>
       <div class="item">
         <!-- <div class="title">手机号：</div> -->
-        <el-input size="large" slot="append" placeholder="请输入手机号" autofocus @blur="verifyTel" v-model="loginData.phone">
-          <template slot="prepend">
+        <el-input size="large" slot="append" placeholder="请输入手机号或学号" autofocus @blur="verifyTel" v-model="loginData.phone">
             <i class="iconfont">&#xe60b;</i>
-          </template>
         </el-input>
       </div>
   
       <div class="item">
         <!-- <div class="title">密码：</div> -->
         <el-input size="large" class="input" type="password" placeholder="请输入密码" :minlength='6' @keyup.enter.native="login" v-model="loginData.password">
-          <template slot="prepend">
             <i class="iconfont">&#xe692;</i>
-          </template>
         </el-input>
       </div>
   
