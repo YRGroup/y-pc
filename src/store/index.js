@@ -160,6 +160,36 @@ const store = new Vuex.Store({
         })
       })
     },
+    studentLogin({
+      getters,
+      commit,
+      state
+    }, payload) {
+      return new Promise((resolve, reject) => {
+        API.studentLogin(payload).then(res => {
+          localStorage.setItem('user', JSON.stringify(res))
+          commit('login', res)
+          resolve(res)
+        }).catch(err => {
+          reject(err)
+        })
+      })
+    },
+    smsLogin({
+      getters,
+      commit,
+      state
+    }, payload) {
+      return new Promise((resolve, reject) => {
+        API.loginBySms(payload).then(res => {
+          localStorage.setItem('user', JSON.stringify(res))
+          commit('login', res)
+          resolve(res)
+        }).catch(err => {
+          reject(err)
+        })
+      })
+    },
     logout({
       getters,
       commit,

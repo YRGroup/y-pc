@@ -17,7 +17,42 @@ API.login = (logData) => {
     })
   })
 }
-// testing
+
+// 使用学号登陆
+API.studentLogin = (logData) => {
+  document.cookie = "meid=aa;path=/;domain="+document.domain.match(/[^\.]+\.[^\.]+$/)[0]+";expires=" +new Date(2011,1,1).toGMTString()
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl + '/api/User/LoginByStudentID', logData).then((res) => {
+      resolve(res.data.Content)
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
+
+// 使用短信验证码登陆
+API.loginBySms = (data) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl+'/api/user/LoginByPhoneCode',data).then((res)=>{
+      resolve(res.data.Content)
+    }).catch((err)=>{
+      console.log('获取信息失败：')
+      console.log(err)
+      reject(err)
+    })
+  })
+}
+
+// 验证账号
+API.verifyAccount = (para) => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl + '/api/User/CheckPhoneStatus', {params:para}).then((res) => {
+      resolve(res.data)
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
 
 // 用户注册
 API.userReg = (regdata) => {
@@ -31,7 +66,6 @@ API.userReg = (regdata) => {
     })
   })
 }
-// testing
 
 // 修改密码
 API.changePassword = (data) => {
