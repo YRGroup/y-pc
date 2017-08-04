@@ -120,7 +120,7 @@ export default {
   methods: {
     verifyTel() {
       if (this.regData.phone.length != 11) {
-        this.$message.error('手机号格式错误')
+        this.$message.error('请输入正确的手机号')
         return false
       } else {
         this.isVerified = Boolean(false)
