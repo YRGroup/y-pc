@@ -27,7 +27,6 @@
         </div>
       </div>
     </div>
-
   
   </div>
 </template>
@@ -39,27 +38,30 @@ export default {
   data() {
     return {
       data: {
-        truename:'',
-        'student_id':'',
-        type:'5'
+        truename: '',
+        'student_id': '',
+        type: '5'
       },
     }
   },
   computed: {
-    currentUser () {
+    currentUser() {
       return this.$store.state.currentUser
     }
   },
   methods: {
-    submitAdd(){
-      if(this.data.truename && this.data['student_id']){
-        this.$API.addStudent(this.data).then(res=>{
+    submitAdd() {
+      if (this.data.truename && this.data['student_id']) {
+        this.$API.addStudent(this.data).then(res => {
           this.$message.success('学生绑定成功！')
           this.$store.dispatch('getCurrentUser')
           this.$router.push('/class')
+          this.getData()
+        }).catch(err => {
+          this.$message.error(err.msg)
         })
-      }else{
-        this.$message.error('数据不完整');
+      } else {
+        this.$message.error('请完善数据');
       }
     },
   },
@@ -91,7 +93,7 @@ export default {
   .header {
     line-height: 40px;
     vertical-align: middle;
-    padding-left:30px;
+    padding-left: 30px;
   }
   .content {
     width: calc(~"100% - 120px");

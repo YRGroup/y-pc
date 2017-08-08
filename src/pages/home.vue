@@ -22,7 +22,7 @@
             <i class="iconfont">&#xe6a5;</i>通讯录</li>
           <li @click="$router.push('/teacher')" v-show="$store.state.role=='老师'" :class="link=='teacher'?'active':null">
             <i class="iconfont">&#xe64b;</i>个人主页</li>
-          <li @click="$router.push('/student/score')" v-show="$store.state.role=='家长'" :class="link=='score'?'active':null">
+          <li @click="$router.push('/student/'+$store.state.currentStudentId+'/score/1')" v-show="$store.state.role=='家长'" :class="link=='score'?'active':null">
             <i class="iconfont">&#xe60e;</i>成绩报告</li>
           <li @click="$router.push('/parent')" v-show="$store.state.role=='家长'" :class="link=='parent'?'active':null">
             <i class="iconfont">&#xe64b;</i>个人主页</li>

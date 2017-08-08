@@ -1,43 +1,50 @@
 <template>
   <div>
-  
-    <div class="left">
-  
-      <router-view></router-view>
-  
+    <has-no-student v-if="$store.state.hasNoStudent"></has-no-student>
+    <div v-else>
+
+      <div class="left">
+    
+        <router-view></router-view>
+    
+      </div>
+    
+      <div class="right">
+        <div class="card">
+          <div class="header">
+            <img :src="currentStudent.Headimgurl">
+          </div>
+          <div class="content">
+            <p>{{currentStudent.TrueName}}</p>
+            <p>{{currentStudent.school}}</p>
+            <p>{{currentStudent.Class}}</p>
+            <p>学号：{{currentStudent.StudentID}}</p>
+            <el-button size="small" type="sucssess" @click.native="unbind">解绑</el-button>
+          </div>
+        </div>
+    
+        <div class="card" v-for="(i,index) in parents" :key="index">
+          <div class="header">
+            <img :src="i.ParentHeadimgurl">
+          </div>
+          <div class="content">
+            <p>{{i.ParentType}}： {{i.ParentTrueName}}</p>
+            <p>手机：{{i.ParentPhone}}</p>
+          </div>
+        </div>
+    
+      </div>
     </div>
   
-    <div class="right">
-      <div class="card">
-        <div class="header">
-          <img :src="currentStudent.Headimgurl">
-        </div>
-        <div class="content">
-          <p>{{currentStudent.TrueName}}</p>
-          <p>{{currentStudent.school}}</p>
-          <p>{{currentStudent.Class}}</p>
-          <p>学号：{{currentStudent.StudentID}}</p>
-        </div>
-      </div>
-  
-      <div class="card" v-for="(i,index) in parents" :key="index">
-        <div class="header">
-          <img :src="i.ParentHeadimgurl">
-        </div>
-        <div class="content">
-          <p>{{i.ParentType}}： {{i.ParentTrueName}}</p>
-          <p>手机：{{i.ParentPhone}}</p>
-        </div>
-      </div>
-  
-    </div>
   </div>
 </template>
 
 <script>
+import hasNoStudent from '@/components/hasNoStudent'
+
 export default {
   name: 'app',
-  components: {},
+  components: {hasNoStudent},
   data() {
     return {
       data: {},
@@ -49,6 +56,7 @@ export default {
         Class: '',
       },
       parents: [],
+      bingdata:{}
     }
   },
   computed: {
@@ -77,6 +85,18 @@ export default {
           this.parents = res.Parents
         })
       }
+    },
+    unbind() {
+      this.bingdata.student_meid = this.$store.state.currentStudentId
+      this.$API.UnBindStudent(this.bingdata).then(res => {
+        this.$message('解绑成功！')
+        this.$router.push('/')
+        this.$store.state.hasNoStudent = true
+        this.getData()
+      }).catch(err => {
+        this.$message.error(err.msg)
+      })
+      console.log(this.$store.state)
     }
   },
   created() {

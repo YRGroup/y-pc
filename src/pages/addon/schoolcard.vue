@@ -1,55 +1,60 @@
 <template>
   <div>
-    
-    <div v-if="hasNoSchoolcard">
-      <div class="noCard">
-        <p>
-          没有找到校园卡记录
-        </p>
-        <el-button type="primary" @click="$router.push('/user')">添加校园卡信息</el-button>
-      </div>
-    </div>
-
+    <has-no-student v-if="$store.state.hasNoStudent"></has-no-student>
     <div v-else>
-      <div class="cardSummary">
-        <div class="total">
-          <span class="item">
-            <span>当前余额  </span>
-            <span class="balance">{{balance}}</span>
-          </span>
+      <div v-if="hasNoSchoolcard">
+        <div class="noCard">
+          <p>
+            没有找到校园卡记录
+          </p>
+          <el-button type="primary" @click="$router.push('/user')">添加校园卡信息</el-button>
         </div>
       </div>
-    
-      <div class="cardList leftCon">
-        <div class="header">消费记录
-          <!-- <el-select v-model="pageSize" class="pagesize" @change="changePagesize" >
-            <el-option
-              v-for="item in allPagesize"
-              :key="item"
-              :label="'每页显示'+item+'条'"
-              :value="item">
-            </el-option>
-          </el-select> -->
+
+      <div v-else>
+        <div class="cardSummary">
+          <div class="total">
+            <span class="item">
+              <span>当前余额  </span>
+              <span class="balance">{{balance}}</span>
+            </span>
+          </div>
         </div>
-        <div class="item" v-for="(i,index) in alllog" :key="index">
-          <div class="title">{{i.Title}}</div>
-          <div class="time">{{i.CreateTime}}</div>
-          <div class="log">{{i.OpeaType}} {{i.Money}}</div>
+      
+        <div class="cardList leftCon">
+          <div class="header">消费记录
+            <!-- <el-select v-model="pageSize" class="pagesize" @change="changePagesize" >
+              <el-option
+                v-for="item in allPagesize"
+                :key="item"
+                :label="'每页显示'+item+'条'"
+                :value="item">
+              </el-option>
+            </el-select> -->
+          </div>
+          <div class="item" v-for="(i,index) in alllog" :key="index">
+            <div class="title">{{i.Title}}</div>
+            <div class="time">{{i.CreateTime}}</div>
+            <div class="log">{{i.OpeaType}} {{i.Money}}</div>
+          </div>
+          
+          <load-more @click.native="loadMore" :noMoreData="noMoreData"></load-more>
+      
         </div>
-        
-        <load-more @click.native="loadMore" :noMoreData="noMoreData"></load-more>
-     
       </div>
     </div>
+    
+    
 
   </div>
 </template>
 
 <script>
+import hasNoStudent from '@/components/hasNoStudent'
 import loadMore from '@//components/loadMore'
 
 export default {
-  components:{loadMore},
+  components:{loadMore ,hasNoStudent},
   data (){
     return{
       hasNoSchoolcard:false,
@@ -75,6 +80,11 @@ export default {
             res.Log.forEach((element) => {
               this.alllog.push(element)
             })
+            let alllog = this.alllog
+            for(var i = 0; i < alllog.length; i++){
+              let time = new Date(alllog[i].CreateTime)
+              alllog[i].CreateTime = time.Format('MM-dd hh:mm')
+            }
           } else {
             this.noMoreData = true
           }

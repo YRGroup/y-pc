@@ -89,7 +89,7 @@ export default new Router({
               component: student,
             },
             {
-              path: 'score',
+              path: '/student/:studentId/score/:examId',
               name: 'score',
               component: score,
             },

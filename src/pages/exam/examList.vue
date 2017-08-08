@@ -20,7 +20,7 @@
             </span>
           </div>
           <div class="exambtn">
-            <el-button class="delbtn" :plain="true" type="text" @click="delExam(i.ID)" size="small"><i class="iconfont">&#xe630;</i> 删除</el-button>
+            <el-button class="delbtn" :plain="true" type="text" @click="delExam(i.ID,i.ExamName)" size="small"><i class="iconfont">&#xe630;</i> 删除</el-button>
             <el-button type="info">发通知</el-button>
             <el-button type="success" class="type" @click="$router.push('/exam/'+i.ID)">查看成绩</el-button>
           </div>
@@ -161,6 +161,11 @@ export default {
       this.newExamData.ClassID = this.currentClass
       this.$API.getClassExamList(this.currentClass).then(res=>{
         this.data = res
+        let data = this.data
+        for(var i = 0; i < data.length; i++){
+          let time = new Date(data[i].CreateTime)
+          data[i].CreateTime = time.Format('MM-dd hh:mm')
+        }
       })
     },
     addNewExam() {
@@ -187,14 +192,16 @@ export default {
         this.newExamData.courses=[]
       }
     },
-    delExam(n) {
+    delExam(id,name) {
       this.$confirm('确认删除该记录吗?', '提示', {
         type: 'warning'
       }).then(() => {
         let para = {}
-        para.ExamID = n
+        para.ExamID = id
+        para.name = name
+
         this.$API.deleteExam(para).then(res => {
-          this.$message.warning('删除考试' + n + '成功')
+          this.$message.warning('删除考试 "' + name + ' "成功')
           this.getData()
         }).catch(err => {
           this.$message.error('删除考试失败：' + err.msg)

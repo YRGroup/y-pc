@@ -8,15 +8,15 @@
 export default {
   name: 'app',
   created() {
+    console.log(this.$store.state.hasNoStudent)
     if (localStorage.hasLogin) {
       this.$store.commit('login', JSON.parse(localStorage.user))
     } else {
       this.$router.push('/login')
     }
-    console.log(this.$store.getters._APIurl)
     if (this.$store.state.role == '家长' && !this.$store.state.currentStudentId) {
-      this.$message('请先添加学生')
-      this.$router.push('/parent?tab=addStudent')
+      // this.$message('请先添加学生')
+      // this.$router.push('/parent?tab=addStudent')
     }
   }
 }

@@ -111,6 +111,9 @@ const store = new Vuex.Store({
     },
     setApiUrl(state, val) {
       state.ApiUrl = val
+    },
+    unbind(state){
+      state.hasNoStudent = true
     }
   },
   actions: {

@@ -42,9 +42,9 @@
       </div>
   
       <div class="item" v-for="(i,index) in currentScoreList" :key="index">
-        <div class="title">{{i.ExamName}}> </div>
+        <div class="title" @click="$router.push('/student/'+$store.state.currentStudentId+'/score/'+i.ExamID)">{{i.ExamName}}> </div>
         <div class="time">{{i.Time}}</div>
-        <div class="score">{{i.Score}}分</div>
+        <div class="score">{{i.Score}} 分</div>
       </div>
 
       <div class="footer">
@@ -186,12 +186,17 @@ export default {
     line-height: 30px;
     border-bottom: 1px dotted @border;
     &:hover{
-    border-bottom: 1px solid @main;
-  }
+      // border-bottom: 1px solid @main;
+      background: @border;
+    }
+    &:hover .title{
+      color:@main;
+    }
     .title {
       max-width: calc(~"100% - 150px");
       height: 30px;
       overflow: hidden;
+      cursor: pointer;
     }
     .time {
       color: @grey;

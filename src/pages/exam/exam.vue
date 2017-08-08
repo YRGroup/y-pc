@@ -151,6 +151,9 @@ export default {
     getData() {
       this.$API.getExamInfo(this.$route.params.examId).then(res=>{
         this.data=res
+        let data = this.data
+        let time = new Date(data.CreateTime)
+        data.CreateTime = time.Format('MM-dd hh:mm')
       })
     }
   },

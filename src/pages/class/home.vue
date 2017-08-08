@@ -1,89 +1,96 @@
 <template>
   <div>
-  
-    <div class="left">
-      <router-view></router-view>
-    </div>
-  
-    <div class="right">
-      <div class="classInfo classbox">
-        <div class="header">
-          <img src="https://modao.cc/uploads3/images/900/9007936/raw_1493017171.jpeg">
-        </div>
-        <div class="content">
-          <p>{{classInfo.name}}</p>
-          <div class="info">
-            <span>班主任：{{classInfo.teacher.TrueName}}</span>
-            <span>人数：{{classInfo.student_count}}</span>
-          </div>
-        </div>
-      </div>
-  
-      <div class="card">
-        <div class="title">
-          班级管理
-        </div>
-        <div class="content" style="text-align:center;">
-          <el-button type="danger" @click="$router.push('/admin')">班级管理</el-button>
-        </div>
-      </div>
+    <has-no-student v-if="$store.state.hasNoStudent"></has-no-student>
 
-      <div class="card">
-        <div class="title">
-          公告
-        </div>
-        <div class="content">
-          <div class="noticeItem">
-            <div class="noticeTitle">{{notice.content}}</div>
-            <div class="footer">
-              <span>{{notice.auther}}</span>
-              <span>{{notice.date}}</span>
+    <div v-else>
+
+      <div class="left">
+        <router-view></router-view>
+      </div>
+    
+      <div class="right">
+        <div class="classInfo classbox">
+          <div class="header">
+            <img src="https://modao.cc/uploads3/images/900/9007936/raw_1493017171.jpeg">
+          </div>
+          <div class="content">
+            <p>{{classInfo.name}}</p>
+            <div class="info">
+              <span>班主任：{{classInfo.teacher.TrueName}}</span>
+              <span>人数：{{classInfo.student_count}}</span>
             </div>
           </div>
         </div>
-      </div>
-  
-      <div class="card">
-        <div class="title">
-          班级作业
-          <div class="btn" @click="$router.push('/homework')">更多</div>
-        </div>
-        <div class="content" v-if="homework.length">
-          <div class="homeworkItem" v-for="i in homework" :key="i.HID">
-            <span>【{{i.CourseName}}】</span>
-            <span class="homeworkCon">{{i.Title || '班级作业'}}</span>
+    
+        <div class="card" v-show="$store.state.role=='老师'">
+          <div class="title">
+            班级管理
+          </div>
+          <div class="content" style="text-align:center;">
+            <el-button type="danger" @click="$router.push('/admin')">班级管理</el-button>
           </div>
         </div>
-        <div class="content" v-else>
-          <div class="homeworkItem">
-            <span>班级暂时没有作业</span>
+
+        <div class="card">
+          <div class="title">
+            公告
+          </div>
+          <div class="content">
+            <div class="noticeItem">
+              <div class="noticeTitle">{{notice.content}}</div>
+              <div class="footer">
+                <span>{{notice.auther}}</span>
+                <span>{{notice.date}}</span>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-  
-      <div class="card">
-        <div class="title">
-          班级教师
-        </div>
-        <div class="content">
-          <div class="teacherItem" v-for="i in teachers" :key="i.Meid" @click="$router.push('/teacher/?id='+i.Meid)">
-            <span class="teacherImg">
-              <img :src="i.Headimgurl" v-if="i.Headimgurl!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' ">
-              <div class="headTextImg" v-else>{{i.TrueName.substr(0,1)}}</div>
-            </span>
-            <div>{{i.TrueName}}</div>
+    
+        <div class="card">
+          <div class="title">
+            班级作业
+            <div class="btn" @click="$router.push('/homework')">更多</div>
+          </div>
+          <div class="content" v-if="homework.length">
+            <div class="homeworkItem" v-for="i in homework" :key="i.HID">
+              <span>【{{i.CourseName}}】</span>
+              <span class="homeworkCon">{{i.Title || '班级作业'}}</span>
+            </div>
+          </div>
+          <div class="content" v-else>
+            <div class="homeworkItem">
+              <span>班级暂时没有作业</span>
+            </div>
           </div>
         </div>
+    
+        <div class="card">
+          <div class="title">
+            班级教师
+          </div>
+          <div class="content">
+            <div class="teacherItem" v-for="i in teachers" :key="i.Meid" @click="$router.push('/teacher/?id='+i.Meid)">
+              <span class="teacherImg">
+                <img :src="i.Headimgurl" v-if="i.Headimgurl!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' ">
+                <div class="headTextImg" v-else>{{i.TrueName.substr(0,1)}}</div>
+              </span>
+              <div>{{i.TrueName}}</div>
+            </div>
+          </div>
+        </div>
+    
       </div>
-  
     </div>
+  
   </div>
 </template>
 
 <script>
+import hasNoStudent from '@/components/hasNoStudent'
+
 export default {
   name: 'app',
-  components: {},
+  components: {hasNoStudent},
   data() {
     return {
       teachers: [],

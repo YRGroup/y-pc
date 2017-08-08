@@ -28,10 +28,8 @@
         <div class="header">
           暂无学生
         </div>
-        <div class="">
-          <div class="btn">
-            <el-button type="warning" @click="$router.push('/addStudent')">添加学生</el-button>
-          </div>
+        <div class="btn">
+          <el-button type="warning" @click="$router.push('/addStudent')">添加学生</el-button>
         </div>
       </div>
   
@@ -72,6 +70,7 @@ export default {
         this.$message('登出成功')
         this.$router.push('/login')
       })
+      console.log(this.$store.state)
     },
   },
   created() {
@@ -87,22 +86,20 @@ export default {
 @import '../../style/theme.less';
 
 .left {
-  width: calc(~"100% - 300px");
+  width: calc(~"100% - 280px");
   float: left;
-  padding: 10px;
 }
 
 .right {
   float: right;
   width: 260px;
-  padding: 20px 10px;
   .card {
-    border: 1px solid @border;
+    // border: 1px solid @border;
     text-align: center;
     background: #fff;
     margin-bottom: 20px;
     &:hover {
-      border: 1px solid @main;
+      // border: 1px solid @main;
     }
     .header {
       height: 75px;
@@ -128,7 +125,7 @@ export default {
     }
     .btn {
       text-align: center;
-      margin: 10px 0;
+      padding: 20px 0;
     }
   }
 }

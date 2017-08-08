@@ -93,6 +93,19 @@ API.addStudent = (addStudentData) => {
 }
 // testing
 
+// 家长解绑学生
+API.UnBindStudent = (UnBindStudentData) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl + '/api/Parent/UnBindStudent', UnBindStudentData).then((res) => {
+      resolve(res)
+    }).catch((err) => {
+      console.log(err)
+      reject(err)
+    })
+  })
+}
+// testing
+
 // 修改家长资料
 API.editParentInfo = (editData) => {
   return new Promise((resolve, reject) => {

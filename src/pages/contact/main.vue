@@ -37,6 +37,11 @@ export default {
     getData() {
       this.$API.getMsgList(this.userId).then(res => {
         this.data = res
+        let msgdata = this.data
+        for(var i = 0; i < msgdata.length; i++){
+          let time = new Date(msgdata[i].LastTime)
+          msgdata[i].LastTime = time.Format('MM-dd hh:mm')
+        }
       })
     },
   },

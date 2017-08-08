@@ -100,7 +100,6 @@ export default {
 @import '../../style/theme.less';
 
 .tabs {
-  margin-top:10px;
   .title {
     padding: 10px 30px;
   }

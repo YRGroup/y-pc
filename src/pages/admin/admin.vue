@@ -28,11 +28,11 @@
           </el-radio-group>
         </el-form-item>
         <!-- <el-form-item label="所属班级">
-                <el-select v-model="ClassID" placeholder="请选择">
-                  <el-option v-for="item in classList" :key="item.cid" :label="item.Name" :value="item.cid">
-                  </el-option>
-                </el-select>
-              </el-form-item> -->
+                  <el-select v-model="ClassID" placeholder="请选择">
+                    <el-option v-for="item in classList" :key="item.cid" :label="item.Name" :value="item.cid">
+                    </el-option>
+                  </el-select>
+                </el-form-item> -->
       </el-form>
       <div v-show="type==1">
         <el-form label-width="80px" :inline="true" v-for="(i,index) in studentData" :key="index" class="teacherlist">
@@ -87,11 +87,11 @@
           </el-radio-group>
         </el-form-item>
         <!-- <el-form-item label="所属班级">
-            <el-select v-model="ClassID" placeholder="请选择">
-              <el-option v-for="item in classList" :key="item.cid" :label="item.Name" :value="item.cid">
-              </el-option>
-            </el-select>
-          </el-form-item> -->
+              <el-select v-model="ClassID" placeholder="请选择">
+                <el-option v-for="item in classList" :key="item.cid" :label="item.Name" :value="item.cid">
+                </el-option>
+              </el-select>
+            </el-form-item> -->
       </el-form>
       <div v-show="type==1">
         <el-form label-width="80px" :inline="true" v-for="(i,index) in teacherData" :key="index" class="teacherlist">
@@ -150,7 +150,7 @@
           </el-col>
           <el-col :span="13">
             <div class="tableHeader">班级学生（ {{studentList.length}} 人）</div>
-            <el-table :data="studentList" stripe>
+            <el-table :data="studentList" stripe >
               <el-table-column prop="StudentID" label="学号" align="center">
               </el-table-column>
               <el-table-column prop="Sex" label="性别" align="center">
@@ -239,7 +239,7 @@ export default {
       },
       studentData: [{
         TrueName: '',
-        Sex:''
+        Sex: ''
       }],
       teacherList: [],
       studentList: [],
@@ -333,7 +333,7 @@ export default {
         this.showEditStudent = false
         this.editStudentData = {}
       })
-    },
+    }
   },
   created() {
     this.getData()
