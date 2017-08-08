@@ -91,7 +91,7 @@ export default {
         code:''
       },
       getsmsCount: 0,
-      step: 0
+      step: 0,
     }
   },
   computed: {
