@@ -41,29 +41,90 @@ export default {
         phone: '13130000000',
         password: '123456',
       },
-      isVerified: Boolean(true),
+      studentLoginData:{
+        studentid:'',
+        password:''
+      },
+      smsLoginData:{
+        phone:'',
+        code:''
+      },
+      getsmsCount: 0,
+      step: 0,
+    }
+  },
+  computed: {
+    getsmsAvailable() {
+      return this.getsmsCount > 0
     }
   },
   methods: {
     login() {
-      document.cookie = "meid=aa; expires=" +new Date(2011,1,1).toGMTString();
-      if (this.verifyTel() && this.verifyPw()) {
-        this.$store.dispatch('login', this.loginData).then(res => {
-          this.$router.push('/')
-        }).catch(err => {
-          this.$message.error(err.msg)
-        })
-      } else {
-        console.error('xxx')
+      this.loginData.phone=this.phone
+      document.cookie = "meid=aa; expires=" + new Date(2011, 1, 1).toGMTString();
+      this.$store.dispatch('login', this.loginData).then(res => {
+        this.$router.push('/')
+      }).catch(err => {
+        this.$message.error(err.msg)
+      })
+    },
+    studentLogin() {
+      this.studentLoginData.studentid = this.phone
+      document.cookie = "meid=aa; expires=" + new Date(2011, 1, 1).toGMTString();
+      this.$store.dispatch('studentLogin', this.studentLoginData).then(res => {
+        this.$router.push('/')
+      }).catch(err => {
+        this.$message.error(err.msg)
+      })
+    },
+    smsLogin() {
+      this.smsLoginData.phone = this.phone
+      document.cookie = "meid=aa; expires=" + new Date(2011, 1, 1).toGMTString();
+      this.$store.dispatch('smsLogin', this.smsLoginData).then(res => {
+        this.$router.push('/')
+      }).catch(err => {
+        this.$message.error(err.msg)
+      })
+    },
+    count() {
+      if (this.getsmsCount > 0) {
+        this.getsmsCount--
       }
     },
-    verifyTel() {
-      if (this.loginData.phone.length != 11) {
-        this.$message.error('手机号格式错误')
-        return false
-      } else {
-        this.isVerified = Boolean(false)
-        return true
+    startCount() {
+      setInterval(
+        this.count
+        , 1000)
+    },
+    getsms() {
+      // this.$message.warning('mock sms')
+      // this.getsmsCount = 60
+      // this.step = 2
+      // this.startCount()
+      this.$API.getLoginSms(this.phone).then(res => {
+        this.$message.success('验证码已发出，请查收短信！')
+        this.getsmsCount = 60
+        this.step = 2
+        this.startCount()
+      })
+    },
+    verifyAccount() {
+      if (this.phone.slice(0, 1) == 1 && this.phone.length === 11) {
+        let para = {
+          phone: this.phone
+        }
+        this.$API.verifyAccount(para).then(res => {
+          if (res.Msg == "normal") {
+            this.step = 1
+          } else if (res.Msg == "unActived") {
+            this.step = 2
+            this.startCount()
+          } else {
+            this.$router.push('/reg?tel='+this.phone)
+          }
+        })
+      } else if (this.phone.slice(0, 1) == 8 && this.phone.length === 9) {
+        this.step = 3
       }
     },
     verifyPw() {

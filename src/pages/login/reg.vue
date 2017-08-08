@@ -187,7 +187,9 @@ export default {
     }
   },
   created() {
-
+    if(this.$route.query.tel){
+      this.regData.phone = this.$route.query.tel
+    }
   },
   mounted() {
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-
+      错误404
   </div>
 </template>
 
