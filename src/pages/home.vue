@@ -95,6 +95,7 @@ header {
     display: inline-block;
     img {
       height: 42px;
+      background: transparent;
     }
   }
   .nav {
