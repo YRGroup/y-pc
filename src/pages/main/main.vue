@@ -5,86 +5,92 @@
     <div class="panel">
       <el-tabs v-model="activeName" @tab-click="handleSwitchTab">
         <el-tab-pane name="1">
-          <span slot="label"><i class="iconfont">&#xe737;</i> 校园动态</span>
-    
+          <span slot="label">
+            <i class="iconfont">&#xe737;</i> 校园动态</span>
+  
           <div class="card" v-for="(i,index) in data" :key="index">
             <div class="img" v-if="i.ImgUrl">
               <img :src="i.ImgUrl">
             </div>
+            <div class="img" v-else>
+              <img :src="publicImg">
+            </div>
             <div class="cardCon">
-              <div class="cardtitle"  @click="$router.push('/news?id='+i.ID)">
+              <div class="cardtitle" @click="$router.push('/news?id='+i.ID)">
                 {{i.Title}}
               </div>
               <div class="content">{{i.Describtion}}
                 <!-- <a @click="$router.push('/news?id='+i.ID)">[ 详情 ]</a> -->
               </div>
               <div class="cardfooter">
-                <span class="time"><i class="iconfont">&#xe621;</i>{{i.AddTime}}</span>
+                <span class="time">
+                  <i class="iconfont">&#xe621;</i>{{i.AddTime}}</span>
               </div>
             </div>
           </div>
-    
+  
         </el-tab-pane>
         <el-tab-pane name="2">
-          <span slot="label"><i class="iconfont">&#xe604;</i> 资料库</span>
-    
+          <span slot="label">
+            <i class="iconfont">&#xe604;</i> 资料库</span>
+  
           <div class="card" v-for="(i,index) in data" :key="index">
             <div class="img" v-if="i.ImgUrl">
               <img :src="i.ImgUrl">
+            </div>
+            <div class="img" v-else>
+              <img :src="publicImg">
             </div>
             <div class="cardCon">
               <div class="cardtitle">
                 <a @click="$router.push('/news?id='+i.ID)">{{i.Title}}</a>
               </div>
-              <div class="content">{{i.Describtion}}
-                <a @click="$router.push('/news?id='+i.ID)">[ 详情 ]</a>
-              </div>
+              <div class="content">{{i.Describtion}}</div>
               <div class="cardfooter">
                 <span class="time">{{i.AddTime}}</span>
               </div>
             </div>
           </div>
-    
+  
         </el-tab-pane>
-    
       </el-tabs>
     </div>
   
     <!-- </div>
-      <div class="right">
-        <div class="card" v-if="$store.state.role==='家长'">
-          <div class="header">
-            <img src="https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png">
+        <div class="right">
+          <div class="card" v-if="$store.state.role==='家长'">
+            <div class="header">
+              <img src="https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png">
+            </div>
+            <div class="content">
+              <p>赵明敏 的家长</p>
+              <p>孩子信息</p>
+              <p>经开区育人国际学校</p>
+              <p>学号：454874667</p>
+            </div>
           </div>
-          <div class="content">
-            <p>赵明敏 的家长</p>
-            <p>孩子信息</p>
-            <p>经开区育人国际学校</p>
-            <p>学号：454874667</p>
+      
+          <div class="card" v-if="$store.state.role==='老师'">
+            <div class="header">
+              <img :src="$store.state.currentUser.Headimgurl">
+            </div>
+            <div class="content">
+              <p class="name">{{ $store.state.currentUser.TrueName }} - {{ $store.state.currentUser.ExtendInfo.Course }}</p>
+              <p>经开区育人国际学校</p>
+            </div>
           </div>
-        </div>
-    
-        <div class="card" v-if="$store.state.role==='老师'">
-          <div class="header">
-            <img :src="$store.state.currentUser.Headimgurl">
-          </div>
-          <div class="content">
-            <p class="name">{{ $store.state.currentUser.TrueName }} - {{ $store.state.currentUser.ExtendInfo.Course }}</p>
-            <p>经开区育人国际学校</p>
-          </div>
-        </div>
-    
-        <div class="card" v-if="$store.state.role==='guest'">
-          <div class="header">
-            <div class="title">登录</div>
-          </div>
-          <div class="content">
-            <p>000</p>
-            <p>经开区育人国际学校</p>
-          </div>
-        </div> 
-    
-      </div> -->
+      
+          <div class="card" v-if="$store.state.role==='guest'">
+            <div class="header">
+              <div class="title">登录</div>
+            </div>
+            <div class="content">
+              <p>000</p>
+              <p>经开区育人国际学校</p>
+            </div>
+          </div> 
+      
+        </div> -->
   </div>
 </template>
 
@@ -98,6 +104,7 @@ export default {
       poster: require('@/assets/img/post.jpg'),
       data: [],
       page: 1,
+      publicImg: require('@/assets/publicImg.png')
     }
   },
   methods: {
@@ -137,16 +144,16 @@ export default {
   border-bottom: 1px solid @border;
   &:hover {
     background: @border;
-    .img{
-      transform:scale(1.05) 
+    .img {
+      transform: scale(1.05)
     }
-    .cardtitle{
-      color:@main;
+    .cardtitle {
+      color: @main;
     }
   }
 
   .img {
-    height: 100%;
+    height: 120px;
     width: 200px;
     display: inline-block;
     img {
@@ -179,7 +186,7 @@ export default {
     .cardfooter {
       color: @grey;
       font-size: 12px;
-      .iconfont{
+      .iconfont {
         font-size: 14px;
         margin-right: 5px;
       }
