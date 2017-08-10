@@ -63,7 +63,7 @@
             </div>
           </div>
         </div>
-      </div>
+     
   
       <div class="card">
         <div class="title">
@@ -80,6 +80,7 @@
           </div>
         </div>
     
+      </div> 
       </div>
     </div>
   

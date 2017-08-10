@@ -9,7 +9,7 @@
       </ul>
       <div class="item">
         <!-- <div class="title">手机号：</div> -->
-        <el-input size="large" slot="append" placeholder="请输入手机号或学号" autofocus @blur="verifyTel" v-model="loginData.phone">
+        <el-input size="large" slot="append" placeholder="请输入手机号或学号" autofocus @blur="verifyAccount" v-model="loginData.phone">
             <i class="iconfont">&#xe60b;</i>
         </el-input>
       </div>
@@ -60,7 +60,6 @@ export default {
   },
   methods: {
     login() {
-      this.loginData.phone=this.phone
       document.cookie = "meid=aa; expires=" + new Date(2011, 1, 1).toGMTString();
       this.$store.dispatch('login', this.loginData).then(res => {
         this.$router.push('/')
@@ -109,9 +108,9 @@ export default {
       })
     },
     verifyAccount() {
-      if (this.phone.slice(0, 1) == 1 && this.phone.length === 11) {
+      if (this.loginData.phone.slice(0, 1) == 1 && this.loginData.phone.length === 11) {
         let para = {
-          phone: this.phone
+          phone: this.loginData.phone
         }
         this.$API.verifyAccount(para).then(res => {
           if (res.Msg == "normal") {
@@ -123,7 +122,7 @@ export default {
             this.$router.push('/reg?tel='+this.phone)
           }
         })
-      } else if (this.phone.slice(0, 1) == 8 && this.phone.length === 9) {
+      } else if (this.loginData.phone.slice(0, 1) == 8 && this.loginData.phone.length === 9) {
         this.step = 3
       }
     },
