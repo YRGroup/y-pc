@@ -116,7 +116,6 @@ export default {
         category: this.activeName,
         currentPage: this.page,
         pagesize: 10,
-        showDelete: false,
       }
       this.$API.getNewsList(para).then(res => this.data = res)
     }
