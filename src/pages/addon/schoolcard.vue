@@ -16,7 +16,7 @@
           <div class="total">
             <span class="item">
               <span>当前余额  </span>
-              <span class="balance">{{balance}}</span>
+              <span class="balance">{{Blance}}</span>
             </span>
           </div>
         </div>
@@ -58,7 +58,7 @@ export default {
   data (){
     return{
       hasNoSchoolcard:false,
-      balance:'41.5',
+      Blance:0,
       alllog:[],
       currentPage: 1,
       pageSize: 10,
