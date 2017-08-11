@@ -3,14 +3,6 @@
         <div class="img-box">
             <img :src="popupimg" style="max-width:100%">
             <p class="title">关联孩子</p>
-            <!-- <ul class="subcon">
-                                        <li>
-                                            <span></span>查看孩子班级动态</li>
-                                        <li>
-                                            <span></span>与老师实时沟通</li>
-                                        <li>
-                                            <span></span>查看孩子考试成绩</li>
-                                    </ul> -->
         </div>
         <div class="popupText">
             <div class="content">

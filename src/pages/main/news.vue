@@ -22,7 +22,7 @@
       </div>
   
       <div class="reply">
-        <el-input class="input" v-model="commentData.Content" placeholder="请输入内容" @keyup.enter.native="addComment"></el-input>
+        <el-input class="input" v-model="commentData.Content" placeholder="请添加评论" @keyup.enter.native="addComment"></el-input>
         <el-button class="btn" type="success" @click="addComment">回复</el-button>
       </div>
       <div class="replyList">

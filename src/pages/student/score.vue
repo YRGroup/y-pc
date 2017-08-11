@@ -41,8 +41,8 @@
         </el-select> -->
       </div>
   
-      <div class="item" v-for="(i,index) in currentScoreList" :key="index">
-        <div class="title" @click="$router.push('/student/'+$store.state.currentStudentId+'/score/'+i.ExamID)">{{i.ExamName}}> </div>
+      <div class="item" v-for="(i,index) in currentScoreList" :key="index" @click="changeScore(i.ExamID)">
+        <div class="title" >{{i.ExamName}}> </div>
         <div class="time">{{i.Time}}</div>
         <div class="score">{{i.Score}} 分</div>
       </div>
@@ -91,8 +91,8 @@ export default {
       this.getScore()
       this.getScoreList()
     },
-    getScore(){
-      this.$API.getExamScore(this.$store.state.currentStudentId).then(res=>{
+    getScore(ExamID){
+      this.$API.getExamScore(this.$store.state.currentStudentId,ExamID).then(res=>{
         this.score=res
       })
     },
@@ -100,6 +100,10 @@ export default {
       this.$API.getExamList(this.$store.state.currentStudentId).then(res=>{
         this.scoreList=res
       })
+    },
+    changeScore(ExamID){
+      this.$router.push('/student/'+this.$store.state.currentStudentId+'/score/'+ExamID)
+      this.getScore(ExamID)
     }
   },
   created() {
@@ -185,6 +189,7 @@ export default {
     position: relative;
     line-height: 30px;
     border-bottom: 1px dotted @border;
+    cursor: pointer;
     &:hover{
       // border-bottom: 1px solid @main;
       background: @border;

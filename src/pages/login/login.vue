@@ -17,7 +17,7 @@
       <div class="item">
         <!-- <div class="title">密码：</div> -->
         <el-input size="large" class="input" type="password" placeholder="请输入密码" :minlength='6' @keyup.enter.native="login" v-model="loginData.password">
-            <i class="iconfont">&#xe692;</i>
+          <i class="iconfont">&#xe692;</i>
         </el-input>
       </div>
   
@@ -41,13 +41,14 @@ export default {
         phone: '13130000000',
         password: '123456',
       },
-      studentLoginData:{
-        studentid:'',
-        password:''
+      isVerified: Boolean(true),
+      studentLoginData: {
+        studentid: '',
+        password: ''
       },
-      smsLoginData:{
-        phone:'',
-        code:''
+      smsLoginData: {
+        phone: '',
+        code: ''
       },
       getsmsCount: 0,
       step: 0,
@@ -61,11 +62,22 @@ export default {
   methods: {
     login() {
       document.cookie = "meid=aa; expires=" + new Date(2011, 1, 1).toGMTString();
-      this.$store.dispatch('login', this.loginData).then(res => {
-        this.$router.push('/')
-      }).catch(err => {
-        this.$message.error(err.msg)
-      })
+      if (this.verifyTel() && this.verifyPw()) {
+        this.$store.dispatch('login', this.loginData).then(res => {
+          this.$router.push('/')
+        }).catch(err => {
+          this.$message.error(err.msg)
+        })
+      } else {
+        console.error('xxx')
+        this.loginData.phone = this.phone
+        document.cookie = "meid=aa; expires=" + new Date(2011, 1, 1).toGMTString();
+        this.$store.dispatch('login', this.loginData).then(res => {
+          this.$router.push('/')
+        }).catch(err => {
+          this.$message.error(err.msg)
+        })
+      }
     },
     studentLogin() {
       this.studentLoginData.studentid = this.phone
@@ -88,6 +100,15 @@ export default {
     count() {
       if (this.getsmsCount > 0) {
         this.getsmsCount--
+      }
+    },
+    verifyTel() {
+      if (this.loginData.phone.length != 11) {
+        this.$message.error('手机号格式错误')
+        return false
+      } else {
+        this.isVerified = Boolean(false)
+        return true
       }
     },
     startCount() {
@@ -119,7 +140,7 @@ export default {
             this.step = 2
             this.startCount()
           } else {
-            this.$router.push('/reg?tel='+this.phone)
+            this.$router.push('/reg?tel=' + this.phone)
           }
         })
       } else if (this.loginData.phone.slice(0, 1) == 8 && this.loginData.phone.length === 9) {

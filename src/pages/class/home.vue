@@ -78,10 +78,22 @@
             <div>{{i.TrueName  || '未命名'}}</div>
             <div>{{i.Course || '无学科'}}</div>
           </div>
+          <div class="content">
+            <div class="teacherItem" v-for="i in teachers" :key="i.Meid" @click="$router.push('/teacher/?id='+i.Meid)">
+              <span class="teacherImg">
+                <img :src="i.Headimgurl" v-if="i.Headimgurl!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' ">
+                <div class="headTextImg" v-else>{{i.TrueName.substr(0,1)}}</div>
+              </span>
+              <div>{{i.TrueName  || '未命名'}}</div>
+              <div>{{i.Course || '无学科'}}</div>
+            </div>
+          </div>
+      
         </div>
     
       </div> 
       </div>
+  
     </div>
   
   </div>
