@@ -40,6 +40,7 @@ const store = new Vuex.Store({
       state.currentUserId = val.Meid
       state.role = val.Role
       state.token = val.Token
+      state.CampusCard = val.ExtendInfo.CampusCard
 
       if (val.Role == '家长') {
         if (val.ExtendInfo.Students.length != 0) {
@@ -71,6 +72,7 @@ const store = new Vuex.Store({
       localStorage.setItem('id', val.Meid)
       localStorage.setItem('role', val.Role)
       localStorage.setItem('currentClassId', state.currentClassId)
+      localStorage.setItem('CampusCard', val.ExtendInfo.CampusCard)
     },
     logout(state) {
       state.hasLogin = false

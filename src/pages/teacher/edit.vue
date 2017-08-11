@@ -21,7 +21,10 @@
             <el-form-item label="姓名">
               <el-input v-model="data.TrueName"></el-input>
             </el-form-item>
-            <el-form-item label="身份证">
+            <el-form-item label="出生年月">
+              <el-input v-model="data.TrueName"></el-input>
+            </el-form-item>
+            <el-form-item label="身份证号">
               <el-input v-model="data.IDCard"></el-input>
             </el-form-item>
             <el-form-item label="性别">

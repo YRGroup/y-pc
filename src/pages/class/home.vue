@@ -1,13 +1,13 @@
 <template>
   <div>
     <has-no-student v-if="$store.state.hasNoStudent"></has-no-student>
-
+  
     <div v-else>
-
+  
       <div class="left">
         <router-view></router-view>
       </div>
-    
+  
       <div class="right">
         <div class="classInfo classbox">
           <div class="header">
@@ -21,7 +21,7 @@
             </div>
           </div>
         </div>
-    
+  
         <div class="card" v-show="$store.state.role=='老师'">
           <div class="title">
             班级管理
@@ -30,7 +30,7 @@
             <el-button type="danger" @click="$router.push('/admin')">班级管理</el-button>
           </div>
         </div>
-
+  
         <div class="card">
           <div class="title">
             公告
@@ -45,7 +45,7 @@
             </div>
           </div>
         </div>
-    
+  
         <div class="card">
           <div class="title">
             班级作业
@@ -63,20 +63,10 @@
             </div>
           </div>
         </div>
-     
   
-      <div class="card">
-        <div class="title">
-          班级教师
-        </div>
-        <div class="content">
-          <div class="teacherItem" v-for="i in teachers" :key="i.Meid" @click="$router.push('/teacher/?id='+i.Meid)">
-            <span class="teacherImg">
-              <img :src="i.Headimgurl" v-if="i.Headimgurl!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' ">
-              <div class="headTextImg" v-else>{{i.TrueName.substr(0,1)}}</div>
-            </span>
-            <div>{{i.TrueName  || '未命名'}}</div>
-            <div>{{i.Course || '无学科'}}</div>
+        <div class="card">
+          <div class="title">
+            班级教师
           </div>
           <div class="content">
             <div class="teacherItem" v-for="i in teachers" :key="i.Meid" @click="$router.push('/teacher/?id='+i.Meid)">
@@ -84,14 +74,12 @@
                 <img :src="i.Headimgurl" v-if="i.Headimgurl!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' ">
                 <div class="headTextImg" v-else>{{i.TrueName.substr(0,1)}}</div>
               </span>
-              <div>{{i.TrueName  || '未命名'}}</div>
+              <div>{{i.TrueName || '未命名'}}</div>
               <div>{{i.Course || '无学科'}}</div>
             </div>
+  
           </div>
-      
         </div>
-    
-      </div> 
       </div>
   
     </div>
@@ -104,7 +92,7 @@ import hasNoStudent from '@/components/hasNoStudent'
 
 export default {
   name: 'app',
-  components: {hasNoStudent},
+  components: { hasNoStudent },
   data() {
     return {
       teachers: [],
@@ -244,7 +232,7 @@ export default {
         cursor: pointer;
         .teacherImg {
           height: 50px;
-          .headTextImg{
+          .headTextImg {
             vertical-align: top;
           }
         }
