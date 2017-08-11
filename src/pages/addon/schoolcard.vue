@@ -22,7 +22,7 @@
         <div class="cardSummary">
           <div class="total">
             <span class="item">
-              <span>当前余额 </span>
+              <span>当前余额  </span>
               <span class="balance">{{Blance}}</span>
             </span>
           </div>
@@ -57,6 +57,7 @@ import hasNoStudent from '@/components/hasNoStudent'
 import loadMore from '@//components/loadMore'
 
 export default {
+<<<<<<< HEAD
   components: { loadMore, hasNoStudent },
   data() {
     return {
@@ -64,6 +65,14 @@ export default {
       cardNum: {},
       Blance: '',
       alllog: [],
+=======
+  components:{loadMore ,hasNoStudent},
+  data (){
+    return{
+      hasNoSchoolcard:false,
+      Blance:0,
+      alllog:[],
+>>>>>>> 3bd9cad4a1e62ded6785598438e64f3b5ea6cae0
       currentPage: 1,
       pageSize: 10,
       noMoreData: false,
