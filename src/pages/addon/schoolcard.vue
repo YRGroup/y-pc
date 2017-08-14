@@ -8,7 +8,7 @@
             请先绑定校园卡号
           </h4>
           <el-form :model="addCardData" label-width="100px" class="cardNum">
-            <el-form-item label="学生：">
+            <el-form-item label="学生：" v-if="$store.getters.role==='家长'">
               <el-select v-model="addCardData.student_meid" placeholder="请选择学生">
                 <el-option v-for="i in studentList" :key="i.id" :label="i.name" :value="i.id">
                 </el-option>
@@ -27,7 +27,7 @@
       <div v-else>
         <div class="cardSummary">
           <div class="total">
-            <div class="student">
+            <div class="student" v-if="$store.getters.role==='家长'">
               <el-select v-model="addCardData.student_meid" @change="changeCurrentStudent" placeholder="请选择学生">
                 <el-option v-for="i in studentList" :key="i.id" :label="i.name" :value="i.id">
                 </el-option>
@@ -64,9 +64,9 @@ export default {
   components: { loadMore, hasNoStudent },
   data() {
     return {
-      addCardData:{
-        CardID:'',
-        student_meid:this.$store.state.currentStudentId
+      addCardData: {
+        CardID: '',
+        student_meid: this.$store.state.currentStudentId
       },
       Blance: 0,
       alllog: [],
@@ -75,14 +75,14 @@ export default {
       noMoreData: false,
     }
   },
-  computed:{
-    studentList(){
-      if(this.$store.getters.role==='家长' && this.$store.state.currentUser.ExtendInfo.Students.length){
-        let v=[]
-        this.$store.state.currentUser.ExtendInfo.Students.forEach(o=>{
-          let a ={
-            name:o.TrueName,
-            id:o.Meid
+  computed: {
+    studentList() {
+      if (this.$store.getters.role === '家长' && this.$store.state.currentUser.ExtendInfo.Students.length) {
+        let v = []
+        this.$store.state.currentUser.ExtendInfo.Students.forEach(o => {
+          let a = {
+            name: o.TrueName,
+            id: o.Meid
           }
           v.push(a)
         })
@@ -97,7 +97,7 @@ export default {
       para.pagesize = this.pageSize
       para.student_meid = this.$store.state.currentStudentId
       this.$API.getCardList(para).then(res => {
-        if (res) {
+        if (!res) {
           this.Blance = res.Blance
           if (res.Log.length) {
             res.Log.forEach((element) => {
@@ -111,9 +111,13 @@ export default {
           } else {
             this.noMoreData = true
           }
+        }else{
+          this.$message.error('当前没有消费记录')
         }
-      }).catch(err=>{
-        this.$message.error(err.msg)
+      }).catch(err => {
+        if(err.msg){
+          this.$message.error(err.msg)
+        }
       })
     },
     loadMore() {
@@ -129,8 +133,8 @@ export default {
         this.$message.error(err)
       })
     },
-    changeCurrentStudent(val){
-      this.$store.commit('changeCurrentStudentId',val)
+    changeCurrentStudent(val) {
+      this.$store.commit('changeCurrentStudentId', val)
       this.getData()
     }
   },
@@ -163,7 +167,7 @@ export default {
   padding: 40px 20px;
   background: #fff;
   .total {
-    .student{
+    .student {
       float: left;
     }
     .item {
