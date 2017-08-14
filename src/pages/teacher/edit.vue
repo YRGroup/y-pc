@@ -30,15 +30,18 @@
             <el-form-item label="身份证">
               <el-input v-model="data.IDCard"></el-input>
             </el-form-item>
-            <el-form-item label="政治面貌">
-              <el-input v-model="data.PoliticalStatus"></el-input>
+            <el-form-item label="出生年月">
+              <el-date-picker v-model="data.Resume" type="date" placeholder="选择日期">
+              </el-date-picker>
             </el-form-item>
             <el-form-item label="民族">
               <el-input v-model="data.Volk"></el-input>
             </el-form-item>
-            <el-form-item label="出生年月">
-              <el-date-picker v-model="data.Resume" type="date" placeholder="选择日期" :picker-options="pickerOptions0">
-              </el-date-picker>
+            <el-form-item label="政治面貌">
+              <el-input v-model="data.PoliticalStatus"></el-input>
+            </el-form-item>
+            <el-form-item label="教龄">
+              <el-input v-model="data.SchoolAge"></el-input>
             </el-form-item>
             <el-form-item label="职称">
               <el-input v-model="data.Title"></el-input>

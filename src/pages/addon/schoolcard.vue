@@ -1,6 +1,6 @@
 <template>
   <div>
-    <has-no-student v-if="$store.state.hasNoStudent"></has-no-student>
+    <has-no-student v-if="$store.state.hasNoStudent && $store.state.role == '家长'"></has-no-student>
     <div v-else>
       <div v-if="hasNoSchoolcard">
         <div class="noCard panel">
@@ -70,6 +70,7 @@ export default {
       pageSize: 10,
       noMoreData: false,
       allPagesize: [5, 10, 15, 20, 30, 50],
+      cardNum:{}
     }
   },
   methods: {

@@ -26,7 +26,7 @@
         <div class="footer">
           <span class="time">{{data.date}}</span>
           <span class="iconbtn">
-            <span @click="doLike(data.id),data.like++">
+            <span @click.once="doLike(data.id),data.like++">
               <i class="iconfont">&#xe646;</i>{{data.like}}</span>
           </span>
           <div class="liked">

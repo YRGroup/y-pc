@@ -73,6 +73,7 @@ export default {
     width: 500px;
     margin: 100px auto;
     text-align: center;
+    box-shadow: 0 0 10px rgba(0,0,0,.1);
     .img-box {
         border-radius: 8px 8px 0 0;
         overflow: hidden;
@@ -80,6 +81,7 @@ export default {
         padding: 10px 0;
         img {
             width: 280px;
+            background:transparent;
         }
         .title {
             font-size: 24px;

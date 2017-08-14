@@ -1,6 +1,6 @@
 <template>
   <div>
-    <has-no-student v-if="$store.state.hasNoStudent"></has-no-student>
+    <has-no-student v-if="$store.state.hasNoStudent && $store.state.role == '家长' "></has-no-student>
   
     <div v-else>
   

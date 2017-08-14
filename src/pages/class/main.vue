@@ -49,7 +49,7 @@
             <i class="iconfont">&#xe630;</i>
             <span class="delBtnTitle">删除</span> 
           </span>
-          <span title="点赞" @click="doLike(i.id),i.like++">
+          <span title="点赞" @click.once="doLike(i.id),i.like++">
             <i class="iconfont">&#xe646;</i>{{i.like}}
           </span>
         </span>
@@ -113,6 +113,8 @@ export default {
     loadMore() {
       this.currentPage++
       this.getData()
+      console.log(22222)
+      console.log(this.currentPage)
     },
     doLike(id) {
       this.$API.doLikeThisPost(id).then((res) => {
