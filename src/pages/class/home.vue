@@ -19,15 +19,9 @@
               <span>班主任：{{classInfo.teacher.TrueName}}</span>
               <span>人数：{{classInfo.student_count}}</span>
             </div>
-          </div>
-        </div>
-  
-        <div class="card" v-show="$store.state.role=='老师'">
-          <div class="title">
-            班级管理
-          </div>
-          <div class="content" style="text-align:center;">
-            <el-button type="danger" @click="$router.push('/admin')">班级管理</el-button>
+            <div style="text-align:center;" v-show="$store.state.role=='老师'">
+              <el-button type="danger" @click="$router.push('/admin')">班级管理</el-button>
+            </div>
           </div>
         </div>
   
