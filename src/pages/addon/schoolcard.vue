@@ -57,22 +57,12 @@ import hasNoStudent from '@/components/hasNoStudent'
 import loadMore from '@//components/loadMore'
 
 export default {
-<<<<<<< HEAD
-  components: { loadMore, hasNoStudent },
-  data() {
-    return {
-      hasNoSchoolcard: false,
-      cardNum: {},
-      Blance: '',
-      alllog: [],
-=======
   components:{loadMore ,hasNoStudent},
   data (){
     return{
       hasNoSchoolcard:false,
       Blance:0,
       alllog:[],
->>>>>>> 3bd9cad4a1e62ded6785598438e64f3b5ea6cae0
       currentPage: 1,
       pageSize: 10,
       noMoreData: false,
