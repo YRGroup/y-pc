@@ -164,7 +164,7 @@ export default {
       return isJPG && isLt5M;
     },
     addNewPost() {
-      if(this.$store.state.role=='家长' && this.$store.state.currentStudentId!=null){
+      if(this.$store.getters.role=='家长' && this.$store.state.currentStudentId!=null){
         this.newPost.student_meid=this.$store.state.currentStudentId
       }
       let inputCon = this.newPost.content

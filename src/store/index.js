@@ -6,13 +6,8 @@ import API from '@/server/API'
 
 const store = new Vuex.Store({
   state: {
-    showBottomNav: true,
-
     title: '育人教育',
 
-    // hasLogin: false,
-    // role: null || 'guest',
-    // currentUserId: null,
     currentUser: null,
 
     currentClassId: null,
@@ -22,9 +17,6 @@ const store = new Vuex.Store({
     currentExamList: [],
 
     token: null,
-    // hasNoStudent: false,
-    // hasNewPost: false,
-    // hasNewMsg: '0',
   },
   getters: {
     _APIurl: () => {
@@ -74,7 +66,6 @@ const store = new Vuex.Store({
   },
   mutations: {
     login(state, val) {
-      state.hasLogin = true
       state.currentUser = val
       localStorage.setItem('hasLogin', true)
       localStorage.setItem('user', JSON.stringify(val))

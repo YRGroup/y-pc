@@ -1,6 +1,6 @@
 <template>
   <div>
-    <has-no-student v-if="$store.state.hasNoStudent"></has-no-student>
+    <has-no-student v-if="$store.getters.hasNoStudent"></has-no-student>
     <div v-else>
       <div class="left">
     
@@ -17,7 +17,7 @@
           <div class="content">
             <p>账号：{{$store.state.currentUser.Mobilephone}}</p>
             <p>姓名：{{$store.state.currentUser.TrueName}}</p>
-            <p>身份：{{$store.state.currentUser.Role}}</p>
+            <p>身份：{{$store.getters.role}}</p>
             <div class="btn">
               <el-button type="primary" @click.native="$router.push('/parent/edit')">修改资料</el-button>
               <el-button type="warning" @click.native="logout">登出</el-button>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <has-no-student v-if="$store.state.hasNoStudent && $store.state.role == '家长' "></has-no-student>
+    <has-no-student v-if="$store.getters.hasNoStudent && $store.getters.role == '家长' "></has-no-student>
   
     <div v-else>
   
@@ -19,7 +19,7 @@
               <span>班主任：{{classInfo.teacher.TrueName}}</span>
               <span>人数：{{classInfo.student_count}}</span>
             </div>
-            <div style="text-align:center;" v-show="$store.state.role=='老师'">
+            <div style="text-align:center;" v-show="$store.getters.role=='老师'">
               <el-button type="danger" @click="$router.push('/admin')">班级管理</el-button>
             </div>
           </div>

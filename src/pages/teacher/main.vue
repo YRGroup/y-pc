@@ -134,7 +134,7 @@
         <span class="title" slot="label">动态</span>
         <div class="content">
   
-          <teacher-post :id="$store.state.currentUserId"></teacher-post>
+          <teacher-post :id="$store.getters.currentUserId"></teacher-post>
   
         </div>
       </el-tab-pane>
@@ -143,7 +143,7 @@
         <span class="title" slot="label">作业</span>
         <div class="content">
   
-          <teacher-homework :id="$store.state.currentUserId"></teacher-homework>
+          <teacher-homework :id="$store.getters.currentUserId"></teacher-homework>
   
         </div>
       </el-tab-pane>
@@ -189,7 +189,7 @@ export default {
           this.profileData = res
         })
       } else {
-        this.$API.getTeacherInfo(this.$store.state.currentUserId).then(res => {
+        this.$API.getTeacherInfo(this.$store.getters.currentUserId).then(res => {
           this.profileData = res
         })
       }

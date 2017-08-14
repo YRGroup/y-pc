@@ -177,7 +177,7 @@ export default {
   },
   methods: {
     getData() {
-      this.$API.getTeacherInfo(this.$store.state.currentUserId).then(res => {
+      this.$API.getTeacherInfo(this.$store.getters.currentUserId).then(res => {
         this.data = res
       })
     },

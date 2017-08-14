@@ -1,6 +1,6 @@
 <template>
   <div>
-    <has-no-student v-if="$store.state.hasNoStudent && $store.state.role == '家长'"></has-no-student>
+    <has-no-student v-if="$store.getters.hasNoStudent && $store.getters.role == '家长'"></has-no-student>
     <div v-else>
       <div v-if="hasNoSchoolcard">
         <div class="noCard panel">
@@ -63,7 +63,6 @@ export default {
       cardNum:{
         CardID:''
       },
-      hasNoSchoolcard:false,
       Blance:0,
       alllog:[],
       currentPage: 1,
@@ -71,6 +70,11 @@ export default {
       noMoreData: false,
       allPagesize: [5, 10, 15, 20, 30, 50],
       cardNum:{}
+    }
+  },
+  computed:{
+    hasNoSchoolCard(){
+      return this.$store.getters.hasNoSchoolCard
     }
   },
   methods: {
@@ -93,8 +97,6 @@ export default {
           } else {
             this.noMoreData = true
           }
-        } else {
-          // this.hasNoSchoolcard = true
         }
       })
     },
@@ -109,7 +111,6 @@ export default {
     },
     addCardID() {
       this.$API.addSchoolcard(this.cardNum).then(res => {
-        this.hasNoSchoolcard = false
         localStorage.setItem('CampusCard', true)
         this.$message('绑定卡号成功')
         this.getData()
@@ -120,12 +121,6 @@ export default {
   },
   created() {
     this.getData()
-    let card = this.$store.state.CampusCard
-    if(card){
-      this.hasNoSchoolcard = false
-    }else{
-      this.hasNoSchoolcard = true
-    }
   },
 }
 </script>
