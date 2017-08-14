@@ -34,23 +34,21 @@
           </div>
         </div>
     
-        <div class="card" v-else v-for="(i,index) in $store.state.currentUser.ExtendInfo.Students" :key="index">
+        <div class="card" v-else>
           <div class="header">
-            <img :src="i.Headimgurl">
+            <img :src="currentStudent.Headimgurl">
           </div>
           <div class="content">
-            <p>姓名：{{i.TrueName}}</p>
-            <p>性别：{{i.Sex}}</p>
-            <p>学号：{{i.StudentID}}</p>
-            <p>学校：{{i.SchoolName}}</p>
-            <p>班级：{{i.ClassName}}</p>
-            <p>学号：{{i.StudentID}}</p>
-            <div class="btn">
-              <el-button type="warning" @click.native="$store.commit('changeCurrentStudentId',i.Meid)">设为当前学生</el-button>
-            </div>
+            <p>姓名：{{currentStudent.TrueName}}</p>
+            <p>学号：{{currentStudent.StudentID}}</p>
+            <p>班级：{{currentStudent.ClassName}}</p>
             <div class="btn">
               <el-button type="primary" @click.native="$router.push('/student/edit')">修改学生资料</el-button>
             </div>
+            <el-select v-model="currenrStudentId" @change="changeCurrentStudent" placeholder="切换当前学生">
+              <el-option v-for="i in studentList" :key="i.id" :label="i.name" :value="i.id">
+              </el-option>
+            </el-select>
           </div>
         </div>
     
@@ -67,7 +65,27 @@ export default {
   components: {hasNoStudent},
   data() {
     return {
-
+      currenrStudentId:''
+    }
+  },
+  computed:{
+    studentList(){
+      if(this.$store.getters.role==='家长' && this.$store.state.currentUser.ExtendInfo.Students.length){
+        let v=[]
+        this.$store.state.currentUser.ExtendInfo.Students.forEach(o=>{
+          let a ={
+            name:o.TrueName,
+            id:o.Meid
+          }
+          v.push(a)
+        })
+        return v
+      }
+    },
+    currentStudent(){
+      return this.$store.state.currentUser.ExtendInfo.Students.find(o=>{
+        return o.Meid==this.$store.state.currentStudentId
+      })
     }
   },
   methods: {
@@ -78,6 +96,9 @@ export default {
       })
       console.log(this.$store.state)
     },
+    changeCurrentStudent(val){
+      this.$store.commit('changeCurrentStudentId',val)
+    }
   },
   created() {
 

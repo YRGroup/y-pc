@@ -73,7 +73,6 @@ export default {
   watch: {
     '$route': function () {
       console.log(this.$route.name)
-
     }
   }
 }
