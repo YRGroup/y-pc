@@ -10,25 +10,46 @@
             <div class="setBtn" @click="$router.push('/teacher/edit')">修改资料</div>
             <div class="item-content">
               <p>
+                <span class="title">手机：</span>
+                <span>{{profileData.Mobilephone}}</span>
+              </p>
+              <p>
                 <span class="title">姓名：</span>
-                <span>{{currentUser.TrueName}}</span>
+                <span>{{profileData.TrueName}}</span>
               </p>
               <p>
                 <span class="title">性别：</span>
-                <span>{{currentUser.Sex}}</span>
-              </p>
-              <p>
-                <span class="title">角色：</span>
-                <span>{{currentUser.Role}}</span>
+                <span>{{profileData.Sex}}</span>
               </p>
               <p>
                 <span class="title">学科：</span>
-                <span>{{currentUser.ExtendInfo.Course}}</span>
+                <span>{{profileData.Course}}</span>
               </p>
               <p>
-                <span class="title">手机：</span>
-                <span>{{currentUser.Mobilephone}}</span>
+                <span class="title">生日：</span>
+                <span>{{profileData.Resume}}</span>
               </p>
+              <p>
+                <span class="title">身份证号：</span>
+                <span>{{profileData.IDCard}}</span>
+              </p>
+              <p>
+                <span class="title">民族：</span>
+                <span>{{profileData.Volk}}</span>
+              </p>
+              <p>
+                <span class="title">政治面貌：</span>
+                <span>{{profileData.PoliticalStatus}}</span>
+              </p>
+              <p>
+                <span class="title">教龄：</span>
+                <span>{{profileData.SchoolAge}}</span>
+              </p>
+              <p>
+                <span class="title">职称：</span>
+                <span>{{profileData.Title}}</span>
+              </p>
+
             </div>
           </div>
   
@@ -190,7 +211,7 @@ export default {
 .tabs {
   // margin-top:10px;
   .title {
-    padding: 10px 30px;
+    padding: 10px 30px 0 30px;
   }
   .content {
     line-height: 2em;
@@ -198,8 +219,8 @@ export default {
       padding: 30px 20px;
       border-bottom: 1px solid @border;
       position: relative;
-      &:last-child{
-        border:none;
+      &:last-child {
+        border: none;
       }
       .setBtn {
         position: absolute;
@@ -228,13 +249,16 @@ export default {
         // padding-top:30px;
         // text-align: center;
         margin-left: 40px;
-        line-height: 3em;
+        line-height: 2em;
         .name {
           width: 500px;
           display: inline-block;
         }
         .title {
           color: @grey;
+          text-align: right;
+          display: inline-block;
+          width: 80px;
         }
         .img {
           display: inline-block;
