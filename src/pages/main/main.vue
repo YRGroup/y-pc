@@ -43,7 +43,7 @@
             </div>
             <div class="cardCon">
               <div class="cardtitle">
-                <a @click="$router.push('/news?id='+i.ID)">{{i.Title}}</a>
+                <a @click="$router.push('/docs?id='+i.ID)">{{i.Title}}</a>
               </div>
               <div class="content">{{i.Describtion}}</div>
               <div class="cardfooter">
