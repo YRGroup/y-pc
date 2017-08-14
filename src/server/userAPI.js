@@ -179,4 +179,15 @@ API.getCardList = (para) => {
 }
 // testing
 
+// 绑定一卡通
+API.addSchoolcard = (cardNum) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl+'/api/user/BindYKT',cardNum).then((res)=>{
+      resolve(res)
+    }).catch((err) => {
+      reject(err.msg)
+    })
+  })
+}
+
 export default API

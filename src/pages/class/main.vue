@@ -25,8 +25,11 @@
         <el-button type="success" @click="addNewPost">发 布</el-button>
       </div>
     </el-dialog>
-  
-    <div class="card panel" v-for="i in data" :key="i.id">
+
+    <div v-if="noMoreData" class="nodata panel">
+      <img :src="nodataPic">
+    </div>
+    <div v-else class="card panel" v-for="i in data" :key="i.id">
       <div class="img">
         <img :src="i.userImg" v-if="i.userImg!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && i.userImg!=''">
         <div class="headTextImg" v-else>{{i.auther.substr(0,1)}}</div>
@@ -52,8 +55,8 @@
         </span>
       </div>
     </div>
-  
     <load-more @click.native="loadMore" :noMoreData="noMoreData"></load-more>
+  
   
     <el-dialog :visible.sync="showImgBig" class="bigImg">
       <img :src="imgBig">
@@ -79,6 +82,7 @@ export default {
       showImgBig: false,
       noMoreData: false,
       showAddPost: false,
+      nodataPic:require('@/assets/nodata.png')
     }
   },
   computed: {
@@ -186,7 +190,6 @@ export default {
   },
   created() {
     this.getData()
-    console.log(this.isAdmin)
   },
   mounted() {
   },

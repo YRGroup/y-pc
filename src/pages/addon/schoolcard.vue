@@ -3,14 +3,21 @@
     <has-no-student v-if="$store.state.hasNoStudent"></has-no-student>
     <div v-else>
       <div v-if="hasNoSchoolcard">
-        <div class="noCard">
-          <p>
-            没有找到校园卡记录
-          </p>
-          <el-button type="primary" @click="$router.push('/user')">添加校园卡信息</el-button>
+        <div class="noCard panel">
+          <h4>
+            请绑定卡号
+          </h4>
+          <el-form :inline="true" :model="cardNum" label-width="100px" class="cardNum">
+            <el-form-item label="卡号">
+              <el-input v-model.number="cardNum.CardID" placeholder="请输入卡号" size="large"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="success" @click="addCardID" size="large">提交</el-button>
+            </el-form-item>
+          </el-form>
         </div>
       </div>
-
+  
       <div v-else>
         <div class="cardSummary">
           <div class="total">
@@ -20,32 +27,28 @@
             </span>
           </div>
         </div>
-      
         <div class="cardList leftCon">
           <div class="header">消费记录
             <!-- <el-select v-model="pageSize" class="pagesize" @change="changePagesize" >
-              <el-option
-                v-for="item in allPagesize"
-                :key="item"
-                :label="'每页显示'+item+'条'"
-                :value="item">
-              </el-option>
-            </el-select> -->
+                    <el-option
+                      v-for="item in allPagesize"
+                      :key="item"
+                      :label="'每页显示'+item+'条'"
+                      :value="item">
+                    </el-option>
+                  </el-select> -->
           </div>
           <div class="item" v-for="(i,index) in alllog" :key="index">
             <div class="title">{{i.Title}}</div>
             <div class="time">{{i.CreateTime}}</div>
             <div class="log">{{i.OpeaType}} {{i.Money}}</div>
           </div>
-          
           <load-more @click.native="loadMore" :noMoreData="noMoreData"></load-more>
-      
+  
         </div>
       </div>
     </div>
-    
-    
-
+  
   </div>
 </template>
 
@@ -63,33 +66,31 @@ export default {
       currentPage: 1,
       pageSize: 10,
       noMoreData: false,
-      allPagesize:[5,10,15,20,30,50],
+      allPagesize: [5, 10, 15, 20, 30, 50],
     }
   },
-  methods:{
-    getData(){
-      let para ={}
-      para.currentPage= this.currentPage
-      para.pagesize=this.pageSize
-      this.$API.getCardList(para).then(res=>{
-        if(res){
-          if (this.Blance == 0) {
-            this.Blance = res.Blance
-          }
+  methods: {
+    getData() {
+      let para = {}
+      para.currentPage = this.currentPage
+      para.pagesize = this.pageSize
+      this.$API.getCardList(para).then(res => {
+        if (res) {
+          this.Blance = res.Blance
           if (res.Log.length) {
             res.Log.forEach((element) => {
               this.alllog.push(element)
             })
             let alllog = this.alllog
-            for(var i = 0; i < alllog.length; i++){
+            for (var i = 0; i < alllog.length; i++) {
               let time = new Date(alllog[i].CreateTime)
               alllog[i].CreateTime = time.Format('MM-dd hh:mm')
             }
           } else {
             this.noMoreData = true
           }
-        }else{
-          this.hasNoSchoolcard=true
+        } else {
+          this.hasNoSchoolcard = true
         }
       })
     },
@@ -97,14 +98,30 @@ export default {
       this.currentPage++
       this.getData()
     },
-    changePagesize(){
-      this.alllog=[]
-      this.currentPage=1
+    changePagesize() {
+      this.alllog = []
+      this.currentPage = 1
       this.getData()
     },
+    addCardID() {
+      this.$API.addSchoolcard(this.cardNum).then(res => {
+        this.hasNoSchoolcard = false
+        localStorage.setItem('CampusCard', true)
+        this.$message('绑定卡号成功')
+        this.getData()
+      }).catch((err) => {
+        this.$message.error(err)
+      })
+    }
   },
-  created(){
+  created() {
     this.getData()
+    let card = this.$store.state.CampusCard
+    if(card){
+      this.hasNoSchoolcard = false
+    }else{
+      this.hasNoSchoolcard = true
+    }
   },
 }
 </script>
@@ -112,18 +129,27 @@ export default {
 <style lang="less" scoped>
 @import '../../style/theme.less';
 
-.noCard{
-  text-align: center;
-  line-height: 100px;
-  padding-top:200px;
+.noCard {
+  // padding-bottom: 50px;
+  min-height: 500px;
+  // text-align: center;
+  h4 {
+    text-align: center;
+    padding: 80px 0 50px;
+    font-size: 20px;
+    font-weight: 400;
+  }
+  .cardNum {
+    width: 450px;
+    margin: 0 auto;
+  }
 }
 
 .cardSummary {
   text-align: center;
   border: 1px solid @border;
-  padding:40px 20px;
-  background: #fff;
-  // margin: 10px 0;
+  padding: 40px 20px;
+  background: #fff; // margin: 10px 0;
   // &:hover{
   //   border: 1px solid @main;
   // }
@@ -137,7 +163,7 @@ export default {
       }
       .balance {
         color: @sub;
-        font-size:36px;
+        font-size: 36px;
       }
     }
   }
@@ -171,7 +197,7 @@ export default {
     font-weight: bold;
     font-size: 16px;
     border-bottom: 1px solid @border;
-    .pagesize{
+    .pagesize {
       float: right;
     }
   }
@@ -180,7 +206,7 @@ export default {
     position: relative;
     line-height: 30px;
     border-bottom: 1px dotted @border;
-    &:hover{
+    &:hover {
       // border-bottom: 1px solid @main;
       background: @border;
     }
