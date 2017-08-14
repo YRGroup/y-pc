@@ -8,26 +8,18 @@
 export default {
   name: 'app',
   created() {
-    console.log(this.$store.state.hasNoStudent)
-    if (localStorage.hasLogin) {
+    if (localStorage.hasLogin && !this.$store.state.currentUser) {
       this.$store.commit('login', JSON.parse(localStorage.user))
-    } else {
-      this.$router.push('/login')
     }
-    if (this.$store.state.role == '家长' && !this.$store.state.currentStudentId) {
-      // this.$message('请先添加学生')
-      // this.$router.push('/parent?tab=addStudent')
-    }
+    //  else {
+    //   this.$router.push('/login')
+    // }
   }
 }
 </script>
 
 <style lang="less">
 @import './style/theme.less';
-
-body {
-  // background: @bg;
-}
 
 * {
   margin: 0;

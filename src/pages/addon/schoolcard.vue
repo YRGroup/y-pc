@@ -5,11 +5,11 @@
       <div v-if="hasNoSchoolcard">
         <div class="noCard panel">
           <h4>
-            请绑定卡号
+            请先绑定校园卡号
           </h4>
           <el-form :inline="true" :model="cardNum" label-width="100px" class="cardNum">
-            <el-form-item label="卡号">
-              <el-input v-model.number="cardNum.CardID" placeholder="请输入卡号" size="large"></el-input>
+            <el-form-item label="卡号：">
+              <el-input v-model.number="cardNum.CardID" placeholder="请输入校园卡号" size="large"></el-input>
             </el-form-item>
             <el-form-item>
               <el-button type="success" @click="addCardID" size="large">提交</el-button>
@@ -60,6 +60,9 @@ export default {
   components:{loadMore ,hasNoStudent},
   data (){
     return{
+      cardNum:{
+        CardID:''
+      },
       hasNoSchoolcard:false,
       Blance:0,
       alllog:[],
@@ -90,7 +93,7 @@ export default {
             this.noMoreData = true
           }
         } else {
-          this.hasNoSchoolcard = true
+          // this.hasNoSchoolcard = true
         }
       })
     },

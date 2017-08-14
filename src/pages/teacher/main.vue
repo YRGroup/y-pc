@@ -10,24 +10,20 @@
             <div class="setBtn" @click="$router.push('/teacher/edit')">修改资料</div>
             <div class="item-content">
               <p>
+                <span class="title">手机：</span>
+                <span>{{profileData.Mobilephone}}</span>
+              </p>
+              <p>
                 <span class="title">姓名：</span>
-                <span>{{currentUser.TrueName}}</span>
+                <span>{{profileData.TrueName}}</span>
               </p>
               <p>
                 <span class="title">性别：</span>
-                <span>{{currentUser.Sex}}</span>
-              </p>
-              <p>
-                <span class="title">角色：</span>
-                <span>{{currentUser.Role}}</span>
+                <span>{{profileData.Sex}}</span>
               </p>
               <p>
                 <span class="title">学科：</span>
-                <span>{{currentUser.ExtendInfo.Course}}</span>
-              </p>
-              <p>
-                <span class="title">手机：</span>
-                <span>{{currentUser.Mobilephone}}</span>
+                <span>{{profileData.Course}}</span>
               </p>
             </div>
           </div>

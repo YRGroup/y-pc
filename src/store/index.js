@@ -10,41 +10,77 @@ const store = new Vuex.Store({
 
     title: '育人教育',
 
-    hasLogin: false,
-    role: null || 'guest',
+    // hasLogin: false,
+    // role: null || 'guest',
+    // currentUserId: null,
+    currentUser: null,
 
-    currentUserId: null,
     currentClassId: null,
     currentClassInfo: {},
     currentClassList: [],
     currentStudentId: null,
-
     currentExamList: [],
 
     token: null,
-    currentUser: null,
-    hasNoStudent: false,
-    hasNewPost: false,
-    hasNewMsg: '0',
+    // hasNoStudent: false,
+    // hasNewPost: false,
+    // hasNewMsg: '0',
   },
   getters: {
     _APIurl: () => {
       let a = require('@/server/config.js')
       return a.default
+    },
+    currentUserId: state => {
+      if (state.currentUser) {
+        return state.currentUser.Meid
+      }
+    },
+    role: state => {
+      if (state.currentUser) {
+        return state.currentUser.Role
+      }
+    },
+    hasNoSchoolCard: state => {
+      if (state.currentUser) {
+        if (!state.currentUser.ExtendInfo.CampusCard) {
+          return true
+        } else {
+          return false
+        }
+      }
+    },
+    hasNoStudent: state => {
+      if (state.currentUser && state.currentUser.Role == '家长') {
+        if (!state.currentUser.ExtendInfo.Students) {
+          return true
+        } else {
+          return false
+        }
+      }
+    },
+    hasNewPost: state => {
+      if (state.currentUser && state.currentUser.UnReadMsgCount > 0) {
+        return true
+      }else{
+        return false
+      }
+    },
+    token:state => {
+      if (state.currentUser) {
+        return state.currentUser.Token
+      }
     }
   },
   mutations: {
     login(state, val) {
       state.hasLogin = true
       state.currentUser = val
-      state.currentUserId = val.Meid
-      state.role = val.Role
-      state.token = val.Token
-      state.CampusCard = val.ExtendInfo.CampusCard
+      localStorage.setItem('hasLogin', true)
+      localStorage.setItem('user', JSON.stringify(val))
 
       if (val.Role == '家长') {
         if (val.ExtendInfo.Students.length != 0) {
-          state.hasNoStudent = false
           state.currentClassId = val.ExtendInfo.Students[0].ClassID
           state.currentStudentId = val.ExtendInfo.Students[0].Meid
         } else {
@@ -63,24 +99,10 @@ const store = new Vuex.Store({
           })
         }
       }
-
-      if (val.HasNewUnReadDynamic == 1) {
-        state.hasNewPost = true
-      }
-
-      localStorage.setItem('hasLogin', true)
-      localStorage.setItem('id', val.Meid)
-      localStorage.setItem('role', val.Role)
-      localStorage.setItem('currentClassId', state.currentClassId)
-      localStorage.setItem('CampusCard', val.ExtendInfo.CampusCard)
     },
     logout(state) {
       state.hasLogin = false
-      state.currentUserId = null
       state.currentUser = null
-      state.role = 'guest'
-      state.hasNoStudent = false
-      state.hasNewPost = false
       state.currentClassId = null
       state.currentClassInfo = {}
       state.currentClassList = []
@@ -114,7 +136,7 @@ const store = new Vuex.Store({
     setApiUrl(state, val) {
       state.ApiUrl = val
     },
-    unbind(state){
+    unbind(state) {
       state.hasNoStudent = true
     }
   },
