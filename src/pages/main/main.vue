@@ -1,7 +1,7 @@
 <template>
   <div class="panel">
     <img class="poster" :src="poster">
-    <!-- <div class="left panel"> -->
+    
     <div class="panel">
       <el-tabs v-model="activeName" @tab-click="handleSwitchTab">
         <el-tab-pane name="1">
@@ -19,9 +19,7 @@
               <div class="cardtitle" @click="$router.push('/news?id='+i.ID)">
                 {{i.Title}}
               </div>
-              <div class="content">{{i.Describtion}}
-                <!-- <a @click="$router.push('/news?id='+i.ID)">[ 详情 ]</a> -->
-              </div>
+              <div class="content">{{i.Describtion}}</div>
               <div class="cardfooter">
                 <span class="time">
                   <i class="iconfont">&#xe621;</i>{{i.AddTime}}</span>
@@ -56,41 +54,6 @@
       </el-tabs>
     </div>
   
-    <!-- </div>
-        <div class="right">
-          <div class="card" v-if="$store.state.role==='家长'">
-            <div class="header">
-              <img src="https://modao.cc/uploads3/images/906/9062900/raw_1493176743.png">
-            </div>
-            <div class="content">
-              <p>赵明敏 的家长</p>
-              <p>孩子信息</p>
-              <p>经开区育人国际学校</p>
-              <p>学号：454874667</p>
-            </div>
-          </div>
-      
-          <div class="card" v-if="$store.state.role==='老师'">
-            <div class="header">
-              <img :src="$store.state.currentUser.Headimgurl">
-            </div>
-            <div class="content">
-              <p class="name">{{ $store.state.currentUser.TrueName }} - {{ $store.state.currentUser.ExtendInfo.Course }}</p>
-              <p>经开区育人国际学校</p>
-            </div>
-          </div>
-      
-          <div class="card" v-if="$store.state.role==='guest'">
-            <div class="header">
-              <div class="title">登录</div>
-            </div>
-            <div class="content">
-              <p>000</p>
-              <p>经开区育人国际学校</p>
-            </div>
-          </div> 
-      
-        </div> -->
   </div>
 </template>
 
@@ -137,14 +100,14 @@ export default {
 }
 
 .card {
-  // height: 130px;
   padding: 15px 20px;
   position: relative;
   border-bottom: 1px solid @border;
   &:hover {
     background: @border;
     .img {
-      transform: scale(1.05)
+      transform: scale(1.05);
+      transition: all 0.5s;
     }
     .cardtitle {
       color: @main;

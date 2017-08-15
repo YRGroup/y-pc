@@ -167,6 +167,10 @@ export default {
   float: left;
 }
 
+*{
+    transition:all .3s;
+}
+
 .right {
   float: right;
   width: 260px;
