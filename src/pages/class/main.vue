@@ -26,36 +26,36 @@
       </div>
     </el-dialog>
 
-    <div v-if="noMoreData" class="nodata panel">
-      <img :src="nodataPic">
-    </div>
-    <div v-else class="card panel" v-for="i in data" :key="i.id">
-      <div class="img">
-        <img :src="i.userImg" v-if="i.userImg!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && i.userImg!=''">
-        <div class="headTextImg" v-else>{{i.auther.substr(0,1)}}</div>
-      </div>
-      <div class="tips">{{i.category}}</div>
-      <div class="header">{{i.auther}}</div>
-      <div class="content" @click="$router.push('/post/'+i.id)">{{i.content}}</div>
-      <div class="albums">
-        <li v-for="(p,index) in i.albums" :key="index">
-          <img :src="p" @click="openImgBig(p)">
-        </li>
-      </div>
-      <div class="footer">
-        <span class="time">{{i.date}}</span>
-        <span class="iconbtn">
-          <span title="删除" class="delBtn" v-if="isAdmin" @click="delPost(i.id)">
-            <i class="iconfont">&#xe630;</i>
-            <span class="delBtnTitle">删除</span> 
+    <no-data v-if="nodataImg"></no-data>
+    <div v-else>
+      <div class="card panel" v-for="i in data" :key="i.id">
+        <div class="img">
+          <img :src="i.userImg" v-if="i.userImg!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && i.userImg!=''">
+          <div class="headTextImg" v-else>{{i.auther.substr(0,1)}}</div>
+        </div>
+        <div class="tips">{{i.category}}</div>
+        <div class="header">{{i.auther}}</div>
+        <div class="content" @click="$router.push('/post/'+i.id)">{{i.content}}</div>
+        <div class="albums">
+          <li v-for="(p,index) in i.albums" :key="index">
+            <img :src="p" @click="openImgBig(p)">
+          </li>
+        </div>
+        <div class="footer">
+          <span class="time">{{i.date}}</span>
+          <span class="iconbtn">
+            <span title="删除" class="delBtn" v-if="isAdmin" @click="delPost(i.id)">
+              <i class="iconfont">&#xe630;</i>
+              <span class="delBtnTitle">删除</span> 
+            </span>
+            <span title="点赞" @click.once="doLike(i.id),i.like++">
+              <i class="iconfont">&#xe646;</i>{{i.like}}
+            </span>
           </span>
-          <span title="点赞" @click.once="doLike(i.id),i.like++">
-            <i class="iconfont">&#xe646;</i>{{i.like}}
-          </span>
-        </span>
+        </div>
       </div>
+      <load-more @click.native="loadMore" :noMoreData="noMoreData"></load-more>
     </div>
-    <load-more @click.native="loadMore" :noMoreData="noMoreData"></load-more>
   
   
     <el-dialog :visible.sync="showImgBig" class="bigImg">
@@ -67,10 +67,11 @@
 
 <script>
 import loadMore from '@//components/loadMore'
+import noData from '@//components/noData'
 
 export default {
   name: 'app',
-  components: { loadMore },
+  components: { loadMore , noData },
   data() {
     return {
       newPost: {},
@@ -81,6 +82,7 @@ export default {
       imgBig: '',
       showImgBig: false,
       noMoreData: false,
+      nodataImg: false,
       showAddPost: false,
       nodataPic:require('@/assets/nodata.png')
     }
@@ -105,7 +107,9 @@ export default {
           res.forEach((element) => {
             this.data.push(element)
           })
-        } else {
+        }else if(res.length == 0 && this.currentPage == 1){
+          this.nodataImg = true
+        }else if(res.length == 0 && this.currentPage != 1){
           this.noMoreData = true
         }
       })

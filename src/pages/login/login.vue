@@ -63,7 +63,7 @@
       </div>
   
       <div class="btn item" v-show="step==0">
-        <el-button size="large" @click.native="verifyAccount" type="success">登录</el-button>
+        <el-button size="large" @click.native="verifyAccount" type="success">下一步</el-button>
       </div>
   
     </div>

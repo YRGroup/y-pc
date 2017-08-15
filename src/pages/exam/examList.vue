@@ -8,7 +8,9 @@
           </el-select>
           <el-button @click="showAddExam=true" type="success" class="ml20">添加新考试</el-button>
       </div>
-      <div class="examlist">
+
+      <no-data v-if="nodataImg"></no-data>
+      <div class="examlist" v-else>
         <li class="item" v-for="(i,index) in data" :key="index">
            <!-- <div class="index">{{index+1}}</div>  -->
           <div class="examtitle">{{i.ExamName}}</div>
@@ -68,10 +70,14 @@
 </template>
 
 <script>
+import noData from '@//components/noData'
+
 export default {
+  components: { noData },
   data() {
     return {
       showAddExam: false,
+      nodataImg: false,
       courseList: [
         {
           CourseId: 1,
@@ -161,6 +167,9 @@ export default {
       this.newExamData.ClassID = this.currentClass
       this.$API.getClassExamList(this.currentClass).then(res=>{
         this.data = res
+        if(this.data.length == 0){
+          this.nodataImg = true
+        }
         let data = this.data
         for(var i = 0; i < data.length; i++){
           let time = new Date(data[i].CreateTime)

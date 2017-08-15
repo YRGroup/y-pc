@@ -193,8 +193,6 @@ export default {
           this.profileData = res
           let time = new Date(this.profileData.Resume)
           this.profileData.Resume = time.Format('yyyy-MM-dd')
-          console.log(22222)
-          console.log(this.profileData.Resume)
         })
       }
 

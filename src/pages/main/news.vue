@@ -118,6 +118,7 @@ export default {
       line-height: 2em;
       text-indent: 2em;
       text-align: left;
+      overflow: hidden;
       .ql-align-center{
         text-align: center!important;
         margin:10px 0;
