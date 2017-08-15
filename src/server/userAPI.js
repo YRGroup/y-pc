@@ -13,6 +13,8 @@ API.login = (logData) => {
     axios.post(_APIurl + '/api/User/LoginByPhone', logData).then((res) => {
       resolve(res.data.Content)
     }).catch((err) => {
+      console.log('获取信息失败：')
+      console.log(err)
       reject(err)
     })
   })
@@ -25,6 +27,8 @@ API.studentLogin = (logData) => {
     axios.post(_APIurl + '/api/User/LoginByStudentID', logData).then((res) => {
       resolve(res.data.Content)
     }).catch((err) => {
+      console.log('获取信息失败：')
+      console.log(err)
       reject(err)
     })
   })
@@ -32,6 +36,7 @@ API.studentLogin = (logData) => {
 
 // 使用短信验证码登陆
 API.loginBySms = (data) => {
+  document.cookie = "meid=aa;path=/;domain="+document.domain.match(/[^\.]+\.[^\.]+$/)[0]+";expires=" +new Date(2011,1,1).toGMTString()
   return new Promise((resolve, reject) => {
     axios.post(_APIurl+'/api/user/LoginByPhoneCode',data).then((res)=>{
       resolve(res.data.Content)

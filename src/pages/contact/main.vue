@@ -4,7 +4,8 @@
       <div class="maintitle">
         <i class="iconfont">&#xe649;</i>消息列表
       </div>
-      <div style="padding:0 20px">
+
+      <div style="padding:0 20px" v-if="data.length">
         <li class="item" v-for="(i,index) in data" :key="index" @click="$router.push('/msg/'+i.Meid)">
           <div class="img">
             <img :src="i.HeadImg" v-if="i.HeadImg!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && i.HeadImg!=''">
@@ -17,6 +18,10 @@
             <div class="num" v-show="i.UnReadCount">{{ i.UnReadCount }}</div>
           </div>
         </li>
+      </div>
+
+      <div style="padding:0 20px" v-else>
+        暂无消息
       </div>
 
     </div>

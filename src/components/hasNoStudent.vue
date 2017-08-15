@@ -54,7 +54,6 @@ export default {
                     this.$message.success('学生绑定成功！')
                     this.$store.dispatch('getCurrentUser')
                     this.$router.push('/')
-                    this.$store.state.hasNoStudent = false
                     this.getData()
                 }).catch(err => {
                     this.$message.error(err.msg)

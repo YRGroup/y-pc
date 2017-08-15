@@ -152,6 +152,11 @@ export default {
   components: {},
   data() {
     return {
+      pickerOptions0: {
+        disabledDate(time) {
+          return time.getTime() > Date.now() - 8.64e7;
+        }
+      },
       data: {
         PersonalHonor: [],
         PersonalHonor: [],
@@ -172,7 +177,7 @@ export default {
   },
   methods: {
     getData() {
-      this.$API.getTeacherInfo(this.$store.state.currentUserId).then(res => {
+      this.$API.getTeacherInfo(this.$store.getters.currentUserId).then(res => {
         this.data = res
       })
     },

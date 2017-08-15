@@ -1,6 +1,7 @@
 <template>
   <div class="loginbox">
     <div class="gmbg"></div>
+  
     <div class="box">
       <ul class="loginnav">
         <li class="navcurrent">登录</li>
@@ -9,21 +10,60 @@
       </ul>
       <div class="item">
         <!-- <div class="title">手机号：</div> -->
-        <el-input size="large" slot="append" placeholder="请输入手机号或学号" autofocus @blur="verifyAccount" v-model="loginData.phone">
+        <el-input size="large" slot="append" placeholder="请输入手机号 / 账号" autofocus @change="verifyAccount" @blur="verifyAccount" v-model="phone">
+          <template slot="prepend">
             <i class="iconfont">&#xe60b;</i>
+          </template>
         </el-input>
       </div>
   
-      <div class="item">
-        <!-- <div class="title">密码：</div> -->
-        <el-input size="large" class="input" type="password" placeholder="请输入密码" :minlength='6' @keyup.enter.native="login" v-model="loginData.password">
-          <i class="iconfont">&#xe692;</i>
-        </el-input>
+      <div v-show="step==1">
+        <div class="item">
+          <el-input size="large" class="input" type="password" placeholder="请输入密码" :minlength='6' @keyup.enter.native="login" v-model="loginData.password">
+            <template slot="prepend">
+              <i class="iconfont">&#xe692;</i>
+            </template>
+          </el-input>
+        </div>
+        <div class="item">
+          <div @click="step=2">忘记密码？使用短信验证码登陆</div>
+        </div>
+        <div class="btn item">
+          <el-button size="large" @click.native="login" type="success">手机号登录</el-button>
+        </div>
       </div>
   
-      <div class="btn item">
-        <!-- <el-button @click.native="$router.push('/reg')" type="info">注册</el-button> -->
-        <el-button size="large" @click.native="login" type="success">登录</el-button>
+      <div v-show="step==2">
+        <div class="btn item">
+          <el-button size="large" @click.native="getsms" type="success" :disabled="getsmsAvailable">
+            {{getsmsAvailable?getsmsCount+'s后重发验证码':'发送验证码'}}
+          </el-button>
+        </div>
+        <div class="item">
+          <el-input size="large" class="input" placeholder="请输入验证码" :minlength='4' @keyup.enter.native="login" v-model="smsLoginData.code">
+            <template slot="prepend">
+              <i class="iconfont">&#xe692;</i>
+            </template>
+          </el-input>
+        </div>
+        <div class="btn item">
+          <el-button size="large" @click.native="smsLogin" type="success">验证码登录</el-button>
+        </div>
+      </div>
+  
+      <div class="item" v-show="step==3">
+        <el-input size="large" class="input" type="password" placeholder="请输入学生的密码" :minlength='6' @keyup.enter.native="login" v-model="studentLoginData.password">
+          <template slot="prepend">
+            <i class="iconfont">&#xe692;</i>
+          </template>
+        </el-input>
+      </div>
+      <div class="btn item" v-show="step==3">
+        <el-button size="large" @click.native="studentLogin" type="success">学生登录</el-button>
+      </div>
+  
+      <div class="btn item" v-show="step==0">
+        <el-button size="large" @click.native="verifyAccount" type="success">登录</el-button>
       </div>
   
     </div>
@@ -37,11 +77,11 @@ export default {
   components: {},
   data() {
     return {
+      phone: '13130000000',
       loginData: {
-        phone: '13130000000',
+        phone: '',
         password: '123456',
       },
-      isVerified: Boolean(true),
       studentLoginData: {
         studentid: '',
         password: ''
@@ -51,7 +91,7 @@ export default {
         code: ''
       },
       getsmsCount: 0,
-      step: 0,
+      step: 0
     }
   },
   computed: {
@@ -61,54 +101,24 @@ export default {
   },
   methods: {
     login() {
-      document.cookie = "meid=aa; expires=" + new Date(2011, 1, 1).toGMTString();
-      if (this.verifyTel() && this.verifyPw()) {
-        this.$store.dispatch('login', this.loginData).then(res => {
-          this.$router.push('/')
-        }).catch(err => {
-          this.$message.error(err.msg)
-        })
-      } else {
-        console.error('xxx')
-        this.loginData.phone = this.phone
-        document.cookie = "meid=aa; expires=" + new Date(2011, 1, 1).toGMTString();
-        this.$store.dispatch('login', this.loginData).then(res => {
-          this.$router.push('/')
-        }).catch(err => {
-          this.$message.error(err.msg)
-        })
-      }
+      this.loginData.phone = this.phone
+      this.$API.login(this.loginData).then(res => this.loginOK(res)).catch(err => console.log(err))
     },
     studentLogin() {
       this.studentLoginData.studentid = this.phone
-      document.cookie = "meid=aa; expires=" + new Date(2011, 1, 1).toGMTString();
-      this.$store.dispatch('studentLogin', this.studentLoginData).then(res => {
-        this.$router.push('/')
-      }).catch(err => {
-        this.$message.error(err.msg)
-      })
+      this.$API.studentLogin(this.studentLoginData).then(res => this.loginOK(res)).catch(err => this.$message.error(err.msg))
     },
     smsLogin() {
       this.smsLoginData.phone = this.phone
-      document.cookie = "meid=aa; expires=" + new Date(2011, 1, 1).toGMTString();
-      this.$store.dispatch('smsLogin', this.smsLoginData).then(res => {
-        this.$router.push('/')
-      }).catch(err => {
-        this.$message.error(err.msg)
-      })
+      this.$API.loginBySms(this.smsLogin).then(res => this.loginOK(res)).catch(err => this.$message.error(err.msg))
+    },
+    loginOK(val) {
+      this.$store.commit('login', val)
+      this.$router.push('/')
     },
     count() {
       if (this.getsmsCount > 0) {
         this.getsmsCount--
-      }
-    },
-    verifyTel() {
-      if (this.loginData.phone.length != 11) {
-        this.$message.error('手机号格式错误')
-        return false
-      } else {
-        this.isVerified = Boolean(false)
-        return true
       }
     },
     startCount() {
@@ -121,17 +131,16 @@ export default {
       // this.getsmsCount = 60
       // this.step = 2
       // this.startCount()
-      this.$API.getLoginSms(this.phone).then(res => {
-        this.$message.success('验证码已发出，请查收短信！')
+      this.$API.getLoginSms(this.loginData.phone).then(res => {
         this.getsmsCount = 60
         this.step = 2
         this.startCount()
       })
     },
     verifyAccount() {
-      if (this.loginData.phone.slice(0, 1) == 1 && this.loginData.phone.length === 11) {
+      if (this.phone.slice(0, 1) == 1 && this.phone.length === 11) {
         let para = {
-          phone: this.loginData.phone
+          phone: this.phone
         }
         this.$API.verifyAccount(para).then(res => {
           if (res.Msg == "normal") {
@@ -143,7 +152,7 @@ export default {
             this.$router.push('/reg?tel=' + this.phone)
           }
         })
-      } else if (this.loginData.phone.slice(0, 1) == 8 && this.loginData.phone.length === 9) {
+      } else if (this.phone.slice(0, 1) == 8 && this.phone.length === 9) {
         this.step = 3
       }
     },
@@ -157,10 +166,8 @@ export default {
     },
   },
   created() {
-
   },
   mounted() {
-
   },
 }
 </script>

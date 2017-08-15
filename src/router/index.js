@@ -5,6 +5,7 @@ import home from '@/pages/home'
 
 import main from '@/pages/main/main'
 import news from '@/pages/main/news'
+import docs from '@/pages/main/docs'
 
 import classHome from '@/pages/class/home'
 import klass from '@/pages/class/main'
@@ -57,6 +58,11 @@ export default new Router({
           path: '/news',
           name: 'news',
           component: news,
+        },
+         {
+          path: '/docs',
+          name: 'docs',
+          component: docs,
         },
         {
           path: '/class',

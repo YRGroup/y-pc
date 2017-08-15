@@ -1,6 +1,6 @@
 <template>
   <div>
-    <has-no-student v-if="$store.state.hasNoStudent"></has-no-student>
+    <has-no-student v-if="$store.getters.hasNoStudent"></has-no-student>
     <div v-else>
 
       <div class="left">
@@ -91,7 +91,7 @@ export default {
       this.$API.UnBindStudent(this.bingdata).then(res => {
         this.$message('解绑成功！')
         this.$router.push('/')
-        this.$store.state.hasNoStudent = true
+        this.$store.dispatch('getCurrentUser')
         this.getData()
       }).catch(err => {
         this.$message.error(err.msg)
