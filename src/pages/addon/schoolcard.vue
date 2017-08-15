@@ -97,8 +97,10 @@ export default {
       para.pagesize = this.pageSize
       para.student_meid = this.$store.state.currentStudentId
       this.$API.getCardList(para).then(res => {
-        if (!res) {
-          this.Blance = res.Blance
+        if (res) {
+          if(this.Blance==0){
+            this.Blance = res.Blance
+          }
           if (res.Log.length) {
             res.Log.forEach((element) => {
               this.alllog.push(element)

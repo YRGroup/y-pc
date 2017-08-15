@@ -28,7 +28,7 @@
               </template>
             </el-form-item>
             <el-form-item label="身份证">
-              <el-input v-model="data.IDCard"></el-input>
+              <el-input v-model="data.IDCard" @blur="verifyIDcard"></el-input>
             </el-form-item>
             <el-form-item label="出生年月">
               <el-date-picker v-model="data.Resume" type="date" placeholder="选择日期">
@@ -183,12 +183,14 @@ export default {
     },
     submitChange() {
       this.data.role = 3
-      this.$API.editTeacherInfo(this.data).then(res => {
-        this.$API.getCurrentUser().then(user => {
-          this.$store.commit('login', user)
+      this.verifyIDcard.then(
+        this.$API.editTeacherInfo(this.data).then(res => {
+          this.$API.getCurrentUser().then(user => {
+            this.$store.commit('login', user)
+          })
+          this.$router.push('/teacher')
         })
-        this.$router.push('/teacher')
-      })
+      )
     },
     handleAvatarSuccess(res, file) {
       this.imageUrl = res.Content[0]
@@ -217,6 +219,16 @@ export default {
       }
       return isJPG && isLt2M;
     },
+    verifyIDcard(){
+      return new Promise((resolve,reject)=>{
+        if(this.data.IDCard.length>0 && this.data.IDCard.length<18){
+          this.$message.error('身份证不完整')
+          reject()
+        }else{
+          resolve()
+        }
+      })
+    }
   },
   created() {
     this.getData()
