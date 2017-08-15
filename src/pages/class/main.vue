@@ -113,8 +113,6 @@ export default {
     loadMore() {
       this.currentPage++
       this.getData()
-      console.log(22222)
-      console.log(this.currentPage)
     },
     doLike(id) {
       this.$API.doLikeThisPost(id).then((res) => {
