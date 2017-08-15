@@ -1,14 +1,15 @@
 <template>
   <div class="panel">
     <img class="poster" :src="poster">
-    
+  
     <div class="panel">
       <el-tabs v-model="activeName" @tab-click="handleSwitchTab">
         <el-tab-pane name="1">
           <span slot="label">
             <i class="iconfont">&#xe737;</i> 校园动态</span>
+          <no-data v-if="nodataImg"></no-data>
   
-          <div class="card" v-for="(i,index) in data" :key="index">
+          <div v-else class="card" v-for="(i,index) in data" :key="index">
             <div class="img" v-if="i.ImgUrl">
               <img :src="i.ImgUrl">
             </div>
@@ -31,8 +32,8 @@
         <el-tab-pane name="2">
           <span slot="label">
             <i class="iconfont">&#xe604;</i> 资料库</span>
-  
-          <div class="card" v-for="(i,index) in data" :key="index">
+            <no-data v-if="nodataImg"></no-data>
+          <div v-else class="card" v-for="(i,index) in data" :key="index">
             <div class="img" v-if="i.ImgUrl">
               <img :src="i.ImgUrl">
             </div>
@@ -58,16 +59,19 @@
 </template>
 
 <script>
+import noData from '@//components/noData'
+
 export default {
   name: 'app',
-  components: {},
+  components: { noData },
   data() {
     return {
       activeName: '1',
       poster: require('@/assets/img/post.jpg'),
       data: [],
       page: 1,
-      publicImg: require('@/assets/publicImg.png')
+      publicImg: require('@/assets/publicImg.png'),
+      nodataImg: false
     }
   },
   methods: {
@@ -80,7 +84,13 @@ export default {
         currentPage: this.page,
         pagesize: 10,
       }
-      this.$API.getNewsList(para).then(res => this.data = res)
+      this.$API.getNewsList(para).then(res => {
+        this.data = res
+        if(this.data.length == 0 && this.page ==1){
+          this.nodataImg = true
+        }
+      })
+      
     }
   },
   created() {

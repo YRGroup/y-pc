@@ -3,7 +3,7 @@
   
     <header>
       <div class="container">
-        <div class="logo">
+        <div class="logo" @click="$router.push('/')">
           <img class="logopic" :src="logo">
         </div>
         <div class="nav">
@@ -95,6 +95,7 @@ header {
   }
   .logo {
     display: inline-block;
+    cursor: pointer;
     img {
       height: 42px;
       background: transparent;

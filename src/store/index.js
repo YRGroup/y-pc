@@ -51,7 +51,7 @@ const store = new Vuex.Store({
       } 
     },
     hasNoStudent: state => {
-      if (state.currentUser && state.currentUser.Role == '家长') {
+      if (state.currentUser && state.currentUser.Role === '家长') {
         if (!state.currentUser.ExtendInfo.Students.length) {
           return true
         } else {

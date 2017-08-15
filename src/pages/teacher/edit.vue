@@ -15,45 +15,45 @@
             <i class="iconfont">&#xe668;</i>个人资料
           </div>
           <div class="item-content" style="padding:0 150px 0 50px">
-            <el-form-item label="手机号">
-              <el-input v-model="data.Mobilephone" :disabled="true"></el-input>
+            <el-form-item label="手机号：">
+              <el-input v-model="data.Mobilephone" :disabled="true" style="width:200px"></el-input>
             </el-form-item>
-            <el-form-item label="姓名">
-              <el-input v-model="data.TrueName"></el-input>
+            <el-form-item label="姓名：">
+              <el-input v-model="data.TrueName" style="width:200px"></el-input>
             </el-form-item>
-            <el-form-item label="性别">
+            <el-form-item label="性别：">
               <template>
                 <el-radio class="radio" v-model="data.Sex" label="男">男</el-radio>
                 <el-radio class="radio" v-model="data.Sex" label="女">女</el-radio>
               </template>
             </el-form-item>
-            <el-form-item label="身份证">
-              <el-input v-model="data.IDCard" @blur="verifyIDcard"></el-input>
-            </el-form-item>
             <el-form-item label="出生年月">
               <el-date-picker v-model="data.Resume" type="date" placeholder="选择日期">
               </el-date-picker>
             </el-form-item>
-            <el-form-item label="民族">
-              <el-input v-model="data.Volk"></el-input>
+            <el-form-item label="身份证号：">
+              <el-input v-model="data.IDCard"></el-input>
             </el-form-item>
-            <el-form-item label="政治面貌">
-              <el-input v-model="data.PoliticalStatus"></el-input>
+            <el-form-item label="民族：">
+              <el-input v-model="data.Volk" style="width:200px"></el-input>
             </el-form-item>
-            <el-form-item label="教龄">
-              <el-input v-model="data.SchoolAge"></el-input>
+            <el-form-item label="政治面貌：">
+              <el-input v-model="data.PoliticalStatus" style="width:200px"></el-input>
             </el-form-item>
-            <el-form-item label="职称">
-              <el-input v-model="data.Title"></el-input>
+            <el-form-item label="教龄：">
+              <el-input v-model="data.SchoolAge" style="width:200px"></el-input>
             </el-form-item>
-            <el-form-item>
+            <el-form-item label="职称：">
+              <el-input v-model="data.Title" style="width:200px"></el-input>
+            </el-form-item>
+            <el-form-item label="修改头像：">
               <div class="headImg">
-                <div class="left" v-show="!showEditHeadImg">
+                <!-- <div class="left" v-show="!showEditHeadImg">
                   <el-button @click="showEditHeadImg=true">修改头像</el-button>
-                </div>
-                <div class="right" v-show="showEditHeadImg">
+                </div> -->
+                <div class="right">
                   <el-upload list-type="picture-card" class="avatar-uploader" :action="$store.getters._APIurl+'/api/Upload/ImageUpload'" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                    <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                    <img v-if="data.Headimgurl" :src="data.Headimgurl" class="avatar">
                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                   </el-upload>
                 </div>
@@ -167,7 +167,6 @@ export default {
         Description: '',
         ImgPath: ''
       },
-      imageUrl: ''
     }
   },
   computed: {
@@ -183,18 +182,17 @@ export default {
     },
     submitChange() {
       this.data.role = 3
-      this.verifyIDcard.then(
+      this.verifyIDcard().then(res=>{
         this.$API.editTeacherInfo(this.data).then(res => {
           this.$API.getCurrentUser().then(user => {
             this.$store.commit('login', user)
           })
           this.$router.push('/teacher')
         })
-      )
+      }).catch(err=>{ })
     },
     handleAvatarSuccess(res, file) {
-      this.imageUrl = res.Content[0]
-      this.data.Headimgurl = this.imageUrl + '?x-oss-process=style/f300'
+      this.data.Headimgurl = res.Content[0] + '?x-oss-process=style/f300'
     },
     handleHonorSuccess(res, file) {
       this.addPersonalHonorData.ImgPath = res.Content[0] + '?x-oss-process=style/f300'

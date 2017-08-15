@@ -69,7 +69,7 @@
                 <div class="headTextImg" v-else>{{i.TrueName.substr(0,1)}}</div>
               </span>
               <div>{{i.TrueName || '未命名'}}</div>
-              <div>{{i.Course || '无学科'}}</div>
+              <div class="subject">{{i.Course || '无学科'}}</div>
             </div>
   
           </div>
@@ -229,6 +229,10 @@ export default {
           .headTextImg {
             vertical-align: top;
           }
+        }
+        .subject {
+          font-size: 12px;
+          color: @grey;
         }
         span {
           display: inline-block;

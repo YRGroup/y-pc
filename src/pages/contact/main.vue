@@ -20,9 +20,7 @@
         </li>
       </div>
 
-      <div style="padding:0 20px" v-else>
-        暂无消息
-      </div>
+      <no-data v-else></no-data>
 
     </div>
   
@@ -30,9 +28,10 @@
 </template>
 
 <script>
+import noData from '@//components/noData'
 export default {
   name: 'msg',
-  components: {},
+  components: {noData},
   data() {
     return {
       data: [],
