@@ -135,7 +135,6 @@ API.editTeacherInfo = (editData) => {
     })
   })
 }
-// testing
 
 // 获取当前用户信息
 API.getCurrentUser = () => {
@@ -155,20 +154,6 @@ API.getCurrentUser = () => {
     })
   })
 }
-// testing
-
-// 家长添加学生
-API.addStudent = (addStudentData) => {
-  return new Promise((resolve, reject) => {
-    axios.post(_APIurl + '/api/Parent/BindStudent', addStudentData).then((res) => {
-      resolve(res)
-    }).catch((err) => {
-      console.log(err)
-      reject(err)
-    })
-  })
-}
-// testing
 
 // 获取一卡通消费记录
 API.getCardList = (para) => {
@@ -182,7 +167,6 @@ API.getCardList = (para) => {
     })
   })
 }
-// testing
 
 // 绑定一卡通
 API.addSchoolcard = (cardNum) => {
@@ -190,7 +174,7 @@ API.addSchoolcard = (cardNum) => {
     axios.post(_APIurl+'/api/user/BindYKT',cardNum).then((res)=>{
       resolve(res)
     }).catch((err) => {
-      reject(err.msg)
+      reject(err)
     })
   })
 }
