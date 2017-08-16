@@ -27,7 +27,7 @@
                 <el-radio class="radio" v-model="data.Sex" label="女">女</el-radio>
               </template>
             </el-form-item>
-            <el-form-item label="出生年月：">
+            <el-form-item label="出生年月">
               <el-date-picker v-model="data.Resume" type="date" placeholder="选择日期">
               </el-date-picker>
             </el-form-item>
@@ -53,7 +53,7 @@
                 </div> -->
                 <div class="right">
                   <el-upload list-type="picture-card" class="avatar-uploader" :action="$store.getters._APIurl+'/api/Upload/ImageUpload'" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                    <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                    <img v-if="data.Headimgurl" :src="data.Headimgurl" class="avatar">
                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                   </el-upload>
                 </div>
@@ -167,7 +167,6 @@ export default {
         Description: '',
         ImgPath: ''
       },
-      imageUrl: ''
     }
   },
   computed: {
@@ -183,16 +182,17 @@ export default {
     },
     submitChange() {
       this.data.role = 3
-      this.$API.editTeacherInfo(this.data).then(res => {
-        this.$API.getCurrentUser().then(user => {
-          this.$store.commit('login', user)
+      this.verifyIDcard().then(res=>{
+        this.$API.editTeacherInfo(this.data).then(res => {
+          this.$API.getCurrentUser().then(user => {
+            this.$store.commit('login', user)
+          })
+          this.$router.push('/teacher')
         })
-        this.$router.push('/teacher')
-      })
+      }).catch(err=>{ })
     },
     handleAvatarSuccess(res, file) {
-      this.imageUrl = res.Content[0]
-      this.data.Headimgurl = this.imageUrl + '?x-oss-process=style/f300'
+      this.data.Headimgurl = res.Content[0] + '?x-oss-process=style/f300'
     },
     handleHonorSuccess(res, file) {
       this.addPersonalHonorData.ImgPath = res.Content[0] + '?x-oss-process=style/f300'
@@ -217,6 +217,16 @@ export default {
       }
       return isJPG && isLt2M;
     },
+    verifyIDcard(){
+      return new Promise((resolve,reject)=>{
+        if(this.data.IDCard.length>0 && this.data.IDCard.length<18){
+          this.$message.error('身份证不完整')
+          reject()
+        }else{
+          resolve()
+        }
+      })
+    }
   },
   created() {
     this.getData()
