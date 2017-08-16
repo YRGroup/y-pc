@@ -24,13 +24,8 @@
         暂无消息
       </li>
       <div class="newMsgContent">
-        <el-input class="input" style="width:90%" placeholder="请输入内容" v-model="newMsgData.content"></el-input>
+        <el-input class="input" style="width:90%" placeholder="请输入内容" v-model="newMsgData.content" @keyup.enter.native="addMsg"></el-input>
         <el-button @click="addMsg" class="btn" type="success">发送</el-button>
-        <!-- <el-input v-model="newMsgData.content" placeholder="请输入内容">
-            <template slot="append">
-              <el-button  @click="addMsg" style="background-color:#00c06f;color:#fff;border-color: #00c06f;border-radius:0;">发送</el-button>
-            </template>
-          </el-input> -->
       </div>
     </div>
   
@@ -72,7 +67,7 @@ export default {
         this.$message.warning('不能为空')
       } else {
         this.$API.replyMsg(this.newMsgData).then(res => {
-          this.$message.success('发送消息成功')
+          // this.$message.success('发送消息成功')
           this.newMsgData.content = ""
           this.getData()
         })

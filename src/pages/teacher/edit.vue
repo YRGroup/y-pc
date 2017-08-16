@@ -48,9 +48,6 @@
             </el-form-item>
             <el-form-item label="修改头像：">
               <div class="headImg">
-                <!-- <div class="left" v-show="!showEditHeadImg">
-                  <el-button @click="showEditHeadImg=true">修改头像</el-button>
-                </div> -->
                 <div class="right">
                   <el-upload list-type="picture-card" class="avatar-uploader" :action="$store.getters._APIurl+'/api/Upload/ImageUpload'" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
                     <img v-if="data.Headimgurl" :src="data.Headimgurl" class="avatar">
