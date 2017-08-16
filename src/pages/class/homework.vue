@@ -3,9 +3,9 @@
   
     <div class="addHomework" v-show="$store.getters.role=='老师'">
       <!-- <span>班级作业</span>
-          <div class="btn">
-            <el-button type="primary" @click="showAddHomework = true">添加新作业</el-button>
-          </div>  -->
+              <div class="btn">
+                <el-button type="primary" @click="showAddHomework = true">添加新作业</el-button>
+              </div>  -->
       <div class="title" :class="showAddHomework?null:'addbtn'" @click="showAddHomework = true">
         <i class="iconfont">&#xe623;</i>布置作业</div>
     </div>
@@ -15,7 +15,7 @@
         {{i.CourseName}}
       </div>
       <div class="tasktitle">{{i.Title}}</div>
-      <div class="taskbox">
+      <div class="taskbox" @click="$router.push('/homework?id='+i.HID)">
         <div class="taskcon">{{i.Content}}</div>
         <div class="albums">
           <li v-for="(p,index) in i.albums" :key="index">
@@ -28,9 +28,9 @@
       </div>
     </div>
   
-    <load-more @click.native="loadMore" :noMoreData="noMoreData"></load-more>
+    <load-more @click.native="loadMore" :noMoreData="noMoreData" v-show="!$route.query.id"></load-more>
   
-    <el-dialog title="布置作业" :visible.sync="showAddHomework"  size="tiny">
+    <el-dialog title="布置作业" :visible.sync="showAddHomework" size="tiny">
       <el-form :model="newHomeworkData" label-width="60px">
         <el-form-item label="标题">
           <el-input v-model.trim="newHomeworkData.title" auto-complete="off"></el-input>
@@ -50,7 +50,7 @@
         </el-form-item>
   
       </el-form>
-      
+  
       <div slot="footer" class="dialog-footer">
         <el-button type="success" @click="addNewHomework">确 定</el-button>
       </div>
@@ -109,6 +109,16 @@ export default {
         }
       }
     },
+    refresh() {
+      this.homework=[]
+      if (!this.$route.query.id) {
+        this.getData()
+      } else {
+        this.$API.getHomework(this.$route.query.id).then(res => {
+          this.homework.push(res)
+        })
+      }
+    },
     getData() {
       let para = {}
       para.cid = this.$store.state.currentClassId
@@ -163,6 +173,9 @@ export default {
   mounted() {
 
   },
+  watch: {
+    "$route": "refresh"
+  }
 }
 </script>
 
@@ -223,6 +236,7 @@ export default {
   }
   .taskbox {
     color: #666;
+    cursor: pointer;
     .taskcon {
       margin: 0 auto;
       img {

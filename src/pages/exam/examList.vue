@@ -23,7 +23,7 @@
           </div>
           <div class="exambtn">
             <el-button class="delbtn" :plain="true" type="text" @click="delExam(i.ID,i.ExamName)" size="small"><i class="iconfont">&#xe630;</i> 删除</el-button>
-            <el-button type="info">发通知</el-button>
+            <el-button type="info" @click="sendExamNotice">发通知</el-button>
             <el-button type="success" class="type" @click="$router.push('/exam/'+i.ID)">查看成绩</el-button>
           </div>
         </li>
@@ -61,9 +61,7 @@
           <el-button @click="showAddExam = false" :plain="true" type="success">取 消</el-button>
         </el-form-item>
       </el-form>
-      <!-- <div slot="footer" class="dialog-footer">
        
-      </div> -->
     </el-dialog>
   
   </div>
@@ -140,9 +138,6 @@ export default {
     isClassAdmin() {
       return false
     },
-    // data() {
-    //   return this.$store.state.currentExamList
-    // },
     currentClass(){
       return this.$store.state.currentClassId
     },
@@ -158,6 +153,9 @@ export default {
     }
   },
   methods: {
+    sendExamNotice(){
+      
+    },
     changeCurrentClass(n) {
       this.$store.commit('changeCurrentClass', n)
       this.$store.dispatch('getCurrentClassInfo')
