@@ -5,6 +5,7 @@ import axios from 'axios'
 // API根目录
 import _APIurl from './config'
 
+
 // 获取学科列表
 API.getCourseList = () => {
   return new Promise((resolve, reject) => {

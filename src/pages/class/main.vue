@@ -6,7 +6,7 @@
         <i class="iconfont">&#xe623;</i>发布动态</div>
     </div>
   
-    <el-dialog title="发布动态" :visible.sync="showAddPost"  size="tiny">
+    <el-dialog title="发布动态" :visible.sync="showAddPost" size="tiny">
       <el-form :model="newPost">
         <el-form-item>
           <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model.trim="newPost.content">
@@ -25,7 +25,7 @@
         <el-button type="success" @click="addNewPost">发 布</el-button>
       </div>
     </el-dialog>
-
+  
     <no-data v-if="nodataImg"></no-data>
     <div v-else>
       <div class="card panel" v-for="i in data" :key="i.id">
@@ -41,12 +41,21 @@
             <img :src="p" @click="openImgBig(p)">
           </li>
         </div>
+        <div class="comment" v-if="i.comment1">
+          <div class="name">
+            {{i.comment1.TrueName}}
+          </div>
+          <div class="content">
+            {{i.comment1.content}}
+          </div>
+          <div class="btn" @click="$router.push('/post/'+i.id)">查看更多</div>
+        </div>
         <div class="footer">
           <span class="time">{{i.date}}</span>
           <span class="iconbtn">
             <span title="删除" class="delBtn" v-if="isAdmin" @click="delPost(i.id)">
               <i class="iconfont">&#xe630;</i>
-              <span class="delBtnTitle">删除</span> 
+              <span class="delBtnTitle">删除</span>
             </span>
             <span title="点赞" @click.once="doLike(i.id),i.like++">
               <i class="iconfont">&#xe646;</i>{{i.like}}
@@ -56,7 +65,6 @@
       </div>
       <load-more @click.native="loadMore" :noMoreData="noMoreData"></load-more>
     </div>
-  
   
     <el-dialog :visible.sync="showImgBig" class="bigImg">
       <img :src="imgBig">
@@ -71,7 +79,7 @@ import noData from '@//components/noData'
 
 export default {
   name: 'app',
-  components: { loadMore , noData },
+  components: { loadMore, noData },
   data() {
     return {
       newPost: {},
@@ -84,7 +92,7 @@ export default {
       noMoreData: false,
       nodataImg: false,
       showAddPost: false,
-      nodataPic:require('@/assets/nodata.png')
+      nodataPic: require('@/assets/nodata.png')
     }
   },
   computed: {
@@ -105,101 +113,104 @@ export default {
       this.$API.getAllClassDynamic(para).then(res => {
         if (res.length) {
           res.forEach((element) => {
+            if (element.comment.length) {
+              element.comment1 = element.comment[0]
+            }
             this.data.push(element)
-          })
-        }else if(res.length == 0 && this.currentPage == 1){
-          this.nodataImg = true
-        }else if(res.length == 0 && this.currentPage != 1){
-          this.noMoreData = true
-        }
-      })
-    },
-    loadMore() {
-      this.currentPage++
-      this.getData()
-    },
-    doLike(id) {
-      this.$API.doLikeThisPost(id).then((res) => {
-        this.$message.success('点赞成功')
-      })
-    },
-    delPost(id) {
-      let para = {
-        did: id
-      }
-      this.$API.deletePost(para).then(() => {
-        this.$message({
-          message: '删除成功',
-          type: 'success',
         })
-        this.data = []
-        this.getData()
-      }).catch((err) => {
-        console.error('fff>>>>', err)
-        this.$message({
-          message: '删除失败了哦!',
-          type: 'error',
-        })
-      })
-    },
-    openImgBig(val) {
-      this.imgBig = val
-      this.showImgBig = true
-    },
-    handleRemove(file, fileList) {
-      console.log(fileList);
-      let c = file.response.Content[0]
-    },
-    handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
-    },
-    beforePictureUpload(file) {
-      const isJPG = (file.type === 'image/jpeg' || file.type === 'image/png')
-      const isLt5M = file.size / 1024 / 1024 < 5;
-      if (!isJPG) {
-        this.$message.error('上传图片只能是 JPG或PNG 格式!');
-      }
-      if (!isLt5M) {
-        this.$message.error('上传图片大小不能超过 5MB!');
-      }
-      return isJPG && isLt5M;
-    },
-    addNewPost() {
-      if(this.$store.getters.role=='家长' && this.$store.state.currentStudentId!=null){
-        this.newPost.student_meid=this.$store.state.currentStudentId
-      }
-      let inputCon = this.newPost.content
-      if (inputCon != undefined) {
-        this.$refs.upload.uploadFiles.forEach((obj) => {
-          this.fileList.push(obj.response.Content[0])
-        })
-        this.newPost.type = 1
-        this.newPost.cid = this.$store.state.currentClassId
-        this.newPost['img_url_list'] = this.fileList.join(',')
-        this.$API.postNewClassDynamic(this.newPost).then(res => {
-          this.showAddPost = false
-          this.data = []
-          this.$message('发布动态成功')
-          this.getData()
-          this.newPost.content = ''
-          this.newPost.img_url_list = ''
-          this.fileList = []
-          this.$refs.upload.uploadFiles = []
-        })
-      } else {
-        this.$message('内容不能为空')
-      }
-    },
-  },
-  created() {
+    }else if(res.length == 0 && this.currentPage == 1) {
+      this.nodataImg = true
+    }else if(res.length == 0 && this.currentPage != 1) {
+      this.noMoreData = true
+    }
+  })
+},
+loadMore() {
+  this.currentPage++
+  this.getData()
+},
+doLike(id) {
+  this.$API.doLikeThisPost(id).then((res) => {
+    this.$message.success('点赞成功')
+  })
+},
+delPost(id) {
+  let para = {
+    did: id
+  }
+  this.$API.deletePost(para).then(() => {
+    this.$message({
+      message: '删除成功',
+      type: 'success',
+    })
+    this.data = []
     this.getData()
+  }).catch((err) => {
+    console.error('fff>>>>', err)
+    this.$message({
+      message: '删除失败了哦!',
+      type: 'error',
+    })
+  })
+},
+openImgBig(val) {
+  this.imgBig = val
+  this.showImgBig = true
+},
+handleRemove(file, fileList) {
+  console.log(fileList);
+  let c = file.response.Content[0]
+},
+handlePictureCardPreview(file) {
+  this.dialogImageUrl = file.url;
+  this.dialogVisible = true;
+},
+beforePictureUpload(file) {
+  const isJPG = (file.type === 'image/jpeg' || file.type === 'image/png')
+  const isLt5M = file.size / 1024 / 1024 < 5;
+  if (!isJPG) {
+    this.$message.error('上传图片只能是 JPG或PNG 格式!');
+  }
+  if (!isLt5M) {
+    this.$message.error('上传图片大小不能超过 5MB!');
+  }
+  return isJPG && isLt5M;
+},
+addNewPost() {
+  if (this.$store.getters.role == '家长' && this.$store.state.currentStudentId != null) {
+    this.newPost.student_meid = this.$store.state.currentStudentId
+  }
+  let inputCon = this.newPost.content
+  if (inputCon != undefined) {
+    this.$refs.upload.uploadFiles.forEach((obj) => {
+      this.fileList.push(obj.response.Content[0])
+    })
+    this.newPost.type = 1
+    this.newPost.cid = this.$store.state.currentClassId
+    this.newPost['img_url_list'] = this.fileList.join(',')
+    this.$API.postNewClassDynamic(this.newPost).then(res => {
+      this.showAddPost = false
+      this.data = []
+      this.$message('发布动态成功')
+      this.getData()
+      this.newPost.content = ''
+      this.newPost.img_url_list = ''
+      this.fileList = []
+      this.$refs.upload.uploadFiles = []
+    })
+  } else {
+    this.$message('内容不能为空')
+  }
+},
   },
-  mounted() {
-  },
-  watch: {
-    "$route": "getData"
-  },
+created() {
+  this.getData()
+},
+mounted() {
+},
+watch: {
+  "$route": "getData"
+},
 }
 </script>
 
@@ -286,12 +297,27 @@ export default {
     line-height: 42px;
   }
   .content {
-    // width: calc(~"100% - 120px");
     line-height: 24px;
     word-warp: break-word;
     word-break: break-all;
     cursor: pointer;
     color: #666;
+  }
+  .comment{
+    background: @bg;
+    border-radius: 15px;
+    padding:10px 20px;
+    .name{
+      display: inline-block;
+      color:@main;
+    }
+    .content{
+      display: inline-block;
+    }
+    .btn{
+      text-align: center;
+      color:@sub;
+    }
   }
   .albums {
     margin: 10px 0;
@@ -312,13 +338,12 @@ export default {
     .iconbtn {
       float: right;
       cursor: pointer;
-      span{
-        margin:0 10px;
-        &:hover{
+      span {
+        margin: 0 10px;
+        &:hover {
           color: @main;
         }
-      }
-      // &:hover {
+      } // &:hover {
       //   color: @main;
       // }
     }
