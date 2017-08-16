@@ -58,7 +58,7 @@
 
 <script>
 import hasNoStudent from '@/components/hasNoStudent'
-import loadMore from '@//components/loadMore'
+import loadMore from '@/components/loadMore'
 
 export default {
   components: { loadMore, hasNoStudent },

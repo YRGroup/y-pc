@@ -277,6 +277,9 @@ export default {
         }
       }
       .item-content {
+        .el-form-item {
+            margin-bottom: 15px;
+          }
         // padding-top:30px;
         // text-align: center;
         margin-left: 40px;
@@ -284,9 +287,6 @@ export default {
         .oldwork {
           border-bottom: 1px dashed @border;
           margin-bottom: 15px;
-          .el-form-item {
-            margin-bottom: 15px;
-          }
         }
       }
     }
