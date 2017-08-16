@@ -29,7 +29,7 @@
           <div @click="step=2">忘记密码？使用短信验证码登陆</div>
         </div>
         <div class="btn item">
-          <el-button size="large" @click.native="login" type="success">手机号登录</el-button>
+          <el-button size="large" @click.native="login" type="success">登录</el-button>
         </div>
       </div>
   
@@ -102,7 +102,7 @@ export default {
   methods: {
     login() {
       this.loginData.phone = this.phone
-      this.$API.login(this.loginData).then(res => this.loginOK(res)).catch(err => console.log(err))
+      this.$API.login(this.loginData).then(res => this.loginOK(res)).catch(err => this.$message.error(err.msg))
     },
     studentLogin() {
       this.studentLoginData.studentid = this.phone

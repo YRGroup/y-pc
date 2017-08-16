@@ -29,9 +29,9 @@
             </div>
           </div>
   
-          <el-dialog title="修改密码" :visible.sync="showEditPw" size="mini">
+          <el-dialog title="修改密码" :visible.sync="showEditPw" size="tiny">
             <div>
-              <el-form :inline="true" label-width="100px">
+              <el-form :inline="true" label-width="80px">
                 <div>
                   <el-form-item label="手机号">
                     <el-input v-model="editPwData.phone" :disabled="true">

@@ -19,7 +19,7 @@
                             <el-radio class="radio" v-model="data.type" label="2">妈妈</el-radio>
                             <el-radio class="radio" v-model="data.type" label="3">爷爷</el-radio>
                             <el-radio class="radio" v-model="data.type" label="4">奶奶</el-radio>
-                            <el-radio class="radio" v-model="data.type" label="5">其他</el-radio>
+                            <el-radio class="radio" v-model="data.type" label="5">家人</el-radio>
                         </template>
                     </el-form-item>
                 </el-form>

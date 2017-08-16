@@ -1,10 +1,5 @@
 <template>
   <div>
-    <!-- <div class="nav">
-      <span>首页 > </span>
-      <span>校园动态</span>
-    </div> -->
-  
     <div class="card">
       <div class="maintitle">
         <i class="iconfont">&#xe737;</i>校园动态
