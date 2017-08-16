@@ -40,7 +40,7 @@ export default {
       data: {
         truename: '',
         'student_id': '',
-        type: '5'
+        type: '1'
       },
     }
   },

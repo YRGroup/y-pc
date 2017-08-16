@@ -6,8 +6,9 @@
         <span class="title" slot="label">资料</span>
         <div class="content info">
   
-          <div class="item">
-            <div class="header">家长资料</div>
+          <div class="itemList">
+            <div class="header">
+              <i class="iconfont">&#xe668;</i>家长资料</div>
             <div class="item-content">
               <p>
                 <span class="title">姓名：</span>
@@ -24,8 +25,9 @@
             </div>
           </div>
 
-          <div class="item">
-            <div class="header">学生资料</div>
+          <div class="itemList">
+            <div class="header">
+              <i class="iconfont">&#xe607;</i>学生资料</div>
             <div class="item-content">
               <p>
                 <span class="title">姓名：</span>
@@ -53,9 +55,10 @@
               </p>
             </div>
           </div>
-  
-          <div class="item">
-            <div class="header">其他功能</div>
+<!--   
+          <div class="itemList">
+            <div class="header">
+              <i class="iconfont">&#xe604;</i>其他功能</div>
             <div class="item-content">
               <p>
                 <el-button>育人官网</el-button>
@@ -65,7 +68,7 @@
               </p>
   
             </div>
-          </div>
+          </div> -->
   
         </div>
       </el-tab-pane>
@@ -136,34 +139,63 @@ export default {
 @import '../../style/theme.less';
 
 .tabs {
+  min-height: 600px;
+  // margin-top:10px;
   .title {
-    padding: 10px 30px;
+    padding: 10px 30px 0 30px;
   }
   .content {
     line-height: 2em;
-    .item {
-      padding: 30px 0;
-      border-bottom: 1px solid @grey;
+    .itemList {
+      padding: 30px 20px;
+      border-bottom: 1px solid @border;
+      position: relative;
+      &:last-child {
+        border: none;
+      }
+      .setBtn {
+        position: absolute;
+        right: 20px;
+        top: 30px;
+        border: 1px solid @main;
+        color: @main;
+        padding: 1px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        &:hover {
+          background: @main;
+          color: #fff;
+        }
+      }
       .header {
-        line-height: 1em;
+        line-height: 28px;
+        font-size: 16px;
+        margin-bottom: 10px;
+        color: @main;
+        .iconfont {
+          margin-right: 8px;
+        }
       }
       .item-content {
-        padding-top: 30px;
-        text-align: center;
-        line-height: 3em;
+        // padding-top:30px;
+        // text-align: center;
+        margin-left: 40px;
+        line-height: 2em;
+        .name {
+          width: 500px;
+          display: inline-block;
+        }
         .title {
           color: @grey;
-          width:20%;
-        }
-        .itemInfo{
-          width:80%;
+          text-align: right;
+          display: inline-block;
+          width: 80px;
         }
         .img {
           display: inline-block;
-          padding: 10px;
+          padding-right: 15px;
           img {
-            width: 120px;
-            border-radius: 50%;
+            width: 120px; // border-radius: 50%;
           }
         }
       }
