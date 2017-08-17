@@ -224,7 +224,7 @@
           <el-input v-model="editStudentData.Meid" :disabled="true"></el-input>
         </el-form-item>
         <el-form-item label="学号">
-          <el-input v-model="editStudentData.StudentID"></el-input>
+          <el-input v-model="editStudentData.StudentID" :disabled="true"></el-input>
         </el-form-item>
         <el-form-item label="姓名">
           <el-input v-model="editStudentData.TrueName"></el-input>
@@ -238,6 +238,7 @@
         <el-form-item label="">
           <el-button type="success" @click="submitEditStudent">确 定</el-button>
           <el-button type="success" :plain="true" @click="showEditStudent = false">取 消</el-button>
+          <el-button type="info" @click="$router.push('/s?id='+editStudentData.Meid+'&tab=edit')">编辑详细资料</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
