@@ -104,6 +104,8 @@ API.doLikeThisPost = (classDynamicId) => {
   return new Promise((resolve, reject) => {
     axios.get(_APIurl+'/api/Class/Zan?did='+classDynamicId).then((res)=>{
       resolve(res.data.Content)
+    }).catch((err) => {
+      reject(err)
     })
   })
 }

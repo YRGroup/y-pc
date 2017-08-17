@@ -132,6 +132,8 @@ export default {
     doLike(id) {
       this.$API.doLikeThisPost(id).then((res) => {
         this.$message.success('点赞成功')
+      }).catch(err => {
+        this.$message.error(err.msg)
       })
     },
     delPost(id) {
