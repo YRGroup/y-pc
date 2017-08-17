@@ -9,11 +9,11 @@
           </h4>
           <el-form :model="addCardData" label-width="100px" class="cardNum">
             <!-- <el-form-item label="学生：" v-if="$store.getters.role==='家长'">
-              <el-select v-model="addCardData.student_meid" placeholder="请选择学生">
-                <el-option v-for="i in studentList" :key="i.id" :label="i.name" :value="i.id">
-                </el-option>
-              </el-select>
-            </el-form-item> -->
+                <el-select v-model="addCardData.student_meid" placeholder="请选择学生">
+                  <el-option v-for="i in studentList" :key="i.id" :label="i.name" :value="i.id">
+                  </el-option>
+                </el-select>
+              </el-form-item> -->
             <el-form-item label="卡号：">
               <el-input v-model.number="addCardData.CardID" placeholder="请输入校园卡号" size="large"></el-input>
             </el-form-item>
@@ -28,26 +28,30 @@
         <div class="cardSummary">
           <div class="total">
             <!-- <div class="student" v-if="$store.getters.role==='家长'">
-              <el-select v-model="addCardData.student_meid" @change="changeCurrentStudent" placeholder="请选择学生">
-                <el-option v-for="i in studentList" :key="i.id" :label="i.name" :value="i.id">
-                </el-option>
-              </el-select>
-            </div> -->
+                <el-select v-model="addCardData.student_meid" @change="changeCurrentStudent" placeholder="请选择学生">
+                  <el-option v-for="i in studentList" :key="i.id" :label="i.name" :value="i.id">
+                  </el-option>
+                </el-select>
+              </div> -->
             <span class="item">
               <span>当前余额 </span>
               <span class="balance">{{Blance}}</span>
             </span>
           </div>
         </div>
-        <div class="cardList leftCon">
-          <div class="header">消费记录
+  
+        <div class="cardList">
+          <no-data v-if="noData"></no-data>
+          <div v-else>
+            <div class="header">消费记录
+            </div>
+            <div class="item" v-for="(i,index) in alllog" :key="index">
+              <div class="title">{{i.Title}}</div>
+              <div class="time">{{i.CreateTime}}</div>
+              <div class="log">{{i.OpeaType}} {{i.Money}}</div>
+            </div>
+            <load-more @click.native="loadMore" :noMoreData="noMoreData"></load-more>
           </div>
-          <div class="item" v-for="(i,index) in alllog" :key="index">
-            <div class="title">{{i.Title}}</div>
-            <div class="time">{{i.CreateTime}}</div>
-            <div class="log">{{i.OpeaType}} {{i.Money}}</div>
-          </div>
-          <load-more @click.native="loadMore" :noMoreData="noMoreData"></load-more>
   
         </div>
       </div>
@@ -59,9 +63,10 @@
 <script>
 import hasNoStudent from '@/components/hasNoStudent'
 import loadMore from '@/components/loadMore'
+import noData from '@//components/noData'
 
 export default {
-  components: { loadMore, hasNoStudent },
+  components: { loadMore, hasNoStudent, noData },
   data() {
     return {
       addCardData: {
@@ -73,6 +78,7 @@ export default {
       currentPage: 1,
       pageSize: 10,
       noMoreData: false,
+      noData: false
     }
   },
   computed: {
@@ -98,7 +104,7 @@ export default {
       para.student_meid = this.$store.state.currentStudentId
       this.$API.getCardList(para).then(res => {
         if (res) {
-          if(this.Blance==0){
+          if (this.Blance == 0) {
             this.Blance = res.Blance
           }
           if (res.Log.length) {
@@ -113,11 +119,12 @@ export default {
           } else {
             this.noMoreData = true
           }
-        }else{
-          this.$message.error('当前没有消费记录')
+        } else {
+          this.noData = true
+          // this.$message.error('当前没有消费记录')
         }
       }).catch(err => {
-        if(err.msg){
+        if (err.msg) {
           this.$message.error(err.msg)
         }
       })
@@ -210,6 +217,7 @@ export default {
   border: 1px solid @border;
   margin: 15px 0;
   padding: 20px;
+  min-height: 500px;
   .header {
     line-height: 36px;
     font-weight: bold;

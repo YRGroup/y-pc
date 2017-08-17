@@ -43,7 +43,7 @@
         </div>
         <div class="comment" v-if="i.comment1">
           <div class="name">
-            {{i.comment1.TrueName}}
+            {{i.comment1.TrueName}}：
           </div>
           <div class="content">
             {{i.comment1.content}}
@@ -304,8 +304,8 @@ watch: {
     color: #666;
   }
   .comment{
-    background: @bg;
-    border-radius: 15px;
+    background: #fbfbfb;
+    border-radius: 5px;
     padding:10px 20px;
     .name{
       display: inline-block;
@@ -315,8 +315,12 @@ watch: {
       display: inline-block;
     }
     .btn{
+      border-top: 1px solid #e2e3e3;
+      cursor: pointer;
       text-align: center;
       color:@sub;
+      padding-top: 5px;
+      margin-top: 5px;
     }
   }
   .albums {

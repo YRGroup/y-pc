@@ -174,7 +174,6 @@ export default {
 
 
 .card {
-  margin: 15px 0;
   border: 1px solid @border;
   font-size: 13px;
   position: relative;
