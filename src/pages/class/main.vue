@@ -117,100 +117,102 @@ export default {
               element.comment1 = element.comment[0]
             }
             this.data.push(element)
-        })
-    }else if(res.length == 0 && this.currentPage == 1) {
-      this.nodataImg = true
-    }else if(res.length == 0 && this.currentPage != 1) {
-      this.noMoreData = true
-    }
-  })
-},
-loadMore() {
-  this.currentPage++
-  this.getData()
-},
-doLike(id) {
-  this.$API.doLikeThisPost(id).then((res) => {
-    this.$message.success('点赞成功')
-  })
-},
-delPost(id) {
-  let para = {
-    did: id
-  }
-  this.$API.deletePost(para).then(() => {
-    this.$message({
-      message: '删除成功',
-      type: 'success',
-    })
-    this.data = []
-    this.getData()
-  }).catch((err) => {
-    console.error('fff>>>>', err)
-    this.$message({
-      message: '删除失败了哦!',
-      type: 'error',
-    })
-  })
-},
-openImgBig(val) {
-  this.imgBig = val
-  this.showImgBig = true
-},
-handleRemove(file, fileList) {
-  console.log(fileList);
-  let c = file.response.Content[0]
-},
-handlePictureCardPreview(file) {
-  this.dialogImageUrl = file.url;
-  this.dialogVisible = true;
-},
-beforePictureUpload(file) {
-  const isJPG = (file.type === 'image/jpeg' || file.type === 'image/png')
-  const isLt5M = file.size / 1024 / 1024 < 5;
-  if (!isJPG) {
-    this.$message.error('上传图片只能是 JPG或PNG 格式!');
-  }
-  if (!isLt5M) {
-    this.$message.error('上传图片大小不能超过 5MB!');
-  }
-  return isJPG && isLt5M;
-},
-addNewPost() {
-  if (this.$store.getters.role == '家长' && this.$store.state.currentStudentId != null) {
-    this.newPost.student_meid = this.$store.state.currentStudentId
-  }
-  let inputCon = this.newPost.content
-  if (inputCon != undefined) {
-    this.$refs.upload.uploadFiles.forEach((obj) => {
-      this.fileList.push(obj.response.Content[0])
-    })
-    this.newPost.type = 1
-    this.newPost.cid = this.$store.state.currentClassId
-    this.newPost['img_url_list'] = this.fileList.join(',')
-    this.$API.postNewClassDynamic(this.newPost).then(res => {
-      this.showAddPost = false
-      this.data = []
-      this.$message('发布动态成功')
+          })
+        } else if (res.length == 0 && this.currentPage == 1) {
+          this.nodataImg = true
+        } else if (res.length == 0 && this.currentPage != 1) {
+          this.noMoreData = true
+        }
+      })
+    },
+    loadMore() {
+      this.currentPage++
       this.getData()
-      this.newPost.content = ''
-      this.newPost.img_url_list = ''
-      this.fileList = []
-      this.$refs.upload.uploadFiles = []
-    })
-  } else {
-    this.$message('内容不能为空')
-  }
-},
+    },
+    doLike(id) {
+      this.$API.doLikeThisPost(id).then((res) => {
+        this.$message.success('点赞成功')
+      }).catch(err => {
+        this.$message.error(err.msg)
+      })
+    },
+    delPost(id) {
+      let para = {
+        did: id
+      }
+      this.$API.deletePost(para).then(() => {
+        this.$message({
+          message: '删除成功',
+          type: 'success',
+        })
+        this.data = []
+        this.getData()
+      }).catch((err) => {
+        console.error('fff>>>>', err)
+        this.$message({
+          message: '删除失败了哦!',
+          type: 'error',
+        })
+      })
+    },
+    openImgBig(val) {
+      this.imgBig = val
+      this.showImgBig = true
+    },
+    handleRemove(file, fileList) {
+      console.log(fileList);
+      let c = file.response.Content[0]
+    },
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
+    },
+    beforePictureUpload(file) {
+      const isJPG = (file.type === 'image/jpeg' || file.type === 'image/png')
+      const isLt5M = file.size / 1024 / 1024 < 5;
+      if (!isJPG) {
+        this.$message.error('上传图片只能是 JPG或PNG 格式!');
+      }
+      if (!isLt5M) {
+        this.$message.error('上传图片大小不能超过 5MB!');
+      }
+      return isJPG && isLt5M;
+    },
+    addNewPost() {
+      if (this.$store.getters.role == '家长' && this.$store.state.currentStudentId != null) {
+        this.newPost.student_meid = this.$store.state.currentStudentId
+      }
+      let inputCon = this.newPost.content
+      if (inputCon != undefined) {
+        this.$refs.upload.uploadFiles.forEach((obj) => {
+          this.fileList.push(obj.response.Content[0])
+        })
+        this.newPost.type = 1
+        this.newPost.cid = this.$store.state.currentClassId
+        this.newPost['img_url_list'] = this.fileList.join(',')
+        this.$API.postNewClassDynamic(this.newPost).then(res => {
+          this.showAddPost = false
+          this.data = []
+          this.$message('发布动态成功')
+          this.getData()
+          this.newPost.content = ''
+          this.newPost.img_url_list = ''
+          this.fileList = []
+          this.$refs.upload.uploadFiles = []
+        })
+      } else {
+        this.$message('内容不能为空')
+      }
+    },
   },
-created() {
-  this.getData()
-},
-mounted() {
-},
-watch: {
-  "$route": "getData"
-},
+  created() {
+    this.getData()
+  },
+  mounted() {
+  },
+  watch: {
+    "$route": "getData"
+  },
 }
 </script>
 
@@ -303,22 +305,22 @@ watch: {
     cursor: pointer;
     color: #666;
   }
-  .comment{
+  .comment {
     background: #fbfbfb;
     border-radius: 5px;
-    padding:10px 20px;
-    .name{
+    padding: 10px 20px;
+    .name {
       display: inline-block;
-      color:@main;
+      color: @main;
     }
-    .content{
+    .content {
       display: inline-block;
     }
-    .btn{
+    .btn {
       border-top: 1px solid #e2e3e3;
       cursor: pointer;
       text-align: center;
-      color:@sub;
+      color: @sub;
       padding-top: 5px;
       margin-top: 5px;
     }

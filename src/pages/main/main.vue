@@ -32,7 +32,7 @@
         <el-tab-pane name="2">
           <span slot="label">
             <i class="iconfont">&#xe604;</i> 资料库</span>
-            <no-data v-if="nodataImg"></no-data>
+          <no-data v-if="nodataImg"></no-data>
           <div v-else class="card" v-for="(i,index) in data" :key="index">
             <div class="img" v-if="i.ImgUrl">
               <img :src="i.ImgUrl">
@@ -46,7 +46,8 @@
               </div>
               <div class="content">{{i.Describtion}}</div>
               <div class="cardfooter">
-                <span class="time">{{i.AddTime}}</span>
+                <span class="time">
+                  <i class="iconfont">&#xe621;</i>{{i.AddTime}}</span>
               </div>
             </div>
           </div>
@@ -86,11 +87,11 @@ export default {
       }
       this.$API.getNewsList(para).then(res => {
         this.data = res
-        if(this.data.length == 0 && this.page ==1){
+        if (this.data.length == 0 && this.page == 1) {
           this.nodataImg = true
         }
       })
-      
+
     }
   },
   created() {
