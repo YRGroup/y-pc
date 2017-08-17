@@ -20,7 +20,7 @@
               <span>人数：{{classInfo.student_count}}</span>
             </div>
             <div style="text-align:center;" v-show="$store.getters.role=='老师'">
-              <el-button type="danger" @click="$router.push('/admin')">班级管理</el-button>
+              <el-button type="warning" @click="$router.push('/admin')">班级管理</el-button>
             </div>
           </div>
         </div>

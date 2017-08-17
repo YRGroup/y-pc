@@ -320,7 +320,7 @@ export default {
       border-top: 1px solid #e2e3e3;
       cursor: pointer;
       text-align: center;
-      color: @sub;
+      color: @main;
       padding-top: 5px;
       margin-top: 5px;
     }
