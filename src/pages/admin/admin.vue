@@ -176,6 +176,16 @@
               </el-table-column>
               <el-table-column prop="Sex" label="性别" align="center">
               </el-table-column>
+              <el-table-column prop="Status" label="状态" align="center">
+                <template scope="scope">
+                  <div>
+                    <span v-show="scope.row.Status==0" style="color:grey">未提交</span>
+                    <span v-show="scope.row.Status==1" style="color:green">正常</span>
+                    <span v-show="scope.row.Status==2" style="color:yellow">等待审核</span>
+                    <span v-show="scope.row.Status==3" style="color:red">审核失败</span>
+                  </div>
+                </template>
+              </el-table-column>
               <el-table-column label="操作" width="100" align="center">
                 <template scope="scope">
                   <el-button type="text" size="small" @click="startEditStudent(scope.row)">编辑</el-button>
