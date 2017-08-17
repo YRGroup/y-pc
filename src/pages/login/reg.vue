@@ -112,7 +112,7 @@ export default {
       addStudentData: {
         'student_id': '',
         truename: '',
-        type: 100
+        type: 1
       },
       regStep: 1
     }
@@ -147,6 +147,7 @@ export default {
       }
     },
     reg() {
+      let that = this
       this.regData.role = 2
       if (this.regData.code == '') {
         this.$message.warning('短信验证码不能为空')
@@ -155,14 +156,13 @@ export default {
       } else {
         this.$API.userReg(this.regData).then(res => {
           this.$message.success('注册成功')
-          let loginData = {}
-          loginData.phone = this.regData.phone
-          loginData.password = this.regData.password
-          this.$API.login(this.loginData).then(res => {
+          this.$API.login(this.regData).then(val => {
+            this.regStep = 2
             this.$store.commit('login', val)
             // this.$router.push('/')
-            this.step = 2
-          }).catch(err => this.$message.error(err.msg))
+          }).catch(err => {
+            this.$message.error(err.msg)
+          })
         }).catch(err => {
           this.$message.error(err.msg)
         })
