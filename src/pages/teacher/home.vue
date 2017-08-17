@@ -31,6 +31,7 @@
           <div class="btn" v-else>
             <el-button type="info" @click.native="$router.push('/msg/'+data.Meid)">发消息</el-button>
           </div>
+
           <el-dialog title="修改密码" :visible.sync="showEditPw" size="tiny" style="text-align:left">
             <div>
               <el-form :inline="true" label-width="120px">
@@ -66,16 +67,12 @@
                   </el-form-item>
                 </div>
               </el-form>
-  
             </div>
-<!--   
-            <span slot="footer" class="dialog-footer">
-              <el-button type="success" :plain="true" @click="showEditPw = false">取 消</el-button>
-              <el-button type="success" @click="editPw">确 定</el-button>
-            </span> -->
           </el-dialog>
+
         </div>
       </div>
+
       <div class="card" v-for="(i,index) in data.Classes" :key="index">
         <div class="header">
           {{i.ClassName}}
@@ -117,9 +114,11 @@ export default {
       if (this.$route.query.id) {
         this.$API.getTeacherInfo(this.$route.query.id).then(res => {
           this.data = res
+          this.data.Classes = res.ExtendInfo.Classes
         })
       } else {
         this.data = this.$store.state.currentUser
+        this.data.Classes = this.$store.state.currentUser.ExtendInfo.Classes
       }
     },
     changeClass(val) {

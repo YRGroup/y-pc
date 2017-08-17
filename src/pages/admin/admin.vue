@@ -322,6 +322,8 @@ export default {
         this.showAddTeacher = fasle
         this.teacherData = []
         this.getData()
+      }).catch(err=>{
+        this.$message.error(err.msg)
       })
     },
     submitAddStudent() {
@@ -333,6 +335,8 @@ export default {
         this.showAddStudent = false
         this.studentData = []
         this.getData()
+      }).catch(err=>{
+        this.$message.error(err.msg)
       })
     },
     handleSuccess() {

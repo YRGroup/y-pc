@@ -131,7 +131,7 @@ export default {
       // this.getsmsCount = 60
       // this.step = 2
       // this.startCount()
-      this.$API.getLoginSms(this.loginData.phone).then(res => {
+      this.$API.getLoginSms(this.phone).then(res => {
         this.getsmsCount = 60
         this.step = 2
         this.startCount()
