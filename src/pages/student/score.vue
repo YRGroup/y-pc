@@ -92,14 +92,26 @@ export default {
       this.getScoreList()
     },
     getScore(ExamID){
-      this.$API.getExamScore(this.$store.state.currentStudentId,ExamID).then(res=>{
-        this.score=res
-      })
+      if(this.$route.query.id){
+        this.$API.getExamScore(this.$route.query.id,ExamID).then(res=>{
+          this.score=res
+        })
+      }else{
+        this.$API.getExamScore(this.$store.state.currentStudentId,ExamID).then(res=>{
+          this.score=res
+        })
+      }
     },
     getScoreList(){
-      this.$API.getExamList(this.$store.state.currentStudentId).then(res=>{
-        this.scoreList=res
-      })
+      if(this.$route.query.id){
+        this.$API.getExamList(this.$route.query.id).then(res=>{
+          this.scoreList=res
+        })
+      }else{
+        this.$API.getExamList(this.$store.state.currentStudentId).then(res=>{
+          this.scoreList=res
+        })
+      }
     },
     changeScore(ExamID){
       this.$router.push('/student/'+this.$store.state.currentStudentId+'/score/'+ExamID)

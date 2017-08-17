@@ -176,6 +176,16 @@
               </el-table-column>
               <el-table-column prop="Sex" label="性别" align="center">
               </el-table-column>
+              <el-table-column prop="Status" label="状态" align="center">
+                <template scope="scope">
+                  <div>
+                    <span v-show="scope.row.Status==0" style="color:grey">未提交</span>
+                    <span v-show="scope.row.Status==1" style="color:green">正常</span>
+                    <span v-show="scope.row.Status==2" style="color:yellow">等待审核</span>
+                    <span v-show="scope.row.Status==3" style="color:red">审核失败</span>
+                  </div>
+                </template>
+              </el-table-column>
               <el-table-column label="操作" width="100" align="center">
                 <template scope="scope">
                   <el-button type="text" size="small" @click="startEditStudent(scope.row)">编辑</el-button>
@@ -224,7 +234,7 @@
           <el-input v-model="editStudentData.Meid" :disabled="true"></el-input>
         </el-form-item>
         <el-form-item label="学号">
-          <el-input v-model="editStudentData.StudentID"></el-input>
+          <el-input v-model="editStudentData.StudentID" :disabled="true"></el-input>
         </el-form-item>
         <el-form-item label="姓名">
           <el-input v-model="editStudentData.TrueName"></el-input>
@@ -238,6 +248,7 @@
         <el-form-item label="">
           <el-button type="success" @click="submitEditStudent">确 定</el-button>
           <el-button type="success" :plain="true" @click="showEditStudent = false">取 消</el-button>
+          <el-button type="info" @click="$router.push('/s?id='+editStudentData.Meid+'&tab=edit')">编辑详细资料</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>

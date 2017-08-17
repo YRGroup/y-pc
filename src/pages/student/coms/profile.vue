@@ -99,7 +99,10 @@ export default {
   data() {
     return {
       parents: [],
-      data: {}
+      data: {
+        school:{},
+        class:{}
+      }
     }
   },
   methods: {

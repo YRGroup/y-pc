@@ -9,7 +9,7 @@
             <el-input v-model="data.Mobilephone" :disabled="true"></el-input>
           </el-form-item>
           <el-form-item label="姓名">
-            <el-input v-model="data.TrueName"></el-input>
+            <el-input v-model="data.TrueName" :disabled="true"></el-input>
           </el-form-item>
           <el-form-item label="学号">
             <el-input v-model="data.StudentID" :disabled="true"></el-input>
@@ -37,23 +37,20 @@
           <br />
           <hr />
           <br />
-          <el-form-item label="国家">
-            <el-input v-model="data.County"></el-input>
+          <el-form-item label="当前地址">
+            <div style="display:inline-block;">{{data.Province+' '+(data.City||'')+' '+(data.County||'')+' '+(data.Address||'')}}</div>
+            <el-button @click="showEditAddr===true?showEditAddr=false:showEditAddr=true">{{showEditAddr===true?'完成地址修改':'修改地址'}}</el-button>
           </el-form-item>
-          <el-form-item label="省份">
-            <el-input v-model="data.Province"></el-input>
-          </el-form-item>
-          <el-form-item label="城市">
-            <el-input v-model="data.City"></el-input>
-          </el-form-item>
-          <el-form-item label="地址">
-            <el-input v-model="data.Address"></el-input>
+          <el-form-item label="地址" v-show="showEditAddr">
+            <vue-address @change="submitAddress"></vue-address>
           </el-form-item>
           <el-form-item label="民族">
             <el-input v-model="data.Nation"></el-input>
           </el-form-item>
           <el-form-item label="生日">
-            <el-input v-model="data.Birthday"></el-input>
+            <el-date-picker v-model="birthday" @change="submitBirthday" type="date" placeholder="选择日期">
+            </el-date-picker>
+            <div style="display:inline-block">&nbsp; {{ new Date(data.Birthday).Format('yyyy-mm-dd') }} </div>
           </el-form-item>
   
         </el-form>
@@ -69,11 +66,14 @@
 </template>
 
 <script>
+import vueAddress from '@/components/address'
 export default {
   name: 'app',
-  components: {},
+  components: { vueAddress },
   data() {
     return {
+      birthday:'',
+      showEditAddr: false,
       data: {},
       showEditHeadImg: false,
       imageUrl: ''
@@ -85,6 +85,14 @@ export default {
     }
   },
   methods: {
+    submitBirthday(val){
+      this.data.Birthday=val
+    },
+    submitAddress(val) {
+      this.data.Province = val.province
+      this.data.City = val.city
+      this.data.Address = val.detail
+    },
     getData() {
       if (this.$route.query.id) {
         this.$API.getStudentInfo(this.$route.query.id).then(res => {
@@ -97,6 +105,8 @@ export default {
       }
     },
     submitChange() {
+      this.showEditAddr = false
+      // this.submitAddress(this.add)
       this.data.role = 1
       this.$API.editStudentInfo(this.data).then(res => {
         this.$message.success('修改成功')

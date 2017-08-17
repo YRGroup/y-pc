@@ -42,6 +42,8 @@ import login from '@/pages/login/login'
 
 import errorPage from '@/pages/sys/404'
 
+import add from '@/components/address'
+
 
 Vue.use(Router)
 
@@ -202,6 +204,10 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: login,
+    },
+    {
+      path: '/add',
+      component: add,
     },
     {
       path: '/404',
