@@ -46,7 +46,7 @@
         您的登录帐号
       </div>
       <div class="info">
-        <div class="phone">13900000006</div>
+        <div class="phone">{{regData.phone}}</div>
       </div>
   
       <div class="item">
