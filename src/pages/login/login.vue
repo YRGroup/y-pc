@@ -151,7 +151,7 @@ export default {
           } else {
             this.$router.push('/reg?tel=' + this.phone)
           }
-        })
+        }).catch(err => this.$message.error(err.msg))
       } else if (this.phone.slice(0, 1) == 8 && this.phone.length === 9) {
         this.step = 3
       }
