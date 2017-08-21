@@ -77,10 +77,10 @@ export default {
   components: {},
   data() {
     return {
-      phone: '13130000000',
+      phone: '',
       loginData: {
         phone: '',
-        password: '123456',
+        password: '',
       },
       studentLoginData: {
         studentid: '',
