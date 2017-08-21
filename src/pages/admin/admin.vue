@@ -81,11 +81,11 @@
           </el-radio-group>
         </el-form-item>
         <!-- <el-form-item label="所属班级">
-                      <el-select v-model="ClassID" placeholder="请选择">
-                        <el-option v-for="item in classList" :key="item.cid" :label="item.Name" :value="item.cid">
-                        </el-option>
-                      </el-select>
-                    </el-form-item> -->
+                          <el-select v-model="ClassID" placeholder="请选择">
+                            <el-option v-for="item in classList" :key="item.cid" :label="item.Name" :value="item.cid">
+                            </el-option>
+                          </el-select>
+                        </el-form-item> -->
       </el-form>
       <div v-show="type==1">
         <el-form label-width="80px" :inline="true" v-for="(i,index) in teacherData" :key="index" class="teacherlist">
@@ -134,7 +134,7 @@
             <el-table :data="teacherList" stripe border>
               <el-table-column type="index" label="序号" align="center" width="80">
               </el-table-column>
-  
+
               <el-table-column prop="TrueName" label="姓名" align="center">
               </el-table-column>
               <el-table-column label=" 头像" align="center">
@@ -144,12 +144,22 @@
               </el-table-column>
               <el-table-column prop="Mobilephone" label="手机号" align="center">
               </el-table-column>
-  
+
               <el-table-column prop="Sex" label="性别" align="center">
               </el-table-column>
-              <el-table-column prop="Title" label="职称" align="center">
+              <el-table-column label="职称" align="center">
+                <template scope="scope">
+                  <div>
+                    <span>{{scope.row.Title || '/'}}</span>
+                  </div>
+                </template>
               </el-table-column>
-              <el-table-column prop="Course" label="学科" align="center">
+              <el-table-column label="学科" align="center">
+                <template scope="scope">
+                  <div>
+                    <span>{{scope.row.Course || '/'}}</span>
+                  </div>
+                </template>
               </el-table-column>
               <el-table-column label="操作" width="100" align="center">
                 <template scope="scope">
@@ -181,7 +191,7 @@
                   <div>
                     <span v-show="scope.row.Status==0" style="color:grey">未提交</span>
                     <span v-show="scope.row.Status==1" style="color:green">正常</span>
-                    <span v-show="scope.row.Status==2" style="color:yellow">等待审核</span>
+                    <span v-show="scope.row.Status==2" style="color:#888">等待审核</span>
                     <span v-show="scope.row.Status==3" style="color:red">审核失败</span>
                   </div>
                 </template>
@@ -316,6 +326,11 @@ export default {
     submitAddTeacher() {
       this.teacherData.forEach(o => {
         o.ClassID = this.ClassID
+        if (o.TrueName == '') {
+          this.$message.error('姓名不能为空')
+        } else if (o.MobilePhone == '') {
+          this.$message.error('手机号不能为空')
+        }
       })
       this.$API.addTeacher(this.teacherData).then(res => {
         this.$message.success('添加老师成功')
@@ -333,16 +348,16 @@ export default {
         this.showAddStudent = false
         this.studentData = []
         this.getData()
-      })
+      }).catch(err => this.$message.error(err.msg))
     },
     handleSuccess() {
       this.$message.success('上传文件成功')
     },
     submitTeacherFile() {
       // this.$API.addTeacherXml(this.data).then(res => {
-        this.showAddTeacher = false
-        this.getData()
-        this.$message.success('批量添加老师成功')
+      this.showAddTeacher = false
+      this.getData()
+      this.$message.success('批量添加老师成功')
       // })
     },
     submitStudentFile() {
@@ -466,7 +481,8 @@ export default {
     border-radius: 50%;
   }
 }
-.xlsDown{
+
+.xlsDown {
   font-size: 12px;
   margin-left: 20px;
   color: @main;

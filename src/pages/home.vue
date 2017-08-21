@@ -38,6 +38,13 @@
       <div class="mainCon">
         <p>Copyright © 2017 yearnedu.com Inc. All Rights Reserved. 郑州育人教育集团</p>
         <p>备案/许可证编号：豫ICP备16026588号</p>
+        <div class="followIcon">
+          关注我们：
+          <div class="wechat">
+            <img class="logopic" :src="logo"> 
+            <span><i class="iconfont">&#xe659;</i></span>
+          </div>
+        </div>
       </div>
     </div>
   
@@ -148,10 +155,36 @@ header {
   .mainCon {
     width: 1090px;
     margin: 0 auto;
-    text-align: center;
+    text-align: left;
     padding: 20px 0;
     color: #aaa;
     font-size: 12px;
+    position: relative;
+    .followIcon{
+      position: absolute;
+      right:40px;
+      top: 32px;
+      .wechat{
+        display: inline-block;
+        position: relative;
+        img{
+          display: none;
+          width: 200px;
+          position: absolute;
+          bottom: 40px;
+        }
+        &:hover img{
+          display: block;
+        }
+      }
+      .iconfont{
+        font-size: 40px;
+        line-height: 40px;
+        vertical-align: -10px;
+        margin:0 8px;
+        cursor: pointer;
+      }
+    }
   }
 }
 </style>

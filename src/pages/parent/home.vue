@@ -1,7 +1,5 @@
 <template>
   <div>
-    <has-no-student v-if="$store.getters.hasNoStudent"></has-no-student>
-    <div v-else>
       <div class="left">
     
         <router-view></router-view>
@@ -53,16 +51,13 @@
         </div>
     
       </div>
-    </div>
   
   </div>
 </template>
 
 <script>
-import hasNoStudent from '@/components/hasNoStudent'
 
 export default {
-  components: {hasNoStudent},
   data() {
     return {
       currenrStudentId:''
