@@ -60,13 +60,12 @@ export default {
     },
     link() {
       return this.$route.name
-    },
-    getWXQRcode(){
-      this.QRcodeIMG = this.$API.getWXQRcode()
-    },
+    }
   },
   methods: {
-
+    getWXQRcode(){
+      this.QRcodeIMG = this.$API.getWXQRcode()
+    }
   },
   created() {
     this.getWXQRcode()
