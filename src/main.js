@@ -71,6 +71,9 @@ axios.interceptors.response.use(
     if (error.response.status == 401) {
       router.push('/login')
     }
+    if (error.response.status == 500) {
+      err.msg = '内部服务器错误，请联系网络管理员'
+    }
     return Promise.reject(err)
   }
 )

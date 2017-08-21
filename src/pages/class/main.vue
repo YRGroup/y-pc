@@ -29,7 +29,7 @@
     <no-data v-if="nodataImg"></no-data>
     <div v-else>
       <div class="card panel" v-for="i in data" :key="i.id">
-        <div class="img">
+        <div class="img" @click="openUserPage(i)">
           <img :src="i.userImg" v-if="i.userImg!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && i.userImg!=''">
           <div class="headTextImg" v-else>{{i.auther.substr(0,1)}}</div>
         </div>
@@ -204,6 +204,19 @@ export default {
         this.$message('内容不能为空')
       }
     },
+    openUserPage(u){
+      if(u.Role=='老师'){
+        this.$router.push('/t?id='+u.auther_meid)
+      }else if(u.Role=='家长'){
+        this.$message({
+          showClose: true,
+          message: '家长没有个人主页',
+          type: 'warning'
+        })
+      }else if(u.Role=='学生'){
+        this.$router.push('/s?id='+u.auther_meid)
+      }
+    }
   },
   created() {
     this.getData()

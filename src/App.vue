@@ -10,10 +10,9 @@ export default {
   created() {
     if (localStorage.hasLogin && !this.$store.getters.hasLogin) {
       this.$store.commit('login', JSON.parse(localStorage.user))
+    } else if (!this.$store.getters.hasLogin && this.$route.path!='/') {
+      this.$router.push('/login')
     }
-    //  else {
-    //   this.$router.push('/login')
-    // }
   }
 }
 </script>

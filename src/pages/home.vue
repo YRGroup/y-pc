@@ -57,7 +57,8 @@ export default {
   components: {},
   data() {
     return {
-      logo: require('@/assets/logo.png')
+      logo: require('@/assets/logo.png'),
+      QRcodeIMG:''
     }
   },
   computed: {
@@ -66,20 +67,25 @@ export default {
     },
     link() {
       return this.$route.name
-    }
+    },
+    getWXQRcode(){
+      this.QRcodeIMG = this.$API.getWXQRcode()
+    },
   },
   methods: {
 
   },
   created() {
-    console.log(this.$route.name)
+    this.getWXQRcode()
   },
   mounted() {
 
   },
   watch: {
     '$route': function () {
-      console.log(this.$route.name)
+      if (!this.$store.getters.hasLogin && this.$route.path != '/') {
+        this.$router.push('/login')
+      }
     }
   }
 }

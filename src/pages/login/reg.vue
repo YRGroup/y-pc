@@ -46,7 +46,7 @@
         您的登录帐号
       </div>
       <div class="info">
-        <div class="phone">13900000006</div>
+        <div class="phone">{{regData.phone}}</div>
       </div>
   
       <div class="item">
@@ -112,7 +112,7 @@ export default {
       addStudentData: {
         'student_id': '',
         truename: '',
-        type: 100
+        type: 1
       },
       regStep: 1
     }
@@ -120,7 +120,7 @@ export default {
   methods: {
     verifyTel() {
       if (this.regData.phone.length != 11) {
-        this.$message.error('请输入正确的手机号')
+        this.$message.warning('请输入正确的手机号')
         return false
       } else {
         this.isVerified = Boolean(false)
@@ -129,7 +129,7 @@ export default {
     },
     verifyPw() {
       if (this.regData.password.length < 6) {
-        this.$message.error('密码不能少于6位数')
+        this.$message.warning('密码不能少于6位数')
         return false
       } else {
         return true
@@ -137,7 +137,7 @@ export default {
     },
     getSms() {
       if (this.regData.phone == '') {
-        this.$message.error('手机号不能为空')
+        this.$message.warning('手机号不能为空')
       } else {
         this.$API.getRegSms(this.regData.phone).then(res => {
           this.$message.success('获取验证码成功，请查收短信')
@@ -147,21 +147,21 @@ export default {
       }
     },
     reg() {
+      let that = this
       this.regData.role = 2
       if (this.regData.code == '') {
-        this.$message.error('短信验证码不能为空')
+        this.$message.warning('短信验证码不能为空')
       } else if (this.regData.password.length < 6) {
-        this.$message.error('密码不能小于6位数')
+        this.$message.warning('密码不能小于6位数')
       } else {
         this.$API.userReg(this.regData).then(res => {
-          this.$message.success('注册成功，正在自动登陆')
-          let loginData = {}
-          loginData.phone = this.regData.phone
-          loginData.password = this.regData.password
-          this.$store.dispatch('login', loginData).then(res => {
-            this.$message('登录成功')
+          this.$message.success('注册成功')
+          this.$API.login(this.regData).then(val => {
+            this.regStep = 2
+            this.$store.commit('login', val)
             // this.$router.push('/')
-            this.step = 2
+          }).catch(err => {
+            this.$message.error(err.msg)
           })
         }).catch(err => {
           this.$message.error(err.msg)
@@ -204,41 +204,82 @@ export default {
   overflow: hidden;
 }
 
-// .box {
-//   width: 400px;
-//   height: 200px;
-//   z-index: 10;
-//   background: @main;
-//   border-radius: 20px;
-//   padding: 50px;
-//   position: absolute;
-//   top: calc(~"50vh - 150px");
-//   left: calc(~"50vw - 250px");
-//   .input {
-//     margin: 10px 0;
-//     .title {
-//       color: #fff;
-//       width: 70px;
-//       text-align: right;
-//       display: inline-block;
-//     }
-//     .el-input {
-//       width: 300px;
-//     }
-//   }
-//   .btn {
-//     text-align: center;
-//     margin: 20px 0;
-//   }
-//   .sms {
-//     .el-input {
-//       width: 200px;
-//     }
-//     .el-button {
-//       width: 90px;
-//     }
-//   }
-// }
+.loginbox {
+  overflow: hidden; // position: relative;
+  // 
+  // width: 100%;
+  // height: 100%;
+  .gmbg {
+    position: absolute;
+    z-index: -999;
+    width: 100%;
+    height: 100%;
+    background: url(../../assets/loginBg.jpg) no-repeat center center;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+  .box {
+    width: 500px; // height: 280px;
+    z-index: 10;
+    background: #fff;
+    padding: 30px 80px 50px;
+    position: absolute;
+    border-radius: 6px;
+    top: 50%;
+    left: 50%;
+    margin-top: -200px;
+    margin-left: -250px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .3);
+    overflow: hidden;
+    box-sizing: border-box;
+    .loginnav {
+      border-bottom: 1px solid @border;
+      margin-bottom: 20px;
+      font-size: 20px;
+      line-height: 40px;
+      text-align: center;
+      padding-bottom: 10px;
+      li {
+        display: inline-block;
+        padding: 0 10px;
+        color: #888;
+        cursor: pointer;
+        margin-bottom: 10px;
+      }
+      .navcurrent {
+        color: @main;
+        border-bottom: 2px solid @main;
+      }
+    }
+    .item {
+      margin: 20px 0;
+      text-align: center;
+      .title {
+        width: 70px;
+        text-align: right;
+        display: inline-block;
+      }
+      .el-input {
+        width: 300px;
+      }
+    }
+    .btn {
+      text-align: center;
+      margin: 10px 0;
+      .el-button {
+        width: 300px;
+      }
+    }
+    .sms {
+      .el-input {
+        width: 176px;
+      }
+      .el-button {
+        width: 120px;
+      }
+    }
+  }
+}
 .afterReg {
   text-align: center;
   .info {

@@ -180,6 +180,11 @@ API.addStudentAccount = (params) => {
   })
 }
 
+// 获取微信二维码
+API.getWXQRcode = () => {
+  return _APIurl+'/api/school/WeiXinQRCode'
+}
+
 // 空API模板
 API.test = () => {
   return new Promise((resolve, reject) => {
