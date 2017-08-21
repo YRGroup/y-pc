@@ -40,7 +40,21 @@
           </el-button>
         </div>
         <div class="item">
-          <el-input size="large" class="input" placeholder="请输入验证码" :minlength='4' @keyup.enter.native="login" v-model="smsLoginData.code">
+          <el-input size="large" class="input" placeholder="请输入验证码" :minlength='4' v-model="smsLoginData.code">
+            <template slot="prepend">
+              <i class="iconfont">&#xe692;</i>
+            </template>
+          </el-input>
+        </div>
+        <div class="item" v-show="unActived">
+          <el-input size="large" class="input" placeholder="请设置新密码" :minlength='6' v-model="smsLoginData.newPWd">
+            <template slot="prepend">
+              <i class="iconfont">&#xe692;</i>
+            </template>
+          </el-input>
+        </div>
+        <div class="item" v-show="unActived">
+          <el-input size="large" class="input" placeholder="请重新输入新密码" :minlength='6' @keyup.enter.native="login" v-model="smsLoginData.newPW2">
             <template slot="prepend">
               <i class="iconfont">&#xe692;</i>
             </template>
@@ -88,9 +102,12 @@ export default {
       },
       smsLoginData: {
         phone: '',
-        code: ''
+        code: '',
+        newPWd:'',
+        newPW2:''
       },
       getsmsCount: 0,
+      unActived:false,
       step: 0
     }
   },
@@ -110,7 +127,13 @@ export default {
     },
     smsLogin() {
       this.smsLoginData.phone = this.phone
-      this.$API.loginBySms(this.smsLogin).then(res => this.loginOK(res)).catch(err => this.$message.error(err.msg))
+      if(this.unActived && this.smsLoginData.newPWd!==this.smsLoginData.newPW2){
+        this.$message.error('两次输入的密码不一致，请重新输入')
+        this.smsLoginData.newPWd=''
+        this.smsLoginData.newPW2=''
+      }else{
+        this.$API.loginBySms(this.smsLoginData).then(res => this.loginOK(res)).catch(err => this.$message.error(err.msg))
+      }
     },
     loginOK(val) {
       this.$store.commit('login', val)
@@ -135,7 +158,7 @@ export default {
         this.getsmsCount = 60
         this.step = 2
         this.startCount()
-      })
+      }).catch(err => this.$message.error(err.msg))
     },
     verifyAccount() {
       if (this.phone.slice(0, 1) == 1 && this.phone.length === 11) {
@@ -147,6 +170,7 @@ export default {
             this.step = 1
           } else if (res.Msg == "unActived") {
             this.step = 2
+            this.unActived = true
             this.startCount()
           } else {
             this.$router.push('/reg?tel=' + this.phone)
