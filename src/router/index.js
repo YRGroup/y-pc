@@ -172,7 +172,7 @@ export default new Router({
             },
 
             {
-              path: 'addStudent',
+              path: '/addStudent',
               name: 'addStudent',
               component: addStudent,
             },

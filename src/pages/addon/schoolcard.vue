@@ -9,11 +9,11 @@
           </h4>
           <el-form :model="addCardData" label-width="100px" class="cardNum">
             <!-- <el-form-item label="学生：" v-if="$store.getters.role==='家长'">
-                <el-select v-model="addCardData.student_meid" placeholder="请选择学生">
-                  <el-option v-for="i in studentList" :key="i.id" :label="i.name" :value="i.id">
-                  </el-option>
-                </el-select>
-              </el-form-item> -->
+                    <el-select v-model="addCardData.student_meid" placeholder="请选择学生">
+                      <el-option v-for="i in studentList" :key="i.id" :label="i.name" :value="i.id">
+                      </el-option>
+                    </el-select>
+                  </el-form-item> -->
             <el-form-item label="卡号：">
               <el-input v-model.number="addCardData.CardID" placeholder="请输入校园卡号" size="large"></el-input>
             </el-form-item>
@@ -23,23 +23,23 @@
           </el-form>
         </div>
       </div>
-  
+
       <div v-else>
         <div class="cardSummary">
           <div class="total">
             <!-- <div class="student" v-if="$store.getters.role==='家长'">
-                <el-select v-model="addCardData.student_meid" @change="changeCurrentStudent" placeholder="请选择学生">
-                  <el-option v-for="i in studentList" :key="i.id" :label="i.name" :value="i.id">
-                  </el-option>
-                </el-select>
-              </div> -->
+                    <el-select v-model="addCardData.student_meid" @change="changeCurrentStudent" placeholder="请选择学生">
+                      <el-option v-for="i in studentList" :key="i.id" :label="i.name" :value="i.id">
+                      </el-option>
+                    </el-select>
+                  </div> -->
             <span class="item">
               <span>当前余额 </span>
               <span class="balance">{{Blance}}</span>
             </span>
           </div>
         </div>
-  
+
         <div class="cardList">
           <no-data v-if="noData"></no-data>
           <div v-else>
@@ -52,11 +52,11 @@
             </div>
             <load-more @click.native="loadMore" :noMoreData="noMoreData"></load-more>
           </div>
-  
+
         </div>
       </div>
     </div>
-  
+
   </div>
 </template>
 
@@ -148,7 +148,7 @@ export default {
     }
   },
   created() {
-    this.getData()
+    // this.getData()
   },
 }
 </script>

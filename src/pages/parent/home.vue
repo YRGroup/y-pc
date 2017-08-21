@@ -1,16 +1,11 @@
 <template>
   <div>
-  
     <div class="left">
-      <has-no-student v-if="$store.getters.hasNoStudent"></has-no-student>
-      <div v-else>
-        <router-view></router-view>
-      </div>
-  
+      <router-view></router-view>
     </div>
-  
+
     <div class="right">
-  
+
       <div class="card">
         <div class="header">
           <img :src="$store.state.currentUser.Headimgurl">
@@ -25,7 +20,7 @@
           </div>
         </div>
       </div>
-  
+
       <div class="card" v-if="!$store.state.currentUser.ExtendInfo.Students.length">
         <div class="header">
           暂无学生
@@ -34,7 +29,7 @@
           <el-button type="warning" @click="$router.push('/addStudent')">添加学生</el-button>
         </div>
       </div>
-  
+
       <div class="card" v-else>
         <div class="header">
           <img :src="currentStudent.Headimgurl">
@@ -52,17 +47,14 @@
           </el-select>
         </div>
       </div>
-  
+
     </div>
-  
   </div>
 </template>
 
 <script>
-import hasNoStudent from '@/components/hasNoStudent'
 
 export default {
-  components: { hasNoStudent },
   data() {
     return {
       currenrStudentId: ''
