@@ -110,7 +110,7 @@ export default {
     },
     smsLogin() {
       this.smsLoginData.phone = this.phone
-      this.$API.loginBySms(this.smsLogin).then(res => this.loginOK(res)).catch(err => this.$message.error(err.msg))
+      this.$API.loginBySms(this.smsLoginData).then(res => this.loginOK(res)).catch(err => this.$message.error(err.msg))
     },
     loginOK(val) {
       this.$store.commit('login', val)
