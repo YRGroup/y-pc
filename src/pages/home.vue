@@ -65,14 +65,15 @@ export default {
 
   },
   created() {
-    console.log(this.$route.name)
   },
   mounted() {
 
   },
   watch: {
     '$route': function () {
-      console.log(this.$route.name)
+      if (!this.$store.getters.hasLogin && this.$route.path != '/') {
+        this.$router.push('/login')
+      }
     }
   }
 }
