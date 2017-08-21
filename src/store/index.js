@@ -70,6 +70,13 @@ const store = new Vuex.Store({
       if (state.currentUser) {
         return state.currentUser.Token
       }
+    },
+    hasLogin:state => {
+      if (state.currentUser) {
+        return true
+      }else{
+        return false
+      }
     }
   },
   mutations: {
