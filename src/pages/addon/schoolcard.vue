@@ -148,9 +148,7 @@ export default {
     }
   },
   created() {
-    if(this.$store.getters.hasNoStudent && this.$store.getters.role == '家长'){
-      this.getData()
-    }
+    // this.getData()
   },
 }
 </script>

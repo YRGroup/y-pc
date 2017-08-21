@@ -1,102 +1,108 @@
 <template>
   <div>
-  
-    <div class="left">
-  
-      <router-view></router-view>
-  
-    </div>
-  
-    <div class="right">
-      <div class="classInfo classbox">
-        <div class="header">
-          <img src="https://modao.cc/uploads3/images/900/9007936/raw_1493017171.jpeg">
-        </div>
-        <div class="content">
-          <p>{{classInfo.name}}</p>
-          <div class="info">
-            <span>班主任：{{classInfo.teacher.TrueName}}</span>
-            <span>人数：{{classInfo.student_count}}</span>
+    <has-no-student v-if="$store.getters.hasNoStudent && $store.getters.role == '家长'"></has-no-student>
+    <div v-else>
+      <div class="left">
+    
+        <router-view></router-view>
+    
+      </div>
+    
+      <div class="right">
+        <div class="classInfo classbox">
+          <div class="header">
+            <img src="https://modao.cc/uploads3/images/900/9007936/raw_1493017171.jpeg">
+          </div>
+          <div class="content">
+            <p>{{classInfo.name}}</p>
+            <div class="info">
+              <span>班主任：{{classInfo.teacher.TrueName}}</span>
+              <span>人数：{{classInfo.student_count}}</span>
+            </div>
           </div>
         </div>
-      </div>
-  
-      <div class="card">
-        <div class="title">
-          联系人
+    
+        <div class="card">
+          <div class="title">
+            联系人
+          </div>
+          <div class="content">
+            <el-collapse v-model="activeName" accordion>
+              <el-collapse-item title="老师" name="1">
+                <li class="item" v-for="(i,index) in teachers" :key="index">
+    
+                  <div class="top" @click="$router.push('/t/?id='+i.Meid)">
+                    <div class="img">
+                      <img :src="i.Headimgurl" v-if="i.Headimgurl!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && i.Headimgurl!=''">
+                      <div class="headTextImg" v-else>{{i.TrueName.substr(0,1)}}</div>
+                    </div>
+                    <div class="name">
+                      {{i.TrueName}}
+                      <span>{{i.Course}}</span>
+                    </div>
+                  </div>
+    
+                  <div class="bottom">
+                    <div class="tel">{{i.Mobilephone}}</div>
+                    <el-button size="mini" class="btn" @click="$router.push('/msg/'+i.Meid)">消息</el-button>
+                  </div>
+    
+                </li>
+              </el-collapse-item>
+              <el-collapse-item title="学生" name="2">
+                <li class="item" v-for="(i,index) in students" :key="index">
+    
+                  <div class="top" @click="$router.push('/s/?id='+i.Meid)">
+                    <div class="img">
+                      <img :src="i.Headimgurl" v-if="i.Headimgurl!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && i.Headimgurl!=''">
+                      <div class="headTextImg" v-else>{{i.TrueName.substr(0,1)}}</div>
+                    </div>
+                    <div class="name">{{i.TrueName}}</div>
+                  </div>
+    
+                  <div class="bottom">
+                    <div class="tel">学号：{{i.StudentID}}</div>
+                    <el-button size="mini" class="btn" @click="$router.push('/msg/'+i.Meid)">消息</el-button>
+                  </div>
+    
+                </li>
+              </el-collapse-item>
+              <el-collapse-item title="家长" name="3">
+                <li class="item" v-for="(i,index) in parents" :key="index">
+    
+                  <div class="top">
+                    <div class="img">
+                      <img :src="i.ParentHeadimgurl" v-if="i.ParentHeadimgurl!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && i.ParentHeadimgurl!=''">
+                      <div class="headTextImg" v-else>{{i.StudentTrueName.substr(0,1) || 'null'}}</div> 
+                    </div>
+                    <div class="name">
+                      {{i.ParentTrueName}}
+                      <span> > {{i.StudentTrueName}}</span>
+                    </div>
+                  </div>
+    
+                  <div class="bottom">
+                    <div class="tel">{{i.ParentPhone}}</div>
+                    <el-button size="mini" class="btn" @click="$router.push('/msg/'+i.ParentMeid)">消息</el-button>
+                  </div>
+    
+                </li>
+              </el-collapse-item>
+            </el-collapse>
+          </div>
         </div>
-        <div class="content">
-          <el-collapse v-model="activeName" accordion>
-            <el-collapse-item title="老师" name="1">
-              <li class="item" v-for="(i,index) in teachers" :key="index">
-  
-                <div class="top" @click="$router.push('/t/?id='+i.Meid)">
-                  <div class="img">
-                    <img :src="i.Headimgurl" v-if="i.Headimgurl!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && i.Headimgurl!=''">
-                    <div class="headTextImg" v-else>{{i.TrueName.substr(0,1)}}</div>
-                  </div>
-                  <div class="name">
-                    {{i.TrueName}}
-                    <span>{{i.Course}}</span>
-                  </div>
-                </div>
-  
-                <div class="bottom">
-                  <div class="tel">{{i.Mobilephone}}</div>
-                  <el-button size="mini" class="btn" @click="$router.push('/msg/'+i.Meid)">消息</el-button>
-                </div>
-  
-              </li>
-            </el-collapse-item>
-            <el-collapse-item title="学生" name="2">
-              <li class="item" v-for="(i,index) in students" :key="index">
-  
-                <div class="top" @click="$router.push('/s/?id='+i.Meid)">
-                  <div class="img">
-                    <img :src="i.Headimgurl" v-if="i.Headimgurl!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && i.Headimgurl!=''">
-                    <div class="headTextImg" v-else>{{i.TrueName.substr(0,1)}}</div>
-                  </div>
-                  <div class="name">{{i.TrueName}}</div>
-                </div>
-  
-                <div class="bottom">
-                  <div class="tel">学号：{{i.StudentID}}</div>
-                  <el-button size="mini" class="btn" @click="$router.push('/msg/'+i.Meid)">消息</el-button>
-                </div>
-  
-              </li>
-            </el-collapse-item>
-            <el-collapse-item title="家长" name="3">
-              <li class="item" v-for="(i,index) in parents" :key="index">
-  
-                <div class="top">
-                  <div class="img">
-                    <img :src="i.ParentHeadimgurl" v-if="i.ParentHeadimgurl!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && i.ParentHeadimgurl!=''">
-                     <div class="headTextImg" v-else>{{i.StudentTrueName.substr(0,1) || 'null'}}</div> 
-                  </div>
-                  <div class="name">
-                    {{i.ParentTrueName}}
-                    <span> > {{i.StudentTrueName}}</span>
-                  </div>
-                </div>
-  
-                <div class="bottom">
-                  <div class="tel">{{i.ParentPhone}}</div>
-                  <el-button size="mini" class="btn" @click="$router.push('/msg/'+i.ParentMeid)">消息</el-button>
-                </div>
-  
-              </li>
-            </el-collapse-item>
-          </el-collapse>
-        </div>
+    
       </div>
-  
     </div>
+  
   </div>
 </template>
 
 <script>
+import hasNoStudent from '@/components/hasNoStudent'
+
 export default {
+  components: {  hasNoStudent },
   data() {
     return {
       activeName: '0',

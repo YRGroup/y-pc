@@ -41,7 +41,7 @@
         <div class="followIcon">
           关注我们：
           <div class="wechat">
-            <img class="logopic" :src="logo"> 
+            <img class="logopic" :src="QRcodeIMG"> 
             <span><i class="iconfont">&#xe659;</i></span>
           </div>
         </div>
@@ -67,13 +67,12 @@ export default {
     },
     link() {
       return this.$route.name
-    },
-    getWXQRcode(){
-      this.QRcodeIMG = this.$API.getWXQRcode()
-    },
+    }
   },
   methods: {
-
+    getWXQRcode(){
+      this.QRcodeIMG = this.$API.getWXQRcode()
+    }
   },
   created() {
     this.getWXQRcode()
@@ -168,16 +167,17 @@ header {
     position: relative;
     .followIcon{
       position: absolute;
-      right:40px;
+      right:20px;
       top: 32px;
       .wechat{
         display: inline-block;
         position: relative;
         img{
           display: none;
-          width: 200px;
+          width: 160px;
           position: absolute;
           bottom: 40px;
+          right: 0;
         }
         &:hover img{
           display: block;

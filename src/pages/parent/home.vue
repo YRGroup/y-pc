@@ -1,12 +1,11 @@
 <template>
   <div>
-      <div class="left">
-        <router-view></router-view>
-      </div>
-  
-  
+    <div class="left">
+      <router-view></router-view>
+    </div>
+
     <div class="right">
-  
+
       <div class="card">
         <div class="header">
           <img :src="$store.state.currentUser.Headimgurl">
@@ -21,7 +20,7 @@
           </div>
         </div>
       </div>
-  
+
       <div class="card" v-if="!$store.state.currentUser.ExtendInfo.Students.length">
         <div class="header">
           暂无学生
@@ -30,7 +29,7 @@
           <el-button type="warning" @click="$router.push('/addStudent')">添加学生</el-button>
         </div>
       </div>
-  
+
       <div class="card" v-else>
         <div class="header">
           <img :src="currentStudent.Headimgurl">
@@ -48,22 +47,14 @@
           </el-select>
         </div>
       </div>
-<<<<<<< HEAD
-=======
-  
+
     </div>
->>>>>>> 14c28a4f0a824bd8dd11ce6c70d7c6adda5c60ee
-  
   </div>
 </template>
 
 <script>
 
 export default {
-<<<<<<< HEAD
-=======
-  components: { hasNoStudent },
->>>>>>> 14c28a4f0a824bd8dd11ce6c70d7c6adda5c60ee
   data() {
     return {
       currenrStudentId: ''

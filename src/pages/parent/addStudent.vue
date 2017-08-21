@@ -19,11 +19,14 @@
               <el-radio class="radio" v-model="data.type" label="5">家人</el-radio>
             </template>
           </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="submitAdd">确认添加</el-button>
+          </el-form-item>
         </el-form>
       </div>
       <div class="footer">
         <div class="btn">
-          <el-button type="primary" @click="submitAdd">确认添加</el-button>
+          
         </div>
       </div>
     </div>

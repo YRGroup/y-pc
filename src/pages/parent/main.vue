@@ -12,7 +12,7 @@
             <div class="item-content">
               <p>
                 <span class="title">姓名：</span>
-                <span>{{currentUser.TrueName}}</span>
+                <!-- <span>{{currentUser.TrueName}}</span> -->
               </p>
               <p>
                 <span class="title">性别：</span>
@@ -24,35 +24,37 @@
               </p>
             </div>
           </div>
-
-          <div class="itemList">
-            <div class="header">
-              <i class="iconfont">&#xe607;</i>学生资料</div>
-            <div class="item-content">
-              <p>
-                <span class="title">姓名：</span>
-                <span>{{currentStudent.TrueName}}</span>
-              </p>
-              <p>
-                <span class="title">性别：</span>
-                <span>{{currentStudent.Sex}}</span>
-              </p>
-              <p>
-                <span class="title">学号：</span>
-                <span>{{currentStudent.StudentID}}</span>
-              </p>
-              <p>
-                <span class="title">学校：</span>
-                <span>{{currentStudent.SchoolName}}</span>
-              </p>
-              <p>
-                <span class="title">班级：</span>
-                <span>{{currentStudent.ClassName}}</span>
-              </p>
-              <p>
-                <span class="title">校园卡号：</span>
-                <span>{{currentStudent.CampusCard}}</span>
-              </p>
+          
+          <div v-if="currentStudent">
+            <div class="itemList">
+              <div class="header">
+                <i class="iconfont">&#xe607;</i>学生资料</div>
+              <div class="item-content">
+                <p>
+                  <span class="title">姓名：</span>
+                  <span>{{currentStudent.TrueName}}</span>
+                </p>
+                <p>
+                  <span class="title">性别：</span>
+                  <span>{{currentStudent.Sex}}</span>
+                </p>
+                <p>
+                  <span class="title">学号：</span>
+                  <span>{{currentStudent.StudentID}}</span>
+                </p>
+                <p>
+                  <span class="title">学校：</span>
+                  <span>{{currentStudent.SchoolName}}</span>
+                </p>
+                <p>
+                  <span class="title">班级：</span>
+                  <span>{{currentStudent.ClassName}}</span>
+                </p>
+                <p>
+                  <span class="title">校园卡号：</span>
+                  <span>{{currentStudent.CampusCard}}</span>
+                </p>
+              </div>
             </div>
           </div>
 <!--   
