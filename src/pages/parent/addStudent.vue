@@ -26,11 +26,11 @@
       </div>
       <div class="footer">
         <div class="btn">
-          
+
         </div>
       </div>
     </div>
-  
+
   </div>
 </template>
 
@@ -54,7 +54,11 @@ export default {
   },
   methods: {
     submitAdd() {
-      if (this.data.truename && this.data['student_id']) {
+      if (this.data.truename == '') {
+        this.$message.error('请填写学生姓名')
+      } else if (this.data['student_id'] == '') {
+        this.$message.error('请填写学生学号')
+      } else {
         this.$API.addStudent(this.data).then(res => {
           this.$message.success('学生绑定成功！')
           this.$store.dispatch('getCurrentUser')
@@ -63,13 +67,10 @@ export default {
         }).catch(err => {
           this.$message.error(err.msg)
         })
-      } else {
-        this.$message.error('请完善数据');
       }
     },
   },
   created() {
-    console.log(this.currentUser)
   },
   mounted() {
 

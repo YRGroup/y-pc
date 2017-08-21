@@ -2,16 +2,16 @@
     <div class="hasNoStudent">
         <div class="img-box">
             <img :src="popupimg" style="max-width:100%">
-            <p class="title">关联孩子</p>
+            <p class="title">关联学生</p>
         </div>
         <div class="popupText">
             <div class="content">
                 <el-form>
                     <el-form-item>
-                        <el-input v-model="data.truename" placeholder="请输入孩子姓名"></el-input>
+                        <el-input v-model="data.truename" placeholder="请输入学生姓名"></el-input>
                     </el-form-item>
                     <el-form-item>
-                        <el-input v-model="data['student_id']" placeholder="请输入孩子学号"></el-input>
+                        <el-input v-model="data['student_id']" placeholder="请输入学生学号"></el-input>
                     </el-form-item>
                     <el-form-item>
                         <template>
@@ -43,23 +43,25 @@ export default {
             data: {
                 truename: '',
                 'student_id': '',
-                type: '5'
+                type: '1'
             },
         }
     },
     methods: {
         submitAdd() {
-            if (this.data.truename && this.data['student_id']) {
+            if (this.data.truename == '') {
+                this.$message.error('请填写学生姓名')
+            } else if (this.data['student_id'] == '') {
+                this.$message.error('请填写学生学号')
+            } else {
                 this.$API.addStudent(this.data).then(res => {
                     this.$message.success('学生绑定成功！')
                     this.$store.dispatch('getCurrentUser')
-                    this.$router.push('/')
+                    this.$router.push('/class')
                     this.getData()
                 }).catch(err => {
                     this.$message.error(err.msg)
                 })
-            } else {
-                this.$message.error('请完善数据');
             }
         },
     },
@@ -72,7 +74,7 @@ export default {
     width: 500px;
     margin: 100px auto;
     text-align: center;
-    box-shadow: 0 0 10px rgba(0,0,0,.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
     .img-box {
         border-radius: 8px 8px 0 0;
         overflow: hidden;
@@ -80,7 +82,7 @@ export default {
         padding: 10px 0;
         img {
             width: 280px;
-            background:transparent;
+            background: transparent;
         }
         .title {
             font-size: 24px;
@@ -119,11 +121,11 @@ export default {
             font-weight: 400;
         }
 
-        .content{
+        .content {
             padding: 0 50px;
             margin-top: 20px;
-            .el-form-item{
-                margin-bottom:15px;
+            .el-form-item {
+                margin-bottom: 15px;
             }
         }
     }
