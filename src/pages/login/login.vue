@@ -135,7 +135,7 @@ export default {
         this.getsmsCount = 60
         this.step = 2
         this.startCount()
-      })
+      }).catch(err => this.$message.error(err.msg))
     },
     verifyAccount() {
       if (this.phone.slice(0, 1) == 1 && this.phone.length === 11) {
