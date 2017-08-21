@@ -11,9 +11,9 @@ export default {
     if (localStorage.hasLogin && !this.$store.getters.hasLogin) {
       this.$store.commit('login', JSON.parse(localStorage.user))
     }
-    //  else {
-    //   this.$router.push('/login')
-    // }
+    if(screen.width<600){
+      window.location.href='http://jkyr.yearnedu.com/m/'
+    }
   }
 }
 </script>
