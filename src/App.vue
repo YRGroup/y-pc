@@ -12,7 +12,7 @@ export default {
       this.$store.commit('login', JSON.parse(localStorage.user))
     }
     if(screen.width<600){
-      window.location.href='http://jkyr.yearnedu.com/m/'
+      window.location.href='/m/'
     }
   }
 }
