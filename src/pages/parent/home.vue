@@ -83,8 +83,10 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch('logout').then(res => {
-        this.$message('登出成功')
         this.$router.push('/login')
+        this.$message('登出成功')
+      }).catch(err=>{
+        this.$message('登出00')
       })
     },
     changeCurrentStudent(val) {
