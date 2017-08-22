@@ -82,6 +82,7 @@ const store = new Vuex.Store({
   mutations: {
     login(state, val) {
       state.currentUser = val
+      state.token = val.Token
       localStorage.setItem('hasLogin', true)
       localStorage.setItem('user', JSON.stringify(val))
 
@@ -244,6 +245,7 @@ const store = new Vuex.Store({
         API.logout().then(() => {
           commit('setToken', null)
           commit('logout')
+          resolve()
         })
       })
     },

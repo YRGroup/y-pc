@@ -127,6 +127,7 @@ export default {
     },
     loginOK(val) {
       this.$store.commit('login', val)
+      this.$store.commit('setToken', val.Token)
       this.$router.push('/')
     },
     count() {
