@@ -324,22 +324,27 @@ export default {
       })
     },
     submitAddTeacher() {
+      let e = true
       this.teacherData.forEach(o => {
         o.ClassID = this.ClassID
         if (o.TrueName == '') {
           this.$message.error('姓名不能为空')
+          e = false
         } else if (o.MobilePhone == '') {
           this.$message.error('手机号不能为空')
+          e = false
         }
       })
-      this.$API.addTeacher(this.teacherData).then(res => {
-        this.$message.success('添加老师成功')
-        this.showAddTeacher = fasle
-        this.teacherData = []
-        this.getData()
-      }).catch(err=>{
-        this.$message.error(err.msg)
-      })
+      if(e){
+        this.$API.addTeacher(this.teacherData).then(res => {
+          this.$message.success('添加老师成功')
+          this.showAddTeacher = false
+          this.teacherData = []
+          this.getData()
+        }).catch(err=>{
+          this.$message.error(err.msg)
+        })
+      }
     },
     submitAddStudent() {
       this.studentData.forEach(o => {
