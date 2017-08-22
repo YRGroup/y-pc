@@ -35,8 +35,8 @@
           </el-form-item>
           <el-form-item label="性别">
             <template>
-              <el-radio class="radio" v-model="i.Sex" label="男">男</el-radio>
-              <el-radio class="radio" v-model="i.Sex" label="女">女</el-radio>
+              <el-radio class="radio" v-model="i.Sex" label="1">男</el-radio>
+              <el-radio class="radio" v-model="i.Sex" label="2">女</el-radio>
             </template>
           </el-form-item>
           <el-form-item>
@@ -81,11 +81,11 @@
           </el-radio-group>
         </el-form-item>
         <!-- <el-form-item label="所属班级">
-                          <el-select v-model="ClassID" placeholder="请选择">
-                            <el-option v-for="item in classList" :key="item.cid" :label="item.Name" :value="item.cid">
-                            </el-option>
-                          </el-select>
-                        </el-form-item> -->
+                              <el-select v-model="ClassID" placeholder="请选择">
+                                <el-option v-for="item in classList" :key="item.cid" :label="item.Name" :value="item.cid">
+                                </el-option>
+                              </el-select>
+                            </el-form-item> -->
       </el-form>
       <div v-show="type==1">
         <el-form label-width="80px" :inline="true" v-for="(i,index) in teacherData" :key="index" class="teacherlist">
@@ -324,35 +324,42 @@ export default {
       })
     },
     submitAddTeacher() {
+      let e = true
       this.teacherData.forEach(o => {
         o.ClassID = this.ClassID
         if (o.TrueName == '') {
           this.$message.error('姓名不能为空')
+          e = false
         } else if (o.MobilePhone == '') {
           this.$message.error('手机号不能为空')
+          e = false
         }
       })
-      this.$API.addTeacher(this.teacherData).then(res => {
-        this.$message.success('添加老师成功')
-        this.showAddTeacher = fasle
-        this.teacherData = []
-        this.getData()
-      }).catch(err=>{
-        this.$message.error(err.msg)
-      })
+      if (e) {
+        this.$API.addTeacher(this.teacherData).then(res => {
+          this.$message.success('添加老师成功')
+          this.showAddTeacher = false
+          this.teacherData = []
+          this.getData()
+        }).catch(err => {
+          this.$message.error(err.msg)
+        })
+      }
+
     },
     submitAddStudent() {
       this.studentData.forEach(o => {
         o.ClassID = this.ClassID
       })
-      console.log(2212121)
-      console.log(this.studentData)
       this.$API.addStudentAccount(this.studentData).then(res => {
         this.$message.success('添加学生成功')
         this.showAddStudent = false
-        this.studentData = []
+        this.studentData =  [{
+        TrueName: '',
+        Sex: ''
+      }],
         this.getData()
-      }).catch(err=>{
+      }).catch(err => {
         this.$message.error(err.msg)
       })
     },
