@@ -232,9 +232,10 @@ const store = new Vuex.Store({
       state
     }, payload) {
       return new Promise((resolve, reject) => {
-        commit('setToken', null)
-        commit('logout')
-        resolve('logout OK!')
+        API.logout().then(() => {
+          commit('setToken', null)
+          commit('logout')
+        })
       })
     },
     getExamList({
