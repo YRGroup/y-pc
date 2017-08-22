@@ -86,7 +86,6 @@ export default {
         this.$message('登出成功')
         this.$router.push('/login')
       })
-      console.log(this.$store.state)
     },
     changeCurrentStudent(val) {
       this.$store.commit('changeCurrentStudentId', val)

@@ -2,9 +2,18 @@ let API = {}
 
 import axios from 'axios'
 
-
 import _APIurl from './config'
-// import store from '@/store'
+
+// 登出
+API.logout = () => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl + '/api/User/Logout').then(() => {
+      resolve()
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
 
 // 登陆
 API.login = (logData) => {

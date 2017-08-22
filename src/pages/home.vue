@@ -82,9 +82,7 @@ export default {
   },
   watch: {
     '$route': function () {
-      if (!this.$store.getters.hasLogin && this.$route.path != '/') {
-        this.$router.push('/login')
-      }
+
     }
   }
 }

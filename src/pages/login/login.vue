@@ -53,13 +53,6 @@
             </template>
           </el-input>
         </div>
-        <div class="item" v-show="unActived">
-          <el-input size="large" class="input" placeholder="请重新输入新密码" :minlength='6' @keyup.enter.native="login" v-model="smsLoginData.newPW2">
-            <template slot="prepend">
-              <i class="iconfont">&#xe692;</i>
-            </template>
-          </el-input>
-        </div>
         <div class="btn item">
           <el-button size="large" @click.native="smsLogin" type="success">验证码登录</el-button>
         </div>
@@ -104,7 +97,6 @@ export default {
         phone: '',
         code: '',
         newPWd:'',
-        newPW2:''
       },
       getsmsCount: 0,
       unActived:false,
@@ -127,10 +119,8 @@ export default {
     },
     smsLogin() {
       this.smsLoginData.phone = this.phone
-      if(this.unActived && this.smsLoginData.newPWd!==this.smsLoginData.newPW2){
-        this.$message.error('两次输入的密码不一致，请重新输入')
-        this.smsLoginData.newPWd=''
-        this.smsLoginData.newPW2=''
+      if(this.unActived && this.smsLoginData.newPWd.length<6){
+        this.$message.error('密码不能小于6位')
       }else{
         this.$API.loginBySms(this.smsLoginData).then(res => this.loginOK(res)).catch(err => this.$message.error(err.msg))
       }
@@ -150,10 +140,6 @@ export default {
         , 1000)
     },
     getsms() {
-      // this.$message.warning('mock sms')
-      // this.getsmsCount = 60
-      // this.step = 2
-      // this.startCount()
       this.$API.getLoginSms(this.phone).then(res => {
         this.getsmsCount = 60
         this.step = 2
@@ -192,6 +178,9 @@ export default {
   created() {
   },
   mounted() {
+    this.$store.dispatch('getCurrentUser').then(()=>{
+      this.$router.push('/')
+    })
   },
 }
 </script>
