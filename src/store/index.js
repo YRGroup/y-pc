@@ -40,15 +40,15 @@ const store = new Vuex.Store({
         return false
       }
       if (state.currentUser && state.currentUser.Role === '家长') {
-        let a = state.currentUser.ExtendInfo.Students.find(o=>{
+        let a = state.currentUser.ExtendInfo.Students.find(o => {
           o.Meid === state.currentStudentId
         })
-        if(!a.CampusCard){
+        if (!a.CampusCard) {
           return true
-        }else{
+        } else {
           return false
         }
-      } 
+      }
     },
     hasNoStudent: state => {
       if (state.currentUser && state.currentUser.Role === '家长') {
@@ -71,10 +71,10 @@ const store = new Vuex.Store({
         return state.currentUser.Token
       }
     },
-    hasLogin:state => {
+    hasLogin: state => {
       if (state.currentUser) {
         return true
-      }else{
+      } else {
         return false
       }
     }
@@ -115,8 +115,8 @@ const store = new Vuex.Store({
 
       localStorage.clear()
       sessionStorage.clear()
-      document.cookie = "meid=aa;path=/;domain="+document.domain.match(/[^\.]+\.[^\.]+$/)[0]+";expires=" +new Date(2011,1,1).toGMTString()
-      document.cookie = "meid=aa;path=/;domain="+document.domain+";expires=" +new Date(2011,1,1).toGMTString()
+      document.cookie = "meid=aa;path=/;domain=" + document.domain.match(/[^\.]+\.[^\.]+$/)[0] + ";expires=" + new Date(2011, 1, 1).toGMTString()
+      document.cookie = "meid=aa;path=/;domain=" + document.domain + ";expires=" + new Date(2011, 1, 1).toGMTString()
     },
     changeRole(state, val) {
       state.role = val.toString()
@@ -168,8 +168,14 @@ const store = new Vuex.Store({
       commit,
       state
     }, payload) {
-      API.getCurrentUser().then(res => {
-        commit('login', res)
+      return new Promise((resolve, reject) => {
+        API.getCurrentUser().then(res => {
+          commit('setToken', res.Token)
+          commit('login', res)
+          resolve()
+        }).catch(err => {
+          reject(err)
+        })
       })
     },
     getCurrentClassInfo({
@@ -190,6 +196,7 @@ const store = new Vuex.Store({
         API.login(payload).then(res => {
           localStorage.setItem('user', JSON.stringify(res))
           commit('login', res)
+          commit('setToken', res.Token)
           resolve(res)
         }).catch(err => {
           reject(err)
@@ -205,6 +212,7 @@ const store = new Vuex.Store({
         API.studentLogin(payload).then(res => {
           localStorage.setItem('user', JSON.stringify(res))
           commit('login', res)
+          commit('setToken', res.Token)
           resolve(res)
         }).catch(err => {
           reject(err)
@@ -220,6 +228,7 @@ const store = new Vuex.Store({
         API.loginBySms(payload).then(res => {
           localStorage.setItem('user', JSON.stringify(res))
           commit('login', res)
+          commit('setToken', res.Token)
           resolve(res)
         }).catch(err => {
           reject(err)

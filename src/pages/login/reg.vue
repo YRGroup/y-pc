@@ -187,12 +187,14 @@ export default {
     }
   },
   created() {
-    if(this.$route.query.tel){
+    if (this.$route.query.tel) {
       this.regData.phone = this.$route.query.tel
     }
   },
   mounted() {
-
+    this.$store.dispatch('getCurrentUser').then(() => {
+      this.$router.push('/')
+    })
   },
 }
 </script>
@@ -280,6 +282,7 @@ export default {
     }
   }
 }
+
 .afterReg {
   text-align: center;
   .info {
