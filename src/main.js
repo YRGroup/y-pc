@@ -37,7 +37,7 @@ import axios from 'axios'
 axios.defaults.withCredentials = true
 axios.interceptors.request.use(config => {
   let now = new Date().getTime()
-  let token = store.state.token
+  let token = localStorage.token
   let sigh = md5(token + now)
   config.headers.time = now
   config.headers.sign = sigh
