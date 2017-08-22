@@ -28,14 +28,14 @@
   
     <no-data v-if="nodataImg"></no-data>
     <div v-else>
-      <div class="card panel" v-for="i in data" :key="i.id">
+      <div class="card panel" v-for="i in data" :key="i.ID">
         <div class="img" @click="openUserPage(i)">
           <img :src="i.userImg" v-if="i.userImg!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && i.userImg!=''">
           <div class="headTextImg" v-else>{{i.auther.substr(0,1)}}</div>
         </div>
         <div class="tips">{{i.category}}</div>
         <div class="header">{{i.auther}}</div>
-        <div class="content" @click="$router.push('/post/'+i.id)">{{i.content}}</div>
+        <div class="content" @click="$router.push('/post/'+i.ID)">{{i.content}}</div>
         <div class="albums">
           <li v-for="(p,index) in i.albums" :key="index">
             <img :src="p" @click="openImgBig(p)">
@@ -48,7 +48,7 @@
           <div class="content">
             {{i.comment1.content}}
           </div>
-          <div class="btn" @click="$router.push('/post/'+i.id)">查看更多</div>
+          <div class="btn" @click="$router.push('/post/'+i.ID)">查看更多</div>
         </div>
         <div class="footer">
           <span class="time">{{i.date}}</span>
@@ -57,7 +57,7 @@
               <i class="iconfont">&#xe630;</i>
               <span class="delBtnTitle">删除</span>
             </span>
-            <span title="点赞" @click.once="doLike(i.id),i.like++">
+            <span title="点赞" @click.once="doLike(i.ID),i.like++">
               <i class="iconfont">&#xe646;</i>{{i.like}}
             </span>
           </span>

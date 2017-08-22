@@ -90,8 +90,7 @@ export default {
         if (this.data.length == 0 && this.page == 1) {
           this.nodataImg = true
         }
-      })
-
+      }).catch(err => this.$message.error(err.msg))
     }
   },
   created() {

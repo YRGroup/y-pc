@@ -1,10 +1,10 @@
 <template>
   <div>
     <!-- <div class="nav">
-      <span>首页 > </span>
-      <span>校园动态</span>
-    </div> -->
-  
+        <span>首页 > </span>
+        <span>校园动态</span>
+      </div> -->
+
     <div class="card">
       <div class="maintitle">
         <i class="iconfont">&#xe737;</i>资料库
@@ -22,12 +22,14 @@
               <a :href="[i.FilePath]" target="_blank">{{i.FileName}}</a>
             </li>
           </ul>
-          </div>
+        </div>
         <div class="footer">
-          <div class="btn"><i class="iconfont">&#xe60c;</i></div>
+          <div class="btn">
+            <i class="iconfont">&#xe60c;</i>
+          </div>
         </div>
       </div>
-  
+
       <div class="reply">
         <el-input class="input" v-model="commentData.Content" placeholder="请添加评论" @keyup.enter.native="addComment"></el-input>
         <el-button class="btn" type="success" @click="addComment">回复</el-button>
@@ -50,7 +52,7 @@
         </ul>
       </div>
     </div>
-  
+
   </div>
 </template>
 
@@ -125,9 +127,9 @@ export default {
       line-height: 2em;
       text-indent: 2em;
       text-align: left;
-      .ql-align-center{
+      .ql-align-center {
         text-align: center!important;
-        margin:10px 0;
+        margin: 10px 0;
       }
     }
     .footer {
@@ -157,8 +159,8 @@ export default {
     }
   }
   .replyList {
-    .list{
-      padding:0 40px 20px;
+    .list {
+      padding: 0 40px 20px;
     }
     .title {
       padding: 10px 20px;

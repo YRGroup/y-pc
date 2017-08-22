@@ -26,7 +26,7 @@
         <div class="footer">
           <span class="time">{{data.date}}</span>
           <span class="iconbtn">
-            <span @click.once="doLike(data.id),data.like++">
+            <span @click.once="doLike(data.ID),data.like++">
               <i class="iconfont">&#xe646;</i>{{data.like}}</span>
           </span>
           <div class="liked">
@@ -52,7 +52,7 @@
       <div class="replyList">
         <div class="title">全部回复</div>
         <ul class="list">
-          <li class="item" v-for="i in data.comment" :key="i.id">
+          <li class="item" v-for="i in data.comment" :key="i.ID">
             <div>
               <span class="name">{{i.TrueName}}：</span>{{i.content}}</div>
             <div class="time">{{i.addTime}}</div>
@@ -91,7 +91,7 @@ export default {
       })
     },
     submitReply() {
-      this.replyData.did = this.data.id
+      this.replyData.did = this.data.ID
       this.$API.postNewComment(this.replyData).then(res => {
         this.$message('添加回复成功！')
         this.showReply = false
