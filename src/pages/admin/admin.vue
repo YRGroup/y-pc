@@ -47,7 +47,7 @@
         </el-form>
         <el-form label-width="80px">
           <el-form-item>
-            <el-button @click.native="studentData.push({ClassID: '',TrueName: ''})" type="text">
+            <el-button @click.native="studentData.push({ClassID: '',TrueName: '', Sex:''})" type="text">
               <i class="iconfont">&#xe623;</i> 添加学生</el-button>
           </el-form-item>
           <el-form-item>
@@ -271,7 +271,7 @@ export default {
   data() {
     return {
       classList: [],
-      type: 1,
+      type: "1",
       fileList: [],
       ClassID: '',
       teacherData: [{
@@ -345,6 +345,8 @@ export default {
       this.studentData.forEach(o => {
         o.ClassID = this.ClassID
       })
+      console.log(2212121)
+      console.log(this.studentData)
       this.$API.addStudentAccount(this.studentData).then(res => {
         this.$message.success('添加学生成功')
         this.showAddStudent = false

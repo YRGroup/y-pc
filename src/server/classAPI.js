@@ -156,7 +156,7 @@ API.getParentList = (classId) => {
 // 添加班级学生
 API.addClassStudent = (data) => {
   return new Promise((resolve, reject) => {
-    axios.post(_APIurl+'/api/Class/AddTeacher',data).then((res)=>{
+    axios.post(_APIurl+'/api/Class/AddStudent',data).then((res)=>{
       if(res.data.Status===1){
         resolve(res.data.Content)
       }else{
@@ -170,7 +170,7 @@ API.addClassStudent = (data) => {
 // 添加班级老师
 API.addClassTeacher = (data) => {
   return new Promise((resolve, reject) => {
-    axios.post(_APIurl+'/api/Class/AddStudent',data).then((res)=>{
+    axios.post(_APIurl+'/api/Class/AddTeacher',data).then((res)=>{
       if(res.data.Status===1){
         resolve(res.data.Content)
       }else{
