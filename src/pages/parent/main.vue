@@ -12,7 +12,7 @@
             <div class="item-content">
               <p>
                 <span class="title">姓名：</span>
-                <!-- <span>{{currentUser.TrueName}}</span> -->
+                 <span>{{currentUser.TrueName}}</span> 
               </p>
               <p>
                 <span class="title">性别：</span>
