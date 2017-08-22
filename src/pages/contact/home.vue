@@ -28,7 +28,7 @@
           </div>
           <div class="content">
             <el-collapse v-model="activeName" accordion>
-              <el-collapse-item title="老师" name="1">
+              <el-collapse-item :title="'老师（'+teachers.length+ '）'" name="1">
                 <li class="item" v-for="(i,index) in teachers" :key="index">
     
                   <div class="top" @click="$router.push('/t/?id='+i.Meid)">
@@ -49,7 +49,7 @@
     
                 </li>
               </el-collapse-item>
-              <el-collapse-item title="学生" name="2">
+              <el-collapse-item :title="'学生（'+students.length+ '）'" name="2">
                 <li class="item" v-for="(i,index) in students" :key="index">
     
                   <div class="top" @click="$router.push('/s/?id='+i.Meid)">
@@ -67,7 +67,7 @@
     
                 </li>
               </el-collapse-item>
-              <el-collapse-item title="家长" name="3">
+              <el-collapse-item :title="'家长（'+parents.length+ '）'" name="3">
                 <li class="item" v-for="(i,index) in parents" :key="index">
     
                   <div class="top">
