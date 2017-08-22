@@ -8,7 +8,10 @@
 export default {
   name: 'app',
   created() {
-    if (!this.$store.state.hasLogin) {
+    if (localStorage.user && !this.$store.getters.hasLogin) {
+      this.$store.commit('login', JSON.parse(localStorage.user))
+    }
+    if (!this.$store.getters.hasLogin) {
       this.$store.dispatch('getCurrentUser')
     }
   }
