@@ -25,7 +25,7 @@
           </div>
         </div>
   
-        <div class="card">
+        <!-- <div class="card">
           <div class="title">
             公告
           </div>
@@ -38,7 +38,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
   
         <div class="card">
           <div class="title">

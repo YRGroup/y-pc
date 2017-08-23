@@ -81,11 +81,11 @@
           </el-radio-group>
         </el-form-item>
         <!-- <el-form-item label="所属班级">
-                                <el-select v-model="ClassID" placeholder="请选择">
-                                  <el-option v-for="item in classList" :key="item.cid" :label="item.Name" :value="item.cid">
-                                  </el-option>
-                                </el-select>
-                              </el-form-item> -->
+                                    <el-select v-model="ClassID" placeholder="请选择">
+                                      <el-option v-for="item in classList" :key="item.cid" :label="item.Name" :value="item.cid">
+                                      </el-option>
+                                    </el-select>
+                                  </el-form-item> -->
       </el-form>
       <div v-show="type==1">
         <el-form label-width="80px" :inline="true" v-for="(i,index) in teacherData" :key="index" class="teacherlist">
@@ -95,6 +95,12 @@
           <el-form-item label="手机号">
             <el-input v-model="i.MobilePhone" palceholder="请输入手机号" style="width:280px"></el-input>
           </el-form-item>
+          <el-form-item label="科目">
+            <el-select v-model="i.courseID" placeholder="请选择">
+              <el-option v-for="item in courseList" :key="item.CourseId" :label="item.name" :value="item.CourseId">
+              </el-option>
+            </el-select>
+          </el-form-item>
           <el-form-item>
             <el-button type="text" :plain="true" @click.native="teacherData.splice(index,1)">
               <i class="iconfont">&#xe630;</i>
@@ -103,7 +109,7 @@
         </el-form>
         <el-form label-width="80px">
           <el-form-item>
-            <el-button @click.native="teacherData.push({ClassID: '',TrueName: '',MobilePhone: ''})" type="text">
+            <el-button @click.native="teacherData.push({ClassID: '',TrueName: '',MobilePhone: '',courseID:''})" type="text">
               <i class="iconfont">&#xe623;</i> 添加老师</el-button>
             </el-button>
           </el-form-item>
@@ -134,7 +140,7 @@
             <el-table :data="teacherList" stripe border>
               <el-table-column type="index" label="序号" align="center" width="80">
               </el-table-column>
-
+  
               <el-table-column prop="TrueName" label="姓名" align="center">
               </el-table-column>
               <el-table-column label=" 头像" align="center">
@@ -144,7 +150,7 @@
               </el-table-column>
               <el-table-column prop="Mobilephone" label="手机号" align="center">
               </el-table-column>
-
+  
               <el-table-column prop="Sex" label="性别" align="center">
               </el-table-column>
               <el-table-column label="职称" align="center">
@@ -276,7 +282,8 @@ export default {
       ClassID: '',
       teacherData: [{
         TrueName: '',
-        MobilePhone: ''
+        MobilePhone: '',
+        courseID: ''
       }],
       classInfo: {
         name: '',
@@ -299,7 +306,45 @@ export default {
 
       },
       showAddStudent: false,
-      showAddTeacher: false
+      showAddTeacher: false,
+      courseList: [
+        {
+          CourseId: 1,
+          name: '语文'
+        },
+        {
+          CourseId: 2,
+          name: '数学'
+        },
+        {
+          CourseId: 3,
+          name: '英语'
+        },
+        {
+          CourseId: 4,
+          name: '物理'
+        },
+        {
+          CourseId: 5,
+          name: '化学'
+        },
+        {
+          CourseId: 6,
+          name: '生物'
+        },
+        {
+          CourseId: 7,
+          name: '历史'
+        },
+        {
+          CourseId: 8,
+          name: '地理'
+        },
+        {
+          CourseId: 9,
+          name: '政治'
+        },
+      ]
     }
   },
   computed: {
@@ -334,14 +379,18 @@ export default {
           this.$message.error('手机号不能为空')
           e = false
         }
+        else if (o.courseID == '') {
+          this.$message.error('科目不能为空')
+          e = false
+        }
       })
-      if(e){
+      if (e) {
         this.$API.addTeacher(this.teacherData).then(res => {
           this.$message.success('添加老师成功')
           this.showAddTeacher = false
           this.teacherData = []
           this.getData()
-        }).catch(err=>{
+        }).catch(err => {
           this.$message.error(err.msg)
         })
       }
