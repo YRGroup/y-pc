@@ -217,7 +217,7 @@ export default {
     verifyIDcard(){
       return new Promise((resolve,reject)=>{
         if(this.data.IDCard.length>0 && this.data.IDCard.length<18){
-          this.$message.error('身份证不完整')
+          this.$message.error('请输入正确的身份证号')
           reject()
         }else{
           resolve()
