@@ -328,24 +328,23 @@ export default {
       this.teacherData.forEach(o => {
         o.ClassID = this.ClassID
         if (o.TrueName == '') {
-          this.$message.error('请输入学生姓名')
+          this.$message.error('姓名不能为空')
           e = false
         } else if (o.MobilePhone == '') {
-          this.$message.error('请输入手机号')
+          this.$message.error('手机号不能为空')
           e = false
         }
       })
-      if (e) {
+      if(e){
         this.$API.addTeacher(this.teacherData).then(res => {
           this.$message.success('添加老师成功')
           this.showAddTeacher = false
           this.teacherData = []
           this.getData()
-        }).catch(err => {
+        }).catch(err=>{
           this.$message.error(err.msg)
         })
       }
-
     },
     submitAddStudent() {
       let e = true
