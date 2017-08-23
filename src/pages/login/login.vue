@@ -26,7 +26,7 @@
           </el-input>
         </div>
         <div class="item">
-          <div @click="step=2">忘记密码？使用短信验证码登陆</div>
+          <div @click="step=2" class="forget">忘记密码？使用<span>短信验证码</span>登录</div>
         </div>
         <div class="btn item">
           <el-button size="large" @click.native="login" type="success">登录</el-button>
@@ -35,16 +35,16 @@
   
       <div v-show="step==2">
         <div class="btn item">
-          <el-button size="large" @click.native="getsms" type="success" :disabled="getsmsAvailable">
+          <!-- <el-button size="large" @click.native="getsms" type="success" :disabled="getsmsAvailable">
             {{getsmsAvailable?getsmsCount+'s后重发验证码':'发送验证码'}}
-          </el-button>
+          </el-button> -->
         </div>
-        <div class="item">
+        <div class="item sms">
           <el-input size="large" class="input" placeholder="请输入验证码" :minlength='4' v-model="smsLoginData.code">
-            <template slot="prepend">
-              <i class="iconfont">&#xe692;</i>
-            </template>
           </el-input>
+          <el-button size="large" @click.native="getsms" type="success" :disabled="getsmsAvailable">
+            {{getsmsAvailable?getsmsCount+'s后重发':'发送验证码'}}
+          </el-button>
         </div>
         <div class="item" v-show="unActived">
           <el-input size="large" class="input" placeholder="请设置新密码" :minlength='6' v-model="smsLoginData.newPWd">
@@ -265,4 +265,19 @@ export default {
     }
   }
 }
+.forget{
+  cursor: pointer;
+  color: @grey;
+  span{
+    color:@main;
+  }
+}
+.sms {
+      .el-input {
+        width: 176px;
+      }
+      .el-button {
+        width: 120px;
+      }
+    }
 </style>
