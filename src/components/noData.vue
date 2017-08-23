@@ -17,8 +17,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../style/theme.less';
-
 .noData {
     min-height: 600px;
     text-align: center;

@@ -81,11 +81,11 @@
           </el-radio-group>
         </el-form-item>
         <!-- <el-form-item label="所属班级">
-                              <el-select v-model="ClassID" placeholder="请选择">
-                                <el-option v-for="item in classList" :key="item.cid" :label="item.Name" :value="item.cid">
-                                </el-option>
-                              </el-select>
-                            </el-form-item> -->
+                                <el-select v-model="ClassID" placeholder="请选择">
+                                  <el-option v-for="item in classList" :key="item.cid" :label="item.Name" :value="item.cid">
+                                  </el-option>
+                                </el-select>
+                              </el-form-item> -->
       </el-form>
       <div v-show="type==1">
         <el-form label-width="80px" :inline="true" v-for="(i,index) in teacherData" :key="index" class="teacherlist">
@@ -218,7 +218,7 @@
           <el-input v-model="editTeacherData.TrueName"></el-input>
         </el-form-item>
         <el-form-item label="学科">
-          <el-input v-model="editTeacherData.Course"></el-input>
+          <el-input v-model="editTeacherData.Course" :disabled="true"></el-input>
         </el-form-item>
         <el-form-item label="职称">
           <el-input v-model="editTeacherData.Title"></el-input>
@@ -271,7 +271,7 @@ export default {
   data() {
     return {
       classList: [],
-      type: "1",
+      type: 1,
       fileList: [],
       ClassID: '',
       teacherData: [{
@@ -328,10 +328,10 @@ export default {
       this.teacherData.forEach(o => {
         o.ClassID = this.ClassID
         if (o.TrueName == '') {
-          this.$message.error('姓名不能为空')
+          this.$message.error('请输入学生姓名')
           e = false
         } else if (o.MobilePhone == '') {
-          this.$message.error('手机号不能为空')
+          this.$message.error('请输入手机号')
           e = false
         }
       })
@@ -348,20 +348,31 @@ export default {
 
     },
     submitAddStudent() {
+      let e = true
       this.studentData.forEach(o => {
         o.ClassID = this.ClassID
+        if (o.TrueName == '') {
+          this.$message.error('请输入学生姓名')
+          e = false
+        } else if (o.Sex == '') {
+          this.$message.error('请输入学生性别')
+          e = false
+        }
       })
-      this.$API.addStudentAccount(this.studentData).then(res => {
-        this.$message.success('添加学生成功')
-        this.showAddStudent = false
-        this.studentData =  [{
-        TrueName: '',
-        Sex: ''
-      }],
-        this.getData()
-      }).catch(err => {
-        this.$message.error(err.msg)
-      })
+      if (e) {
+        this.$API.addStudentAccount(this.studentData).then(res => {
+          this.$message.success('添加学生成功')
+          this.showAddStudent = false
+          this.studentData = [{
+            TrueName: '',
+            Sex: ''
+          }],
+            this.getData()
+        }).catch(err => {
+          this.$message.error(err.msg)
+        })
+      }
+
     },
     handleSuccess() {
       this.$message.success('上传文件成功')
