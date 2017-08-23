@@ -83,7 +83,8 @@
             <el-button type="info" @click.native="changeClass(i.ClassID),$router.push('/class')">班级主页</el-button>
           </div>
           <div class="btn" v-show="data.Classes.length>1">
-            <el-button type="warning" @click.native="changeClass(i.ClassID)">设为当前班级</el-button>
+            <el-button type="warning" v-if="classId!=i.ClassID" @click.native="changeClass(i.ClassID)">设为当前班级</el-button>
+            <p v-else >当前班级</p>
           </div>
         </div>
       </div>
@@ -108,6 +109,11 @@ export default {
         newpwd2: ''
       },
     }
+  },
+  computed:{
+    classId() {
+      return this.$store.state.currentClassId
+    },
   },
   methods: {
     getData() {

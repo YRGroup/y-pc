@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import noData from '@//components/noData'
+import noData from '@/components/noData'
 
 export default {
   name: 'app',

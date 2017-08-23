@@ -35,8 +35,8 @@
           </el-form-item>
           <el-form-item label="性别">
             <template>
-              <el-radio class="radio" v-model="i.Sex" label="男">男</el-radio>
-              <el-radio class="radio" v-model="i.Sex" label="女">女</el-radio>
+              <el-radio class="radio" v-model="i.Sex" label="1">男</el-radio>
+              <el-radio class="radio" v-model="i.Sex" label="2">女</el-radio>
             </template>
           </el-form-item>
           <el-form-item>
@@ -47,7 +47,7 @@
         </el-form>
         <el-form label-width="80px">
           <el-form-item>
-            <el-button @click.native="studentData.push({ClassID: '',TrueName: ''})" type="text">
+            <el-button @click.native="studentData.push({ClassID: '',TrueName: '', Sex:''})" type="text">
               <i class="iconfont">&#xe623;</i> 添加学生</el-button>
           </el-form-item>
           <el-form-item>
@@ -81,11 +81,11 @@
           </el-radio-group>
         </el-form-item>
         <!-- <el-form-item label="所属班级">
-                          <el-select v-model="ClassID" placeholder="请选择">
-                            <el-option v-for="item in classList" :key="item.cid" :label="item.Name" :value="item.cid">
-                            </el-option>
-                          </el-select>
-                        </el-form-item> -->
+                                <el-select v-model="ClassID" placeholder="请选择">
+                                  <el-option v-for="item in classList" :key="item.cid" :label="item.Name" :value="item.cid">
+                                  </el-option>
+                                </el-select>
+                              </el-form-item> -->
       </el-form>
       <div v-show="type==1">
         <el-form label-width="80px" :inline="true" v-for="(i,index) in teacherData" :key="index" class="teacherlist">
@@ -218,7 +218,7 @@
           <el-input v-model="editTeacherData.TrueName"></el-input>
         </el-form-item>
         <el-form-item label="学科">
-          <el-input v-model="editTeacherData.Course"></el-input>
+          <el-input v-model="editTeacherData.Course" :disabled="true"></el-input>
         </el-form-item>
         <el-form-item label="职称">
           <el-input v-model="editTeacherData.Title"></el-input>
@@ -347,17 +347,31 @@ export default {
       }
     },
     submitAddStudent() {
+      let e = true
       this.studentData.forEach(o => {
         o.ClassID = this.ClassID
+        if (o.TrueName == '') {
+          this.$message.error('请输入学生姓名')
+          e = false
+        } else if (o.Sex == '') {
+          this.$message.error('请输入学生性别')
+          e = false
+        }
       })
-      this.$API.addStudentAccount(this.studentData).then(res => {
-        this.$message.success('添加学生成功')
-        this.showAddStudent = false
-        this.studentData = []
-        this.getData()
-      }).catch(err=>{
-        this.$message.error(err.msg)
-      })
+      if (e) {
+        this.$API.addStudentAccount(this.studentData).then(res => {
+          this.$message.success('添加学生成功')
+          this.showAddStudent = false
+          this.studentData = [{
+            TrueName: '',
+            Sex: ''
+          }],
+            this.getData()
+        }).catch(err => {
+          this.$message.error(err.msg)
+        })
+      }
+
     },
     handleSuccess() {
       this.$message.success('上传文件成功')
