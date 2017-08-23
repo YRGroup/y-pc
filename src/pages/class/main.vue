@@ -148,7 +148,6 @@ export default {
         this.data = []
         this.getData()
       }).catch((err) => {
-        console.error('fff>>>>', err)
         this.$message({
           message: '删除失败了哦!',
           type: 'error',
@@ -223,9 +222,9 @@ export default {
   },
   mounted() {
   },
-  watch: {
-    "$route": "getData"
-  },
+  // watch: {
+  //   "$route": "getData"
+  // },
 }
 </script>
 
