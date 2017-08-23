@@ -1,8 +1,7 @@
 <template>
   <div>
-    1111111
   
-    <!-- <div class="body card">
+    <div class="body card">
       <div class="maintitle">
         <i class="iconfont">&#xe737;</i>动态详情
         <span class="goreturn">
@@ -64,7 +63,7 @@
 
     <el-dialog :visible.sync="showImgBig" class="bigImg">
       <img :src="imgBig">
-    </el-dialog> -->
+    </el-dialog>
 
   </div>
 </template>
