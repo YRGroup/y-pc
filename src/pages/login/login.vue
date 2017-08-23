@@ -6,7 +6,7 @@
       <ul class="loginnav">
         <li class="navcurrent">登录</li>
         <li>·</li>
-        <li @click="$router.push('/reg')">注册</li>
+        <li @click="$router.push('/reg')">家长注册</li>
       </ul>
       <div class="item">
         <!-- <div class="title">手机号：</div> -->

@@ -5,7 +5,7 @@
       <ul class="loginnav">
         <li @click="$router.push('/login')">登录</li>
         <li>·</li>
-        <li class="navcurrent">注册</li>
+        <li class="navcurrent">家长注册</li>
       </ul>
   
       <div class="item">
@@ -36,7 +36,7 @@
   
       <div class="btn item">
         <!-- <el-button type="info" @click="$router.push('/login')">返回登陆</el-button> -->
-        <el-button type="success" @click="reg">注册</el-button>
+        <el-button type="success" @click="reg">家长注册</el-button>
       </div>
   
     </div>
