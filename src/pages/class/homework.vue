@@ -159,12 +159,16 @@ export default {
       this.$refs.upload.uploadFiles.forEach((obj) => {
         this.fileList.push(obj.response.Content[0])
       })
-      this.$API.addHomework(this.newHomeworkData).then(res => {
-        this.showAddHomework = false
-        this.$message('发布作业成功')
-        this.getData()
-        this.newHomeworkData = {}
-      })
+      if(this.newHomeworkData.course_name){
+        this.$API.addHomework(this.newHomeworkData).then(res => {
+          this.showAddHomework = false
+          this.$message('发布作业成功')
+          this.getData()
+          this.newHomeworkData = {}
+        })
+      }else{
+        this.$message.error('您没有科目，不能布置作业')
+      }
     },
   },
   created() {

@@ -86,6 +86,13 @@
         </el-input>
       </div>
   
+      <div class="item">
+        <el-select v-model="addStudentData.type" placeholder="请选择">
+          <el-option v-for="item in parentTypes" :key="item.value" :label="item.label" :value="item.value">
+          </el-option>
+        </el-select>
+      </div>
+  
       <div class="btn">
         <el-button size="large" type="success" @click="addMoreInfo">完善资料</el-button>
       </div>
@@ -107,6 +114,7 @@ export default {
         password: ''
       },
       editUserData: {
+        Meid: '',
         TrueName: ''
       },
       addStudentData: {
@@ -114,6 +122,13 @@ export default {
         truename: '',
         type: 1
       },
+      parentTypes:[
+        {label:'爸爸',value:1},
+        {label:'妈妈',value:2},
+        {label:'爷爷',value:3},
+        {label:'奶奶',value:4},
+        {label:'家长',value:100},
+      ],
       regStep: 1
     }
   },
@@ -159,6 +174,7 @@ export default {
           this.$API.login(this.regData).then(val => {
             this.regStep = 2
             this.$store.commit('login', val)
+            this.editUserData.Meid = val.Meid
             // this.$router.push('/')
           }).catch(err => {
             this.$message.error(err.msg)
@@ -173,6 +189,7 @@ export default {
         this.$API.editParentInfo(this.editUserData).then(res => {
           this.$API.addStudent(this.addStudentData).then(res => {
             this.$message('添加学生成功！')
+            this.$store.dispatch('getCurrentUser')
             this.$router.push('/')
           }).catch(err => {
             this.$message.error(err.msg)
