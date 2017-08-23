@@ -16,7 +16,6 @@ const store = new Vuex.Store({
     currentStudentId: null,
     currentExamList: [],
 
-    token: null,
   },
   getters: {
     _APIurl: () => {
@@ -82,8 +81,8 @@ const store = new Vuex.Store({
   mutations: {
     login(state, val) {
       state.currentUser = val
-      state.token = val.Token
       localStorage.setItem('hasLogin', true)
+      localStorage.setItem('token', val.Token)
       localStorage.setItem('user', JSON.stringify(val))
 
       if (val.Role == '家长') {
