@@ -49,9 +49,11 @@
         <div class="phone">{{regData.phone}}</div>
       </div>
   
-      <div class="item">
-        <el-button size="large" type="warning" @click="regStep=3">完善资料</el-button>
-        <el-button size="large" type="success" @click="$router.push('/')">进入主页</el-button>
+      <div style="margin-bottom:10px">
+        <el-button size="large" type="success" @click="regStep=3" style="padding:10px 80px">完善资料</el-button>
+      </div>
+      <div>
+        <el-button type="text" @click="$router.push('/')">进入主页</el-button>
       </div>
     </div>
   
@@ -127,9 +129,9 @@ export default {
         {label:'妈妈',value:2},
         {label:'爷爷',value:3},
         {label:'奶奶',value:4},
-        {label:'家长',value:100},
+        {label:'家人',value:100},
       ],
-      regStep: 1
+      regStep: 2
     }
   },
   methods: {

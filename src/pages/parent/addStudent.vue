@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="card">
-      <div class="header">添加学生</div>
+      <!-- <div class="header">添加学生</div> -->
       <div class="content">
         <el-form label-width="80px">
           <el-form-item label="姓名">
-            <el-input v-model="data.truename"></el-input>
+            <el-input v-model.trim="data.truename"></el-input>
           </el-form-item>
           <el-form-item label="学号">
-            <el-input v-model="data['student_id']"></el-input>
+            <el-input v-model.trim="data['student_id']"></el-input>
           </el-form-item>
           <el-form-item label="性别">
             <template>
@@ -43,7 +43,7 @@ export default {
       data: {
         truename: '',
         'student_id': '',
-        type: '1'
+        type: ''
       },
     }
   },
@@ -83,7 +83,6 @@ export default {
 
 .card {
   margin: 15px 0;
-  border: 1px solid @border;
   font-size: 13px;
   position: relative;
   background: #fff;

@@ -1,30 +1,30 @@
 <template>
   <div>
-  
+
     <el-tabs v-model="activeTab" type="border-card" class="tabs">
       <el-tab-pane name="main">
         <span class="title" slot="label">资料</span>
         <div class="content info">
-  
+
           <div class="itemList">
             <div class="header">
               <i class="iconfont">&#xe668;</i>家长资料</div>
             <div class="item-content">
               <p>
                 <span class="title">姓名：</span>
-                 <span>{{currentUser.TrueName}}</span> 
-              </p>
-              <p>
-                <span class="title">性别：</span>
-                <span>{{currentUser.Sex}}</span>
+                <span>{{currentUser.TrueName}}</span>
               </p>
               <p>
                 <span class="title">手机：</span>
                 <span>{{currentUser.Mobilephone}}</span>
               </p>
+              <p>
+                <span class="title">性别：</span>
+                <span>{{currentUser.Sex}}</span>
+              </p>
             </div>
           </div>
-          
+
           <div v-if="currentStudent">
             <div class="itemList">
               <div class="header">
@@ -35,12 +35,12 @@
                   <span>{{currentStudent.TrueName}}</span>
                 </p>
                 <p>
-                  <span class="title">性别：</span>
-                  <span>{{currentStudent.Sex}}</span>
-                </p>
-                <p>
                   <span class="title">学号：</span>
                   <span>{{currentStudent.StudentID}}</span>
+                </p>
+                <p>
+                  <span class="title">性别：</span>
+                  <span>{{currentStudent.Sex}}</span>
                 </p>
                 <p>
                   <span class="title">学校：</span>
@@ -52,48 +52,48 @@
                 </p>
                 <p>
                   <span class="title">校园卡号：</span>
-                  <span>{{currentStudent.CampusCard}}</span>
+                  <span>{{currentStudent.CampusCard || '无'}}</span>
                 </p>
               </div>
             </div>
           </div>
-<!--   
-          <div class="itemList">
-            <div class="header">
-              <i class="iconfont">&#xe604;</i>其他功能</div>
-            <div class="item-content">
-              <p>
-                <el-button>育人官网</el-button>
-              </p>
-              <p>
-                <el-button>育人官网</el-button>
-              </p>
-  
-            </div>
-          </div> -->
-  
+          <!--   
+            <div class="itemList">
+              <div class="header">
+                <i class="iconfont">&#xe604;</i>其他功能</div>
+              <div class="item-content">
+                <p>
+                  <el-button>育人官网</el-button>
+                </p>
+                <p>
+                  <el-button>育人官网</el-button>
+                </p>
+    
+              </div>
+            </div> -->
+
         </div>
       </el-tab-pane>
-  
+
       <el-tab-pane name="msg">
         <span class="title" slot="label">消息</span>
         <div class="content">
-  
+
           <msg></msg>
-  
+
         </div>
       </el-tab-pane>
-  
+
       <el-tab-pane name="addStudent">
         <span class="title" slot="label">添加学生</span>
         <div class="content">
-  
+
           <add-student></add-student>
-  
+
         </div>
       </el-tab-pane>
     </el-tabs>
-  
+
   </div>
 </template>
 
@@ -115,9 +115,9 @@ export default {
     currentUser: function () {
       return this.$store.state.currentUser
     },
-    currentStudent(){
-      return this.$store.state.currentUser.ExtendInfo.Students.find(o=>{
-        return o.Meid==this.$store.state.currentStudentId
+    currentStudent() {
+      return this.$store.state.currentUser.ExtendInfo.Students.find(o => {
+        return o.Meid == this.$store.state.currentStudentId
       })
     }
   },
@@ -141,8 +141,7 @@ export default {
 @import '../../style/theme.less';
 
 .tabs {
-  min-height: 600px;
-  // margin-top:10px;
+  min-height: 600px; // margin-top:10px;
   .title {
     padding: 10px 30px 0 30px;
   }

@@ -104,6 +104,7 @@ export default {
       para.student_meid = this.$store.state.currentStudentId
       this.$API.getCardList(para).then(res => {
         if (res) {
+
           if (this.Blance == 0) {
             this.Blance = res.Blance
           }
