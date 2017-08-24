@@ -33,14 +33,16 @@ const store = new Vuex.Store({
       }
     },
     hasNoSchoolCard: state => {
-      if (state.currentUser && state.currentUser.Role !== '家长' && !state.currentUser.ExtendInfo.CampusCard) {
-        return true
-      } else {
-        return false
+      if (state.currentUser && state.currentUser.Role !== '家长') {
+        if(!state.currentUser.ExtendInfo.CampusCard){
+          return true
+        }else{
+          return false
+        }
       }
-      if (state.currentUser && state.currentUser.Role === '家长') {
+      if (state.currentUser && state.currentUser.Role == '家长') {
         let a = state.currentUser.ExtendInfo.Students.find(o => {
-          o.Meid === state.currentStudentId
+          return o.Meid == state.currentStudentId
         })
         if (!a.CampusCard) {
           return true
