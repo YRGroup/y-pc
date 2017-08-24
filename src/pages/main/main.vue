@@ -165,7 +165,9 @@ export default {
     }
   }
 }
-
+.el-tabs{
+  min-height: 400px;
+}
 // .left {
 //   width: calc(~"100% - 320px");
 //   float: left;
