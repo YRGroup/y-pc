@@ -17,7 +17,7 @@
           <p class="title">{{data.TrueName}}</p>
           <p>
             <span>
-              <i class="iconfont">&#xe690;</i>{{data.ExtendInfo.Course}}</span>
+              <i class="iconfont">&#xe690;</i>{{data.ExtendInfo.Course.CourseName}}</span>
             <span>
               <i class="iconfont">&#xe618;</i>{{data.Mobilephone}}</span>
           </p>
