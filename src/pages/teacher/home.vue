@@ -129,6 +129,12 @@ export default {
     },
     changeClass(val) {
       this.$store.commit('changeCurrentClass', val)
+      let para={
+        ClassID:val
+      }
+      this.$API.changeCurrentClass(para).then(res=>{
+        this.$message.success('成功切换班级')
+      })
     },
     startEditPw() {
       this.showEditPw = true

@@ -191,4 +191,15 @@ API.addSchoolcard = (cardNum) => {
   })
 }
 
+// 家长切换当前学生
+API.changeCurrentStudent = (para) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl+'/api/Parent/ChangeCurrentStudent',para).then((res)=>{
+      resolve(res.data.Content)
+    }).catch((err)=>{
+      reject(err)
+    })
+  })
+}
+
 export default API
