@@ -91,6 +91,12 @@ export default {
     },
     changeCurrentStudent(val) {
       this.$store.commit('changeCurrentStudentId', val)
+      let para={
+        Student_Meid:val
+      }
+      this.$API.changeCurrentStudent(para).then(res=>{
+        this.$message.success('成功切换当前学生')
+      })
     }
   },
   created() {

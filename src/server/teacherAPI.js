@@ -38,5 +38,16 @@ API.getAllTeacherHomework = (para) => {
   })
 }
 
+// 教师切换当前班级
+API.changeCurrentClass = (para) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl+'/api/Teacher/ChangeCurrentClass',para).then((res)=>{
+      resolve(res.data.Content)
+    }).catch((err)=>{
+      reject(err)
+    })
+  })
+}
+
 
 export default API
