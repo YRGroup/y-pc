@@ -120,9 +120,10 @@ export default {
           } else {
             this.noMoreData = true
           }
-        } else {
+        }else if(this.currentPage==1){
           this.noData = true
-          // this.$message.error('当前没有消费记录')
+        } else {
+          this.$message.error('没有更多消费记录')
         }
       }).catch(err => {
         if (err.msg) {
@@ -149,7 +150,7 @@ export default {
     }
   },
   created() {
-    // this.getData()
+    this.getData()
   },
 }
 </script>

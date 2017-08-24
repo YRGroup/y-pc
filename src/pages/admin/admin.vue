@@ -309,6 +309,10 @@ export default {
       showAddTeacher: false,
       courseList: [
         {
+          CourseId: 0,
+          name: '未指定'
+        },
+        {
           CourseId: 1,
           name: '语文'
         },

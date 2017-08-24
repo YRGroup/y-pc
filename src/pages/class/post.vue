@@ -33,10 +33,10 @@
             <div class="item" v-for="(i,index) in data.zans" :key="index">
               <div class="img">
                 <img :src="i.HeadImg" v-if="i.HeadImg!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && i.HeadImg!=''">
-                <div class="headTextImg" v-else>{{i.TrueName.substr(0,1)}}</div>
+                <div class="headTextImg" v-else>{{(i.TrueName||'user').substr(0,1)}}</div>
               </div>
               <div class="name">
-                {{i.TrueName}}
+                {{i.TrueName||'user'}}
               </div>
             </div>
           </div>
