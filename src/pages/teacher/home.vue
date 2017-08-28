@@ -134,6 +134,7 @@ export default {
       }
       this.$API.changeCurrentClass(para).then(res=>{
         this.$message.success('成功切换班级')
+        this.$store.dispatch('getCurrentUser')
       })
     },
     startEditPw() {
