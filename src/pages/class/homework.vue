@@ -183,16 +183,13 @@ export default {
         this.fileList.push(obj.response.Content[0])
       })
       this.newHomeworkData['img_url_list'] = this.fileList.join(',')
-      if (this.newHomeworkData.course_name) {
-        this.$API.addHomework(this.newHomeworkData).then(res => {
-          this.showAddHomework = false
-          this.$message('发布作业成功')
-          this.refresh()
-          this.newHomeworkData = {}
-        })
-      } else {
-        this.$message.error('您没有科目，不能布置作业')
-      }
+      this.$API.addHomework(this.newHomeworkData).then(res => {
+        this.showAddHomework = false
+        this.$message('发布作业成功')
+        this.refresh()
+        this.newHomeworkData = {}
+        this.$message.error(err.msg)
+      })
     },
     handleAddHomework() {
       this.showAddHomework = true
@@ -273,6 +270,11 @@ export default {
       img {
         text-align: center;
         max-height: 100px;
+      }
+    }
+    .albums{
+      img{
+        max-width: 200px;;
       }
     }
     .taskbottom {

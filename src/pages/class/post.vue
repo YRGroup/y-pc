@@ -88,8 +88,6 @@ export default {
     getData() {
       this.$API.getClassDynamic(this.$store.state.currentClassId, this.$route.params.postId).then(res => {
         this.data = res
-        console.log(22222)
-        console.log(data.auther)
       })
     },
     submitReply() {
