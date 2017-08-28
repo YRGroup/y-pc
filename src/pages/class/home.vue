@@ -19,7 +19,7 @@
               <span>班主任：{{classInfo.teacher.TrueName}}</span>
               <span>人数：{{classInfo.student_count}}</span>
             </div>
-            <div style="text-align:center;" v-show="$store.getters.role=='老师'">
+            <div style="text-align:center;" v-show="isClassAdmin">
               <el-button type="warning" @click="$router.push('/admin')">班级管理</el-button>
             </div>
           </div>
@@ -97,6 +97,15 @@ export default {
   computed: {
     classInfo() {
       return this.$store.state.currentClassInfo
+    },
+    isClassAdmin(){
+      if(this.$store.getters.role=='老师'){
+        if(this.$store.state.currentUser.Meid == this.classInfo.teacher.Meid){
+          return true
+        }else{
+          return false
+        }
+      }
     }
   },
   methods: {

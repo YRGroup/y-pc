@@ -17,7 +17,7 @@
           <p class="title">{{data.TrueName}}</p>
           <p>
             <span>
-              <i class="iconfont">&#xe690;</i>{{data.ExtendInfo.Course.CourseName}}</span>
+              <i class="iconfont">&#xe690;</i>{{data.Course || '暂无'}}</span>
             <span>
               <i class="iconfont">&#xe618;</i>{{data.Mobilephone}}</span>
           </p>
@@ -234,6 +234,7 @@ export default {
       }
       .btn {
         text-align: center;
+        margin-bottom:10px;
       }
     }
     .noHeadImg {
