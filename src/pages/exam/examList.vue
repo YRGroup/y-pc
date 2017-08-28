@@ -200,14 +200,28 @@ export default {
         })
         this.newExamData.ExamCourses.push(a)
       })
-      this.$API.addExam(this.newExamData).then(res => {
-        this.$message.success('添加考试成功')
-        this.newExamData = {}
-        this.showAddExam = false
-        this.getData()
-      }).catch(err => {
-        this.$message.error(err.msg)
-      })
+      console.log(this.newExamData)
+      if(!this.newExamData.ExamName){
+        this.$message.success('请填写考试名称')
+      }else if(!this.newExamData.ExamCourses.length){
+        this.$message.success('请选择学科')
+      }else{
+        this.$API.addExam(this.newExamData).then(res => {
+          this.$message.success('添加考试成功')
+          this.newExamData = {
+                            Name: '',
+                            Remark: '',
+                            ClassID: '',
+                            Type: '',
+                            ExamCourses: [],
+                            courses: []
+                          }
+          this.showAddExam = false
+          this.getData()
+        }).catch(err => {
+          this.$message.error(err.msg)
+        })
+      }
     },
     examType(n) {
       if (n == 0) {
