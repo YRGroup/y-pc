@@ -3,9 +3,9 @@
   
     <div class="card panel">
       <div class="examselect">
-        <el-select v-model="currentClass" placeholder="班级" @change="changeCurrentClass">
+        <!-- <el-select v-model="currentClass" placeholder="班级" @change="changeCurrentClass">
           <el-option :label="i.name" :value="i.id" v-for="i in currentClassList" :key="i.id"></el-option>
-        </el-select>
+        </el-select> -->
         <el-button @click="showAddExam=true" type="success" class="ml20">添加新考试</el-button>
       </div>
   
