@@ -16,7 +16,7 @@
           <div class="content">
             <p>{{classInfo.name}}</p>
             <div class="info">
-              <span>班主任：{{classInfo.teacher.TrueName}}</span>
+              <span>班主任：{{classInfo.teacher?classInfo.teacher.TrueName:'暂无'}}</span>
               <span>人数：{{classInfo.student_count}}</span>
             </div>
           </div>
@@ -34,7 +34,7 @@
                   <div class="top" @click="$router.push('/t/?id='+i.Meid)">
                     <div class="img">
                       <img :src="i.Headimgurl" v-if="i.Headimgurl!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && i.Headimgurl!=''">
-                      <div class="headTextImg" v-else>{{i.TrueName.substr(0,1)}}</div>
+                      <div class="headTextImg" v-else>{{(i.TrueName ||'教师').substr(0,1)}}</div>
                     </div>
                     <div class="name">
                       {{i.TrueName}}
