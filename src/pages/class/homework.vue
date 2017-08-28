@@ -262,6 +262,11 @@ export default {
         max-height: 100px;
       }
     }
+    .albums{
+      img{
+        max-width: 200px;;
+      }
+    }
     .taskbottom {
       // text-align: right;
       margin-top: 10px;
