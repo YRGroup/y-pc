@@ -2,12 +2,14 @@
   <div>
   
     <div class="card panel">
-      <div class="examselect">
-        <el-select v-model="currentClass" placeholder="班级" @change="changeCurrentClass">
+      <!-- <div class="examselect"> -->
+        <!-- <el-select v-model="currentClass" placeholder="班级" @change="changeCurrentClass">
           <el-option :label="i.name" :value="i.id" v-for="i in currentClassList" :key="i.id"></el-option>
-        </el-select>
-        <el-button @click="showAddExam=true" type="success" class="ml20">添加新考试</el-button>
-      </div>
+        </el-select> -->
+        <div style="text-align:center">
+          <el-button @click="showAddExam=true" type="success" class="ml20 addBtn">添加新考试</el-button>
+        </div>
+      <!-- </div> -->
   
       <no-data v-if="nodataImg"></no-data>
       <div class="examlist" v-else>
@@ -243,9 +245,14 @@ export default {
 @import '../../style/theme.less';
 
 .card {
+  min-height: 600px;
   margin-bottom: 15px;
+  // text-align: center;
   .ml20 {
     margin-left: 20px;
+  }
+  .addBtn{
+    text-align: center;
   }
   .examselect {
     margin: 0 20px;
