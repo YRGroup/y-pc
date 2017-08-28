@@ -1,14 +1,16 @@
 <template>
   <div>
-  
+
     <div class="card panel">
-      <div class="examselect">
-        <!-- <el-select v-model="currentClass" placeholder="班级" @change="changeCurrentClass">
-          <el-option :label="i.name" :value="i.id" v-for="i in currentClassList" :key="i.id"></el-option>
-        </el-select> -->
-        <el-button @click="showAddExam=true" type="success" class="ml20">添加新考试</el-button>
+      <!-- <div class="examselect"> -->
+      <!-- <el-select v-model="currentClass" placeholder="班级" @change="changeCurrentClass">
+            <el-option :label="i.name" :value="i.id" v-for="i in currentClassList" :key="i.id"></el-option>
+          </el-select> -->
+      <div style="text-align:center">
+        <el-button @click="showAddExam=true" type="success" class="ml20 addBtn">添加新考试</el-button>
       </div>
-  
+      <!-- </div> -->
+
       <no-data v-if="nodataImg"></no-data>
       <div class="examlist" v-else>
         <li class="item" v-for="(i,index) in data" :key="index">
@@ -32,7 +34,7 @@
         </li>
       </div>
     </div>
-  
+
     <el-dialog title="创建新考试" :visible.sync="showAddExam" size="tiny">
       <el-form :model="newExamData" label-width="100px">
         <el-form-item label="所属班级">
@@ -64,9 +66,9 @@
           <el-button @click="showAddExam = false" :plain="true" type="success">取 消</el-button>
         </el-form-item>
       </el-form>
-  
+
     </el-dialog>
-  
+
   </div>
 </template>
 
@@ -159,7 +161,7 @@ export default {
     sendExamNotice(id) {
       this.$confirm('请确认考试成绩录入完整', '提示', {
         type: 'warning'
-      }).then(()=>{
+      }).then(() => {
         let para = {
           classid: this.currentClass,
           examid: id
@@ -167,7 +169,7 @@ export default {
         this.$API.sendExamSms(para).then(res => {
           this.$message.success('发送成功')
           this.getData()
-        }).catch(err=>{
+        }).catch(err => {
           this.$message.error(err.msg)
         })
       })
@@ -198,16 +200,36 @@ export default {
         })
         this.newExamData.ExamCourses.push(a)
       })
-      this.$API.addExam(this.newExamData).then(res => {
-        this.$message.success('添加考试成功')
-        this.newExamData = {}
-        this.showAddExam = false
-        this.getData()
-      }).catch(err => {
-        this.$message.error(err.msg)
-        this.newExamData = {}
-        this.showAddExam = false
-      })
+      console.log(this.newExamData)
+      if (!this.newExamData.ExamName) {
+        this.$message.success('请填写考试名称')
+      } else if (!this.newExamData.ExamCourses.length) {
+        this.$message.success('请选择学科')
+      } else {
+        this.$API.addExam(this.newExamData).then(res => {
+          this.$message.success('添加考试成功')
+          this.newExamData = {
+            Name: '',
+            Remark: '',
+            ClassID: '',
+            Type: '',
+            ExamCourses: [],
+            courses: []
+          }
+          this.showAddExam = false
+          this.getData()
+        }).catch(err => {
+          this.$message.error(err.msg)
+          this.newExamData = {
+            Name: '',
+            Remark: '',
+            ClassID: '',
+            Type: '',
+            ExamCourses: [],
+            courses: []
+          }
+        })
+      }
     },
     examType(n) {
       if (n == 0) {
@@ -245,9 +267,13 @@ export default {
 @import '../../style/theme.less';
 
 .card {
-  margin-bottom: 15px;
+  min-height: 600px;
+  margin-bottom: 15px; // text-align: center;
   .ml20 {
     margin-left: 20px;
+  }
+  .addBtn {
+    text-align: center;
   }
   .examselect {
     margin: 0 20px;
