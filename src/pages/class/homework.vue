@@ -16,9 +16,9 @@
         <div class="course">
           {{i.CourseName}}
         </div>
-        <div class="tasktitle">{{i.Title}}</div>
-        <div class="taskbox" @click="$router.push('/homework?id='+i.HID)">
-          <div class="taskcon">{{i.Content}}</div>
+        <div class="tasktitle"  @click="$router.push('/homework?id='+i.HID)">{{i.Title}}</div>
+        <div class="taskbox">
+          <div class="taskcon"  @click="$router.push('/homework?id='+i.HID)">{{i.Content}}</div>
           <div class="albums">
             <li v-for="(p,index) in i.Albums" :key="index">
               <img :src="p" @click="openImgBig(p)">
