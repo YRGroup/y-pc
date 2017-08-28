@@ -3,10 +3,10 @@
 
     <div class="addHomework" v-show="$store.getters.role=='老师'">
       <!-- <span>班级作业</span>
-                  <div class="btn">
-                    <el-button type="primary" @click="showAddHomework = true">添加新作业</el-button>
-                  </div>  -->
-      <div class="title" :class="showAddHomework?null:'addbtn'" @click="showAddHomework = true">
+                <div class="btn">
+                  <el-button type="primary" @click="showAddHomework = true">添加新作业</el-button>
+                </div>  -->
+      <div class="title" :class="showAddHomework?null:'addbtn'" @click="handleAddHomework">
         <i class="iconfont">&#xe623;</i>布置作业</div>
     </div>
 
@@ -17,7 +17,7 @@
           {{i.CourseName}}
         </div>
         <div class="tasktitle">{{i.Title}}</div>
-        <div class="taskbox">
+        <div class="taskbox" @click="$router.push('/homework?id='+i.HID)">
           <div class="taskcon">{{i.Content}}</div>
           <div class="albums">
             <li v-for="(p,index) in i.Albums" :key="index">
@@ -32,39 +32,40 @@
 
       <load-more @click.native="loadMore" :noMoreData="noMoreData" v-show="!$route.query.id"></load-more>
 
-      <el-dialog title="布置作业" :visible.sync="showAddHomework" size="tiny">
-        <el-form :model="newHomeworkData" label-width="60px">
-          <el-form-item label="标题">
-            <el-input v-model.trim="newHomeworkData.title" auto-complete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="科目">
-            <el-input v-model="course" :disabled="true"></el-input>
-          </el-form-item>
-          <el-form-item label="内容">
-            <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model.trim="newHomeworkData.content">
-            </el-input>
-          </el-form-item>
-
-          <el-form-item>
-            <el-upload :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
-              <i class="el-icon-plus"></i>
-            </el-upload>
-          </el-form-item>
-
-        </el-form>
-
-        <div slot="footer" class="dialog-footer">
-          <el-button type="success" @click="addNewHomework">确 定</el-button>
-        </div>
-      </el-dialog>
     </div>
+
+    <el-dialog title="布置作业" :visible.sync="showAddHomework" size="tiny">
+      <el-form :model="newHomeworkData" label-width="60px">
+        <el-form-item label="标题">
+          <el-input v-model.trim="newHomeworkData.title" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="科目">
+          <el-input v-model="course" :disabled="true"></el-input>
+        </el-form-item>
+        <el-form-item label="内容">
+          <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model.trim="newHomeworkData.content">
+          </el-input>
+        </el-form-item>
+
+        <el-form-item>
+          <el-upload :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </el-form-item>
+
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button type="success" @click="addNewHomework">确 定</el-button>
+      </div>
+    </el-dialog>
 
   </div>
 </template>
 
 <script>
-import loadMore from '@//components/loadMore'
-import noData from '@//components/noData'
+import loadMore from '@/components/loadMore'
+import noData from '@/components/noData'
 
 export default {
   components: { loadMore, noData },
@@ -76,6 +77,8 @@ export default {
       noMoreData: false,
       showAddHomework: false,
       newHomeworkData: {
+        title: '',
+        content: ''
       },
       fileList: [],
       nodataImg: false,
@@ -84,8 +87,10 @@ export default {
   },
   computed: {
     course: function() {
-      if (this.$store.state.currentUser.ExtendInfo.Course.CourseName) {
+      if (this.$store.state.currentUser.Role == '老师' && this.$store.state.currentUser.ExtendInfo.Course.CourseName) {
         return this.$store.state.currentUser.ExtendInfo.Course.CourseName
+      } else {
+        return '暂无'
       }
     }
   },
@@ -167,20 +172,18 @@ export default {
       this.$refs.upload.uploadFiles.forEach((obj) => {
         this.fileList.push(obj.response.Content[0])
       })
-      if (!this.newHomeworkData.title) {
-        this.$message('请填写作业标题')
-      } else if (!this.newHomeworkData.content) {
-        this.$message('请填写作业内容')
-      } else {
-        this.$API.addHomework(this.newHomeworkData).then(res => {
-          this.showAddHomework = false
-          this.$message('发布作业成功')
-          this.getData()
-          this.newHomeworkData = {}
-          this.$message.error(err.msg)
-        })
-      }
+      this.newHomeworkData['img_url_list'] = this.fileList.join(',')
+      this.$API.addHomework(this.newHomeworkData).then(res => {
+        this.showAddHomework = false
+        this.$message('发布作业成功')
+        this.refresh()
+        this.newHomeworkData = {}
+        this.$message.error(err.msg)
+      })
     },
+    handleAddHomework() {
+      this.showAddHomework = true
+    }
   },
   created() {
     this.getData()
