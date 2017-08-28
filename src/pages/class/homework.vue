@@ -374,7 +374,16 @@ export default {
   }
 }
 
-.addImgBtn {
-  // padding: 10px;
-}
+.albums {
+    margin: 10px 0;
+    li {
+      display: inline-block;
+      img {
+        max-height: 120px;
+        margin-right: 15px;
+        margin-bottom: 15px;
+      }
+    }
+  }
+
 </style>
