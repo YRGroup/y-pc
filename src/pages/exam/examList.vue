@@ -205,6 +205,8 @@ export default {
         this.getData()
       }).catch(err => {
         this.$message.error(err.msg)
+        this.newExamData = {}
+        this.showAddExam = false
       })
     },
     examType(n) {

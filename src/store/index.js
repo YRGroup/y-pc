@@ -34,9 +34,9 @@ const store = new Vuex.Store({
     },
     hasNoSchoolCard: state => {
       if (state.currentUser && state.currentUser.Role !== '家长') {
-        if(!state.currentUser.ExtendInfo.CampusCard){
+        if (!state.currentUser.ExtendInfo.CampusCard) {
           return true
-        }else{
+        } else {
           return false
         }
       }
@@ -99,12 +99,14 @@ const store = new Vuex.Store({
       if (val.Role == '老师') {
         if (val.ExtendInfo.Classes.length != 0) {
           state.currentClassId = val.ExtendInfo.Classes[0].ClassID
-          val.ExtendInfo.Classes.forEach(obj => {
-            let a = {}
-            a.name = obj.ClassName
-            a.id = obj.ClassID
-            state.currentClassList.push(a)
-          })
+          if (!state.currentClassList.length) {
+            val.ExtendInfo.Classes.forEach(obj => {
+              let a = {}
+              a.name = obj.ClassName
+              a.id = obj.ClassID
+              state.currentClassList.push(a)
+            })
+          }
         }
       }
     },
@@ -143,7 +145,7 @@ const store = new Vuex.Store({
     },
     setToken(state, val) {
       state.token = val
-      if(!localStorage.token){
+      if (!localStorage.token) {
         localStorage.token = val
       }
     },
@@ -175,7 +177,7 @@ const store = new Vuex.Store({
     }, payload) {
       return new Promise((resolve, reject) => {
         API.getCurrentUser().then(res => {
-          if(localStorage.token){
+          if (localStorage.token) {
             commit('setToken', localStorage.token)
           }
           commit('login', res)
