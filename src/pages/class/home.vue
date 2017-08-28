@@ -16,7 +16,7 @@
           <div class="content">
             <p>{{classInfo.name}}</p>
             <div class="info">
-              <span>班主任：{{classInfo.teacher.TrueName}}</span>
+              <span>班主任：{{classInfo.teacher?classInfo.teacher.TrueName:'暂无'}}</span>
               <span>人数：{{classInfo.student_count}}</span>
             </div>
             <div style="text-align:center;" v-show="isClassAdmin">
@@ -100,7 +100,7 @@ export default {
     },
     isClassAdmin(){
       if(this.$store.getters.role=='老师'){
-        if(this.$store.state.currentUser.Meid == this.classInfo.teacher.Meid){
+        if(this.classInfo.teacher && this.$store.state.currentUser.Meid == this.classInfo.teacher.Meid){
           return true
         }else{
           return false

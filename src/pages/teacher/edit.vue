@@ -8,7 +8,7 @@
       </span>
     </div>
     <div class="content">
-  
+
       <el-form label-width="100px">
         <div class="itemList">
           <div class="header">
@@ -66,25 +66,25 @@
                 <i class="iconfont">&#xe623;</i>新增荣誉</el-button>
             </div>
             <el-dialog title="个人荣誉" :visible.sync="showAddPersonalHonor" size="tiny">
-  
+
               <el-form-item label="上传图片">
                 <el-upload list-type="picture-card" class="avatar-uploader" :action="$store.getters._APIurl+'/api/Upload/ImageUpload'" :show-file-list="false" :on-success="handleHonorSuccess">
                   <img v-if="addPersonalHonorData.ImgPath" :src="addPersonalHonorData.ImgPath" class="avatar">
                   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
-  
+
               </el-form-item>
-  
+
               <el-form-item label="描述">
                 <el-input v-model="addPersonalHonorData.Description">
                 </el-input>
               </el-form-item>
-  
+
               <el-form-item>
                 <el-button type="success" @click="addPersonalHonor">确 定</el-button>
                 <el-button :plain="true" type="success" @click="showAddPersonalHonor = false">取 消</el-button>
               </el-form-item>
-  
+
               <span slot="footer" class="dialog-footer">
               </span>
             </el-dialog>
@@ -128,12 +128,12 @@
                 </el-col>
               </el-form-item>
             </li>
-  
+
           </div>
         </div>
-  
+
       </el-form>
-  
+
     </div>
     <div class="footer">
       <div class="btn center">
@@ -167,7 +167,7 @@ export default {
     }
   },
   computed: {
-    currentUser: function () {
+    currentUser: function() {
       return this.$store.state.currentUser
     }
   },
@@ -179,14 +179,16 @@ export default {
     },
     submitChange() {
       this.data.role = 3
-      this.verifyIDcard().then(res=>{
+      this.verifyIDcard().then(res => {
         this.$API.editTeacherInfo(this.data).then(res => {
           this.$API.getCurrentUser().then(user => {
             this.$store.commit('login', user)
           })
           this.$router.push('/teacher')
         })
-      }).catch(err=>{ })
+      }).catch(err => {
+        this.$message.error('请输入正确的身份证号')
+      })
     },
     handleAvatarSuccess(res, file) {
       this.data.Headimgurl = res.Content[0] + '?x-oss-process=style/f300'
@@ -214,12 +216,11 @@ export default {
       }
       return isJPG && isLt2M;
     },
-    verifyIDcard(){
-      return new Promise((resolve,reject)=>{
-        if(this.data.IDCard.length>0 && this.data.IDCard.length<18){
-          this.$message.error('请输入正确的身份证号')
+    verifyIDcard() {
+      return new Promise((resolve, reject) => {
+        if (this.data.IDCard.length !== 18) {
           reject()
-        }else{
+        } else {
           resolve()
         }
       })
@@ -285,9 +286,8 @@ export default {
       }
       .item-content {
         .el-form-item {
-            margin-bottom: 15px;
-          }
-        // padding-top:30px;
+          margin-bottom: 15px;
+        } // padding-top:30px;
         // text-align: center;
         margin-left: 40px;
         overflow: hidden;
