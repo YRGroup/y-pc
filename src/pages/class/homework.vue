@@ -21,7 +21,7 @@
           <div class="taskcon">{{i.Content}}</div>
           <div class="albums">
             <li v-for="(p,index) in i.Albums" :key="index">
-              <img :src="p">
+              <img :src="p" @click="openImgBig(p)">
             </li>
           </div>
           <div class="taskbottom">
@@ -60,6 +60,10 @@
       </div>
     </el-dialog>
 
+    <el-dialog :visible.sync="showImgBig" class="bigImg">
+      <img :src="imgBig">
+    </el-dialog>
+
   </div>
 </template>
 
@@ -74,6 +78,8 @@ export default {
       homework: [],
       currentPage: 1,
       pageSize: 10,
+      imgBig: '',
+      showImgBig: false,
       noMoreData: false,
       showAddHomework: false,
       newHomeworkData: {
@@ -95,6 +101,10 @@ export default {
     }
   },
   methods: {
+    openImgBig(val) {
+      this.imgBig = val
+      this.showImgBig = true
+    },
     updateData: function(data) {
       this.newHomeworkData.content = data
     },
