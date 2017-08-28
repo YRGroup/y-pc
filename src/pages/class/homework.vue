@@ -9,61 +9,67 @@
       <div class="title" :class="showAddHomework?null:'addbtn'" @click="showAddHomework = true">
         <i class="iconfont">&#xe623;</i>布置作业</div>
     </div>
-  
-    <div class="card panel" v-for="(i,index) in homework" :key="index">
-      <div class="course">
-        {{i.CourseName}}
-      </div>
-      <div class="tasktitle">{{i.Title}}</div>
-      <div class="taskbox" @click="$router.push('/homework?id='+i.HID)">
-        <div class="taskcon">{{i.Content}}</div>
-        <div class="albums">
-          <li v-for="(p,index) in i.albums" :key="index">
-            <img :src="p">
-          </li>
+
+
+    <no-data v-if="nodataImg"></no-data>
+    <div v-else>
+        <div class="card panel" v-for="(i,index) in homework" :key="index">
+          <div class="course">
+            {{i.CourseName}}
+          </div>
+          <div class="tasktitle">{{i.Title}}</div>
+          <div class="taskbox" @click="$router.push('/homework?id='+i.HID)">
+            <div class="taskcon">{{i.Content}}</div>
+            <div class="albums">
+              <li v-for="(p,index) in i.albums" :key="index">
+                <img :src="p">
+              </li>
+            </div>
+            <div class="taskbottom">
+              <span class="time">{{i.CreateTime}}</span>
+            </div>
+          </div>
         </div>
-        <div class="taskbottom">
-          <span class="time">{{i.CreateTime}}</span>
-        </div>
-      </div>
+      
+        <load-more @click.native="loadMore" :noMoreData="noMoreData" v-show="!$route.query.id"></load-more>
+      
+        <el-dialog title="布置作业" :visible.sync="showAddHomework" size="tiny">
+          <el-form :model="newHomeworkData" label-width="60px">
+            <el-form-item label="标题">
+              <el-input v-model.trim="newHomeworkData.title" auto-complete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="科目">
+              <el-input v-model="course" :disabled="true"></el-input>
+            </el-form-item>
+            <el-form-item label="内容">
+              <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model.trim="newHomeworkData.content">
+              </el-input>
+            </el-form-item>
+      
+            <el-form-item>
+              <el-upload :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
+                <i class="el-icon-plus"></i>
+              </el-upload>
+            </el-form-item>
+      
+          </el-form>
+      
+          <div slot="footer" class="dialog-footer">
+            <el-button type="success" @click="addNewHomework">确 定</el-button>
+          </div>
+        </el-dialog>
     </div>
   
-    <load-more @click.native="loadMore" :noMoreData="noMoreData" v-show="!$route.query.id"></load-more>
-  
-    <el-dialog title="布置作业" :visible.sync="showAddHomework" size="tiny">
-      <el-form :model="newHomeworkData" label-width="60px">
-        <el-form-item label="标题">
-          <el-input v-model.trim="newHomeworkData.title" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="科目">
-          <el-input v-model="course" :disabled="true"></el-input>
-        </el-form-item>
-        <el-form-item label="内容">
-          <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model.trim="newHomeworkData.content">
-          </el-input>
-        </el-form-item>
-  
-        <el-form-item>
-          <el-upload :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
-            <i class="el-icon-plus"></i>
-          </el-upload>
-        </el-form-item>
-  
-      </el-form>
-  
-      <div slot="footer" class="dialog-footer">
-        <el-button type="success" @click="addNewHomework">确 定</el-button>
-      </div>
-    </el-dialog>
   
   </div>
 </template>
 
 <script>
 import loadMore from '@//components/loadMore'
+import noData from '@//components/noData'
 
 export default {
-  components: { loadMore },
+  components: { loadMore ,noData },
   data() {
     return {
       homework: [],
@@ -74,6 +80,8 @@ export default {
       newHomeworkData: {
       },
       fileList: [],
+      nodataImg: false,
+      nodataPic: require('@/assets/nodata.png')
     }
   },
   computed: {
@@ -129,7 +137,9 @@ export default {
           res.forEach((element) => {
             this.homework.push(element)
           })
-        } else {
+        } else if(this.currentPage == 1){
+          this.nodataImg = true
+        }else{
           this.noMoreData = true
         }
       })
