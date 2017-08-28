@@ -188,6 +188,7 @@ export default {
         this.$message('发布作业成功')
         this.refresh()
         this.newHomeworkData = {}
+      }).catch(err => {
         this.$message.error(err.msg)
       })
     },
