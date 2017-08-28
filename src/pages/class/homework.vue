@@ -78,6 +78,7 @@ export default {
       noMoreData: false,
       showAddHomework: false,
       newHomeworkData: {
+        title:''
       },
       fileList: [],
       nodataImg: false,
@@ -86,7 +87,7 @@ export default {
   },
   computed: {
     course: function () {
-      if (this.$store.state.currentUser.ExtendInfo.Course.CourseName) {
+      if (this.$store.state.currentUser.Role=='老师' && this.$store.state.currentUser.ExtendInfo.Course.CourseName) {
         return this.$store.state.currentUser.ExtendInfo.Course.CourseName
       }
     }

@@ -63,7 +63,7 @@
             班级教师
           </div>
           <div class="content">
-            <div class="teacherItem" v-for="i in teachers" :key="i.Meid" @click="$router.push('/teacher/?id='+i.Meid)">
+            <div class="teacherItem" v-for="i in teachers" :key="i.Meid" @click="$router.push('/t/?id='+i.Meid)">
               <span class="teacherImg">
                 <img :src="i.Headimgurl" v-if="i.Headimgurl!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' ">
                 <div class="headTextImg" v-else>{{(i.TrueName ||'教师').substr(0,1)}}</div>
