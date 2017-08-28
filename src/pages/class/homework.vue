@@ -263,8 +263,15 @@ export default {
       }
     }
     .albums{
+      overflow: hidden;
+      li{
+        float: left;
+        width: 120px;
+        height: 120px;
+        margin:10px 10px 0 0;
+      }
       img{
-        max-width: 200px;;
+        max-width: 120px;;
       }
     }
     .taskbottom {
