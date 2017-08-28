@@ -123,6 +123,8 @@ export default {
         } else if (res.length == 0 && this.currentPage != 1) {
           this.noMoreData = true
         }
+      }).catch(err => {
+        this.$message.error(err.msg)
       })
     },
     loadMore() {
