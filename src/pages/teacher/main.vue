@@ -134,7 +134,7 @@
         <span class="title" slot="label">动态</span>
         <div class="content">
   
-          <teacher-post :id="$store.getters.currentUserId"></teacher-post>
+          <teacher-post :id="currentUserId"></teacher-post>
   
         </div>
       </el-tab-pane>
@@ -143,7 +143,7 @@
         <span class="title" slot="label">作业</span>
         <div class="content">
   
-          <teacher-homework :id="$store.getters.currentUserId"></teacher-homework>
+          <teacher-homework :id="currentUserId"></teacher-homework>
   
         </div>
       </el-tab-pane>
@@ -180,6 +180,13 @@ export default {
   computed: {
     currentUser: function () {
       return this.$store.state.currentUser
+    },
+    currentUserId(){
+      if(!this.$route.query.id){
+        return this.$store.getters.currentUserId
+      }else{
+        return this.$route.query.id
+      }
     }
   },
   methods: {
