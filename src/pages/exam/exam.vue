@@ -22,9 +22,9 @@
             </div>
       
             <el-table :data="summaryScore" height="600" border style="width: 100%">
-              <el-table-column prop="StudentID" label="学号" width="130" align="center" fixed>
+              <el-table-column prop="StudentID" label="学号" width="130" align="center">
               </el-table-column>
-              <el-table-column prop="TrueName" label="姓名" align="center" fixed>
+              <el-table-column prop="TrueName" label="姓名" align="center">
               </el-table-column>
               <el-table-column :prop="i.CourseName" :label="i.CourseName" v-for="i in data.CoursesList" :key="i.ID" align="center">
               </el-table-column> 

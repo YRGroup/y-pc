@@ -3,9 +3,9 @@
 
     <div class="addHomework" v-show="$store.getters.role=='老师'">
       <!-- <span>班级作业</span>
-                <div class="btn">
-                  <el-button type="primary" @click="showAddHomework = true">添加新作业</el-button>
-                </div>  -->
+                  <div class="btn">
+                    <el-button type="primary" @click="showAddHomework = true">添加新作业</el-button>
+                  </div>  -->
       <div class="title" :class="showAddHomework?null:'addbtn'" @click="handleAddHomework">
         <i class="iconfont">&#xe623;</i>布置作业</div>
     </div>
@@ -16,9 +16,9 @@
         <div class="course">
           {{i.CourseName}}
         </div>
-        <div class="tasktitle"  @click="$router.push('/homework?id='+i.HID)">{{i.Title}}</div>
+        <div class="tasktitle" @click="$router.push('/homework?id='+i.HID)">{{i.Title}}</div>
         <div class="taskbox">
-          <div class="taskcon"  @click="$router.push('/homework?id='+i.HID)">{{i.Content}}</div>
+          <div class="taskcon" @click="$router.push('/homework?id='+i.HID)">{{i.Content}}</div>
           <div class="albums">
             <li v-for="(p,index) in i.Albums" :key="index">
               <img :src="p" @click="openImgBig(p)">
@@ -273,16 +273,16 @@ export default {
         max-height: 100px;
       }
     }
-    .albums{
+    .albums {
       overflow: hidden;
-      li{
+      li {
         float: left;
         width: 120px;
         height: 120px;
         line-height: 120px;
-        margin:10px 10px 0 0;
+        margin: 10px 10px 0 0;
       }
-      img{
+      img {
         max-width: 120px;
       }
     }
@@ -376,15 +376,19 @@ export default {
 }
 
 .albums {
-    margin: 10px 0;
-    li {
-      display: inline-block;
-      img {
-        max-height: 120px;
-        margin-right: 15px;
-        margin-bottom: 15px;
-      }
+  margin: 10px 0;
+  li {
+    display: inline-block;
+    img {
+      max-height: 120px;
+      margin-right: 15px;
+      margin-bottom: 15px;
     }
   }
-
+}
+.bigImg{
+  img{
+    max-width: 80%;;
+  }
+}
 </style>
