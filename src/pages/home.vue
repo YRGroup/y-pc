@@ -16,15 +16,17 @@
             <i class="iconfont">&#xe67f;</i>考试</li>
           <li @click="$router.push('/schoolcard')" v-show="role=='老师'" :class="link=='schoolcard'?'active':null">
             <i class="iconfont">&#xe67f;</i>一卡通</li>
-          <li @click="$router.push('/schoolcard')" v-show="role=='家长'" :class="link=='schoolcard'?'active':null">
+          <li @click="$router.push('/schoolcard')" v-show="role!='老师'" :class="link=='schoolcard'?'active':null">
             <i class="iconfont">&#xe67f;</i>一卡通</li>
           <li @click="$router.push('/contact')" :class="link=='contact'?'active':null">
             <i class="iconfont">&#xe6a5;</i>通讯录</li>
           <li @click="$router.push('/teacher')" v-show="role=='老师'" :class="link=='teacher'?'active':null">
             <i class="iconfont">&#xe64b;</i>个人主页</li>
-          <li @click="$router.push('/student/'+$store.state.currentStudentId+'/score/1')" v-show="$store.getters.role=='家长'" :class="link=='score'?'active':null">
+          <li @click="$router.push('/student/'+$store.state.currentStudentId+'/score/1')" v-show="$store.getters.role!='老师'" :class="link=='score'?'active':null">
             <i class="iconfont">&#xe60e;</i>成绩报告</li>
           <li @click="$router.push('/parent')" v-show="role=='家长'" :class="link=='parent'?'active':null">
+            <i class="iconfont">&#xe64b;</i>个人主页</li>
+          <li @click="$router.push('/student')" v-show="role=='学生'" :class="link=='parent'?'active':null">
             <i class="iconfont">&#xe64b;</i>个人主页</li>
         </div>
       </div>
