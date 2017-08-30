@@ -1,69 +1,72 @@
 <template>
   <div>
-  
-    <div class="scoreSummary">
-      <div class="title">{{score.ExamName}}</div>
-      <div class="info">
-        <span>考试时间：{{score.Time}}</span>
-      </div>
-      <div class="total">
-        <span class="item">
-          <span>总分</span>
-          <span class="score">{{score.Score}}</span>
-          <span> / {{score.FullScore}}</span>
-        </span>
-        <!--<span class="item">
-          <span>排名：</span>
-          <span class="score">20</span>
-        </span>-->
-      </div>
-      <div class="list">
-        <div class="item" v-for="(i,index) in score.ScoreInfo" :key="index">
-          <div class="mainscore">
-            <span class="score">{{i.Score}}</span>
-            <span> / {{i.FullScore}}</span>
+    <no-data v-if="score"></no-data>
+    <div v-else>
+      <div class="scoreSummary">
+        <div class="title">{{score.ExamName || "暂无"}}</div>
+        <div class="info">
+          <span>考试时间：{{score.Time}}</span>
+        </div>
+        <div class="total">
+          <span class="item">
+            <span>总分</span>
+            <span class="score">{{score.Score}}</span>
+            <span> / {{score.FullScore}}</span>
+          </span>
+          <!--<span class="item">
+            <span>排名：</span>
+            <span class="score">20</span>
+          </span>-->
+        </div>
+        <div class="list">
+          <div class="item" v-for="(i,index) in score.ScoreInfo" :key="index">
+            <div class="mainscore">
+              <span class="score">{{i.Score}}</span>
+              <span> / {{i.FullScore}}</span>
+            </div>
+            <div class="name">{{i.CourseName}}</div>
           </div>
-          <div class="name">{{i.CourseName}}</div>
         </div>
       </div>
-    </div>
-  
-    <div class="scoreList panel">
-      <div class="header">
-        历次成绩报告
-        <!-- <el-select v-model="pagesize" class="pagesize" @change="currentPage=1" >
-          <el-option
-            v-for="item in allPagesize"
-            :key="item"
-            :label="'每页显示'+item+'条'"
-            :value="item">
-          </el-option>
-        </el-select> -->
-      </div>
-  
-      <div class="item" v-for="(i,index) in currentScoreList" :key="index" @click="changeScore(i.ExamID)">
-        <div class="title" >{{i.ExamName}}> </div>
-        <div class="time">{{i.Time}}</div>
-        <div class="score">{{i.Score}} 分</div>
-      </div>
+    
+      <div class="scoreList panel">
+        <div class="header">
+          历次成绩报告
+          <!-- <el-select v-model="pagesize" class="pagesize" @change="currentPage=1" >
+            <el-option
+              v-for="item in allPagesize"
+              :key="item"
+              :label="'每页显示'+item+'条'"
+              :value="item">
+            </el-option>
+          </el-select> -->
+        </div>
+    
+        <div class="item" v-for="(i,index) in currentScoreList" :key="index" @click="changeScore(i.ExamID)">
+          <div class="title" >{{i.ExamName  || "暂无"}}> </div>
+          <div class="time">{{i.Time}}</div>
+          <div class="score">{{i.Score}} 分</div>
+        </div>
 
-      <div class="footer">
-        <el-button-group>
-          <el-button type="primary" :class="i==currentPage?'active':null" 
-          v-for="i in pageCount" :key="i"
-          @click="currentPage=i">{{i}}</el-button>
-        </el-button-group>
-      </div>
+        <div class="footer">
+          <el-button-group>
+            <el-button type="primary" :class="i==currentPage?'active':null" 
+            v-for="i in pageCount" :key="i"
+            @click="currentPage=i">{{i}}</el-button>
+          </el-button-group>
+        </div>
 
+      </div>
     </div>
   
   </div>
 </template>
 
 <script>
+import noData from '@//components/noData'
 export default {
   name: 'app',
-  components: {},
+  components: {noData},
   data() {
     return {
       score:{},

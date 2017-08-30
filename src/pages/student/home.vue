@@ -90,7 +90,7 @@ export default {
     logout() {
       this.$store.dispatch('logout').then(res => {
         this.$router.push('/login')
-        this.$message('登出成功')
+        this.$message('退出成功')
       }).catch(err=>{
         this.$message('登出00')
       })
