@@ -11,10 +11,11 @@
       <div class="right">
         <div class="classInfo classbox">
           <div class="header">
-            <img src="https://modao.cc/uploads3/images/900/9007936/raw_1493017171.jpeg">
+            <h3>{{classInfo.name}}</h3>
+            <!-- <img src="https://modao.cc/uploads3/images/900/9007936/raw_1493017171.jpeg"> -->
           </div>
           <div class="content">
-            <p>{{classInfo.name}}</p>
+            <!-- <p>{{classInfo.name}}</p> -->
             <div class="info">
               <span>班主任：{{classInfo.teacher?classInfo.teacher.TrueName:'暂无'}}</span>
               <span>人数：{{classInfo.student_count}}</span>
@@ -53,7 +54,7 @@
           </div>
           <div class="content" v-else>
             <div class="homeworkItem">
-              <span>班级暂时没有作业</span>
+              <span>暂无作业</span>
             </div>
           </div>
         </div>

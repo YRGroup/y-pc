@@ -11,10 +11,11 @@
       <div class="right">
         <div class="classInfo classbox">
           <div class="header">
-            <img src="https://modao.cc/uploads3/images/900/9007936/raw_1493017171.jpeg">
+            <h3>{{classInfo.name}}</h3>
+            <!-- <img src="https://modao.cc/uploads3/images/900/9007936/raw_1493017171.jpeg"> -->
           </div>
           <div class="content">
-            <p>{{classInfo.name}}</p>
+            
             <div class="info">
               <span>班主任：{{classInfo.teacher?classInfo.teacher.TrueName:'暂无'}}</span>
               <span>人数：{{classInfo.student_count}}</span>
@@ -81,8 +82,8 @@
                     </div>
                   </div>
     
-                  <div class="bottom">
-                    <div class="tel">{{i.ParentPhone}}</div>
+                  <div class="bottom" v-show="role=='老师'">
+                    <div class="tel" >{{i.ParentPhone}}</div>
                     <el-button size="mini" class="btn" @click="$router.push('/msg/'+i.ParentMeid)">消息</el-button>
                   </div>
     
@@ -210,6 +211,7 @@ export default {
   cursor: pointer;
   &:hover {
     background: @bg;
+    height: 50px;
     .top {
       .img {
         margin-left: 5px;
