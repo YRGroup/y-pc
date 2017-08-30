@@ -91,6 +91,7 @@ export default {
     submitAddress(val) {
       this.data.Province = val.province
       this.data.City = val.city
+      this.data.County = val.county
       this.data.Address = val.detail
     },
     getData() {

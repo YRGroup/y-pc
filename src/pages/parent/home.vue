@@ -96,6 +96,7 @@ export default {
       }
       this.$API.changeCurrentStudent(para).then(res=>{
         this.$message.success('成功切换当前学生')
+        this.$store.commit('changeCurrentClass',this.currentStudent.ClassID)
       })
     }
   },

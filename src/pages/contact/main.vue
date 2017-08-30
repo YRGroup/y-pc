@@ -8,7 +8,7 @@
       <div style="padding:0 20px" v-if="data.length">
         <li class="item" v-for="(i,index) in data" :key="index" @click="$router.push('/msg/'+i.Meid)">
           <div class="img">
-            <img :src="i.HeadImg" v-if="i.HeadImg!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && i.HeadImg!=''">
+            <img :src="i.HeadImg" v-if="i.HeadImg!='http://pic.yearnedu.com/himg.png' && i.HeadImg!=''">
             <div class="headTextImg" v-else>{{i.Name.substr(0,1)}}</div>
           </div>
           <div class="content">

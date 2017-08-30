@@ -121,15 +121,15 @@ export default {
         this.$API.getTeacherInfo(this.$route.query.id).then(res => {
           this.data = res
           this.data.Classes = res.ExtendInfo.Classes
-          if (res.ExtendInfo.Course) {
+          if (res.ExtendInfo.Course.CourseName) {
             this.data.Course = res.ExtendInfo.Course.CourseName
           }
         })
       } else {
         this.data = this.$store.state.currentUser
         this.data.Classes = this.$store.state.currentUser.ExtendInfo.Classes
-        if (res.ExtendInfo.Course) {
-          this.data.Course = res.ExtendInfo.Course.CourseName
+        if (this.data.ExtendInfo.Course.CourseName) {
+          this.data.Course = this.data.ExtendInfo.Course.CourseName
         }
       }
     },
