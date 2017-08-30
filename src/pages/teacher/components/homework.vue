@@ -1,7 +1,7 @@
 <template>
   <div>
   
-    <div class="homework-card" v-for="(i,index) in data" :key="index">
+    <div class="homework-card" v-for="(i,index) in data" :key="index" @click="$router.push('/homework?id='+i.HID)">
       <div class="course">
         {{i.CourseName}}
       </div>
