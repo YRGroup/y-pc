@@ -92,6 +92,9 @@ export default {
     },
     submitReply() {
       this.replyData.did = this.data.ID
+      if(this.$store.getters.role=='家长' && this.$store.state.currentStudentId != null){
+        this.replyData.student_meid = this.$store.state.currentStudentId
+      }
       this.$API.postNewComment(this.replyData).then(res => {
         this.$message('添加回复成功！')
         this.showReply = false
