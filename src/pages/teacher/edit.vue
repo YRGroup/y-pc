@@ -35,10 +35,16 @@
               <el-input v-model="data.IDCard"></el-input>
             </el-form-item>
             <el-form-item label="民族：">
-              <el-input v-model="data.Volk" style="width:200px"></el-input>
+              <el-select v-model="data.Volk" placeholder="民族" style="width:200px">
+                <el-option v-for="i in $store.state.nationList" :key="i" :label="i" :value="i">
+                </el-option>
+              </el-select>
             </el-form-item>
             <el-form-item label="政治面貌：">
-              <el-input v-model="data.PoliticalStatus" style="width:200px"></el-input>
+              <el-select v-model="data.PoliticalStatus" placeholder="政治面貌：" style="width:200px">
+                <el-option v-for="i in $store.state.politicalList" :key="i" :label="i" :value="i">
+                </el-option>
+              </el-select>
             </el-form-item>
             <el-form-item label="教龄：">
               <el-input v-model="data.SchoolAge" style="width:200px"></el-input>

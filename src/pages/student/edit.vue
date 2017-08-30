@@ -1,6 +1,6 @@
 <template>
   <div>
-  
+
     <div class="card">
       <div class="header">修改学生资料</div>
       <div class="content">
@@ -45,14 +45,17 @@
             <vue-address @change="submitAddress"></vue-address>
           </el-form-item>
           <el-form-item label="民族">
-            <el-input v-model="data.Nation"></el-input>
+            <el-select v-model="data.Nation" placeholder="民族">
+              <el-option v-for="i in $store.state.nationList" :key="i" :label="i" :value="i">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="生日">
             <el-date-picker v-model="birthday" @change="submitBirthday" type="date" placeholder="选择日期">
             </el-date-picker>
             <div style="display:inline-block">&nbsp; {{ new Date(data.Birthday).Format('yyyy-mm-dd') }} </div>
           </el-form-item>
-  
+
         </el-form>
       </div>
       <div class="footer">
@@ -61,7 +64,7 @@
         </div>
       </div>
     </div>
-  
+
   </div>
 </template>
 
@@ -72,21 +75,21 @@ export default {
   components: { vueAddress },
   data() {
     return {
-      birthday:'',
+      birthday: '',
       showEditAddr: false,
       data: {},
       showEditHeadImg: false,
-      imageUrl: ''
+      imageUrl: '',
     }
   },
   computed: {
-    currentUser: function () {
+    currentUser: function() {
       return this.$store.state.currentUser
     }
   },
   methods: {
-    submitBirthday(val){
-      this.data.Birthday=val
+    submitBirthday(val) {
+      this.data.Birthday = val
     },
     submitAddress(val) {
       this.data.Province = val.province
