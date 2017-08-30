@@ -50,7 +50,7 @@
     
                 </li>
               </el-collapse-item>
-              <el-collapse-item :title="'学生（'+students.length+ '）'" name="2">
+              <el-collapse-item :title="'学生（'+students.length+ '）'" name="2" v-show="$store.getters.role=='老师'">
                 <li class="item" v-for="(i,index) in students" :key="index">
     
                   <div class="top" @click="$router.push('/s/?id='+i.Meid)">
@@ -68,7 +68,7 @@
     
                 </li>
               </el-collapse-item>
-              <el-collapse-item :title="'家长（'+parents.length+ '）'" name="3">
+              <el-collapse-item :title="'家长（'+parents.length+ '）'" name="3" v-show="$store.getters.role=='老师'">
                 <li class="item" v-for="(i,index) in parents" :key="index">
     
                   <div class="top">
