@@ -7,7 +7,7 @@
       </div>
       <div class="del" @click="del(i.id)" v-if="!$route.query.id">删除</div>
       <div class="header">{{i.auther}}</div>
-      <div class="content" @click="$router.push('/post/'+i.id)">{{i.content}}</div>
+      <div class="content" @click="$router.push('/post/'+i.ID)">{{i.content}}</div>
       <div class="albums">
         <li v-for="(p,index) in i.albums" :key="index">
           <img :src="p">
