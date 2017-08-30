@@ -128,7 +128,10 @@ export default {
       } else {
         return false
       }
-    }
+    },
+    role() {
+      return this.$store.getters.role
+    },
   },
   methods: {
     getData() {
