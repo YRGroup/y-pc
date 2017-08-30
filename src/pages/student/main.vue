@@ -24,12 +24,12 @@
         
       </el-tab-pane>
 
-      <el-tab-pane name="card">
+      <!-- <el-tab-pane name="card">
         <span class="title" slot="label">一卡通</span>
 
         <y-profile></y-profile>
         
-      </el-tab-pane>
+      </el-tab-pane> -->
 
     </el-tabs>
   

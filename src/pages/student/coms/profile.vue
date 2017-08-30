@@ -140,7 +140,6 @@ export default {
   margin: 15px 0;
   padding: 10px 20px;
   border: 1px solid @border;
-  font-size: 13px;
   background: #fff;
   .info {
     border-bottom: 1px dotted @border;
@@ -159,7 +158,7 @@ export default {
         position: absolute;
         left: 0;
         img {
-          width: 150px;
+          width: 120px;
           border-radius: 50%;
         }
       }
