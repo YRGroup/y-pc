@@ -10,7 +10,7 @@
           <el-form-item label="学号">
             <el-input v-model.trim="data['student_id']"></el-input>
           </el-form-item>
-          <el-form-item label="性别">
+          <el-form-item label="关系">
             <template>
               <el-radio class="radio" v-model="data.type" label="1">爸爸</el-radio>
               <el-radio class="radio" v-model="data.type" label="2">妈妈</el-radio>
