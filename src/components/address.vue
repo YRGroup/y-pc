@@ -1,8 +1,8 @@
 <template>
 	<el-form :model='form' class='demo-ruleForm' :rules='rules' ref='form' label-position='top'>
 
-		<el-row :gutter='20' class='address'>
-			<el-col :span='4'>
+		<el-row :gutter='10' class='address'>
+			<el-col :span='6'>
 				<el-form-item prop='province'>
 					<el-select v-model='form.province' placeholder='请输入省' @change='proChange'>
 						<el-option
@@ -14,7 +14,7 @@
 				</el-form-item>
 			</el-col>
 
-			<el-col :span='4'>
+			<el-col :span='6'>
 				<el-form-item prop='city'>
 					<el-select v-model='form.city' placeholder='请输入市' @change='cityChange'>
 						<el-option
@@ -26,7 +26,7 @@
 				</el-form-item>
 			</el-col>
 
-			<el-col :span='4'>
+			<el-col :span='6'>
 				<el-form-item prop='county'>
 					<el-select v-model='form.county' placeholder='请输入区/县' @change='countyChange'>
 						<el-option
@@ -39,7 +39,7 @@
 
 			</el-col>
 
-			<el-col :span='11'>
+			<el-col :span='20'>
 				<el-form-item prop='detail'>
 					<el-input
 							placeholder='请填写详细地址'
@@ -153,4 +153,5 @@ Vue.use(Element)
 </script>
 <style>
   .address .el-form-item{margin-bottom: 0!important;margin-right: 0!important;}
+  .address .el-input{margin-bottom: 10px;}
 </style>
