@@ -1,14 +1,14 @@
 <template>
   <div>
-  
+
     <div class="left">
-  
+
       <router-view></router-view>
-  
+
     </div>
-  
+
     <div class="right">
-  
+
       <div class="card">
         <div class="header">
           <img :src="data.Headimgurl">
@@ -17,13 +17,13 @@
           <p class="title">{{data.TrueName}}</p>
           <p>
             <span>
-              <i class="iconfont">&#xe690;</i>{{data.Course.CourseName || '暂无'}}</span>
+              <i class="iconfont">&#xe690;</i>{{data.Course || '暂无'}}</span>
             <span>
               <i class="iconfont">&#xe618;</i>{{data.Mobilephone}}</span>
           </p>
           <!-- <div class="btn">
-                      <el-button type="primary" @click.native="$router.push('/teacher/edit')">修改资料</el-button>
-                    </div> -->
+                        <el-button type="primary" @click.native="$router.push('/teacher/edit')">修改资料</el-button>
+                      </div> -->
           <div class="btn" v-if="!$route.query.id">
             <el-button :plain="true" type="text" @click.native="startEditPw" size="small">修改密码</el-button>
             <el-button :plain="true" type="text" @click.native="logout" size="small">退出</el-button>
@@ -50,20 +50,20 @@
                 </div>
                 <div>
                   <el-form-item label="新密码">
-                    <el-input type="password" v-model="editPwData.newpwd"  style="width:308px">
+                    <el-input type="password" v-model="editPwData.newpwd" style="width:308px">
                     </el-input>
                   </el-form-item>
                 </div>
                 <div>
                   <el-form-item label="重复新密码">
-                    <el-input type="password" v-model="editPwData.newpwd2"  style="width:308px">
+                    <el-input type="password" v-model="editPwData.newpwd2" style="width:308px">
                     </el-input>
                   </el-form-item>
                 </div>
                 <div>
                   <el-form-item label=" ">
-                      <el-button type="success" @click="editPw">确 定</el-button>
-                      <el-button type="success" :plain="true" @click="showEditPw = false">取 消</el-button>
+                    <el-button type="success" @click="editPw">确 定</el-button>
+                    <el-button type="success" :plain="true" @click="showEditPw = false">取 消</el-button>
                   </el-form-item>
                 </div>
               </el-form>
@@ -84,11 +84,11 @@
           </div>
           <div class="btn" v-show="data.Classes.length>1">
             <el-button type="warning" v-if="classId!=i.ClassID" @click.native="changeClass(i.ClassID)">设为当前班级</el-button>
-            <p v-else >当前班级</p>
+            <p v-else>当前班级</p>
           </div>
         </div>
       </div>
-  
+
     </div>
   </div>
 </template>
@@ -110,7 +110,7 @@ export default {
       },
     }
   },
-  computed:{
+  computed: {
     classId() {
       return this.$store.state.currentClassId
     },
@@ -121,18 +121,24 @@ export default {
         this.$API.getTeacherInfo(this.$route.query.id).then(res => {
           this.data = res
           this.data.Classes = res.ExtendInfo.Classes
+          if (res.ExtendInfo.Course) {
+            this.data.Course = res.ExtendInfo.Course.CourseName
+          }
         })
       } else {
         this.data = this.$store.state.currentUser
         this.data.Classes = this.$store.state.currentUser.ExtendInfo.Classes
+        if (res.ExtendInfo.Course) {
+          this.data.Course = res.ExtendInfo.Course.CourseName
+        }
       }
     },
     changeClass(val) {
       this.$store.commit('changeCurrentClass', val)
-      let para={
-        ClassID:val
+      let para = {
+        ClassID: val
       }
-      this.$API.changeCurrentClass(para).then(res=>{
+      this.$API.changeCurrentClass(para).then(res => {
         this.$message.success('成功切换班级')
         this.$store.dispatch('getCurrentUser')
       })
@@ -235,7 +241,7 @@ export default {
       }
       .btn {
         text-align: center;
-        margin-bottom:10px;
+        margin-bottom: 10px;
       }
     }
     .noHeadImg {
