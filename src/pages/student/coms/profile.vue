@@ -71,7 +71,6 @@
             <div class="btn">
               <el-button @click="$router.push('/msg/'+i.ParentMeid)">发消息</el-button>
             </div>
-            <hr />
           </li>
   
         </div>
@@ -145,14 +144,14 @@ export default {
     border-bottom: 1px dotted @border;
     position: relative;
     .header {
-      font-size: 20px;
+      font-size: 18px;
       line-height: 40px;
-      font-weight: bold;
     }
     .content {
       padding: 20px 20%;
       li{
         position: relative;
+        border-bottom: 1px dotted @border;
       }
       .headImg {
         position: absolute;
@@ -163,9 +162,12 @@ export default {
         }
       }
       .item {
-        line-height: 30px;
+        line-height: 36px;
         .title {
           color: @grey;
+          display: inline-block;
+          width: 80px;
+          text-align: right;
         }
       }
       .btn{
