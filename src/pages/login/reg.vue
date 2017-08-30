@@ -131,7 +131,7 @@ export default {
         {label:'奶奶',value:4},
         {label:'家人',value:100},
       ],
-      regStep: 2
+      regStep: 1
     }
   },
   methods: {

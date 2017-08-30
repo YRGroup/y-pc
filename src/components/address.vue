@@ -123,7 +123,11 @@ Vue.use(Element)
         for(var i =0; i< this.citys.length; i++){
           this.$set(this.citys, i, this.citys[i]);
         }
+        for(var i =0; i< this.countys.length; i++){
+          this.$set(this.countys, i, this.countys[i]);
+        }
         this.form.city = this.citys[0].value;
+        this.form.county = this.countys[0].value;
       },
       cityChange: function (val,  oldVal) {
         if (oldVal) {
