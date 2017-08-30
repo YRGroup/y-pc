@@ -33,7 +33,7 @@
     
                   <div class="top" @click="$router.push('/t/?id='+i.Meid)">
                     <div class="img">
-                      <img :src="i.Headimgurl" v-if="i.Headimgurl!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && i.Headimgurl!=''">
+                      <img :src="i.Headimgurl" v-if="i.Headimgurl!='http://pic.yearnedu.com/himg.png' && i.Headimgurl!=''">
                       <div class="headTextImg" v-else>{{(i.TrueName ||'教师').substr(0,1)}}</div>
                     </div>
                     <div class="name">
@@ -54,7 +54,7 @@
     
                   <div class="top" @click="$router.push('/s/?id='+i.Meid)">
                     <div class="img">
-                      <img :src="i.Headimgurl" v-if="i.Headimgurl!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && i.Headimgurl!=''">
+                      <img :src="i.Headimgurl" v-if="i.Headimgurl!='http://pic.yearnedu.com/himg.png' && i.Headimgurl!=''">
                       <div class="headTextImg" v-else>{{i.TrueName.substr(0,1)}}</div>
                     </div>
                     <div class="name">{{i.TrueName}}</div>
@@ -72,7 +72,7 @@
     
                   <div class="top">
                     <div class="img">
-                      <img :src="i.ParentHeadimgurl" v-if="i.ParentHeadimgurl!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && i.ParentHeadimgurl!=''">
+                      <img :src="i.ParentHeadimgurl" v-if="i.ParentHeadimgurl!='http://pic.yearnedu.com/himg.png' && i.ParentHeadimgurl!=''">
                       <div class="headTextImg" v-else>{{i.StudentTrueName.substr(0,1) || 'null'}}</div> 
                     </div>
                     <div class="name">

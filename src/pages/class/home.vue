@@ -65,7 +65,7 @@
           <div class="content">
             <div class="teacherItem" v-for="i in teachers" :key="i.Meid" @click="$router.push('/t/?id='+i.Meid)">
               <span class="teacherImg">
-                <img :src="i.Headimgurl" v-if="i.Headimgurl!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' ">
+                <img :src="i.Headimgurl" v-if="i.Headimgurl!='http://pic.yearnedu.com/himg.png' ">
                 <div class="headTextImg" v-else>{{(i.TrueName ||'教师').substr(0,1)}}</div>
               </span>
               <div>{{i.TrueName || '未命名'}}</div>

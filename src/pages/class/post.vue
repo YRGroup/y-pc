@@ -10,7 +10,7 @@
       </div>
       <div class="mainCon">
         <div class="img">
-          <img :src="data.userImg" v-if="data.userImg!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && data.userImg!=''">
+          <img :src="data.userImg" v-if="data.userImg!='http://pic.yearnedu.com/himg.png' && data.userImg!=''">
           <div class="headTextImg" v-else>{{data.auther.substr(0,1)}}</div>
         </div>
         <div class="header">
@@ -32,7 +32,7 @@
           <div class="liked">
             <div class="item" v-for="(i,index) in data.zans" :key="index">
               <div class="img">
-                <img :src="i.HeadImg" v-if="i.HeadImg!='http://yrgroup.oss-cn-beijing.aliyuncs.com/timg.jpg' && i.HeadImg!=''">
+                <img :src="i.HeadImg" v-if="i.HeadImg!='http://pic.yearnedu.com/himg.png' && i.HeadImg!=''">
                 <div class="headTextImg" v-else>{{(i.TrueName||'user').substr(0,1)}}</div>
               </div>
               <div class="name">
