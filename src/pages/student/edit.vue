@@ -6,16 +6,16 @@
       <div class="content">
         <el-form label-width="80px">
           <el-form-item label="手机号">
-            <el-input v-model="data.Mobilephone" :disabled="true"></el-input>
+            <el-input v-model="data.Mobilephone" :disabled="true" style="width:260px"></el-input>
           </el-form-item>
           <el-form-item label="姓名">
-            <el-input v-model="data.TrueName" :disabled="true"></el-input>
+            <el-input v-model="data.TrueName" :disabled="true" style="width:260px"></el-input>
           </el-form-item>
           <el-form-item label="学号">
-            <el-input v-model="data.StudentID" :disabled="true"></el-input>
+            <el-input v-model="data.StudentID" :disabled="true" style="width:260px"></el-input>
           </el-form-item>
           <el-form-item label="身份证">
-            <el-input v-model="data.IDCard"></el-input>
+            <el-input v-model="data.IDCard" style="width:360px"></el-input>
           </el-form-item>
           <el-form-item label="性别">
             <template>
@@ -23,22 +23,19 @@
               <el-radio class="radio" v-model="data.Sex" label="女">女</el-radio>
             </template>
           </el-form-item>
-          <div class="headImg">
-            <div class="left" v-show="!showEditHeadImg">
-              <el-button @click="showEditHeadImg=true">修改头像</el-button>
-            </div>
-            <div class="right" v-show="showEditHeadImg">
-              <el-upload class="avatar-uploader" :action="$store.getters._APIurl+'/api/Upload/ImageUpload'" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+          <el-form-item label="头像">
+            <template>
+              <el-upload class="avatar-uploader" list-type="picture-card" :action="$store.getters._APIurl+'/api/Upload/ImageUpload'" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
                 <img v-if="imageUrl" :src="imageUrl" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
-            </div>
-          </div>
+            </template>
+          </el-form-item>
           <br />
           <hr />
           <br />
           <el-form-item label="当前地址">
-            <div style="display:inline-block;">{{data.Province+' '+(data.City||'')+' '+(data.County||'')+' '+(data.Address||'')}}</div>
+            <div style="display:inline-block;">{{'无' || data.Province+' '+(data.City||'')+' '+(data.County||'')+' '+(data.Address||'')}}</div>
             <el-button @click="showEditAddr===true?showEditAddr=false:showEditAddr=true">{{showEditAddr===true?'完成地址修改':'修改地址'}}</el-button>
           </el-form-item>
           <el-form-item label="地址" v-show="showEditAddr">

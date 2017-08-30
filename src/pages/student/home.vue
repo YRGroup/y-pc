@@ -15,7 +15,7 @@
             <img :src="currentStudent.Headimgurl">
           </div>
           <div class="content">
-            <p>{{currentStudent.TrueName}}</p>
+            <p class="name">{{currentStudent.TrueName}}</p>
             <p>{{currentStudent.school}}</p>
             <p>{{currentStudent.Class}}</p>
             <p>学号：{{currentStudent.StudentID}}</p>
@@ -24,13 +24,13 @@
           </div>
         </div>
     
-        <div class="card" v-for="(i,index) in parents" :key="index">
+        <div class="cardlist" v-for="(i,index) in parents" :key="index">
           <div class="header">
             <img :src="i.ParentHeadimgurl">
           </div>
           <div class="content">
-            <p>{{i.ParentType}}： {{i.ParentTrueName}}</p>
-            <p>手机：{{i.ParentPhone}}</p>
+            <h3>{{i.ParentTrueName}}<span class="parent">{{i.ParentType}}</span></h3>
+            <p class="phone"><i class="iconfont">&#xe618;</i>{{i.ParentPhone}}</p>
           </div>
         </div>
     
@@ -141,17 +141,57 @@ export default {
       position: relative;
       background: @main;
       img {
+        border:3px solid rgba(255,255,255,0.5);
         width: 100px;
         position: absolute;
         left: 80px;
-        top: 25px;
+        top: 15px;
         border-radius: 50%;
+        background: transparent;
       }
     }
     .content {
-      margin-top: 60px;
+      margin-top: 50px;
       line-height: 2em;
       padding-bottom: 20px;
+      .name{
+        font-size: 16px;
+      }
+    }
+  }
+  .cardlist{
+    background: #fff;
+    overflow: hidden;
+    padding:20px;
+    .header{
+      float: left;
+      margin-right: 20px;
+      img {
+        width: 64px;
+        border-radius: 50%;
+      }
+    }
+    .content{
+      float: left;
+      margin-top: 6px;
+      .parent{
+        display: inline-block;
+        padding: 0 6px;
+        line-height: 20px;
+        background: #44dd9d;
+        font-size: 13px;
+        color: #fff;
+        border-radius: 3px;
+        margin-left: 20px;
+      }
+      .phone{
+        margin-top: 5px;
+        .iconfont{
+          margin-right: 5px;
+          color: @main;
+          font-size: 16px;
+        }
+      }
     }
   }
 }
