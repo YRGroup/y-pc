@@ -104,19 +104,15 @@ export default {
       para.student_meid = this.$store.state.currentStudentId
       this.$API.getCardList(para).then(res => {
         if (res) {
-
           if (this.Blance == 0) {
             this.Blance = res.Blance
           }
           if (res.Log.length) {
-            res.Log.forEach((element) => {
+            res.Log.forEach(element => {
+              let time = new Date(element.CreateTime)
+              element.CreateTime = time.Format('MM-dd hh:mm')
               this.alllog.push(element)
             })
-            let alllog = this.alllog
-            for (var i = 0; i < alllog.length; i++) {
-              let time = new Date(alllog[i].CreateTime)
-              alllog[i].CreateTime = time.Format('MM-dd hh:mm')
-            }
           } else {
             this.noMoreData = true
           }
