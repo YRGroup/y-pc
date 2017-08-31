@@ -5,8 +5,8 @@
     <div class="box">
       <ul class="loginnav">
         <li class="navcurrent">登录</li>
-        <li>·</li>
-        <li @click="$router.push('/reg')">家长注册</li>
+        <!-- <li>·</li>
+        <li @click="$router.push('/reg')">家长注册</li> -->
       </ul>
       <div class="item">
         <!-- <div class="title">手机号：</div> -->
@@ -187,7 +187,8 @@ export default {
             this.parent_unActived = true
             this.startCount()
           } else {
-            this.$router.push('/reg?tel=' + this.phone)
+            this.$message.error('账号不存在')
+            // this.$router.push('/reg?tel=' + this.phone)
           }
         }).catch(err => this.$message.error(err.msg))
       } else if (this.phone.slice(0, 1) == 8 && this.phone.length === 9) {
