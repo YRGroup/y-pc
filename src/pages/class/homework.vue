@@ -2,10 +2,6 @@
   <div>
 
     <div class="addHomework" v-show="$store.getters.role=='老师'">
-      <!-- <span>班级作业</span>
-                  <div class="btn">
-                    <el-button type="primary" @click="showAddHomework = true">添加新作业</el-button>
-                  </div>  -->
       <div class="title" :class="showAddHomework?null:'addbtn'" @click="handleAddHomework">
         <i class="iconfont">&#xe623;</i>布置作业</div>
     </div>

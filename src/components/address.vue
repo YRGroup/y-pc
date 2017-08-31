@@ -39,7 +39,7 @@
 
 			</el-col>
 
-			<el-col :span='20'>
+			<!-- <el-col :span='20'>
 				<el-form-item prop='detail'>
 					<el-input
 							placeholder='请填写详细地址'
@@ -47,7 +47,7 @@
 							v-model='form.detail'>
 					</el-input>
 				</el-form-item>
-			</el-col>
+			</el-col> -->
 
 		</el-row>
 	</el-form>
@@ -69,10 +69,12 @@ Vue.use(Element)
   }
   function formatCounty(data){
     var result = [];
-    for(let i=0;i<data.length;i++){
-      result.push({
-        value: data[i]
-      })
+    if(data){
+      for(let i=0;i<data.length;i++){
+        result.push({
+          value: data[i]
+        })
+      }
     }
     return result
   }
@@ -116,26 +118,26 @@ Vue.use(Element)
     },
     methods: {
       proChange: function (val, oldVal) {
-        if(oldVal){
-          this.form.city = '';
-          this.form.detail = '';
-        }
-        for(var i =0; i< this.citys.length; i++){
-          this.$set(this.citys, i, this.citys[i]);
-        }
-        for(var i =0; i< this.countys.length; i++){
-          this.$set(this.countys, i, this.countys[i]);
-        }
+        // if(oldVal){
+        //   this.form.city = '';
+        //   this.form.detail = '';
+        // }
+        // for(var i =0; i< this.citys.length; i++){
+        //   this.$set(this.citys, i, this.citys[i]);
+        // }
+        // for(var i =0; i< this.countys.length; i++){
+        //   this.$set(this.countys, i, this.countys[i]);
+        // }
         this.form.city = this.citys[0].value;
         this.form.county = this.countys[0].value;
       },
       cityChange: function (val,  oldVal) {
-        if (oldVal) {
-          this.form.detail = '';
-        }
-        for(var i =0; i< this.countys.length; i++){
-          this.$set(this.countys, i, this.countys[i]);
-        }
+        // if (oldVal) {
+        //   this.form.detail = '';
+        // }
+        // for(var i =0; i< this.countys.length; i++){
+        //   this.$set(this.countys, i, this.countys[i]);
+        // }
         this.form.county = this.countys[0].value;
       },
       countyChange: function (val,  oldVal) {

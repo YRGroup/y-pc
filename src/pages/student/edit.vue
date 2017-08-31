@@ -23,6 +23,9 @@
               <el-radio class="radio" v-model="data.Sex" label="女">女</el-radio>
             </template>
           </el-form-item>
+          <el-form-item label="籍贯">
+            <el-input v-model="data.Address" style="width:260px"></el-input>
+          </el-form-item>
           <el-form-item label="头像">
             <template>
               <el-upload class="avatar-uploader" list-type="picture-card" :action="$store.getters._APIurl+'/api/Upload/ImageUpload'" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
@@ -34,9 +37,8 @@
           <br />
           <hr />
           <br />
-          <el-form-item label="当前地址">
-            <div style="display:inline-block;">{{data.Province+' '+(data.City||'')+' '+(data.County||'')+' '+(data.Address||'')}}</div>
-            <el-button @click="showEditAddr===true?showEditAddr=false:showEditAddr=true">{{showEditAddr===true?'完成地址修改':'修改地址'}}</el-button>
+          <el-form-item label="当前地址" v-show="!showEditAddr">
+            <div style="display:inline-block;" @click="showEditAddr=true">{{data.Province+' '+(data.City||'')+' '+(data.County||'')}}</div>
           </el-form-item>
           <el-form-item label="地址" v-show="showEditAddr">
             <vue-address @change="submitAddress"></vue-address>
@@ -92,7 +94,6 @@ export default {
       this.data.Province = val.province
       this.data.City = val.city
       this.data.County = val.county
-      this.data.Address = val.detail
     },
     getData() {
       if (this.$route.query.id) {
