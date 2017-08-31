@@ -59,7 +59,7 @@
         <el-form-item label="">
           <el-upload :action="$store.getters._APIurl+'/import/ImportStudent.aspx'" :on-success="handleSuccess">
             <el-button slot="trigger" size="small" type="primary">上传文件</el-button>
-            <a style="text-decoration:underline" class="xlsDown" :href="$store.getters._APIurl+'/import/student_template.xlsx'">下载模板</a>
+            <a style="text-decoration:underline" class="xlsDown" :href="$store.getters._APIurl+'/import/student_template.xls'">下载模板</a>
             <div slot="tip" class="el-upload__tip">请先下载模板，按照格式编辑后在此上传，只能上传xls/xlsx文件</div>
           </el-upload>
         </el-form-item>
@@ -122,7 +122,7 @@
         <el-form-item>
           <el-upload :action="$store.getters._APIurl+'/import/ImportTeacher.aspx'" :on-success="handleSuccess">
             <el-button slot="trigger" size="small" type="primary">上传文件</el-button>
-            <a style="text-decoration:underline" class="xlsDown" :href="$store.getters._APIurl+'/import/teacher_template.xlsx'">下载模板</a>
+            <a style="text-decoration:underline" class="xlsDown" :href="$store.getters._APIurl+'/import/teacher_template.xls'">下载模板</a>
             <!-- <el-button slot="trigger" size="small">下载模板</el-button> -->
             <div slot="tip" class="el-upload__tip">请先下载模板，按照格式编辑后在此上传，只能上传xls/xlsx文件</div>
           </el-upload>
