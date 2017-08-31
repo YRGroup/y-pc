@@ -1,7 +1,7 @@
 <template>
   <div class="loginbox">
     <div class="gmbg"></div>
-  
+
     <div class="box">
       <ul class="loginnav">
         <li class="navcurrent">登录</li>
@@ -16,7 +16,7 @@
           </template>
         </el-input>
       </div>
-  
+
       <div v-show="step==1">
         <div class="item">
           <el-input size="large" class="input" type="password" placeholder="请输入密码" :minlength='6' @keyup.enter.native="login" v-model="loginData.password">
@@ -26,18 +26,19 @@
           </el-input>
         </div>
         <div class="item">
-          <div @click="step=2" class="forget">忘记密码？使用<span>短信验证码</span>登录</div>
+          <div @click="step=2" class="forget">忘记密码？使用
+            <span>短信验证码</span>登录</div>
         </div>
         <div class="btn item">
           <el-button size="large" @click.native="login" type="success">登录</el-button>
         </div>
       </div>
-  
+
       <div v-show="step==2">
         <div class="btn item">
           <!-- <el-button size="large" @click.native="getsms" type="success" :disabled="getsmsAvailable">
-            {{getsmsAvailable?getsmsCount+'s后重发验证码':'发送验证码'}}
-          </el-button> -->
+                  {{getsmsAvailable?getsmsCount+'s后重发验证码':'发送验证码'}}
+                </el-button> -->
         </div>
         <div class="item sms">
           <el-input size="large" class="input" placeholder="请输入验证码" :minlength='4' v-model="smsLoginData.code">
@@ -52,12 +53,26 @@
               <i class="iconfont">&#xe692;</i>
             </template>
           </el-input>
+          <div class="item" v-show="parent_unActived">
+            <el-input size="large" class="input" placeholder="请输入家长姓名" :minlength='6' v-model="smsLoginData.parentTruename">
+              <template slot="prepend">
+                <i class="iconfont">&#xe692;</i>
+              </template>
+            </el-input>
+          </div>
+          <div class="item" v-show="parent_unActived">
+            <el-radio class="radio" v-model="smsLoginData.parentType" label="1">爸爸</el-radio>
+            <el-radio class="radio" v-model="smsLoginData.parentType" label="2">妈妈</el-radio>
+            <el-radio class="radio" v-model="smsLoginData.parentType" label="2">爷爷</el-radio>
+            <el-radio class="radio" v-model="smsLoginData.parentType" label="2">奶奶</el-radio>
+          </div>
         </div>
+
         <div class="btn item">
           <el-button size="large" @click.native="smsLogin" type="success">验证码登录</el-button>
         </div>
       </div>
-  
+
       <div class="item" v-show="step==3">
         <el-input size="large" class="input" type="password" placeholder="请输入学生的密码" :minlength='6' @keyup.enter.native="login" v-model="studentLoginData.password">
           <template slot="prepend">
@@ -68,13 +83,13 @@
       <div class="btn item" v-show="step==3">
         <el-button size="large" @click.native="studentLogin" type="success">学生登录</el-button>
       </div>
-  
+
       <div class="btn item" v-show="step==0">
         <el-button size="large" @click.native="verifyAccount" type="success">下一步</el-button>
       </div>
-  
+
     </div>
-  
+
   </div>
 </template>
 
@@ -96,11 +111,12 @@ export default {
       smsLoginData: {
         phone: '',
         code: '',
-        newPWd:'',
+        newPWd: '',
       },
       getsmsCount: 0,
-      unActived:false,
-      step: 0
+      unActived: true,
+      parent_unActived: true,
+      step: 2
     }
   },
   computed: {
@@ -119,9 +135,9 @@ export default {
     },
     smsLogin() {
       this.smsLoginData.phone = this.phone
-      if(this.unActived && this.smsLoginData.newPWd.length<6){
+      if (this.unActived && this.smsLoginData.newPWd.length < 6) {
         this.$message.error('密码不能小于6位')
-      }else{
+      } else {
         this.$API.loginBySms(this.smsLoginData).then(res => this.loginOK(res)).catch(err => this.$message.error(err.msg))
       }
     },
@@ -159,6 +175,10 @@ export default {
             this.step = 2
             this.unActived = true
             this.startCount()
+          } else if (res.Msg == "parent_unActived") {
+            this.step = 2
+            this.parent_unActived = true
+            this.startCount()
           } else {
             this.$router.push('/reg?tel=' + this.phone)
           }
@@ -179,7 +199,7 @@ export default {
   created() {
   },
   mounted() {
-    this.$store.dispatch('getCurrentUser').then(()=>{
+    this.$store.dispatch('getCurrentUser').then(() => {
       this.$router.push('/')
     })
   },
@@ -265,19 +285,21 @@ export default {
     }
   }
 }
-.forget{
+
+.forget {
   cursor: pointer;
   color: @grey;
-  span{
-    color:@main;
+  span {
+    color: @main;
   }
 }
+
 .sms {
-      .el-input {
-        width: 176px;
-      }
-      .el-button {
-        width: 120px;
-      }
-    }
+  .el-input {
+    width: 176px;
+  }
+  .el-button {
+    width: 120px;
+  }
+}
 </style>
