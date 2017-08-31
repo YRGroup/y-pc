@@ -19,7 +19,7 @@
             <p>{{currentStudent.school}}</p>
             <p>{{currentStudent.Class}}</p>
             <p>学号：{{currentStudent.StudentID}}</p>
-            <el-button size="small" type="sucssess" @click.native="unbind" v-show="$store.getters.role=='家长'">解绑</el-button>
+            <!-- <el-button size="small" type="sucssess" @click.native="unbind" v-show="$store.getters.role=='家长'">解绑</el-button> -->
             <el-button size="small" type="sucssess" @click.native="logout" v-show="$store.getters.role=='学生'">退出登录</el-button>
           </div>
         </div>
