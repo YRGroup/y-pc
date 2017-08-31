@@ -63,8 +63,8 @@
           <div class="item" v-show="parent_unActived">
             <el-radio class="radio" v-model="smsLoginData.parent_type" label="1">爸爸</el-radio>
             <el-radio class="radio" v-model="smsLoginData.parent_type" label="2">妈妈</el-radio>
-            <el-radio class="radio" v-model="smsLoginData.parent_type" label="2">爷爷</el-radio>
-            <el-radio class="radio" v-model="smsLoginData.parent_type" label="2">奶奶</el-radio>
+            <el-radio class="radio" v-model="smsLoginData.parent_type" label="3">爷爷</el-radio>
+            <el-radio class="radio" v-model="smsLoginData.parent_type" label="4">奶奶</el-radio>
           </div>
         </div>
 
