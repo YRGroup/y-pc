@@ -35,7 +35,7 @@
           <hr />
           <br />
           <el-form-item label="当前地址">
-            <div style="display:inline-block;">{{'无' || data.Province+' '+(data.City||'')+' '+(data.County||'')+' '+(data.Address||'')}}</div>
+            <div style="display:inline-block;">{{data.Province+' '+(data.City||'')+' '+(data.County||'')+' '+(data.Address||'')}}</div>
             <el-button @click="showEditAddr===true?showEditAddr=false:showEditAddr=true">{{showEditAddr===true?'完成地址修改':'修改地址'}}</el-button>
           </el-form-item>
           <el-form-item label="地址" v-show="showEditAddr">
