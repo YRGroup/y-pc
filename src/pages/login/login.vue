@@ -37,8 +37,8 @@
       <div v-show="step==2">
         <div class="btn item">
           <!-- <el-button size="large" @click.native="getsms" type="success" :disabled="getsmsAvailable">
-                  {{getsmsAvailable?getsmsCount+'s后重发验证码':'发送验证码'}}
-                </el-button> -->
+                      {{getsmsAvailable?getsmsCount+'s后重发验证码':'发送验证码'}}
+                    </el-button> -->
         </div>
         <div class="item sms">
           <el-input size="large" class="input" placeholder="请输入验证码" :minlength='4' v-model="smsLoginData.code">
@@ -54,17 +54,17 @@
             </template>
           </el-input>
           <div class="item" v-show="parent_unActived">
-            <el-input size="large" class="input" placeholder="请输入家长姓名" :minlength='6' v-model="smsLoginData.parentTruename">
+            <el-input size="large" class="input" placeholder="请输入家长姓名" :minlength='6' v-model="smsLoginData.parent_truename">
               <template slot="prepend">
                 <i class="iconfont">&#xe692;</i>
               </template>
             </el-input>
           </div>
           <div class="item" v-show="parent_unActived">
-            <el-radio class="radio" v-model="smsLoginData.parentType" label="1">爸爸</el-radio>
-            <el-radio class="radio" v-model="smsLoginData.parentType" label="2">妈妈</el-radio>
-            <el-radio class="radio" v-model="smsLoginData.parentType" label="2">爷爷</el-radio>
-            <el-radio class="radio" v-model="smsLoginData.parentType" label="2">奶奶</el-radio>
+            <el-radio class="radio" v-model="smsLoginData.parent_type" label="1">爸爸</el-radio>
+            <el-radio class="radio" v-model="smsLoginData.parent_type" label="2">妈妈</el-radio>
+            <el-radio class="radio" v-model="smsLoginData.parent_type" label="2">爷爷</el-radio>
+            <el-radio class="radio" v-model="smsLoginData.parent_type" label="2">奶奶</el-radio>
           </div>
         </div>
 
@@ -112,11 +112,13 @@ export default {
         phone: '',
         code: '',
         newPWd: '',
+        parent_truename: '',
+        parent_type: '',
       },
       getsmsCount: 0,
-      unActived: true,
-      parent_unActived: true,
-      step: 2
+      unActived: false,
+      parent_unActived: false,
+      step: 0
     }
   },
   computed: {
@@ -137,6 +139,10 @@ export default {
       this.smsLoginData.phone = this.phone
       if (this.unActived && this.smsLoginData.newPWd.length < 6) {
         this.$message.error('密码不能小于6位')
+      } else if (this.parent_unActived && this.smsLoginData.parent_truename == '') {
+        this.$message.error('家长姓名不能为空')
+      } else if (this.parent_unActived && this.smsLoginData.parent_type == '') {
+        this.$message.error('家长身份不能为空')
       } else {
         this.$API.loginBySms(this.smsLoginData).then(res => this.loginOK(res)).catch(err => this.$message.error(err.msg))
       }
@@ -177,6 +183,7 @@ export default {
             this.startCount()
           } else if (res.Msg == "parent_unActived") {
             this.step = 2
+            this.unActived = true
             this.parent_unActived = true
             this.startCount()
           } else {
