@@ -15,7 +15,7 @@
           <i class="iconfont">&#xe623;</i>添加学生</el-button>
       </li>
     </ul>
-    <el-dialog title="添加学生" :visible.sync="showAddStudent" size="tiny">
+    <el-dialog title="添加学生" :visible.sync="showAddStudent" size="small">
       <el-form label-width="80px">
         <el-form-item>
           <el-radio-group v-model="type">
@@ -30,14 +30,17 @@
       </el-form>
       <div v-show="type==1">
         <el-form label-width="80px" :inline="true" v-for="(i,index) in studentData" :key="index" class="teacherlist">
-          <el-form-item label="姓名">
-            <el-input v-model="i.TrueName" palceholder="请输入姓名" style="width:280px"></el-input>
+          <el-form-item label="学生姓名">
+            <el-input v-model="i.TrueName" palceholder="请输入姓名" style="width:120px"></el-input>
           </el-form-item>
-          <el-form-item label="性别">
+          <el-form-item label="性别" label-width="40px">
             <template>
               <el-radio class="radio" v-model="i.Sex" label="1">男</el-radio>
               <el-radio class="radio" v-model="i.Sex" label="2">女</el-radio>
             </template>
+          </el-form-item>
+          <el-form-item label="家长手机">
+            <el-input v-model="i.ParentPhone" palceholder="请输入姓名" style="width:150px"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="text" :plain="true" @click.native="studentData.splice(index,1)">
@@ -47,8 +50,8 @@
         </el-form>
         <el-form label-width="80px">
           <el-form-item>
-            <el-button @click.native="studentData.push({ClassID: '',TrueName: '', Sex:''})" type="text">
-              <i class="iconfont">&#xe623;</i> 添加学生</el-button>
+            <el-button @click.native="studentData.push({ClassID: '',TrueName: '', Sex:'',ParentPhone:''})" type="text">
+              <i class="iconfont">&#xe623;</i> 添加一行</el-button>
           </el-form-item>
           <el-form-item>
             <el-button @click.native="submitAddStudent" type="success">提 交</el-button>
@@ -68,7 +71,7 @@
         </el-form-item>
       </el-form>
     </el-dialog>
-    <el-dialog title="添加老师" :visible.sync="showAddTeacher" size="tiny">
+    <el-dialog title="添加老师" :visible.sync="showAddTeacher" size="small">
       <el-form label-width="80px">
         <el-form-item label="">
           <el-radio-group v-model="type">
@@ -80,23 +83,17 @@
             </el-radio>
           </el-radio-group>
         </el-form-item>
-        <!-- <el-form-item label="所属班级">
-                                        <el-select v-model="ClassID" placeholder="请选择">
-                                          <el-option v-for="item in classList" :key="item.cid" :label="item.Name" :value="item.cid">
-                                          </el-option>
-                                        </el-select>
-                                      </el-form-item> -->
       </el-form>
       <div v-show="type==1">
-        <el-form label-width="80px" :inline="true" v-for="(i,index) in teacherData" :key="index" class="teacherlist">
+        <el-form label-width="60px" :inline="true" v-for="(i,index) in teacherData" :key="index" class="teacherlist">
           <el-form-item label="姓名">
-            <el-input v-model="i.TrueName" palceholder="请输入姓名" style="width:280px"></el-input>
+            <el-input v-model="i.TrueName" palceholder="请输入姓名" style="width:120px"></el-input>
           </el-form-item>
           <el-form-item label="手机号">
-            <el-input v-model="i.MobilePhone" palceholder="请输入手机号" style="width:280px"></el-input>
+            <el-input v-model="i.MobilePhone" palceholder="请输入手机号" style="width:150px"></el-input>
           </el-form-item>
           <el-form-item label="学科">
-            <el-select v-model="i.courseID" placeholder="请选择">
+            <el-select v-model="i.courseID" placeholder="请选择" style="width:120px">
               <el-option v-for="item in courseList" :key="item.CourseId" :label="item.name" :value="item.CourseId">
               </el-option>
             </el-select>
@@ -110,7 +107,7 @@
         <el-form label-width="80px">
           <el-form-item>
             <el-button @click.native="teacherData.push({ClassID: '',TrueName: '',MobilePhone: '',courseID:''})" type="text">
-              <i class="iconfont">&#xe623;</i> 添加老师</el-button>
+              <i class="iconfont">&#xe623;</i> 添加一行</el-button>
             </el-button>
           </el-form-item>
           <el-form-item>
@@ -298,7 +295,8 @@ export default {
       },
       studentData: [{
         TrueName: '',
-        Sex: ''
+        Sex: '',
+        ParentPhone: ''
       }],
       teacherList: [],
       studentList: [],
@@ -415,6 +413,9 @@ export default {
         } else if (o.Sex == '') {
           this.$message.error('请输入学生性别')
           e = false
+        } else if (o.ParentPhone == '') {
+          this.$message.error('请输入家长手机号')
+          e = false
         }
       })
       if (e) {
@@ -423,9 +424,10 @@ export default {
           this.showAddStudent = false
           this.studentData = [{
             TrueName: '',
-            Sex: ''
+            Sex: '',
+            ParentPhone: ''
           }],
-            this.getData()
+          this.getData()
         }).catch(err => {
           this.$message.error(err.msg)
         })
