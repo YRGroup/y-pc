@@ -150,7 +150,23 @@ export default {
     loginOK(val) {
       this.$store.commit('login', val)
       this.$store.commit('setToken', val.Token)
-      this.$router.push('/')
+      if(this.$store.getters.hasFullInfo === 'teacher'){
+        this.$message({
+          showClose: true,
+          message: '资料不完整，请先补齐资料',
+          type: 'warning'
+        });
+        this.$router.push('/teacher/edit')
+      }else if(this.$store.getters.hasFullInfo === 'parent'){
+        this.$message({
+          showClose: true,
+          message: '资料不完整，请先补齐资料',
+          type: 'warning'
+        });
+        this.$router.push('/student/edit')
+      }else{
+        this.$router.push('/')
+      }
     },
     count() {
       if (this.getsmsCount > 0) {
