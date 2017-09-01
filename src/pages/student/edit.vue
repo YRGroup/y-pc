@@ -5,9 +5,6 @@
       <div class="header">修改学生资料</div>
       <div class="content">
         <el-form label-width="80px">
-          <el-form-item label="手机号">
-            <el-input v-model="data.Mobilephone" :disabled="true" style="width:260px"></el-input>
-          </el-form-item>
           <el-form-item label="姓名">
             <el-input v-model="data.TrueName" :disabled="true" style="width:260px"></el-input>
           </el-form-item>
@@ -32,16 +29,12 @@
                 <img v-if="imageUrl" :src="imageUrl" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
+              <div class="tips">请上传真实头像，以方便班级正常管理和班级内互动</div>
             </template>
           </el-form-item>
-          <br />
-          <hr />
-          <br />
-          <el-form-item label="当前地址" v-show="!showEditAddr">
-            <div style="display:inline-block;" @click="showEditAddr=true">{{data.Province+' '+(data.City||'')+' '+(data.County||'')}}</div>
-          </el-form-item>
-          <el-form-item label="地址" v-show="showEditAddr">
+          <el-form-item label="地址">
             <vue-address @change="submitAddress"></vue-address>
+            <div>{{data.Province+' '+(data.City||'')+' '+(data.County||'')}}</div>
           </el-form-item>
           <el-form-item label="民族">
             <el-select v-model="data.Nation" placeholder="民族">
@@ -155,6 +148,7 @@ export default {
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    display: inline-block;
   }
   .avatar-uploader .el-upload:hover {
     border-color: #20a0ff;
@@ -205,5 +199,8 @@ export default {
       padding: 0 15px;
     }
   }
+}
+.tips{
+  color:@grey;
 }
 </style>

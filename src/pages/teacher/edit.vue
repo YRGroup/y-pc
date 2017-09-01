@@ -1,6 +1,5 @@
 <template>
   <div class="card">
-    <!-- <div class="header">修改教师资料</div> -->
     <div class="maintitle">
       个人主页
       <span class="goreturn">
@@ -61,6 +60,7 @@
                   </el-upload>
                 </div>
               </div>
+              <div class="tips">请上传真实头像，以方便班级正常管理和班级内互动</div>
             </el-form-item>
           </div>
         </div>
@@ -78,19 +78,19 @@
                   <img v-if="addPersonalHonorData.ImgPath" :src="addPersonalHonorData.ImgPath" class="avatar">
                   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
-
               </el-form-item>
-
               <el-form-item label="描述">
                 <el-input v-model="addPersonalHonorData.Description">
                 </el-input>
               </el-form-item>
-
+              <el-form-item label="权限">
+                <el-radio class="radio" v-model="addPersonalHonorData.IsVisible" label="true">公开</el-radio>
+                <el-radio class="radio" v-model="addPersonalHonorData.IsVisible" label="false">不公开</el-radio>
+              </el-form-item>
               <el-form-item>
                 <el-button type="success" @click="addPersonalHonor">确 定</el-button>
                 <el-button :plain="true" type="success" @click="showAddPersonalHonor = false">取 消</el-button>
               </el-form-item>
-
               <span slot="footer" class="dialog-footer">
               </span>
             </el-dialog>
@@ -109,7 +109,7 @@
           <div class="header">
             <i class="iconfont">&#xe69b;</i>教学经历
             <div class="addBtn">
-              <el-button size="small" type="text" @click.native="data.TeachExperience.unshift({SchoolName:'',StartTime:'',EndTime:''})">
+              <el-button size="small" type="text" @click.native="data.TeachExperience.unshift({SchoolName:'',StartTime:'',EndTime:'',IsVisible:'true'})">
                 <i class="iconfont">&#xe623;</i>新增教学经历</el-button>
             </div>
           </div>
@@ -132,6 +132,10 @@
                 <el-col :span="11">
                   <el-date-picker type="date" placeholder="选择结束日期" v-model="i.EndTime" style="width: 100%;"></el-date-picker>
                 </el-col>
+              </el-form-item>
+              <el-form-item label="权限">
+                <el-radio class="radio" v-model="i.IsVisible" label="true">公开</el-radio>
+                <el-radio class="radio" v-model="i.IsVisible" label="false">不公开</el-radio>
               </el-form-item>
             </li>
 
@@ -168,7 +172,8 @@ export default {
       showAddPersonalHonor: false,
       addPersonalHonorData: {
         Description: '',
-        ImgPath: ''
+        ImgPath: '',
+        IsVisible: 'true'
       },
     }
   },
@@ -181,6 +186,16 @@ export default {
     getData() {
       this.$API.getTeacherInfo(this.$store.getters.currentUserId).then(res => {
         this.data = res
+        if (this.data.PersonalHonor.length) {
+          this.data.PersonalHonor.forEach(o => {
+            o.IsVisible = 'true'
+          })
+        }
+        if (this.data.TeachExperience.length) {
+          this.data.TeachExperience.forEach(o => {
+            o.IsVisible = 'true'
+          })
+        }
       })
     },
     submitChange() {
@@ -205,7 +220,7 @@ export default {
     addPersonalHonor() {
       this.data.role = 3
       this.data.PersonalHonor.push(this.addPersonalHonorData)
-      this.addPersonalHonorData = { Description: '', ImgPath: '' }
+      this.addPersonalHonorData = { Description: '', ImgPath: '', IsVisible: 'true' }
       this.showAddPersonalHonor = false
     },
     delHonor(index) {
@@ -355,5 +370,9 @@ export default {
 
 .center {
   text-align: center;
+}
+
+.tips {
+  color: @grey;
 }
 </style>
