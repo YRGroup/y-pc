@@ -23,7 +23,13 @@
             <el-button size="small" type="sucssess" @click.native="logout" v-show="$store.getters.role=='学生'">退出登录</el-button>
           </div>
         </div>
-    
+
+        <div class="panelbox">
+          <h3><i class="iconfont">&#xe672;</i>家长信息</h3>
+          
+        </div>
+
+
         <div class="cardlist" v-for="(i,index) in parents" :key="index">
           <div class="header">
             <img :src="i.ParentHeadimgurl">
@@ -155,44 +161,10 @@ export default {
       line-height: 2em;
       padding-bottom: 20px;
       .name{
-        font-size: 16px;
+        font-size: 20px;
       }
     }
   }
-  .cardlist{
-    background: #fff;
-    overflow: hidden;
-    padding:20px;
-    .header{
-      float: left;
-      margin-right: 20px;
-      img {
-        width: 64px;
-        border-radius: 50%;
-      }
-    }
-    .content{
-      float: left;
-      margin-top: 6px;
-      .parent{
-        display: inline-block;
-        padding: 0 6px;
-        line-height: 20px;
-        background: #44dd9d;
-        font-size: 13px;
-        color: #fff;
-        border-radius: 3px;
-        margin-right: 10px;
-      }
-      .phone{
-        margin-top: 5px;
-        .iconfont{
-          margin-right: 5px;
-          color: @main;
-          font-size: 16px;
-        }
-      }
-    }
-  }
+  
 }
 </style>

@@ -41,6 +41,10 @@
             </el-radio-group>
 
           </el-form-item>
+          <el-form-item label=".">
+            <el-button type="success" @click.native="submitChange">提交修改</el-button>
+            <el-button type="warning" @click.native="startEditPw" style="float:right">修改密码</el-button>
+          </el-form-item>
 
           <el-dialog title="修改密码" :visible.sync="showEditPw" size="tiny">
             <div>
@@ -83,8 +87,8 @@
       </div>
       <div class="footer">
         <div class="btn">
-          <el-button type="primary" @click.native="submitChange">提交修改</el-button>
-          <el-button type="warning" @click.native="startEditPw">修改密码</el-button>
+          <!-- <el-button type="primary" @click.native="submitChange">提交修改</el-button> -->
+          <!-- <el-button type="warning" @click.native="startEditPw">修改密码</el-button> -->
         </div>
       </div>
     </div>
@@ -254,7 +258,7 @@ export default {
     margin-left: 25px;
     line-height: 1.5rem;
     .el-form{
-      margin-left: 40px;
+      margin-left: 30px;
     }
   }
   .footer {

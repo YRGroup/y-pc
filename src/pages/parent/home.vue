@@ -136,12 +136,13 @@ export default {
       color: #fff;
       font-size: 25px;
       img {
-        border:3px solid #fff;  
+        border:3px solid rgba(255,255,255,0.5) ;
         width: 100px;
         position: absolute;
         left: 80px;
         top: 25px;
         border-radius: 50%;
+        background: transparent;
       }
     }
     .content {
