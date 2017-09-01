@@ -20,12 +20,10 @@
             <template>
               <el-radio class="radio" v-model="data.Sex" label="男">男</el-radio>
               <el-radio class="radio" v-model="data.Sex" label="女">女</el-radio>
+              <el-radio class="radio" v-model="data.Sex" label="未知">未知</el-radio>
             </template>
           </el-form-item>
           <el-form-item label="头像">
-            <!-- <div class="left" v-show="!showEditHeadImg">
-              <el-button @click="showEditHeadImg=true">修改头像</el-button>
-            </div> -->
             <div class="right">
               <el-upload class="avatar-uploader" list-type="picture-card" :action="$store.getters._APIurl+'/api/Upload/ImageUpload'" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
                 <img v-if="imageUrl" :src="imageUrl" class="avatar">
@@ -33,17 +31,16 @@
               </el-upload>
             </div>
           </el-form-item>
-          <!-- <div class="headImg">
-              <div class="left" v-show="!showEditHeadImg">
-                <el-button @click="showEditHeadImg=true">修改头像</el-button>
-              </div>
-              <div class="right" v-show="showEditHeadImg">
-                <el-upload class="avatar-uploader" :action="$store.getters._APIurl+'/api/Upload/ImageUpload'" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                  <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                </el-upload>
-              </div>
-            </div> -->
+          <el-form-item label="身份">
+            <el-radio-group v-model="ParentType">
+              <el-radio class="radio" label="1">爸爸</el-radio>
+              <el-radio class="radio" label="2">妈妈</el-radio>
+              <el-radio class="radio" label="3">爷爷</el-radio>
+              <el-radio class="radio" label="4">奶奶</el-radio>
+              <el-radio class="radio" label="5">家人</el-radio>
+            </el-radio-group>
+
+          </el-form-item>
 
           <el-dialog title="修改密码" :visible.sync="showEditPw" size="tiny">
             <div>
@@ -73,9 +70,7 @@
                     </el-input>
                   </el-form-item>
                 </div>
-
               </el-form>
-
             </div>
 
             <span slot="footer" class="dialog-footer">
@@ -112,11 +107,12 @@ export default {
         newpwd: '',
         newpwd2: ''
       },
-      imageUrl: ''
+      imageUrl: '',
+      ParentType:''
     }
   },
   computed: {
-    currentUser: function () {
+    currentUser: function() {
       return this.$store.state.currentUser
     }
   },
@@ -124,10 +120,17 @@ export default {
     getData() {
       this.$API.getCurrentUser().then(res => {
         this.data = res
+        if (this.data.Headimgurl) {
+          this.imageUrl = this.data.Headimgurl
+        }
+        if (this.data.ExtendInfo.Students.length) {
+          this.ParentType = this.data.ExtendInfo.Students[0].ParentType.toString()
+        }
       })
     },
     submitChange() {
       this.data.role = 2
+      this.data.ParentType=this.ParentType
       this.$API.editParentInfo(this.data).then(res => {
         this.$API.getCurrentUser().then(user => {
           this.$store.commit('login', user)
@@ -228,8 +231,7 @@ export default {
 
 
 .card {
-  border: 1px solid @border;
-  // font-size: 13px;
+  border: 1px solid @border; // font-size: 13px;
   position: relative;
   background: #fff;
   padding-bottom: 20px;
@@ -251,7 +253,7 @@ export default {
     margin-top: 40px;
     margin-left: 25px;
     line-height: 1.5rem;
-    .el-form{
+    .el-form {
       margin-left: 100px;
     }
   }
@@ -264,7 +266,7 @@ export default {
   }
 }
 
-.el-form-item .el-upload--text{
-  border:1px solid red;
+.el-form-item .el-upload--text {
+  border: 1px solid red;
 }
 </style>
