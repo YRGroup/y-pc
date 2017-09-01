@@ -2,7 +2,13 @@
   <div>
 
     <div class="card">
-      <div class="header">修改学生资料</div>
+      <!-- <div class="header">修改学生资料</div> -->
+      <div class="maintitle">
+        <i class="iconfont">&#xe737;</i>修改学生资料
+        <span class="goreturn">
+          <el-button size="small" @click="$router.go(-1)" type="success" :plain="true">返回</el-button>
+        </span>
+      </div>
       <div class="content">
         <el-form label-width="80px">
           <el-form-item label="姓名">
@@ -190,6 +196,7 @@ export default {
     width: calc(~"100% - 120px");
     padding: 10px;
     margin-left: 25px;
+    margin-top: 30px;
     line-height: 1.5rem;
   }
   .footer {

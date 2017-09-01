@@ -221,11 +221,15 @@ export default {
       .homeworkItem {
         font-size: 12px;
         height: 28px;
+        cursor: pointer;
         overflow: hidden;
         .time {
           text-align: right;
           color: @grey;
           font-size: 12px;
+        }
+        &:hover{
+          color: @main;
         }
       }
       .teacherItem {
