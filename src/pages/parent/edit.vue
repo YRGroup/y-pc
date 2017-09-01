@@ -252,7 +252,7 @@ export default {
     margin-left: 25px;
     line-height: 1.5rem;
     .el-form{
-      margin-left: 100px;
+      margin-left: 40px;
     }
   }
   .footer {

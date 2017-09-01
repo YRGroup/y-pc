@@ -137,7 +137,7 @@ export default {
         this.$message('绑定卡号成功')
         this.getData()
       }).catch((err) => {
-        this.$message.error(err)
+        this.$message.error(err.msg)
       })
     },
     changeCurrentStudent(val) {
