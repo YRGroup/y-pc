@@ -47,10 +47,6 @@
           </div>
           <div class="item">
             <span class="title">籍贯：</span>
-            <span>{{data.Address}}</span>
-          </div>
-          <div class="item">
-            <span class="title">地址：</span>
             <span>{{data.Province+' '+(data.City||'')+' '+(data.County||'')}}</span>
           </div>
         </div>

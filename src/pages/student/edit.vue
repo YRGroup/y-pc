@@ -32,9 +32,8 @@
               <div class="tips">请上传真实头像，以方便班级正常管理和班级内互动</div>
             </template>
           </el-form-item>
-          <el-form-item label="地址">
-            <vue-address @change="submitAddress"></vue-address>
-            <div>{{data.Province+' '+(data.City||'')+' '+(data.County||'')}}</div>
+          <el-form-item label="籍贯" v-if="data.Meid">
+            <vue-address @change="submitAddress" :province="data.Province" :city="data.City" :county="data.County"></vue-address>
           </el-form-item>
           <el-form-item label="民族">
             <el-select v-model="data.Nation" placeholder="民族">

@@ -2,35 +2,18 @@
   <div>
   
     <el-tabs v-model="activeTab" type="border-card" class="tabs leftCon">
-
       <el-tab-pane name="profile">
         <span class="title" slot="label">信息</span>
-
         <y-profile></y-profile>
-
       </el-tab-pane>
-
       <el-tab-pane name="edit">
         <span class="title" slot="label">修改资料</span>
-
-        <y-edit></y-edit>
-
+        <y-edit v-if="this.activeTab==='edit'"></y-edit>
       </el-tab-pane>
-
       <el-tab-pane name="score">
         <span class="title" slot="label">成绩</span>
-
         <y-score></y-score>
-        
       </el-tab-pane>
-
-      <!-- <el-tab-pane name="card">
-        <span class="title" slot="label">一卡通</span>
-
-        <y-profile></y-profile>
-        
-      </el-tab-pane> -->
-
     </el-tabs>
   
   </div>
@@ -51,7 +34,6 @@ export default {
     }
   },
   methods: {
-    
   },
   created() {
     if(this.$route.query.tab){
