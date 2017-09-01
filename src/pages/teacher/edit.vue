@@ -26,11 +26,7 @@
                 <el-radio class="radio" v-model="data.Sex" label="女">女</el-radio>
               </template>
             </el-form-item>
-            <el-form-item label="出生年月" :rules="[{ required: true}]">
-              <el-date-picker v-model="data.Resume" type="date" placeholder="选择日期">
-              </el-date-picker>
-            </el-form-item>
-            <el-form-item label="身份证号" :rules="[{ required: true}]">
+            <el-form-item label="身份证号：" :rules="[{ required: true}]">
               <el-input v-model="data.IDCard"></el-input>
             </el-form-item>
             <el-form-item label="民族" :rules="[{ required: true}]">
@@ -201,12 +197,18 @@ export default {
     submitChange() {
       this.data.role = 3
       this.verifyIDcard().then(res => {
-        this.$API.editTeacherInfo(this.data).then(res => {
-          this.$API.getCurrentUser().then(user => {
-            this.$store.commit('login', user)
+        if (this.data.Sex === '未知' || !this.data.SchoolAge || !this.data.Title || !this.data.Volk || !this.data.PoliticalStatus) {
+          this.$message.error('资料不完整')
+        } else {
+          this.$API.editTeacherInfo(this.data).then(res => {
+            this.$API.getCurrentUser().then(user => {
+              this.$store.commit('login', user)
+            })
+            this.$router.push('/teacher')
+          }).catch(err => {
+            this.$message.error(err.msg)
           })
-          this.$router.push('/teacher')
-        })
+        }
       }).catch(err => {
         this.$message.error('请输入正确的身份证号')
       })
