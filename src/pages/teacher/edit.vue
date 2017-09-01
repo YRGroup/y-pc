@@ -14,44 +14,44 @@
             <i class="iconfont">&#xe668;</i>个人资料
           </div>
           <div class="item-content" style="padding:0 150px 0 50px">
-            <el-form-item label="手机号：">
+            <el-form-item label="手机号">
               <el-input v-model="data.Mobilephone" :disabled="true" style="width:200px"></el-input>
             </el-form-item>
-            <el-form-item label="姓名：">
+            <el-form-item label="姓名" :rules="[{ required: true}]">
               <el-input v-model="data.TrueName" style="width:200px"></el-input>
             </el-form-item>
-            <el-form-item label="性别：">
+            <el-form-item label="性别" :rules="[{ required: true}]">
               <template>
                 <el-radio class="radio" v-model="data.Sex" label="男">男</el-radio>
                 <el-radio class="radio" v-model="data.Sex" label="女">女</el-radio>
               </template>
             </el-form-item>
-            <el-form-item label="出生年月">
+            <el-form-item label="出生年月" :rules="[{ required: true}]">
               <el-date-picker v-model="data.Resume" type="date" placeholder="选择日期">
               </el-date-picker>
             </el-form-item>
-            <el-form-item label="身份证号：">
+            <el-form-item label="身份证号" :rules="[{ required: true}]">
               <el-input v-model="data.IDCard"></el-input>
             </el-form-item>
-            <el-form-item label="民族：">
+            <el-form-item label="民族" :rules="[{ required: true}]">
               <el-select v-model="data.Volk" placeholder="民族" style="width:200px">
                 <el-option v-for="i in $store.state.nationList" :key="i" :label="i" :value="i">
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="政治面貌：">
+            <el-form-item label="政治面貌" :rules="[{ required: true}]">
               <el-select v-model="data.PoliticalStatus" placeholder="政治面貌：" style="width:200px">
                 <el-option v-for="i in $store.state.politicalList" :key="i" :label="i" :value="i">
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="教龄：">
+            <el-form-item label="教龄" :rules="[{ required: true}]">
               <el-input v-model="data.SchoolAge" style="width:200px"></el-input>
             </el-form-item>
-            <el-form-item label="职称：">
+            <el-form-item label="职称" :rules="[{ required: true}]">
               <el-input v-model="data.Title" style="width:200px"></el-input>
             </el-form-item>
-            <el-form-item label="修改头像：">
+            <el-form-item label="修改头像" :rules="[{ required: true}]">
               <div class="headImg">
                 <div class="right">
                   <el-upload list-type="picture-card" class="avatar-uploader" :action="$store.getters._APIurl+'/api/Upload/ImageUpload'" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
