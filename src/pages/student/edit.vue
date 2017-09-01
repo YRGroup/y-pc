@@ -42,9 +42,8 @@
             </el-select>
           </el-form-item>
           <el-form-item label="生日">
-            <el-date-picker v-model="birthday" @change="submitBirthday" type="date" placeholder="选择日期">
+            <el-date-picker v-model="birthday" @change="submitBirthday" :placeholder="new Date(data.Birthday).Format('yyyy-MM-dd')" type="date">
             </el-date-picker>
-            <div style="display:inline-block">&nbsp; {{ new Date(data.Birthday).Format('yyyy-mm-dd') }} </div>
           </el-form-item>
 
         </el-form>
@@ -105,6 +104,8 @@ export default {
       this.$API.editStudentInfo(this.data).then(res => {
         this.$message.success('修改成功')
         this.$router.go(-1)
+      }).catch(err => {
+        this.$message.error(err.msg)
       })
     },
     handleAvatarSuccess(res, file) {
@@ -199,7 +200,8 @@ export default {
     }
   }
 }
-.tips{
-  color:@grey;
+
+.tips {
+  color: @grey;
 }
 </style>

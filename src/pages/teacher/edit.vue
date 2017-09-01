@@ -26,10 +26,6 @@
                 <el-radio class="radio" v-model="data.Sex" label="女">女</el-radio>
               </template>
             </el-form-item>
-            <el-form-item label="出生年月">
-              <el-date-picker v-model="data.Resume" type="date" placeholder="选择日期">
-              </el-date-picker>
-            </el-form-item>
             <el-form-item label="身份证号：">
               <el-input v-model="data.IDCard"></el-input>
             </el-form-item>
