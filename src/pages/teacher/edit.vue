@@ -83,7 +83,7 @@
                 <el-input v-model="addPersonalHonorData.Description">
                 </el-input>
               </el-form-item>
-              <el-form-item label="是否公开">
+              <el-form-item label="权限">
                 <el-radio class="radio" v-model="addPersonalHonorData.IsVisible" label="true">公开</el-radio>
                 <el-radio class="radio" v-model="addPersonalHonorData.IsVisible" label="false">不公开</el-radio>
               </el-form-item>
@@ -109,7 +109,7 @@
           <div class="header">
             <i class="iconfont">&#xe69b;</i>教学经历
             <div class="addBtn">
-              <el-button size="small" type="text" @click.native="data.TeachExperience.unshift({SchoolName:'',StartTime:'',EndTime:''})">
+              <el-button size="small" type="text" @click.native="data.TeachExperience.unshift({SchoolName:'',StartTime:'',EndTime:'',IsVisible:'true'})">
                 <i class="iconfont">&#xe623;</i>新增教学经历</el-button>
             </div>
           </div>
@@ -132,6 +132,10 @@
                 <el-col :span="11">
                   <el-date-picker type="date" placeholder="选择结束日期" v-model="i.EndTime" style="width: 100%;"></el-date-picker>
                 </el-col>
+              </el-form-item>
+              <el-form-item label="权限">
+                <el-radio class="radio" v-model="i.IsVisible" label="true">公开</el-radio>
+                <el-radio class="radio" v-model="i.IsVisible" label="false">不公开</el-radio>
               </el-form-item>
             </li>
 
@@ -169,7 +173,7 @@ export default {
       addPersonalHonorData: {
         Description: '',
         ImgPath: '',
-        IsVisible:'true'
+        IsVisible: 'true'
       },
     }
   },
@@ -182,6 +186,16 @@ export default {
     getData() {
       this.$API.getTeacherInfo(this.$store.getters.currentUserId).then(res => {
         this.data = res
+        if (this.data.PersonalHonor.length) {
+          this.data.PersonalHonor.forEach(o => {
+            o.IsVisible = 'true'
+          })
+        }
+        if (this.data.TeachExperience.length) {
+          this.data.TeachExperience.forEach(o => {
+            o.IsVisible = 'true'
+          })
+        }
       })
     },
     submitChange() {
@@ -206,7 +220,7 @@ export default {
     addPersonalHonor() {
       this.data.role = 3
       this.data.PersonalHonor.push(this.addPersonalHonorData)
-      this.addPersonalHonorData = { Description: '', ImgPath: '' ,IsVisible:'true'}
+      this.addPersonalHonorData = { Description: '', ImgPath: '', IsVisible: 'true' }
       this.showAddPersonalHonor = false
     },
     delHonor(index) {
