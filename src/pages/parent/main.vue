@@ -8,8 +8,8 @@
 
           <div class="itemList">
             <div class="header">
-              <i class="iconfont">&#xe668;</i>家长资料
-              <span class="setting"><el-button type="success" :plain="true" @click.native="$router.push('/parent/edit')">修改</el-button></span>
+              <i class="iconfont">&#xe668;</i>个人资料
+              <!-- <span class="setting"><el-button type="success" :plain="true" @click.native="$router.push('/parent/edit')">修改</el-button></span> -->
             </div>
             <div class="item-content">
               <p>
@@ -88,14 +88,14 @@
         </div>
       </el-tab-pane>
 
-      <el-tab-pane name="addStudent">
+      <!-- <el-tab-pane name="addStudent">
         <span class="title" slot="label">添加学生</span>
         <div class="content">
 
           <add-student></add-student>
 
         </div>
-      </el-tab-pane>
+      </el-tab-pane> -->
     </el-tabs>
 
   </div>
