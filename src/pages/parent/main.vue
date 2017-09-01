@@ -8,7 +8,9 @@
 
           <div class="itemList">
             <div class="header">
-              <i class="iconfont">&#xe668;</i>家长资料</div>
+              <i class="iconfont">&#xe668;</i>家长资料
+              <span class="setting"><el-button type="success" :plain="true" @click.native="$router.push('/parent/edit')">修改</el-button></span>
+            </div>
             <div class="item-content">
               <p>
                 <span class="title">姓名：</span>
@@ -28,7 +30,9 @@
           <div v-if="currentStudent">
             <div class="itemList">
               <div class="header">
-                <i class="iconfont">&#xe607;</i>学生资料</div>
+                <i class="iconfont">&#xe607;</i>学生资料
+                <span class="setting"><el-button type="success" :plain="true" @click.native="$router.push('/student/edit')">修改</el-button></span>
+              </div>
               <div class="item-content">
                 <p>
                   <span class="title">姓名：</span>
@@ -173,8 +177,14 @@ export default {
         font-size: 16px;
         margin-bottom: 10px;
         color: @main;
+        position: relative;
         .iconfont {
           margin-right: 8px;
+        }
+        .setting{
+          position: absolute;
+          top: -10px;
+          right: 0;
         }
       }
       .item-content {

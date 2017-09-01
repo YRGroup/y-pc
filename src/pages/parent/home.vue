@@ -11,12 +11,12 @@
           <img :src="$store.state.currentUser.Headimgurl">
         </div>
         <div class="content">
-          <p>账号：{{$store.state.currentUser.Mobilephone}}</p>
-          <p>姓名：{{$store.state.currentUser.TrueName}}</p>
-          <p>身份：{{$store.getters.role}}</p>
+          <p class="name">{{$store.state.currentUser.TrueName}}</p>
+          <span><i class="iconfont">&#xe60b;</i> {{$store.state.currentUser.Mobilephone}}</span>
+          <span><i class="iconfont">&#xe66c;</i> {{$store.getters.role}}</span>
           <div class="btn">
-            <el-button type="primary" @click.native="$router.push('/parent/edit')">修改资料</el-button>
-            <el-button type="warning" @click.native="logout">登出</el-button>
+            <!-- <el-button type="primary" @click.native="$router.push('/parent/edit')">修改资料</el-button> -->
+            <el-button type="text" @click.native="logout">退出</el-button>
           </div>
         </div>
       </div>
@@ -39,9 +39,9 @@
           <p>学号：{{currentStudent.StudentID}}</p>
           <p>班级：{{currentStudent.ClassName}}</p>
           <div class="btn">
-            <el-button type="primary" @click.native="$router.push('/student/edit')">修改学生资料</el-button>
+            <!-- <el-button type="primary" @click.native="$router.push('/student/edit')">修改学生资料</el-button> -->
           </div>
-          <el-select v-model="currenrStudentId" @change="changeCurrentStudent" placeholder="切换当前学生">
+          <el-select v-model="currenrStudentId" @change="changeCurrentStudent" placeholder="切换学生">
             <el-option v-for="i in studentList" :key="i.id" :label="i.name" :value="i.id">
             </el-option>
           </el-select>
@@ -136,6 +136,7 @@ export default {
       color: #fff;
       font-size: 25px;
       img {
+        border:3px solid #fff;  
         width: 100px;
         position: absolute;
         left: 80px;
@@ -148,11 +149,16 @@ export default {
       line-height: 2em;
       padding-bottom: 20px;
       padding: 20px;
-      text-align: left;
-    }
-    .btn {
       text-align: center;
-      padding: 20px 0;
+      .name{
+        font-size: 20px;
+      }
+      span{
+        margin:0 10px;
+      }
+      .iconfont{
+        font-size: 16px;
+      }
     }
   }
 }

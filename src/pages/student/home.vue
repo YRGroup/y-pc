@@ -29,7 +29,7 @@
             <img :src="i.ParentHeadimgurl">
           </div>
           <div class="content">
-            <h3>{{i.ParentTrueName}}<span class="parent">{{i.ParentType}}</span></h3>
+            <h3><span class="parent">{{i.ParentType}}</span>{{i.ParentTrueName}}</h3>
             <p class="phone"><i class="iconfont">&#xe618;</i>{{i.ParentPhone}}</p>
           </div>
         </div>
@@ -182,7 +182,7 @@ export default {
         font-size: 13px;
         color: #fff;
         border-radius: 3px;
-        margin-left: 20px;
+        margin-right: 10px;
       }
       .phone{
         margin-top: 5px;
