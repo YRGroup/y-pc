@@ -17,19 +17,19 @@
           <el-form-item label="学号">
             <el-input v-model="data.StudentID" :disabled="true" style="width:260px"></el-input>
           </el-form-item>
-          <el-form-item label="身份证">
+          <el-form-item label="身份证" :rules="[{ required: true}]">
             <el-input v-model="data.IDCard" style="width:360px"></el-input>
           </el-form-item>
-          <el-form-item label="性别">
+          <el-form-item label="性别" :rules="[{ required: true}]">
             <template>
               <el-radio class="radio" v-model="data.Sex" label="男">男</el-radio>
               <el-radio class="radio" v-model="data.Sex" label="女">女</el-radio>
             </template>
           </el-form-item>
-          <el-form-item label="籍贯">
+          <el-form-item label="籍贯" :rules="[{ required: true}]">
             <el-input v-model="data.Address" style="width:260px"></el-input>
           </el-form-item>
-          <el-form-item label="头像">
+          <el-form-item label="头像" :rules="[{ required: true}]">
             <template>
               <el-upload class="avatar-uploader" list-type="picture-card" :action="$store.getters._APIurl+'/api/Upload/ImageUpload'" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
                 <img v-if="imageUrl" :src="imageUrl" class="avatar">
@@ -38,16 +38,16 @@
               <div class="tips">请上传真实头像，以方便班级正常管理和班级内互动</div>
             </template>
           </el-form-item>
-          <el-form-item label="籍贯" v-if="data.Meid">
+          <el-form-item label="籍贯" v-if="data.Meid" :rules="[{ required: true}]">
             <vue-address @change="submitAddress" :province="data.Province" :city="data.City" :county="data.County"></vue-address>
           </el-form-item>
-          <el-form-item label="民族">
+          <el-form-item label="民族" :rules="[{ required: true}]">
             <el-select v-model="data.Nation" placeholder="民族">
               <el-option v-for="i in $store.state.nationList" :key="i" :label="i" :value="i">
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="生日">
+          <el-form-item label="生日" :rules="[{ required: true}]">
             <el-date-picker v-model="birthday" @change="submitBirthday" type="date" placeholder="选择日期">
             </el-date-picker>
             <div style="display:inline-block">&nbsp; {{ new Date(data.Birthday).Format('yyyy-mm-dd') }} </div>
@@ -179,6 +179,7 @@ export default {
   font-size: 13px;
   position: relative;
   background: #fff;
+  padding-bottom: 20px;
   .img {
     display: inline-block;
     padding: 20px;

@@ -34,29 +34,29 @@
 
           <el-dialog title="修改密码" :visible.sync="showEditPw" size="tiny" style="text-align:left">
             <div>
-              <el-form :inline="true" label-width="120px">
+              <el-form :inline="true" label-width="90px">
                 <div>
                   <el-form-item label="手机号">
-                    <el-input v-model="editPwData.phone" :disabled="true" style="width:308px">
+                    <el-input v-model="editPwData.phone" :disabled="true" style="width:260px">
                     </el-input>
                   </el-form-item>
                 </div>
                 <div>
                   <el-form-item label="验证码">
-                    <el-input v-model="editPwData.code">
+                    <el-input v-model="editPwData.code" style="width:160px">
                     </el-input>
                   </el-form-item>
                   <el-button type="success" @click="getCheckNum">获取验证码</el-button>
                 </div>
                 <div>
                   <el-form-item label="新密码">
-                    <el-input type="password" v-model="editPwData.newpwd" style="width:308px">
+                    <el-input type="password" v-model="editPwData.newpwd" style="width:260px">
                     </el-input>
                   </el-form-item>
                 </div>
                 <div>
                   <el-form-item label="重复新密码">
-                    <el-input type="password" v-model="editPwData.newpwd2" style="width:308px">
+                    <el-input type="password" v-model="editPwData.newpwd2" style="width:260px">
                     </el-input>
                   </el-form-item>
                 </div>

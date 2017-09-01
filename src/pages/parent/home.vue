@@ -15,7 +15,7 @@
           <span><i class="iconfont">&#xe60b;</i> {{$store.state.currentUser.Mobilephone}}</span>
           <span><i class="iconfont">&#xe66c;</i> {{$store.getters.role}}</span>
           <div class="btn">
-            <!-- <el-button type="primary" @click.native="$router.push('/parent/edit')">修改资料</el-button> -->
+             <el-button type="text" @click.native="$router.push('/parent/edit')">修改资料</el-button> 
             <el-button type="text" @click.native="logout">退出</el-button>
           </div>
         </div>
