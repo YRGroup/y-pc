@@ -26,9 +26,6 @@
               <el-radio class="radio" v-model="data.Sex" label="女">女</el-radio>
             </template>
           </el-form-item>
-          <el-form-item label="籍贯">
-            <el-input v-model="data.Address" style="width:260px"></el-input>
-          </el-form-item>
           <el-form-item label="头像">
             <template>
               <el-upload class="avatar-uploader" list-type="picture-card" :action="$store.getters._APIurl+'/api/Upload/ImageUpload'" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
@@ -105,14 +102,17 @@ export default {
     },
     submitChange() {
       this.showEditAddr = false
-      // this.submitAddress(this.add)
       this.data.role = 1
-      this.$API.editStudentInfo(this.data).then(res => {
-        this.$message.success('修改成功')
-        this.$router.go(-1)
-      }).catch(err => {
-        this.$message.error(err.msg)
-      })
+      if(!this.data.IDCard||!this.data.Province||!this.data.Nation||!this.data.Birthday){
+        this.$message.error('资料不完整')
+      }else{
+        this.$API.editStudentInfo(this.data).then(res => {
+          this.$message.success('修改成功')
+          this.$router.go(-1)
+        }).catch(err => {
+          this.$message.error(err.msg)
+        })
+      }
     },
     handleAvatarSuccess(res, file) {
       this.imageUrl = res.Content[0]
