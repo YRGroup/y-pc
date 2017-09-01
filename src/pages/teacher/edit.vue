@@ -197,12 +197,18 @@ export default {
     submitChange() {
       this.data.role = 3
       this.verifyIDcard().then(res => {
-        this.$API.editTeacherInfo(this.data).then(res => {
-          this.$API.getCurrentUser().then(user => {
-            this.$store.commit('login', user)
+        if (this.data.Sex === '未知' || !this.data.SchoolAge || !this.data.Title || !this.data.Volk || !this.data.PoliticalStatus) {
+          this.$message.error('资料不完整')
+        } else {
+          this.$API.editTeacherInfo(this.data).then(res => {
+            this.$API.getCurrentUser().then(user => {
+              this.$store.commit('login', user)
+            })
+            this.$router.push('/teacher')
+          }).catch(err => {
+            this.$message.error(err.msg)
           })
-          this.$router.push('/teacher')
-        })
+        }
       }).catch(err => {
         this.$message.error('请输入正确的身份证号')
       })
