@@ -1,6 +1,5 @@
 <template>
   <div class="card">
-    <!-- <div class="header">修改教师资料</div> -->
     <div class="maintitle">
       个人主页
       <span class="goreturn">
@@ -61,6 +60,7 @@
                   </el-upload>
                 </div>
               </div>
+              <div class="tips">请上传真实头像，以方便班级正常管理和班级内互动</div>
             </el-form-item>
           </div>
         </div>
@@ -78,19 +78,19 @@
                   <img v-if="addPersonalHonorData.ImgPath" :src="addPersonalHonorData.ImgPath" class="avatar">
                   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
-
               </el-form-item>
-
               <el-form-item label="描述">
                 <el-input v-model="addPersonalHonorData.Description">
                 </el-input>
               </el-form-item>
-
+              <el-form-item label="是否公开">
+                <el-radio class="radio" v-model="addPersonalHonorData.IsVisible" label="true">公开</el-radio>
+                <el-radio class="radio" v-model="addPersonalHonorData.IsVisible" label="false">不公开</el-radio>
+              </el-form-item>
               <el-form-item>
                 <el-button type="success" @click="addPersonalHonor">确 定</el-button>
                 <el-button :plain="true" type="success" @click="showAddPersonalHonor = false">取 消</el-button>
               </el-form-item>
-
               <span slot="footer" class="dialog-footer">
               </span>
             </el-dialog>
@@ -168,7 +168,8 @@ export default {
       showAddPersonalHonor: false,
       addPersonalHonorData: {
         Description: '',
-        ImgPath: ''
+        ImgPath: '',
+        IsVisible:'true'
       },
     }
   },
@@ -205,7 +206,7 @@ export default {
     addPersonalHonor() {
       this.data.role = 3
       this.data.PersonalHonor.push(this.addPersonalHonorData)
-      this.addPersonalHonorData = { Description: '', ImgPath: '' }
+      this.addPersonalHonorData = { Description: '', ImgPath: '' ,IsVisible:'true'}
       this.showAddPersonalHonor = false
     },
     delHonor(index) {
@@ -355,5 +356,9 @@ export default {
 
 .center {
   text-align: center;
+}
+
+.tips {
+  color: @grey;
 }
 </style>
