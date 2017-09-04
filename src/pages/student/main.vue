@@ -6,7 +6,7 @@
         <span class="title" slot="label">信息</span>
         <y-profile></y-profile>
       </el-tab-pane>
-      <el-tab-pane name="edit">
+      <el-tab-pane name="edit" v-show="editStatus">
         <span class="title" slot="label">修改资料</span>
         <y-edit v-if="this.activeTab==='edit'"></y-edit>
       </el-tab-pane>
@@ -31,6 +31,15 @@ export default {
     return {
       activeTab: 'profile',
       profileData:{}
+    }
+  },
+  computed:{
+    editStatus(){
+      if(this.profileData.Status==0){
+        return true
+      }else{
+        return false
+      }
     }
   },
   methods: {
