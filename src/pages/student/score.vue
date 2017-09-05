@@ -13,10 +13,6 @@
             <span class="score">{{score.Score}}</span>
             <span> / {{score.FullScore}}</span>
           </span>
-          <!--<span class="item">
-            <span>排名：</span>
-            <span class="score">20</span>
-          </span>-->
         </div>
         <div class="list">
           <div class="item" v-for="(i,index) in score.ScoreInfo" :key="index">
@@ -28,104 +24,195 @@
           </div>
         </div>
       </div>
-    
+
+      <div class="card">
+        <div id="scoreChart" ref="scoreChart"></div>
+      </div>
+
       <div class="scoreList panel">
         <div class="header">
           历次成绩报告
-          <!-- <el-select v-model="pagesize" class="pagesize" @change="currentPage=1" >
-            <el-option
-              v-for="item in allPagesize"
-              :key="item"
-              :label="'每页显示'+item+'条'"
-              :value="item">
-            </el-option>
-          </el-select> -->
         </div>
-    
+
         <div class="item" v-for="(i,index) in currentScoreList" :key="index" @click="changeScore(i.ExamID)">
-          <div class="title" >{{i.ExamName  || "暂无"}}> </div>
+          <div class="title">{{i.ExamName || "暂无"}}> </div>
           <div class="time">{{i.Time}}</div>
           <div class="score">{{i.Score}} 分</div>
         </div>
 
         <div class="footer">
           <el-button-group>
-            <el-button type="primary" :class="i==currentPage?'active':null" 
-            v-for="i in pageCount" :key="i"
-            @click="currentPage=i">{{i}}</el-button>
+            <el-button type="primary" :class="i==currentPage?'active':null" v-for="i in pageCount" :key="i" @click="currentPage=i">{{i}}</el-button>
           </el-button-group>
         </div>
 
       </div>
     </div>
-  
+
   </div>
 </template>
 
 <script>
+var echarts = require('echarts/lib/echarts');
+require('echarts/lib/chart/radar');
+require('echarts/lib/component/tooltip');
+require('echarts/lib/component/title');
+
 import noData from '@//components/noData'
 export default {
   name: 'app',
-  components: {noData},
+  components: { noData },
   data() {
     return {
-      score:{},
-      scoreList:[],
-      currentPage:1,
-      pagesize:5,
-      allPagesize:[5,10,15,20,30,50],
+      score: {},
+      scoreList: [],
+      currentPage: 1,
+      pagesize: 5,
+      allPagesize: [5, 10, 15, 20, 30, 50],
+      chartsIndicator: [],
+      chartsValue: [],
     }
   },
-  computed:{
-    currentScoreList:function(){
-      let offset = (this.currentPage-1)*this.pagesize
-      if((offset + this.pagesize) >= this.scoreList.length){
+  computed: {
+    currentScoreList: function() {
+      let offset = (this.currentPage - 1) * this.pagesize
+      if ((offset + this.pagesize) >= this.scoreList.length) {
         return this.scoreList.slice(offset, this.scoreList.length)
-      }else{
+      } else {
         return this.scoreList.slice(offset, offset + this.pagesize)
       }
     },
-    pageCount:function(){
+    pageCount: function() {
       return Math.ceil(this.scoreList.length / this.pagesize)
     },
   },
   methods: {
-    getData(){
+    getData() {
       this.getScore()
       this.getScoreList()
     },
-    getScore(ExamID){
-      if(this.$route.query.id){
-        this.$API.getExamScore(this.$route.query.id,ExamID).then(res=>{
-          this.score=res
+    getScore(ExamID) {
+      if (this.$route.query.id) {
+        this.$API.getExamScore(this.$route.query.id, ExamID).then(res => {
+          this.score = res
+          this.setCharts(res.ScoreInfo)
         })
-      }else{
-        this.$API.getExamScore(this.$store.state.currentStudentId,ExamID).then(res=>{
-          this.score=res
-        })
-      }
-    },
-    getScoreList(){
-      if(this.$route.query.id){
-        this.$API.getExamList(this.$route.query.id).then(res=>{
-          this.scoreList=res
-        })
-      }else{
-        this.$API.getExamList(this.$store.state.currentStudentId).then(res=>{
-          this.scoreList=res
+      } else {
+        this.$API.getExamScore(this.$store.state.currentStudentId, ExamID).then(res => {
+          this.score = res
+          this.setCharts(res.ScoreInfo)
         })
       }
     },
-    changeScore(ExamID){
-      this.$router.push('/student/'+this.$store.state.currentStudentId+'/score/'+ExamID)
+    getScoreList() {
+      if (this.$route.query.id) {
+        this.$API.getExamList(this.$route.query.id).then(res => {
+          this.scoreList = res
+        })
+      } else {
+        this.$API.getExamList(this.$store.state.currentStudentId).then(res => {
+          this.scoreList = res
+        })
+      }
+    },
+    changeScore(ExamID) {
+      this.$router.push('/student/' + this.$store.state.currentStudentId + '/score/' + ExamID)
       this.getScore(ExamID)
+    },
+    setCharts(val) {
+      console.log(val)
+      while(val.length<3){
+        val.push(val[0])
+      }
+      val.forEach(o => {
+        if(o.Score==0){
+          this.chartsValue.push(1)
+        }else{
+          this.chartsValue.push(o.Score)
+        }
+        let a = {
+          name: o.CourseName,
+          max: o.FullScore
+        }
+        this.chartsIndicator.push(a)
+      })
+      var myChart = echarts.init(document.getElementById('scoreChart'));
+      myChart.setOption({
+        title: {
+          text: '各科成绩分布图'
+        },
+        tooltip: {},
+        legend: {
+          data: ['班级平均分数', '实际分数']
+        },
+        radar: {
+          name: {
+            textStyle: {
+              color: '#fff',
+              backgroundColor: '#999',
+              borderRadius: 3,
+              padding: [3, 5]
+            }
+          },
+          indicator: this.chartsIndicator
+        },
+        series: [{
+          name: '平均分数对比',
+          type: 'radar',
+          data: [
+            // {
+            //   value: [4300, 10000, 28000, 35000, 50000, 19000],
+            //   name: '班级平均分数'
+            // },
+            {
+              value: this.chartsValue,
+              name: '实际分数'
+            }
+          ]
+        }]
+      });
     }
   },
   created() {
     this.getData()
   },
   mounted() {
+    var myChart = echarts.init(document.getElementById('scoreChart'));
 
+    // myChart.setOption({
+    //   title: {
+    //     text: '各科成绩'
+    //   },
+    //   tooltip: {},
+    //   legend: {
+    //     data: ['班级平均分数', '实际分数']
+    //   },
+    //   radar: {
+    //     name: {
+    //       textStyle: {
+    //         color: '#fff',
+    //         backgroundColor: '#999',
+    //         borderRadius: 3,
+    //         padding: [3, 5]
+    //       }
+    //     },
+    //     indicator: this.chartsIndicator
+    //   },
+    //   series: [{
+    //     name: '平均分数对比',
+    //     type: 'radar',
+    //     data: [
+    //       // {
+    //       //   value: [4300, 10000, 28000, 35000, 50000, 19000],
+    //       //   name: '班级平均分数'
+    //       // },
+    //       {
+    //         value: this.chartsValue,
+    //         name: '实际分数'
+    //       }
+    //     ]
+    //   }]
+    // });
   },
 }
 </script>
@@ -137,20 +224,17 @@ export default {
   text-align: center;
   border: 1px solid @border;
   background: url(../../assets/bgTop.png) no-repeat;
-  padding:20px;
+  padding: 20px;
   .title {
     font-size: 24px;
-    font-weight:700;
+    font-weight: 700;
     line-height: 48px;
-    color:#344251;
-  }
-  .info {
-    // color: @grey;
+    color: #344251;
   }
   .total {
-    margin-top:20px;
+    margin-top: 20px;
     .item {
-      font-size:18px;
+      font-size: 18px;
       span {
         vertical-align: middle;
       }
@@ -170,12 +254,12 @@ export default {
       width: 100px;
       height: 80px;
       margin: 20px;
-      &:hover{
+      &:hover {
         background: rgba(255, 255, 255, 1);
       }
       .mainscore {
         line-height: 40px;
-        color:@grey;
+        color: @grey;
         .score {
           color: @sub;
           font-size: 20px;
@@ -195,7 +279,7 @@ export default {
   .header {
     line-height: 40px;
     font-weight: bold;
-    .pagesize{
+    .pagesize {
       float: right;
     }
   }
@@ -205,12 +289,12 @@ export default {
     line-height: 30px;
     border-bottom: 1px dotted @border;
     cursor: pointer;
-    &:hover{
+    &:hover {
       // border-bottom: 1px solid @main;
       background: @border;
     }
-    &:hover .title{
-      color:@main;
+    &:hover .title {
+      color: @main;
     }
     .title {
       max-width: calc(~"100% - 150px");
@@ -230,18 +314,31 @@ export default {
       font-size: 24px;
     }
   }
-  .footer{
+  .footer {
     text-align: right;
-    padding:10px;
-    .active{
-      color:#20a0ff;
+    padding: 10px;
+    .active {
+      color: #20a0ff;
       background: #fff;
     }
-    .el-button-group{
-      button{
-        padding:5px 10px;
+    .el-button-group {
+      button {
+        padding: 5px 10px;
       }
     }
   }
+}
+
+.card {
+  background: #fff;
+  margin: 20px 0;
+  padding: 20px;
+}
+
+#scoreChart {
+  width: 600px;
+  height: 250px;
+  margin: 0 auto;
+  margin-top: 30px;
 }
 </style>
