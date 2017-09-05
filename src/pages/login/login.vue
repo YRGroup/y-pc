@@ -10,7 +10,7 @@
       </ul>
       <div class="item">
         <!-- <div class="title">手机号：</div> -->
-        <el-input size="large" slot="append" placeholder="请输入手机号 / 账号" autofocus @change="verifyAccount" @blur="verifyAccount" v-model="phone">
+        <el-input size="large" slot="append" placeholder="请输入手机号 / 学号" autofocus @change="verifyAccount" @blur="verifyAccount" v-model="phone">
           <template slot="prepend">
             <i class="iconfont">&#xe60b;</i>
           </template>
