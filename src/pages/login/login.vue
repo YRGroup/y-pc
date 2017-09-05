@@ -54,9 +54,9 @@
             </template>
           </el-input>
           <div class="item" v-show="parent_unActived">
-            <el-input size="large" class="input" placeholder="请输入家长姓名" :minlength='6' v-model="smsLoginData.parent_truename">
+            <el-input size="large" class="input" placeholder="请输入姓名" :minlength='6' v-model="smsLoginData.parent_truename">
               <template slot="prepend">
-                <i class="iconfont">&#xe692;</i>
+                <i class="iconfont">&#xe678;</i>
               </template>
             </el-input>
           </div>
