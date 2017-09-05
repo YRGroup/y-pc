@@ -123,7 +123,7 @@ export default {
       this.chartsValue=[]
       this.chartsIndicator=[]
       while(val.length<3){
-        val.push(val[0])
+        val.push({Score:1,CourseName:'无',FullScore:100})
       }
       val.forEach(o => {
         if(o.Score==0){
@@ -178,42 +178,6 @@ export default {
     this.getData()
   },
   mounted() {
-    var myChart = echarts.init(document.getElementById('scoreChart'));
-
-    // myChart.setOption({
-    //   title: {
-    //     text: '各科成绩'
-    //   },
-    //   tooltip: {},
-    //   legend: {
-    //     data: ['班级平均分数', '实际分数']
-    //   },
-    //   radar: {
-    //     name: {
-    //       textStyle: {
-    //         color: '#fff',
-    //         backgroundColor: '#999',
-    //         borderRadius: 3,
-    //         padding: [3, 5]
-    //       }
-    //     },
-    //     indicator: this.chartsIndicator
-    //   },
-    //   series: [{
-    //     name: '平均分数对比',
-    //     type: 'radar',
-    //     data: [
-    //       // {
-    //       //   value: [4300, 10000, 28000, 35000, 50000, 19000],
-    //       //   name: '班级平均分数'
-    //       // },
-    //       {
-    //         value: this.chartsValue,
-    //         name: '实际分数'
-    //       }
-    //     ]
-    //   }]
-    // });
   },
 }
 </script>
