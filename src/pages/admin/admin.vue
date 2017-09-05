@@ -15,32 +15,34 @@
           <i class="iconfont">&#xe623;</i>添加学生</el-button>
       </li>
     </ul>
-    <el-dialog title="添加学生" :visible.sync="showAddStudent" size="small">
+    <el-dialog title="添加学生" :visible.sync="showAddStudent" size="tiny">
       <el-form label-width="80px">
-        <el-form-item>
-          <el-radio-group v-model="type">
-            <el-radio :label="1">
-              <span>单个添加</span>
-            </el-radio>
-            <el-radio :label="2">
-              <span>批量导入</span>
-            </el-radio>
-          </el-radio-group>
-        </el-form-item>
+        <div>
+          <el-form-item label="">
+            <el-radio-group v-model="type">
+              <el-radio :label="1">
+                <span>单个添加</span>
+              </el-radio>
+              <el-radio :label="2">
+                <span>批量导入</span>
+              </el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </div>
       </el-form>
       <div v-show="type==1">
         <el-form label-width="80px" :inline="true" v-for="(i,index) in studentData" :key="index" class="teacherlist">
-          <el-form-item label="学生姓名">
-            <el-input v-model="i.TrueName" palceholder="请输入姓名" style="width:120px"></el-input>
+          <el-form-item label="学生姓名" style="margin-right:30px" :rules="[{ required: true}]">
+            <el-input v-model="i.TrueName" palceholder="请输入姓名" style="width:180px"></el-input>
           </el-form-item>
-          <el-form-item label="性别" label-width="40px">
+          <el-form-item label="性别" label-width="60px" style="margin-right:30px" :rules="[{ required: true}]">
             <template>
               <el-radio class="radio" v-model="i.Sex" label="1">男</el-radio>
               <el-radio class="radio" v-model="i.Sex" label="2">女</el-radio>
             </template>
           </el-form-item>
-          <el-form-item label="家长手机">
-            <el-input v-model="i.ParentPhone" palceholder="请输入姓名" style="width:150px"></el-input>
+          <el-form-item label="家长手机" style="margin-right:30px" :rules="[{ required: true}]">
+            <el-input v-model="i.ParentPhone" palceholder="请输入姓名" style="width:180px"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="text" :plain="true" @click.native="studentData.splice(index,1)">
@@ -49,54 +51,65 @@
           </el-form-item>
         </el-form>
         <el-form label-width="80px">
-          <el-form-item>
-            <el-button @click.native="studentData.push({ClassID: '',TrueName: '', Sex:'',ParentPhone:''})" type="text">
-              <i class="iconfont">&#xe623;</i> 添加一行</el-button>
-          </el-form-item>
-          <el-form-item>
-            <el-button @click.native="submitAddStudent" type="success">提 交</el-button>
-          </el-form-item>
+          <div>
+            <el-form-item>
+              <el-button @click.native="studentData.push({ClassID: '',TrueName: '', Sex:'',ParentPhone:''})" type="text">
+                <i class="iconfont">&#xe623;</i> 添加一行</el-button>
+            </el-form-item>
+          </div>
+          <div>
+            <el-form-item>
+              <el-button @click.native="submitAddStudent" type="success">提 交</el-button>
+            </el-form-item>
+          </div>
         </el-form>
       </div>
       <el-form label-width="80px" v-show="type==2">
-        <el-form-item label="">
-          <el-upload :action="$store.getters._APIurl+'/import/ImportStudent.aspx'" :on-success="handleSuccess">
-            <el-button slot="trigger" size="small" type="primary">上传文件</el-button>
-            <a style="text-decoration:underline" class="xlsDown" :href="$store.getters._APIurl+'/import/student_template.xls'">下载模板</a>
-            <div slot="tip" class="el-upload__tip">请先下载模板，按照格式编辑后在此上传，只能上传xls/xlsx文件</div>
-          </el-upload>
-        </el-form-item>
-        <el-form-item>
-          <el-button @click.native="submitStudentFile" type="success">提 交</el-button>
-        </el-form-item>
+        <div>
+          <el-form-item label="">
+            <el-upload :action="$store.getters._APIurl+'/import/ImportStudent.aspx'" :on-success="handleSuccess">
+              <el-button slot="trigger" size="small" type="primary">上传文件</el-button>
+              <a style="text-decoration:underline" class="xlsDown" :href="$store.getters._APIurl+'/import/student_template.xls'">下载模板</a>
+              <div slot="tip" class="el-upload__tip">请先下载模板，按照格式编辑后在此上传，只能上传xls/xlsx文件</div>
+            </el-upload>
+          </el-form-item>
+        </div>
+        <div>
+          <el-form-item>
+            <el-button @click.native="submitStudentFile" type="success">提 交</el-button>
+          </el-form-item>
+        </div>
       </el-form>
     </el-dialog>
-    <el-dialog title="添加老师" :visible.sync="showAddTeacher" size="small">
+    <el-dialog title="添加老师" :visible.sync="showAddTeacher" size="tiny">
       <el-form label-width="80px">
-        <el-form-item label="">
-          <el-radio-group v-model="type">
-            <el-radio :label="1">
-              <span>单个添加</span>
-            </el-radio>
-            <el-radio :label="2">
-              <span>批量导入</span>
-            </el-radio>
-          </el-radio-group>
-        </el-form-item>
+        <div>
+          <el-form-item label="">
+            <el-radio-group v-model="type">
+              <el-radio :label="1">
+                <span>单个添加</span>
+              </el-radio>
+              <el-radio :label="2">
+                <span>批量导入</span>
+              </el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </div>
       </el-form>
       <div v-show="type==1">
-        <el-form label-width="60px" :inline="true" v-for="(i,index) in teacherData" :key="index" class="teacherlist">
-          <el-form-item label="姓名">
-            <el-input v-model="i.TrueName" palceholder="请输入姓名" style="width:120px"></el-input>
+        <el-form label-width="70px" :inline="true" v-for="(i,index) in teacherData" :key="index" class="teacherlist">
+          <el-form-item label="姓名" :rules="[{ required: true}]">
+            <el-input v-model="i.TrueName" palceholder="请输入姓名" style="width:180px"></el-input>
           </el-form-item>
-          <el-form-item label="手机号">
-            <el-input v-model="i.MobilePhone" palceholder="请输入手机号" style="width:150px"></el-input>
-          </el-form-item>
-          <el-form-item label="学科">
+
+          <el-form-item label="学科" :rules="[{ required: true}]">
             <el-select v-model="i.courseID" placeholder="请选择" style="width:120px">
               <el-option v-for="item in courseList" :key="item.CourseId" :label="item.name" :value="item.CourseId">
               </el-option>
             </el-select>
+          </el-form-item>
+          <el-form-item label="手机号" style="margin-right:40px" :rules="[{ required: true}]">
+            <el-input v-model="i.MobilePhone" palceholder="请输入手机号" style="width:180px"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="text" :plain="true" @click.native="teacherData.splice(index,1)">
@@ -105,28 +118,36 @@
           </el-form-item>
         </el-form>
         <el-form label-width="80px">
-          <el-form-item>
-            <el-button @click.native="teacherData.push({ClassID: '',TrueName: '',MobilePhone: '',courseID:''})" type="text">
-              <i class="iconfont">&#xe623;</i> 添加一行</el-button>
-            </el-button>
-          </el-form-item>
-          <el-form-item>
-            <el-button @click.native="submitAddTeacher" type="success">提 交</el-button>
-          </el-form-item>
+          <div>
+            <el-form-item>
+              <el-button @click.native="teacherData.push({ClassID: '',TrueName: '',MobilePhone: '',courseID:''})" type="text">
+                <i class="iconfont">&#xe623;</i> 添加一行</el-button>
+              </el-button>
+            </el-form-item>
+          </div>
+          <div>
+            <el-form-item>
+              <el-button @click.native="submitAddTeacher" type="success">提 交</el-button>
+            </el-form-item>
+          </div>
         </el-form>
       </div>
       <el-form label-width="80px" v-show="type==2">
-        <el-form-item>
-          <el-upload :action="$store.getters._APIurl+'/import/ImportTeacher.aspx'" :on-success="handleSuccess">
-            <el-button slot="trigger" size="small" type="primary">上传文件</el-button>
-            <a style="text-decoration:underline" class="xlsDown" :href="$store.getters._APIurl+'/import/teacher_template.xls'">下载模板</a>
-            <!-- <el-button slot="trigger" size="small">下载模板</el-button> -->
-            <div slot="tip" class="el-upload__tip">请先下载模板，按照格式编辑后在此上传，只能上传xls/xlsx文件</div>
-          </el-upload>
-        </el-form-item>
-        <el-form-item>
-          <el-button @click.native="submitTeacherFile" type="success">提 交</el-button>
-        </el-form-item>
+        <div>
+          <el-form-item>
+            <el-upload :action="$store.getters._APIurl+'/import/ImportTeacher.aspx'" :on-success="handleSuccess">
+              <el-button slot="trigger" size="small" type="primary">上传文件</el-button>
+              <a style="text-decoration:underline" class="xlsDown" :href="$store.getters._APIurl+'/import/teacher_template.xls'">下载模板</a>
+              <!-- <el-button slot="trigger" size="small">下载模板</el-button> -->
+              <div slot="tip" class="el-upload__tip">请先下载模板，按照格式编辑后在此上传，只能上传xls/xlsx文件</div>
+            </el-upload>
+          </el-form-item>
+        </div>
+        <div>
+          <el-form-item>
+            <el-button @click.native="submitTeacherFile" type="success">提 交</el-button>
+          </el-form-item>
+        </div>
       </el-form>
     </el-dialog>
     <div class="content">
@@ -427,7 +448,7 @@ export default {
             Sex: '',
             ParentPhone: ''
           }],
-          this.getData()
+            this.getData()
         }).catch(err => {
           this.$message.error(err.msg)
         })

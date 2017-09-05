@@ -9,17 +9,21 @@
           </h4>
           <el-form :model="addCardData" label-width="100px" class="cardNum">
             <!-- <el-form-item label="学生：" v-if="$store.getters.role==='家长'">
-                    <el-select v-model="addCardData.student_meid" placeholder="请选择学生">
-                      <el-option v-for="i in studentList" :key="i.id" :label="i.name" :value="i.id">
-                      </el-option>
-                    </el-select>
-                  </el-form-item> -->
-            <el-form-item label="卡号：">
-              <el-input v-model.number="addCardData.CardID" placeholder="请输入校园卡号" size="large"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="success" @click="addCardID" size="large">提交</el-button>
-            </el-form-item>
+                        <el-select v-model="addCardData.student_meid" placeholder="请选择学生">
+                          <el-option v-for="i in studentList" :key="i.id" :label="i.name" :value="i.id">
+                          </el-option>
+                        </el-select>
+                      </el-form-item> -->
+            <div>
+              <el-form-item label="卡号：">
+                <el-input v-model.number="addCardData.CardID" placeholder="请输入校园卡号" size="large"></el-input>
+              </el-form-item>
+            </div>
+            <div>
+              <el-form-item>
+                <el-button type="success" @click="addCardID" size="large">提交</el-button>
+              </el-form-item>
+            </div>
           </el-form>
         </div>
       </div>
@@ -28,11 +32,11 @@
         <div class="cardSummary">
           <div class="total">
             <!-- <div class="student" v-if="$store.getters.role==='家长'">
-                    <el-select v-model="addCardData.student_meid" @change="changeCurrentStudent" placeholder="请选择学生">
-                      <el-option v-for="i in studentList" :key="i.id" :label="i.name" :value="i.id">
-                      </el-option>
-                    </el-select>
-                  </div> -->
+                        <el-select v-model="addCardData.student_meid" @change="changeCurrentStudent" placeholder="请选择学生">
+                          <el-option v-for="i in studentList" :key="i.id" :label="i.name" :value="i.id">
+                          </el-option>
+                        </el-select>
+                      </div> -->
             <span class="item">
               <span>当前余额 </span>
               <span class="balance">{{Blance}}</span>
@@ -116,7 +120,7 @@ export default {
           } else {
             this.noMoreData = true
           }
-        }else if(this.currentPage==1){
+        } else if (this.currentPage == 1) {
           this.noData = true
         } else {
           this.$message.error('没有更多消费记录')
