@@ -120,7 +120,8 @@ export default {
       this.getScore(ExamID)
     },
     setCharts(val) {
-      console.log(val)
+      this.chartsValue=[]
+      this.chartsIndicator=[]
       while(val.length<3){
         val.push(val[0])
       }
