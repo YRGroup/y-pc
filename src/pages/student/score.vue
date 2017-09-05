@@ -71,6 +71,7 @@ export default {
       allPagesize: [5, 10, 15, 20, 30, 50],
       chartsIndicator: [],
       chartsValue: [],
+      myChart: null
     }
   },
   computed: {
@@ -120,15 +121,15 @@ export default {
       this.getScore(ExamID)
     },
     setCharts(val) {
-      this.chartsValue=[]
-      this.chartsIndicator=[]
-      while(val.length<3){
-        val.push({Score:1,CourseName:'无',FullScore:100})
+      this.chartsValue = []
+      this.chartsIndicator = []
+      while (val.length < 3) {
+        val.push({ Score: 1, CourseName: '无', FullScore: 100 })
       }
       val.forEach(o => {
-        if(o.Score==0){
+        if (o.Score == 0) {
           this.chartsValue.push(1)
-        }else{
+        } else {
           this.chartsValue.push(o.Score)
         }
         let a = {
@@ -137,8 +138,7 @@ export default {
         }
         this.chartsIndicator.push(a)
       })
-      var myChart = echarts.init(document.getElementById('scoreChart'));
-      myChart.setOption({
+      this.myChart.setOption({
         title: {
           text: '各科成绩分布图'
         },
@@ -171,13 +171,14 @@ export default {
             }
           ]
         }]
-      });
+      })
     }
   },
   created() {
     this.getData()
   },
   mounted() {
+    this.myChart = echarts.init(document.getElementById('scoreChart'))
   },
 }
 </script>
