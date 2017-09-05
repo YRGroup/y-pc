@@ -1,6 +1,6 @@
 <template>
-  <div>
-  
+  <div :class="isFullpage?'fullpage':null">
+
     <header>
       <div class="container">
         <div class="logo" @click="$router.push('/')">
@@ -30,12 +30,12 @@
             <i class="iconfont">&#xe64b;</i>个人主页</li>
         </div>
       </div>
-  
+
     </header>
     <div class="mainbox">
       <router-view class="inview"></router-view>
     </div>
-  
+
     <div class="footer">
       <div class="mainCon">
         <p>Copyright © 2017 yearnedu.com Inc. All Rights Reserved. 郑州育人教育集团</p>
@@ -43,13 +43,15 @@
         <div class="followIcon">
           关注我们：
           <div class="wechat">
-            <img class="logopic" :src="QRcodeIMG"> 
-            <span><i class="iconfont">&#xe659;</i></span>
+            <img class="logopic" :src="QRcodeIMG">
+            <span>
+              <i class="iconfont">&#xe659;</i>
+            </span>
           </div>
         </div>
       </div>
     </div>
-  
+
   </div>
 </template>
 
@@ -60,7 +62,7 @@ export default {
   data() {
     return {
       logo: require('@/assets/logo.png'),
-      QRcodeIMG:''
+      QRcodeIMG: ''
     }
   },
   computed: {
@@ -69,10 +71,13 @@ export default {
     },
     link() {
       return this.$route.name
+    },
+    isFullpage() {
+      return this.$route.name === 'video'
     }
   },
   methods: {
-    getWXQRcode(){
+    getWXQRcode() {
       this.QRcodeIMG = this.$API.getWXQRcode()
     }
   },
@@ -83,7 +88,7 @@ export default {
 
   },
   watch: {
-    '$route': function () {
+    '$route': function() {
 
     }
   }
@@ -165,32 +170,41 @@ header {
     color: #aaa;
     font-size: 12px;
     position: relative;
-    .followIcon{
+    .followIcon {
       position: absolute;
-      right:20px;
+      right: 20px;
       top: 32px;
-      .wechat{
+      .wechat {
         display: inline-block;
         position: relative;
-        img{
+        img {
           display: none;
           width: 160px;
           position: absolute;
           bottom: 40px;
           right: 0;
         }
-        &:hover img{
+        &:hover img {
           display: block;
         }
       }
-      .iconfont{
+      .iconfont {
         font-size: 40px;
         line-height: 40px;
         vertical-align: -10px;
-        margin:0 8px;
+        margin: 0 8px;
         cursor: pointer;
       }
     }
+  }
+}
+
+.fullpage {
+  .mainbox {
+    padding: 0;
+  }
+  .inview {
+    max-width: 100%;
   }
 }
 </style>

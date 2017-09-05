@@ -31,7 +31,9 @@
             <div class="itemList">
               <div class="header">
                 <i class="iconfont">&#xe607;</i>学生资料
-                <span class="setting"><el-button type="success" :plain="true" @click.native="$router.push('/student/edit')">修改</el-button></span>
+                <span class="setting" v-show="editStatus">
+                  <el-button type="success" :plain="true" @click.native="$router.push('/student/edit')">修改</el-button>
+                </span>
               </div>
               <div class="item-content">
                 <p>
@@ -61,20 +63,7 @@
               </div>
             </div>
           </div>
-          <!--   
-            <div class="itemList">
-              <div class="header">
-                <i class="iconfont">&#xe604;</i>其他功能</div>
-              <div class="item-content">
-                <p>
-                  <el-button>育人官网</el-button>
-                </p>
-                <p>
-                  <el-button>育人官网</el-button>
-                </p>
-    
-              </div>
-            </div> -->
+
 
         </div>
       </el-tab-pane>
@@ -89,13 +78,13 @@
       </el-tab-pane>
 
       <!-- <el-tab-pane name="addStudent">
-        <span class="title" slot="label">添加学生</span>
-        <div class="content">
+          <span class="title" slot="label">添加学生</span>
+          <div class="content">
 
-          <add-student></add-student>
+            <add-student></add-student>
 
-        </div>
-      </el-tab-pane> -->
+          </div>
+        </el-tab-pane> -->
     </el-tabs>
 
   </div>
@@ -116,13 +105,20 @@ export default {
     }
   },
   computed: {
-    currentUser: function () {
+    currentUser: function() {
       return this.$store.state.currentUser
     },
     currentStudent() {
       return this.$store.state.currentUser.ExtendInfo.Students.find(o => {
         return o.Meid == this.$store.state.currentStudentId
       })
+    },
+    editStatus() {
+      if (this.$store.getters.role === '家长' && this.currentStudent.Status == 0) {
+        return true
+      } else {
+        return false
+      }
     }
   },
   methods: {
@@ -181,7 +177,7 @@ export default {
         .iconfont {
           margin-right: 8px;
         }
-        .setting{
+        .setting {
           position: absolute;
           top: -10px;
           right: 0;
@@ -206,11 +202,12 @@ export default {
           display: inline-block;
           padding-right: 15px;
           img {
-            width: 120px; // border-radius: 50%;
+            width: 120px;
           }
         }
       }
     }
   }
 }
+
 </style>

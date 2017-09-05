@@ -67,7 +67,7 @@
 <script>
 import hasNoStudent from '@/components/hasNoStudent'
 import loadMore from '@/components/loadMore'
-import noData from '@//components/noData'
+import noData from '@/components/noData'
 
 export default {
   components: { loadMore, hasNoStudent, noData },
