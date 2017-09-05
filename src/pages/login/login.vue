@@ -10,7 +10,7 @@
       </ul>
       <div class="item">
         <!-- <div class="title">手机号：</div> -->
-        <el-input size="large" slot="append" placeholder="请输入手机号 / 学号" autofocus @change="verifyAccount" @blur="verifyAccount" v-model="phone">
+        <el-input size="large" slot="append" placeholder="请输入手机号 / 学号" autofocus @change="verifyAccount" @blur="verifyAccount" v-model.trim="phone">
           <template slot="prepend">
             <i class="iconfont">&#xe60b;</i>
           </template>
@@ -19,7 +19,7 @@
 
       <div v-show="step==1">
         <div class="item">
-          <el-input size="large" class="input" type="password" placeholder="请输入密码" :minlength='6' @keyup.enter.native="login" v-model="loginData.password">
+          <el-input size="large" class="input" type="password" placeholder="请输入密码" :minlength='6' @keyup.enter.native="login" v-model.trim="loginData.password">
             <template slot="prepend">
               <i class="iconfont">&#xe692;</i>
             </template>
@@ -41,20 +41,20 @@
                     </el-button> -->
         </div>
         <div class="item sms">
-          <el-input size="large" class="input" placeholder="请输入验证码" :minlength='4' v-model="smsLoginData.code">
+          <el-input size="large" class="input" placeholder="请输入验证码" :minlength='4' v-model.trim="smsLoginData.code">
           </el-input>
           <el-button size="large" @click.native="getsms" type="success" :disabled="getsmsAvailable">
             {{getsmsAvailable?getsmsCount+'s后重发':'发送验证码'}}
           </el-button>
         </div>
         <div class="item" v-show="unActived">
-          <el-input size="large" class="input" placeholder="请设置新密码" :minlength='6' v-model="smsLoginData.newPWd">
+          <el-input size="large" class="input" placeholder="请设置新密码" :minlength='6' v-model.trim="smsLoginData.newPWd">
             <template slot="prepend">
               <i class="iconfont">&#xe692;</i>
             </template>
           </el-input>
           <div class="item" v-show="parent_unActived">
-            <el-input size="large" class="input" placeholder="请输入姓名" :minlength='6' v-model="smsLoginData.parent_truename">
+            <el-input size="large" class="input" placeholder="请输入姓名" :minlength='6' v-model.trim="smsLoginData.parent_truename">
               <template slot="prepend">
                 <i class="iconfont">&#xe678;</i>
               </template>
@@ -74,7 +74,7 @@
       </div>
 
       <div class="item" v-show="step==3">
-        <el-input size="large" class="input" type="password" placeholder="请输入学生的密码" :minlength='6' @keyup.enter.native="login" v-model="studentLoginData.password">
+        <el-input size="large" class="input" type="password" placeholder="请输入学生的密码" :minlength='6' @keyup.enter.native="login" v-model.trim="studentLoginData.password">
           <template slot="prepend">
             <i class="iconfont">&#xe692;</i>
           </template>

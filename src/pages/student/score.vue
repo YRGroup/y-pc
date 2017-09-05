@@ -57,6 +57,7 @@ var echarts = require('echarts/lib/echarts');
 require('echarts/lib/chart/radar');
 require('echarts/lib/component/tooltip');
 require('echarts/lib/component/title');
+require('echarts/lib/component/legend');
 
 import noData from '@//components/noData'
 export default {
@@ -122,6 +123,7 @@ export default {
     },
     setCharts(val) {
       this.chartsValue = []
+      this.fullValue = []
       this.chartsIndicator = []
       while (val.length < 3) {
         val.push({ Score: 1, CourseName: '无', FullScore: 100 })
@@ -129,8 +131,10 @@ export default {
       val.forEach(o => {
         if (o.Score == 0) {
           this.chartsValue.push(1)
+          this.fullValue.push(1)
         } else {
           this.chartsValue.push(o.Score)
+          this.fullValue.push(o.FullScore)
         }
         let a = {
           name: o.CourseName,
@@ -138,40 +142,66 @@ export default {
         }
         this.chartsIndicator.push(a)
       })
-      this.myChart.setOption({
+      let option = {
         title: {
-          text: '各科成绩分布图'
+          text: '各科成绩分布图',
         },
-        tooltip: {},
+        tooltip: { show: true },
         legend: {
-          data: ['班级平均分数', '实际分数']
+          show: true,
+          data: ['各科分数', '各科满分'],
+          bottom: 10
         },
         radar: {
+          indicator: this.chartsIndicator,
+          center: ['50%', '50%'],
           name: {
+            formatter: '【{value}】',
             textStyle: {
-              color: '#fff',
-              backgroundColor: '#999',
-              borderRadius: 3,
-              padding: [3, 5]
+              color: '#666'
             }
           },
-          indicator: this.chartsIndicator
         },
         series: [{
           name: '平均分数对比',
           type: 'radar',
           data: [
-            // {
-            //   value: [4300, 10000, 28000, 35000, 50000, 19000],
-            //   name: '班级平均分数'
-            // },
             {
               value: this.chartsValue,
-              name: '实际分数'
-            }
+              name: '各科分数',
+              areaStyle: {
+                normal: {
+                  opacity: 0.5,
+                }
+              },
+              label: {
+                normal: {
+                  show: true,
+                  formatter: function(params) {
+                    return params.value;
+                  }
+                }
+              },
+              itemStyle: {
+                normal: {
+                  color: '#F9713C'
+                }
+              },
+            },
+            {
+              value: this.fullValue,
+              name: '各科满分',
+              
+              itemStyle: {
+                normal: {
+                  color: '#43b359'
+                }
+              },
+            },
           ]
         }]
-      })
+      }
+      this.myChart.setOption(option)
     }
   },
   created() {
@@ -302,8 +332,8 @@ export default {
 }
 
 #scoreChart {
-  width: 600px;
-  height: 250px;
+  width: 800px;
+  height: 320px;
   margin: 0 auto;
   margin-top: 30px;
 }
