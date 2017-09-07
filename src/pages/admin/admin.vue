@@ -212,6 +212,16 @@
               </el-table-column>
               <el-table-column prop="Sex" label="性别" align="center">
               </el-table-column>
+              <el-table-column prop="ParentName" label="家长" align="center">
+                <template scope="scope">
+                  <el-popover trigger="hover" placement="top">
+                    <p>手机号: {{ scope.row.ParentPhone }}</p>
+                    <div slot="reference" class="name-wrapper">
+                      <el-tag>{{ scope.row.ParentName }}</el-tag>
+                    </div>
+                  </el-popover>
+                </template>
+              </el-table-column>
               <el-table-column prop="Status" label="状态" align="center">
                 <template scope="scope">
                   <div>
@@ -244,7 +254,6 @@
           <el-input v-model="editTeacherData.TrueName"></el-input>
         </el-form-item>
         <el-form-item label="学科">
-          <!-- <el-input v-model="editTeacherData.Course" :disabled="true"></el-input> -->
           <el-select v-model="editTeacherData.Course" placeholder="请选择">
             <el-option v-for="item in courseList" :key="item.CourseId" :label="item.name" :value="item.name">
             </el-option>
@@ -395,6 +404,13 @@ export default {
       })
       this.$API.getStudentList(this.ClassID).then(res => {
         this.studentList = res
+        this.studentList.forEach(o => {
+          if (o.Parents.length > 0) {
+            o.ParentName = o.Parents[0].TrueName
+            o.ParentPhone = o.Parents[0].Mobilephone
+            o.ParentMeid = o.Parents[0].Meid
+          }
+        })
       })
     },
     submitAddTeacher() {
