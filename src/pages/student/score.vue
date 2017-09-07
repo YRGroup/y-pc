@@ -145,12 +145,13 @@ export default {
       let option = {
         title: {
           text: '各科成绩分布图',
+          top:0
         },
         tooltip: { show: true },
         legend: {
           show: true,
           data: ['各科分数', '各科满分'],
-          bottom: 10
+          bottom: 0
         },
         radar: {
           indicator: this.chartsIndicator,
