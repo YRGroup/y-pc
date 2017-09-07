@@ -332,7 +332,7 @@ export default {
 }
 
 #scoreChart {
-  width: 800px;
+  width: 700px;
   height: 320px;
   margin: 0 auto;
   margin-top: 30px;

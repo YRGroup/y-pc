@@ -42,7 +42,8 @@
               </el-select>
             </el-form-item>
             <el-form-item label="教龄" :rules="[{ required: true}]">
-              <el-input v-model="data.SchoolAge" style="width:200px"></el-input>
+              <!-- <el-input v-model="data.SchoolAge" style="width:200px"></el-input> -->
+              <el-input-number v-model="data.SchoolAge" :min="1" :max="100"></el-input-number>
             </el-form-item>
             <el-form-item label="职称" :rules="[{ required: true}]">
               <el-input v-model="data.Title" style="width:200px"></el-input>
@@ -150,6 +151,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'app',
   components: {},
@@ -162,7 +164,7 @@ export default {
       },
       data: {
         PersonalHonor: [],
-        PersonalHonor: [],
+        // PersonalHonor: [],
       },
       showEditHeadImg: false,
       showAddPersonalHonor: false,
@@ -170,7 +172,7 @@ export default {
         Description: '',
         ImgPath: '',
         IsVisible: 'true'
-      },
+      }
     }
   },
   computed: {
