@@ -14,9 +14,9 @@
             <i class="iconfont">&#xe668;</i>个人资料
           </div>
           <div class="item-content" style="padding:0 150px 0 50px">
-            <!-- <el-form-item label="手机号">
+             <el-form-item label="手机号">
                   <el-input v-model="data.Mobilephone" :disabled="true" style="width:200px"></el-input>
-                </el-form-item> -->
+                </el-form-item> 
             <el-form-item label="姓名" prop="TrueName">
               <el-input v-model="data.TrueName" style="width:200px"></el-input>
             </el-form-item>
@@ -26,22 +26,26 @@
                 <el-radio class="radio" v-model="data.Sex" label="女">女</el-radio>
               </template>
             </el-form-item>
-            <el-form-item label="身份证号：" prop="IDCard">
+            <el-form-item label="身份证号" prop="IDCard">
               <el-input v-model="data.IDCard"></el-input>
             </el-form-item>
+            <el-form-item label="年龄" prop="Resume">
+              <!-- <el-input v-model="data.Resume"></el-input> -->
+              <el-date-picker type="date" placeholder="选择日期" v-model="data.Resume" ></el-date-picker>
+            </el-form-item>
             <el-form-item label="民族" prop="Volk">
-              <el-select v-model="data.Volk" placeholder="民族" style="width:200px">
+              <el-select v-model="data.Volk" placeholder="请选择民族" style="width:200px">
                 <el-option v-for="i in $store.state.nationList" :key="i" :label="i" :value="i">
                 </el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="政治面貌" prop="PoliticalStatus">
-              <el-select v-model="data.PoliticalStatus" placeholder="政治面貌：" style="width:200px">
+              <el-select v-model="data.PoliticalStatus" placeholder="请选择政治面貌" style="width:200px">
                 <el-option v-for="i in $store.state.politicalList" :key="i" :label="i" :value="i">
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="教龄" :rules="[{ required: true }]">
+            <el-form-item label="教龄" :rules="[{required: true}]">
               <el-input-number v-model="data.SchoolAge" :min="1" :max="100"></el-input-number>
             </el-form-item>
             <el-form-item label="职称" prop="Title">
@@ -184,18 +188,21 @@ export default {
       rules: {
         TrueName: [
           { required: true, message: '请输入姓名', trigger: 'blur' },
-          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }],
+          { min: 2, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }],
         Sex: [
           { required: true, message: '请选择性别', trigger: 'change' }
         ],
         IDCard: [
           { required: true, message: '请输入身份证号', trigger: 'blur' }
         ],
+        Resume: [
+          { type: 'date', required: true, message: '请选择年龄', trigger: 'blur' }
+        ],
         Volk: [
-          { required: true, message: '请选择民族', trigger: 'change' }
+          { required: true, message: '请选择民族' ,trigger: 'change' }
         ],
         PoliticalStatus: [
-          { required: true, message: '请选择政治面貌', trigger: 'change' }
+          { required: true, message: '请选择政治面貌' ,trigger: 'change'  }
         ],
         Title: [
           { required: true, message: '请填写职称', trigger: 'blur' }

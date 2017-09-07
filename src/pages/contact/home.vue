@@ -34,8 +34,9 @@
     
                   <div class="top" @click="$router.push('/t/?id='+i.Meid)">
                     <div class="img">
-                      <img :src="i.Headimgurl" v-if="i.Headimgurl!='http://pic.yearnedu.com/himg.png' && i.Headimgurl!=''">
-                      <div class="headTextImg" v-else>{{(i.TrueName ||'教师').substr(0,1)}}</div>
+                      <!-- <img :src="i.Headimgurl" v-if="i.Headimgurl!='http://pic.yearnedu.com/himg.png' && i.Headimgurl!=''">
+                      <div class="headTextImg" v-else>{{(i.TrueName ||'教师').substr(0,1)}}</div> -->
+                      <img :src="i.Headimgurl">
                     </div>
                     <div class="name">
                       {{i.TrueName}}
@@ -55,8 +56,9 @@
     
                   <div class="top" @click="$store.getters.role=='老师'?$router.push('/s/?id='+i.Meid):null">
                     <div class="img">
-                      <img :src="i.Headimgurl" v-if="i.Headimgurl!='http://pic.yearnedu.com/himg.png' && i.Headimgurl!=''">
-                      <div class="headTextImg" v-else>{{i.TrueName.substr(0,1)}}</div>
+                      <!-- <img :src="i.Headimgurl" v-if="i.Headimgurl!='http://pic.yearnedu.com/himg.png' && i.Headimgurl!=''">
+                      <div class="headTextImg" v-else>{{i.TrueName.substr(0,1)}}</div> -->
+                      <img :src="i.Headimgurl">
                     </div>
                     <div class="name">{{i.TrueName}}</div>
                   </div>
@@ -73,8 +75,9 @@
     
                   <div class="top">
                     <div class="img">
-                      <img :src="i.ParentHeadimgurl" v-if="i.ParentHeadimgurl!='http://pic.yearnedu.com/himg.png' && i.ParentHeadimgurl!=''">
-                      <div class="headTextImg" v-else>{{i.StudentTrueName.substr(0,1) || 'null'}}</div> 
+                      <!-- <img :src="i.ParentHeadimgurl" v-if="i.ParentHeadimgurl!='http://pic.yearnedu.com/himg.png' && i.ParentHeadimgurl!=''">
+                      <div class="headTextImg" v-else>{{i.StudentTrueName.substr(0,1) || 'null'}}</div>  -->
+                      <img :src="i.Headimgurl">
                     </div>
                     <div class="name">
                       {{i.ParentTrueName}}

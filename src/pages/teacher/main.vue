@@ -43,7 +43,7 @@
               </p>
               <p>
                 <span class="title">教龄：</span>
-                <span>{{profileData.SchoolAge}}</span>
+                <span>{{profileData.SchoolAge}} 年</span>
               </p>
               <p>
                 <span class="title">职称：</span>

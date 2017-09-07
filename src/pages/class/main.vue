@@ -30,8 +30,9 @@
     <div v-else>
       <div class="card panel" v-for="i in data" :key="i.ID">
         <div class="img" @click="openUserPage(i)">
-          <img :src="i.userImg" v-if="i.userImg!='http://pic.yearnedu.com/himg.png' && i.userImg!=''">
-          <div class="headTextImg" v-else>{{i.auther.substr(0,1)}}</div>
+          <!-- <img :src="i.userImg" v-if="i.userImg!='http://pic.yearnedu.com/himg.png' && i.userImg!=''">
+          <div class="headTextImg" v-else>{{i.auther.substr(0,1)}}</div> -->
+           <img :src="i.userImg">
         </div>
         <div class="tips">{{i.category}}</div>
         <div class="header">{{i.auther}}</div>
