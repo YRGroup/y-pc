@@ -6,10 +6,16 @@ import 'element-ui/lib/theme-default/index.css'
 import App from './App'
 import router from './router'
 import store from './store'
+import API from './server/API'
 
 Vue.use(ElementUI)
 
 Vue.config.productionTip = false
+
+router.beforeEach((to, from, next) => {
+  API.refreshLiveness()
+  next()
+})
 
 // 日期格式化
 Date.prototype.Format = function (fmt) { //author: meizz 
@@ -28,7 +34,6 @@ Date.prototype.Format = function (fmt) { //author: meizz
   return fmt;
 }
 
-import API from './server/API'
 Vue.prototype.$API = API
 
 import md5 from 'js-md5'

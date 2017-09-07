@@ -61,7 +61,7 @@ export default new Router({
           name: 'news',
           component: news,
         },
-         {
+        {
           path: '/docs',
           name: 'docs',
           component: docs,
