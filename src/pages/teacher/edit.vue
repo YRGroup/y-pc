@@ -8,47 +8,46 @@
     </div>
     <div class="content">
 
-      <el-form label-width="100px">
+      <el-form label-width="100px" :model="data" :rules="rules" ref="ruleForm">
         <div class="itemList">
           <div class="header">
             <i class="iconfont">&#xe668;</i>个人资料
           </div>
           <div class="item-content" style="padding:0 150px 0 50px">
-            <el-form-item label="手机号">
-              <el-input v-model="data.Mobilephone" :disabled="true" style="width:200px"></el-input>
-            </el-form-item>
-            <el-form-item label="姓名" :rules="[{ required: true}]">
+            <!-- <el-form-item label="手机号">
+                  <el-input v-model="data.Mobilephone" :disabled="true" style="width:200px"></el-input>
+                </el-form-item> -->
+            <el-form-item label="姓名" prop="TrueName">
               <el-input v-model="data.TrueName" style="width:200px"></el-input>
             </el-form-item>
-            <el-form-item label="性别" :rules="[{ required: true}]">
+            <el-form-item label="性别" prop="Sex">
               <template>
                 <el-radio class="radio" v-model="data.Sex" label="男">男</el-radio>
                 <el-radio class="radio" v-model="data.Sex" label="女">女</el-radio>
               </template>
             </el-form-item>
-            <el-form-item label="身份证号：" :rules="[{ required: true}]">
+            <el-form-item label="身份证号：" prop="IDCard">
               <el-input v-model="data.IDCard"></el-input>
             </el-form-item>
-            <el-form-item label="民族" :rules="[{ required: true}]">
+            <el-form-item label="民族" prop="Volk">
               <el-select v-model="data.Volk" placeholder="民族" style="width:200px">
                 <el-option v-for="i in $store.state.nationList" :key="i" :label="i" :value="i">
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="政治面貌" :rules="[{ required: true}]">
+            <el-form-item label="政治面貌" prop="PoliticalStatus">
               <el-select v-model="data.PoliticalStatus" placeholder="政治面貌：" style="width:200px">
                 <el-option v-for="i in $store.state.politicalList" :key="i" :label="i" :value="i">
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="教龄" :rules="[{ required: true}]">
-              <!-- <el-input v-model="data.SchoolAge" style="width:200px"></el-input> -->
+            <el-form-item label="教龄" :rules="[{ required: true }]">
               <el-input-number v-model="data.SchoolAge" :min="1" :max="100"></el-input-number>
             </el-form-item>
-            <el-form-item label="职称" :rules="[{ required: true}]">
+            <el-form-item label="职称" prop="Title">
               <el-input v-model="data.Title" style="width:200px"></el-input>
             </el-form-item>
-            <el-form-item label="修改头像" :rules="[{ required: true}]">
+            <el-form-item label="修改头像" prop="Headimgurl">
               <div class="headImg">
                 <div class="right">
                   <el-upload list-type="picture-card" class="avatar-uploader" :action="$store.getters._APIurl+'/api/Upload/ImageUpload'" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
@@ -139,13 +138,13 @@
           </div>
         </div>
 
+        <div class="footer">
+          <div class="btn center">
+            <el-button type="success" @click.native="submitChange(data)">提交修改</el-button>
+          </div>
+        </div>
       </el-form>
 
-    </div>
-    <div class="footer">
-      <div class="btn center">
-        <el-button type="success" @click.native="submitChange">提交修改</el-button>
-      </div>
     </div>
   </div>
 </template>
@@ -172,6 +171,39 @@ export default {
         Description: '',
         ImgPath: '',
         IsVisible: 'true'
+      },
+      ruleForm: {
+        TrueName: '',
+        Sex: '',
+        IDCard: '',
+        Volk: '',
+        PoliticalStatus: '',
+        Title: '',
+        Headimgurl: ''
+      },
+      rules: {
+        TrueName: [
+          { required: true, message: '请输入姓名', trigger: 'blur' },
+          { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }],
+        Sex: [
+          { required: true, message: '请选择性别', trigger: 'change' }
+        ],
+        IDCard: [
+          { required: true, message: '请输入身份证号', trigger: 'blur' }
+        ],
+        Volk: [
+          { required: true, message: '请选择民族', trigger: 'change' }
+        ],
+        PoliticalStatus: [
+          { required: true, message: '请选择政治面貌', trigger: 'change' }
+        ],
+        Title: [
+          { required: true, message: '请填写职称', trigger: 'blur' }
+        ],
+        Headimgurl: [
+          { required: true, message: '请上传头像', trigger: 'blur' }
+        ],
+
       }
     }
   },
@@ -196,24 +228,41 @@ export default {
         }
       })
     },
-    submitChange() {
+    submitChange(data) {
       this.data.role = 3
-      this.verifyIDcard().then(res => {
-        if (this.data.Sex === '未知' || !this.data.SchoolAge || !this.data.Title || !this.data.Volk || !this.data.PoliticalStatus) {
-          this.$message.error('资料不完整')
-        } else {
-          this.$API.editTeacherInfo(this.data).then(res => {
-            this.$API.getCurrentUser().then(user => {
-              this.$store.commit('login', user)
+      this.$refs.ruleForm.validate((valid) => {
+        if (valid) {
+          this.verifyIDcard().then(res => {
+            this.$API.editTeacherInfo(this.data).then(res => {
+              this.$API.getCurrentUser().then(user => {
+                this.$store.commit('login', user)
+              })
+              this.$router.push('/teacher')
+            }).catch(err => {
+              this.$message.error(err.msg)
             })
-            this.$router.push('/teacher')
           }).catch(err => {
-            this.$message.error(err.msg)
+            this.$message.error('请输入正确的身份证号')
           })
+        } else {
+          console.log('error submit!!');
+          return false;
         }
-      }).catch(err => {
-        this.$message.error('请输入正确的身份证号')
-      })
+      });
+
+      // this.data.role = 3
+      // this.verifyIDcard().then(res => {
+      //     this.$API.editTeacherInfo(this.data).then(res => {
+      //       this.$API.getCurrentUser().then(user => {
+      //         this.$store.commit('login', user)
+      //       })
+      //       this.$router.push('/teacher')
+      //     }).catch(err => {
+      //       this.$message.error(err.msg)
+      //     })
+      // }).catch(err => {
+      //   this.$message.error('请输入正确的身份证号')
+      // })
     },
     handleAvatarSuccess(res, file) {
       this.data.Headimgurl = res.Content[0] + '?x-oss-process=style/f300'
@@ -311,7 +360,7 @@ export default {
       }
       .item-content {
         .el-form-item {
-          margin-bottom: 15px;
+          // margin-bottom: 15px;
         } // padding-top:30px;
         // text-align: center;
         margin-left: 40px;
@@ -324,7 +373,7 @@ export default {
     }
   }
   .footer {
-    padding-bottom: 30px;
+    padding: 30px 0;
     .btn {
       padding: 0 15px;
     }
