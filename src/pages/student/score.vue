@@ -71,7 +71,8 @@ export default {
       pagesize: 5,
       allPagesize: [5, 10, 15, 20, 30, 50],
       chartsIndicator: [],
-      chartsValue: [],
+      chart_line1:[],
+      chart_line2:[],
       myChart: null
     }
   },
@@ -118,23 +119,22 @@ export default {
       }
     },
     changeScore(ExamID) {
-      this.$router.push('/student/' + this.$store.state.currentStudentId + '/score/' + ExamID)
       this.getScore(ExamID)
     },
     setCharts(val) {
-      this.chartsValue = []
-      this.fullValue = []
+      this.chart_line1=[]
+      this.chart_line2=[]
       this.chartsIndicator = []
       while (val.length < 3) {
         val.push({ Score: 1, CourseName: '无', FullScore: 100 })
       }
       val.forEach(o => {
         if (o.Score == 0) {
-          this.chartsValue.push(1)
-          this.fullValue.push(1)
+          this.chart_line1.push(1)
+          this.chart_line2.push(1)
         } else {
-          this.chartsValue.push(o.Score)
-          this.fullValue.push(o.FullScore)
+          this.chart_line1.push(o.Score)
+          this.chart_line2.push(o.ClassAvgScore)
         }
         let a = {
           name: o.CourseName,
@@ -150,7 +150,7 @@ export default {
         tooltip: { show: true },
         legend: {
           show: true,
-          data: ['各科分数', '各科满分'],
+          data: ['学生得分', '班级平均分'],
           bottom: 0
         },
         radar: {
@@ -168,8 +168,8 @@ export default {
           type: 'radar',
           data: [
             {
-              value: this.chartsValue,
-              name: '各科分数',
+              value: this.chart_line1,
+              name: '学生得分',
               areaStyle: {
                 normal: {
                   opacity: 0.5,
@@ -190,8 +190,8 @@ export default {
               },
             },
             {
-              value: this.fullValue,
-              name: '各科满分',
+              value: this.chart_line2,
+              name: '班级平均分',
               
               itemStyle: {
                 normal: {
