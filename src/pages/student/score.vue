@@ -123,8 +123,8 @@ export default {
     },
     setCharts(val) {
       this.chart_line1=[]   //本次成绩
-      this.chart_line2=[]   //班级平均分
-      this.chart_line3=[]   //各科满分
+      this.chart_line2=[]   //各科满分
+      this.chart_line3=[]   //班级平均分
       this.chartsIndicator = []
       while (val.length < 3) {
         val.push({ Score: 1, CourseName: '无', FullScore: 100 })
@@ -154,11 +154,11 @@ export default {
         legend: {
           show: true,
           data: ['本次成绩', '班级平均分', '各科满分'],
-          bottom: 0
+          top: 0,
         },
         radar: {
           indicator: this.chartsIndicator,
-          center: ['50%', '50%'],
+          center: ['50%', 180],
           name: {
             formatter: '【{value}】',
             textStyle: {
@@ -194,16 +194,16 @@ export default {
             },
             {
               value: this.chart_line2,
-              name: '班级平均分',
+              name: '各科满分',
               itemStyle: {
                 normal: {
-                  color: '#218fc3'
+                  color: '#c9c9c9'
                 }
               },
             },
             {
               value: this.chart_line3,
-              name: '各科满分',
+              name: '班级平均分',
               itemStyle: {
                 normal: {
                   color: '#43b359'
