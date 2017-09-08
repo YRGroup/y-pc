@@ -124,6 +124,7 @@ export default {
     setCharts(val) {
       this.chartsValue = []
       this.fullValue = []
+      this.AvgScore = []
       this.chartsIndicator = []
       while (val.length < 3) {
         val.push({ Score: 1, CourseName: '无', FullScore: 100 })
@@ -132,9 +133,11 @@ export default {
         if (o.Score == 0) {
           this.chartsValue.push(1)
           this.fullValue.push(1)
+          this.AvgScore.push(1)
         } else {
           this.chartsValue.push(o.Score)
           this.fullValue.push(o.FullScore)
+          this.AvgScore.push(o.ClassAvgScore)
         }
         let a = {
           name: o.CourseName,
@@ -145,12 +148,12 @@ export default {
       let option = {
         title: {
           text: '各科成绩分布图',
-          top:0
+          top: 0
         },
         tooltip: { show: true },
         legend: {
           show: true,
-          data: ['各科分数', '各科满分'],
+          data: ['各科分数', '班级平均分', '各科满分'],
           bottom: 0
         },
         radar: {
@@ -190,9 +193,18 @@ export default {
               },
             },
             {
+              value: this.AvgScore,
+              name: '班级平均分',
+              itemStyle: {
+                normal: {
+                  color: '#218fc3'
+                }
+              },
+            },
+            {
               value: this.fullValue,
               name: '各科满分',
-              
+
               itemStyle: {
                 normal: {
                   color: '#43b359'
