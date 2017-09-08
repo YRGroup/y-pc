@@ -71,8 +71,8 @@ export default {
       pagesize: 5,
       allPagesize: [5, 10, 15, 20, 30, 50],
       chartsIndicator: [],
-      chart_line1:[],
-      chart_line2:[],
+      chart_line1: [],
+      chart_line2: [],
       myChart: null
     }
   },
@@ -122,9 +122,9 @@ export default {
       this.getScore(ExamID)
     },
     setCharts(val) {
-      this.chart_line1=[]   //本次成绩
-      this.chart_line2=[]   //各科满分
-      this.chart_line3=[]   //班级平均分
+      this.chart_line1 = []   //本次成绩
+      this.chart_line2 = []   //各科满分
+      this.chart_line3 = []   //班级平均分
       this.chartsIndicator = []
       while (val.length < 3) {
         val.push({ Score: 1, CourseName: '无', FullScore: 100 })
@@ -133,11 +133,9 @@ export default {
         if (o.Score == 0) {
           this.chart_line1.push(1)
           this.chart_line2.push(1)
-          this.chart_line3.push(1)
         } else {
           this.chart_line1.push(o.Score)
-          this.chart_line2.push(o.FullScore)
-          this.chart_line3.push(o.ClassAvgScore)
+          this.chart_line2.push(o.ClassAvgScore)
         }
         let a = {
           name: o.CourseName,
@@ -153,8 +151,8 @@ export default {
         tooltip: { show: true },
         legend: {
           show: true,
-          data: ['本次成绩', '班级平均分', '各科满分'],
-          top: 0,
+          data: ['本次成绩', '班级平均分'],
+          right: 'right'
         },
         radar: {
           indicator: this.chartsIndicator,
@@ -194,15 +192,6 @@ export default {
             },
             {
               value: this.chart_line2,
-              name: '各科满分',
-              itemStyle: {
-                normal: {
-                  color: '#c9c9c9'
-                }
-              },
-            },
-            {
-              value: this.chart_line3,
               name: '班级平均分',
               itemStyle: {
                 normal: {

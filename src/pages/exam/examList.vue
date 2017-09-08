@@ -4,8 +4,8 @@
     <div class="card panel">
       <!-- <div class="examselect"> -->
       <!-- <el-select v-model="currentClass" placeholder="班级" @change="changeCurrentClass">
-                <el-option :label="i.name" :value="i.id" v-for="i in currentClassList" :key="i.id"></el-option>
-              </el-select> -->
+                        <el-option :label="i.name" :value="i.id" v-for="i in currentClassList" :key="i.id"></el-option>
+                      </el-select> -->
       <div style="text-align:center">
         <el-button @click="showAddExam=true" type="success" class="ml20 addBtn">添加新考试</el-button>
       </div>
@@ -20,16 +20,15 @@
             <span>
               <i class="iconfont">&#xe621;</i>创建时间：{{i.CreateTime}}</span>
             <span>
-              <i class="iconfont">&#xe6b4;</i>学科：
-              <span v-if="i.Courses.length>3">多学科</span>
-              <span v-else v-for="c in i.Courses" :key="c.ID">{{c.CourseName}}</span>
+              <i class="iconfont">&#xe6b4;</i>考试类型： {{i.Type | formatExamType}}
             </span>
           </div>
           <div class="exambtn">
             <el-button class="delbtn" :plain="true" type="text" @click="delExam(i.ID,i.ExamName)" size="small">
               <i class="iconfont">&#xe630;</i> 删除</el-button>
             <el-button :type="!i.IsSendMsg?'info':null" @click="sendExamNotice(i.ID)" :disabled="i.IsSendMsg">发通知</el-button>
-            <el-button type="success" class="type" @click="$router.push('/exam/'+i.ID)">查看成绩</el-button>
+            <el-button type="success" class="type" @click="$router.push('/exam/'+i.ID)">录入成绩</el-button>
+            <el-button type="warning" class="type" @click="$router.push('/examChart/'+i.ID)">成绩报表</el-button>
           </div>
         </li>
       </div>
@@ -50,17 +49,20 @@
           </el-form-item>
         </div>
         <div>
-          <el-form-item label="选择学科">
+          <el-form-item label="考试类型">
             <el-radio-group v-model="newExamData.Type" @change="examType">
-              <el-radio class="radio" label="0">全学科</el-radio>
-              <el-radio class="radio" label="1">自选学科</el-radio>
+              <el-radio class="radio" label="0">自定</el-radio>
+              <el-radio class="radio" label="1">期中考试</el-radio>
+              <el-radio class="radio" label="2">期末考试</el-radio>
+              <el-radio class="radio" label="3">周考</el-radio>
+              <el-radio class="radio" label="4">月考</el-radio>
             </el-radio-group>
           </el-form-item>
         </div>
         <div>
           <el-form-item label="学科" :rules="[{ required: true}]">
             <el-checkbox-group v-model="newExamData.courses" class="checkbox">
-              <el-checkbox :label="i.CourseId" v-for="i in courseList" :key="i.CourseId" class="item">
+              <el-checkbox :label="i.CourseId" v-for="i in courseList" :key="i.CourseId" class="item" :disabled="newExamData.Type!=0">
                 {{i.name}}
                 <span style="font-size:12px">（总分
                   <el-input v-model="i.FullScore" size="mini" style="width:50px;" placeholder="总分"></el-input>）
@@ -166,6 +168,22 @@ export default {
       return this.$store.state.currentClassList
     }
   },
+  filters: {
+    formatExamType(val) {
+      switch (val) {
+        case 0:
+          return '自定'
+        case 1:
+          return '期中考试'
+        case 2:
+          return '期末考试'
+        case 3:
+          return '周考'
+        case 4:
+          return '月考'
+      }
+    }
+  },
   methods: {
     sendExamNotice(id) {
       this.$confirm('请确认考试成绩录入完整', '提示', {
@@ -235,17 +253,17 @@ export default {
             ClassID: '',
             Type: '',
             ExamCourses: [],
-            courses: []
+            courses: [1, 2, 3, 4, 5, 6, 7, 8, 9]
           }
         })
       }
     },
     examType(n) {
       if (n == 0) {
-        this.newExamData.courses = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-      }
-      if (n == 1) {
         this.newExamData.courses = []
+      } else {
+        this.newExamData.courses = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
       }
     },
     delExam(id, name) {

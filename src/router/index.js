@@ -32,6 +32,7 @@ import addStudent from '@/pages/parent/addStudent'
 
 import examList from '@/pages/exam/examList'
 import exam from '@/pages/exam/exam'
+import examChart from '@/pages/exam/examChart'
 
 import schoolcard from '@/pages/addon/schoolcard'
 
@@ -187,6 +188,11 @@ export default new Router({
           path: '/exam/:examId',
           name: 'exam',
           component: exam,
+        },
+        {
+          path: '/examChart/:examId',
+          name: 'examChart',
+          component: examChart,
         },
         {
           path: '/admin',
