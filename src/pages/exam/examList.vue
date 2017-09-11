@@ -29,7 +29,7 @@
 
       <div class="chart">
         <div class="header">
-          <div class="label">选择数据来源</div>
+          <div class="label">选择数据来源：</div>
           <el-checkbox-group v-model="chartDataType">
             <el-checkbox label="自订" disabled></el-checkbox>
             <el-checkbox label="1">期中考试</el-checkbox>
@@ -37,7 +37,9 @@
             <el-checkbox label="3">周考</el-checkbox>
             <el-checkbox label="4">月考</el-checkbox>
           </el-checkbox-group>
-          <el-button type="primary" @click="getChart">重新查询</el-button>
+          <div class="label">展示形式：</div>
+          <el-checkbox v-model="chartDataStack">各科数据层叠</el-checkbox>
+          <el-button type="primary" @click="getChart" style="margin-left:20px">重新查询</el-button>
         </div>
         <div id="chart10" style="width:100%; height:400px;"></div>
       </div>
@@ -170,6 +172,7 @@ export default {
       chart10_xAxis: [],
       chart10_legend: [],
       chart10_series: [],
+      chartDataStack: false,
       chartData: {}
     }
   },
@@ -247,15 +250,18 @@ export default {
         }
       })
     },
-    getChart() {
+    async getChart() {
       this.chart10_xAxis = []
       this.chart10_legend = []
       this.chart10_series = []
+      if(this.chart10){
+        this.chart10.clear()
+      }
       let para = {
         ClassID: this.currentClass,
         Type: this.chartDataType.join(',')
       }
-      this.$API.GetSingleCourseScoreByClassID(para).then(res => {
+      await this.$API.GetSingleCourseScoreByClassID(para).then(res => {
         this.chartData = res
         this.chart10_legend = this.chartData[0].Info.map(b => { return b.CourseName })
         this.chart10_legend.forEach(o => {
@@ -263,12 +269,20 @@ export default {
           this.chartData.forEach(b => {
             seriesData.push(b.Info.find(j => { return j.CourseName == o }).AvgTotalScore)
           })
-          this.chart10_series.push({
-            name: o,
-            type: 'line',
-            stack: '总量',
-            data: seriesData
-          })
+          if (this.chartDataStack) {
+            this.chart10_series.push({
+              name: o,
+              type: 'line',
+              stack: '总量',
+              data: seriesData
+            })
+          } else {
+            this.chart10_series.push({
+              name: o,
+              type: 'line',
+              data: seriesData
+            })
+          }
         })
         this.chartData.forEach(o => {
           this.chart10_xAxis.push(o.ExamName)
