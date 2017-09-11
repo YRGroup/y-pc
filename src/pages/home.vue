@@ -20,6 +20,8 @@
             <i class="iconfont">&#xe67f;</i>一卡通</li>
           <li @click="$router.push('/contact')" :class="link=='contact'?'active':null">
             <i class="iconfont">&#xe6a5;</i>通讯录</li>
+          <li @click="$router.push('/course')" :class="link=='course'?'active':null">
+            <i class="iconfont">&#xe64b;</i>在线课程</li>
           <li @click="$router.push('/teacher')" v-show="role=='老师'" :class="link=='teacher'?'active':null">
             <i class="iconfont">&#xe64b;</i>个人主页</li>
           <li @click="$router.push('/student/'+$store.state.currentStudentId+'/score/1')" v-show="$store.getters.role!='老师'" :class="link=='score'?'active':null">

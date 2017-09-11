@@ -189,6 +189,7 @@ ol,ul {
 
 a{
   cursor: pointer;
+  transition: .2s all linear;
 }
 a:link {
   text-decoration: none;
@@ -257,3 +258,14 @@ a:hover{
     }
   }
 }
+
+.clearfix:after {
+    content: '\0020';
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden
+}
+
+.clearfix {
+    *zoom:1}

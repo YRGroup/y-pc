@@ -1,5 +1,4 @@
 <template>
-  <div>
 
     <div class="card panel">
       <div style="text-align:center">
@@ -7,97 +6,99 @@
       </div>
 
       <no-data v-if="nodataImg"></no-data>
-      <div class="examlist" v-else>
-        <li class="item" v-for="(i,index) in data" :key="index">
-          <div class="examtitle">{{i.ExamName}}</div>
-          <div class="examinfo">
-            <span>
-              <i class="iconfont">&#xe621;</i>考试时间：{{i.ExamTime|FormatDate}}</span>
-            <span>
-              <i class="iconfont">&#xe6b4;</i>考试类型： {{i.Type | formatExamType}}
-            </span>
-          </div>
-          <div class="exambtn">
-            <el-button class="delbtn" :plain="true" type="text" @click="delExam(i.ID,i.ExamName)" size="small">
-              <i class="iconfont">&#xe630;</i> 删除</el-button>
-            <el-button :type="!i.IsSendMsg?'info':null" @click="sendExamNotice(i.ID)" :disabled="i.IsSendMsg">发通知</el-button>
-            <el-button type="success" class="type" @click="$router.push('/exam/'+i.ID)">录入成绩</el-button>
-            <el-button type="warning" class="type" @click="$router.push('/examChart/'+i.ID)">成绩报表</el-button>
-          </div>
-        </li>
-      </div>
+      <div v-else>
+        <div class="examlist">
+          <li class="item" v-for="(i,index) in data" :key="index">
+            <div class="examtitle">{{i.ExamName}}</div>
+            <div class="examinfo">
+              <span>
+                <i class="iconfont">&#xe621;</i>考试时间：{{i.ExamTime|FormatDate}}</span>
+              <span>
+                <i class="iconfont">&#xe6b4;</i>考试类型： {{i.Type | formatExamType}}
+              </span>
+            </div>
+            <div class="exambtn">
+              <el-button class="delbtn" :plain="true" type="text" @click="delExam(i.ID,i.ExamName)" size="small">
+                <i class="iconfont">&#xe630;</i> 删除</el-button>
+              <el-button :type="!i.IsSendMsg?'info':null" @click="sendExamNotice(i.ID)" :disabled="i.IsSendMsg">发通知</el-button>
+              <el-button type="success" class="type" @click="$router.push('/exam/'+i.ID)">录入成绩</el-button>
+              <el-button type="warning" class="type" @click="$router.push('/examChart/'+i.ID)">成绩报表</el-button>
+            </div>
+          </li>
+        </div>
 
-      <div class="chart">
-        <div class="header">
-          <div class="label">选择数据来源：</div>
-          <el-checkbox-group v-model="chartDataType">
-            <el-checkbox label="自订" disabled></el-checkbox>
-            <el-checkbox label="1">期中考试</el-checkbox>
-            <el-checkbox label="2">期末考试</el-checkbox>
-            <el-checkbox label="3">周考</el-checkbox>
-            <el-checkbox label="4">月考</el-checkbox>
-          </el-checkbox-group>
-          <div class="label">展示形式：</div>
-          <el-checkbox v-model="chartDataStack">各科数据层叠</el-checkbox>
-          <el-button type="primary" @click="getChart" style="margin-left:20px">重新查询</el-button>
-        </div>
-        <div id="chart10" style="width:100%; height:400px;"></div>
-      </div>
-    </div>
-
-    <el-dialog title="创建新考试" :visible.sync="showAddExam" size="tiny">
-      <el-form :model="newExamData" label-width="100px">
-        <div>
-          <el-form-item label="所属班级">
-            <el-select v-model="newExamData.ClassID" placeholder="请选择班级">
-              <el-option :label="i.name" :value="i.id" v-for="i in currentClassList" :key="i.id"></el-option>
-            </el-select>
-          </el-form-item>
-        </div>
-        <div>
-          <el-form-item label="考试名称" :rules="[{ required: true}]">
-            <el-input v-model="newExamData.ExamName" auto-complete="off"></el-input>
-          </el-form-item>
-        </div>
-        <div>
-          <el-form-item label="考试时间" :rules="[{ required: true}]">
-            <el-date-picker v-model="newExamData.ExamTime" type="date" placeholder="选择日期" format="yyyy 年 M 月 d 日">
-            </el-date-picker>
-          </el-form-item>
-        </div>
-        <div>
-          <el-form-item label="考试类型">
-            <el-radio-group v-model="newExamData.Type" @change="examType">
-              <el-radio class="radio" label="0">自订</el-radio>
-              <el-radio class="radio" label="1">期中考试</el-radio>
-              <el-radio class="radio" label="2">期末考试</el-radio>
-              <el-radio class="radio" label="3">周考</el-radio>
-              <el-radio class="radio" label="4">月考</el-radio>
-            </el-radio-group>
-          </el-form-item>
-        </div>
-        <div>
-          <el-form-item label="学科" :rules="[{ required: true}]">
-            <el-checkbox-group v-model="newExamData.courses" class="checkbox">
-              <el-checkbox :label="i.CourseId" v-for="i in courseList" :key="i.CourseId" class="item" :disabled="newExamData.Type!=0">
-                {{i.name}}
-                <span style="font-size:12px">（总分
-                  <el-input v-model="i.FullScore" size="mini" style="width:50px;" placeholder="总分"></el-input>）
-                </span>
-              </el-checkbox>
+        <div class="chart">
+          <div class="header">
+            <div class="label">选择数据来源：</div>
+            <el-checkbox-group v-model="chartDataType">
+              <el-checkbox label="自订" disabled></el-checkbox>
+              <el-checkbox label="1">期中考试</el-checkbox>
+              <el-checkbox label="2">期末考试</el-checkbox>
+              <el-checkbox label="3">周考</el-checkbox>
+              <el-checkbox label="4">月考</el-checkbox>
             </el-checkbox-group>
-          </el-form-item>
+            <div class="label">展示形式：</div>
+            <el-checkbox v-model="chartDataStack">各科数据层叠</el-checkbox>
+            <el-button type="primary" @click="getChart" style="margin-left:20px">重新查询</el-button>
+          </div>
+          <div id="chart10" style="width:100%; height:450px;"></div>
         </div>
-        <div>
-          <el-form-item label="">
-            <el-button type="success" @click.native="addNewExam">确 定</el-button>
-            <el-button @click="showAddExam = false" :plain="true" type="success">取 消</el-button>
-          </el-form-item>
-        </div>
-      </el-form>
-    </el-dialog>
 
-  </div>
+      </div>
+
+      <el-dialog title="创建新考试" :visible.sync="showAddExam" size="tiny">
+        <el-form :model="newExamData" label-width="100px">
+          <div>
+            <el-form-item label="所属班级">
+              <el-select v-model="newExamData.ClassID" placeholder="请选择班级">
+                <el-option :label="i.name" :value="i.id" v-for="i in currentClassList" :key="i.id"></el-option>
+              </el-select>
+            </el-form-item>
+          </div>
+          <div>
+            <el-form-item label="考试名称" :rules="[{ required: true}]">
+              <el-input v-model="newExamData.ExamName" auto-complete="off"></el-input>
+            </el-form-item>
+          </div>
+          <div>
+            <el-form-item label="考试时间" :rules="[{ required: true}]">
+              <el-date-picker v-model="newExamData.ExamTime" type="date" placeholder="选择日期" format="yyyy 年 M 月 d 日">
+              </el-date-picker>
+            </el-form-item>
+          </div>
+          <div>
+            <el-form-item label="考试类型">
+              <el-radio-group v-model="newExamData.Type" @change="examType">
+                <el-radio class="radio" label="0">自订</el-radio>
+                <el-radio class="radio" label="1">期中考试</el-radio>
+                <el-radio class="radio" label="2">期末考试</el-radio>
+                <el-radio class="radio" label="3">周考</el-radio>
+                <el-radio class="radio" label="4">月考</el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </div>
+          <div>
+            <el-form-item label="学科" :rules="[{ required: true}]">
+              <el-checkbox-group v-model="newExamData.courses" class="checkbox">
+                <el-checkbox :label="i.CourseId" v-for="i in courseList" :key="i.CourseId" class="item" :disabled="newExamData.Type!=0">
+                  {{i.name}}
+                  <span style="font-size:12px">（总分
+                    <el-input v-model="i.FullScore" size="mini" style="width:50px;" placeholder="总分"></el-input>）
+                  </span>
+                </el-checkbox>
+              </el-checkbox-group>
+            </el-form-item>
+          </div>
+          <div>
+            <el-form-item label="">
+              <el-button type="success" @click.native="addNewExam">确 定</el-button>
+              <el-button @click="showAddExam = false" :plain="true" type="success">取 消</el-button>
+            </el-form-item>
+          </div>
+        </el-form>
+      </el-dialog>
+
+    </div>
 </template>
 
 <script>
@@ -250,18 +251,18 @@ export default {
         }
       })
     },
-    async getChart() {
-      this.chart10_xAxis = []
-      this.chart10_legend = []
-      this.chart10_series = []
-      if(this.chart10){
+    getChart() {
+      this.chart10_xAxis = [] //考试名称
+      this.chart10_legend = [] //科目
+      this.chart10_series = []  //数据
+      if (this.chart10) {
         this.chart10.clear()
       }
       let para = {
         ClassID: this.currentClass,
         Type: this.chartDataType.join(',')
       }
-      await this.$API.GetSingleCourseScoreByClassID(para).then(res => {
+      this.$API.GetSingleCourseScoreByClassID(para).then(res => {
         this.chartData = res
         this.chart10_legend = this.chartData[0].Info.map(b => { return b.CourseName })
         this.chart10_legend.forEach(o => {
@@ -361,7 +362,7 @@ export default {
           trigger: 'axis'
         },
         legend: {
-          data: this.chart10_legend
+          data: this.chart10_legend,
         },
         grid: {
           left: '3%',
@@ -376,14 +377,18 @@ export default {
         },
         xAxis: {
           type: 'category',
-          boundaryGap: false,
-          data: this.chart10_xAxis
+          data: this.chart10_xAxis,
+          splitArea: {
+            show: true
+          },
         },
         yAxis: {
-          type: 'value'
+          type: 'value',
+          name: '分数'
         },
         series: this.chart10_series
       })
+
     },
   },
   created() {
@@ -401,7 +406,7 @@ export default {
 
 .card {
   min-height: 600px;
-  margin-bottom: 15px; // text-align: center;
+  margin-bottom: 15px;
   .ml20 {
     margin-left: 20px;
   }
@@ -490,7 +495,7 @@ export default {
     }
   }
   #chart10 {
-    margin-top: 30px;
+    margin-top: 20px;
   }
 }
 </style>

@@ -45,6 +45,11 @@ import errorPage from '@/pages/sys/404'
 
 import add from '@/components/address'
 
+import courselist from '@/pages/course/list'
+import learn from '@/pages/course/learn'
+
+
+
 
 Vue.use(Router)
 
@@ -198,6 +203,16 @@ export default new Router({
           path: '/admin',
           name: 'admin',
           component: admin,
+        },
+        {
+          path: '/course',
+          name: 'course',
+          component: courselist,
+        },
+        {
+          path: '/learn/:learn',
+          name: 'learn',
+          component: learn,
         },
       ]
     },
