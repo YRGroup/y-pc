@@ -2,23 +2,17 @@
   <div>
 
     <div class="card panel">
-      <!-- <div class="examselect"> -->
-      <!-- <el-select v-model="currentClass" placeholder="班级" @change="changeCurrentClass">
-                        <el-option :label="i.name" :value="i.id" v-for="i in currentClassList" :key="i.id"></el-option>
-                      </el-select> -->
       <div style="text-align:center">
         <el-button @click="showAddExam=true" type="success" class="ml20 addBtn">添加新考试</el-button>
       </div>
-      <!-- </div> -->
 
       <no-data v-if="nodataImg"></no-data>
       <div class="examlist" v-else>
         <li class="item" v-for="(i,index) in data" :key="index">
-          <!-- <div class="index">{{index+1}}</div>  -->
           <div class="examtitle">{{i.ExamName}}</div>
           <div class="examinfo">
             <span>
-              <i class="iconfont">&#xe621;</i>创建时间：{{i.CreateTime}}</span>
+              <i class="iconfont">&#xe621;</i>考试时间：{{i.ExamTime|FormatDate}}</span>
             <span>
               <i class="iconfont">&#xe6b4;</i>考试类型： {{i.Type | formatExamType}}
             </span>
@@ -31,6 +25,10 @@
             <el-button type="warning" class="type" @click="$router.push('/examChart/'+i.ID)">成绩报表</el-button>
           </div>
         </li>
+      </div>
+
+      <div class="chart">
+        <div id="chart10" style="width:100%; height:400px;"></div>
       </div>
     </div>
 
@@ -46,6 +44,12 @@
         <div>
           <el-form-item label="考试名称" :rules="[{ required: true}]">
             <el-input v-model="newExamData.ExamName" auto-complete="off"></el-input>
+          </el-form-item>
+        </div>
+        <div>
+          <el-form-item label="考试时间" :rules="[{ required: true}]">
+            <el-date-picker v-model="newExamData.ExamTime" type="date" placeholder="选择日期" format="yyyy 年 M 月 d 日">
+            </el-date-picker>
           </el-form-item>
         </div>
         <div>
@@ -85,6 +89,7 @@
 
 <script>
 import noData from '@//components/noData'
+import echarts from 'echarts';
 
 export default {
   components: { noData },
@@ -144,10 +149,16 @@ export default {
         Remark: '',
         ClassID: '',
         Type: '',
+        ExamTime: '',
         ExamCourses: [],
         courses: []
       },
-      data: []
+      data: [],
+      chart10: null,
+      chart10_xAxis: [],
+      chart10_legend: [],
+      chart10_series: [],
+      chartData: {}
     }
   },
   computed: {
@@ -182,6 +193,10 @@ export default {
         case 4:
           return '月考'
       }
+    },
+    FormatDate(val) {
+      let data = new Date(val)
+      return data.getFullYear() + " 年 " + (data.getMonth() + 1) + " 月 " + data.getDate() + " 日"
     }
   },
   methods: {
@@ -218,6 +233,28 @@ export default {
           let time = new Date(data[i].CreateTime)
           data[i].CreateTime = time.Format('MM-dd hh:mm')
         }
+      })
+    },
+    getChart() {
+      this.$API.GetSingleCourseScoreByClassID(this.currentClass).then(res => {
+        this.chartData = res
+        this.chart10_legend = this.chartData[0].Info.map(b => { return b.CourseName })
+        this.chart10_legend.forEach(o => {
+          let seriesData = []
+          this.chartData.forEach(b => {
+            seriesData.push(b.Info.find(j => { return j.CourseName == o }).AvgTotalScore)
+          })
+          this.chart10_series.push({
+            name: o,
+            type: 'line',
+            stack: '总量',
+            data: seriesData
+          })
+        })
+        this.chartData.forEach(o => {
+          this.chart10_xAxis.push(o.ExamName)
+        })
+        this.setChart10()
       })
     },
     addNewExam() {
@@ -281,11 +318,47 @@ export default {
           this.$message.error('删除考试失败：' + err.msg)
         })
       })
-
-    }
+    },
+    setChart10() {
+      this.chart10.setOption({
+        title: {
+          text: '各科平均分走势'
+        },
+        tooltip: {
+          trigger: 'axis'
+        },
+        legend: {
+          data: this.chart10_legend
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {}
+          }
+        },
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: this.chart10_xAxis
+        },
+        yAxis: {
+          type: 'value'
+        },
+        series: this.chart10_series
+      })
+    },
   },
   created() {
     this.getData()
+    this.getChart()
+  },
+  mounted() {
+    this.chart10 = echarts.init(document.getElementById('chart10'))
   }
 }
 </script>

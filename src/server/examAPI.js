@@ -49,7 +49,6 @@ API.sendExamSms = (para) => {
     })
   })
 }
-// testing
 
 // 添加考试
 API.addExam = (data) => {
@@ -85,6 +84,25 @@ API.addExamScore = (data) => {
     })
   })
 }
-// testing
+
+API.GetSingleCourseScoreByExamID = (id) => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl+'/api/ExamChart/GetSingleCourseScoreByExamID?ExamID'+id).then((res)=>{
+      resolve(res.data.Content)
+    }).catch((err)=>{
+      reject(err)
+    })
+  })
+}
+
+API.GetSingleCourseScoreByClassID = (id) => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl+'/api/ExamChart/GetSingleCourseScoreByClassID?ClassID='+id).then((res)=>{
+      resolve(res.data.Content)
+    }).catch((err)=>{
+      reject(err)
+    })
+  })
+}
 
 export default API

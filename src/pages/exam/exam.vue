@@ -41,7 +41,7 @@
               <div class="btn">
                 <el-button size="small" type="warning" @click="startEdit=i.CourseName , scoreEdit = true" v-show="startEdit!=i.CourseName">批量修改</el-button>
                 <el-button size="small" @click="startEdit=0,scoreEdit = false" v-show="startEdit==i.CourseName">取消</el-button>
-                <el-button size="small" type="primary" @click="submitAllScore(i.CourseName),startEdit=0,scoreEdit = fasle" v-show="startEdit==i.CourseName">全部提交</el-button>
+                <el-button size="small" type="primary" @click="submitAllScore(i.CourseName),startEdit=0,scoreEdit = false" v-show="startEdit==i.CourseName">全部提交</el-button>
               </div>
             </div>
       
