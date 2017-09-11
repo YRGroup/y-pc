@@ -1,49 +1,49 @@
 <template>
   <div>
-
-    <div class="card panel">
-      <div style="text-align:center">
-        <el-button @click="showAddExam=true" type="success" class="ml20 addBtn">添加新考试</el-button>
-      </div>
-
-      <no-data v-if="nodataImg"></no-data>
-      <div v-else>
-        <div class="examlist">
-          <li class="item" v-for="(i,index) in data" :key="index">
-            <div class="examtitle">{{i.ExamName}}</div>
-            <div class="examinfo">
-              <span>
-                <i class="iconfont">&#xe621;</i>考试时间：{{i.ExamTime|FormatDate}}</span>
-              <span>
-                <i class="iconfont">&#xe6b4;</i>考试类型： {{i.Type | formatExamType}}
-              </span>
-            </div>
-            <div class="exambtn">
-              <el-button class="delbtn" :plain="true" type="text" @click="delExam(i.ID,i.ExamName)" size="small">
-                <i class="iconfont">&#xe630;</i> 删除</el-button>
-              <el-button :type="!i.IsSendMsg?'info':null" @click="sendExamNotice(i.ID)" :disabled="i.IsSendMsg">发通知</el-button>
-              <el-button type="success" class="type" @click="$router.push('/exam/'+i.ID)">录入成绩</el-button>
-              <el-button type="warning" class="type" @click="$router.push('/examChart/'+i.ID)">成绩报表</el-button>
-            </div>
-          </li>
+    <no-data v-if="nodataImg"></no-data>
+    <div v-else>
+      <div class="card panel">
+        <div style="text-align:center">
+          <el-button @click="showAddExam=true" type="success" class="ml20 addBtn">添加新考试</el-button>
         </div>
-
-        <div class="chart">
-          <div class="header">
-            <div class="label">数据对比</div>
-            <el-checkbox-group v-model="chartDataType">
-              <el-checkbox label="自订" disabled></el-checkbox>
-              <el-checkbox label="1">期中考试</el-checkbox>
-              <el-checkbox label="2">期末考试</el-checkbox>
-              <el-checkbox label="3">周考</el-checkbox>
-              <el-checkbox label="4">月考</el-checkbox>
-            </el-checkbox-group>
-            <el-button type="primary" @click="getChart" style="margin-left:20px">查询</el-button>
+          <div class="examlist">
+            <li class="item" v-for="(i,index) in data" :key="index">
+              <div class="examtitle">{{i.ExamName}}</div>
+              <div class="examinfo">
+                <span>
+                  <i class="iconfont">&#xe621;</i>考试时间：{{i.ExamTime|FormatDate}}</span>
+                <span>
+                  <i class="iconfont">&#xe6b4;</i>考试类型： {{i.Type | formatExamType}}
+                </span>
+              </div>
+              <div class="exambtn">
+                <el-button class="delbtn" :plain="true" type="text" @click="delExam(i.ID,i.ExamName)" size="small">
+                  <i class="iconfont">&#xe630;</i> 删除</el-button>
+                <el-button :type="!i.IsSendMsg?'info':null" @click="sendExamNotice(i.ID)" :disabled="i.IsSendMsg">发通知</el-button>
+                <el-button type="success" class="type" @click="$router.push('/exam/'+i.ID)">录入成绩</el-button>
+                <el-button type="warning" class="type" @click="$router.push('/examChart/'+i.ID)">成绩报表</el-button>
+              </div>
+            </li>
           </div>
-          <div id="chart10" style="width:100%; height:450px;"></div>
-        </div>
-      </div>
 
+          
+      </div>
+      <div class="card panel">
+        <div class="chart">
+            <div class="header">
+              <div class="label">数据对比</div>
+              <el-checkbox-group v-model="chartDataType">
+                <el-checkbox label="自订" disabled></el-checkbox>
+                <el-checkbox label="1">期中考试</el-checkbox>
+                <el-checkbox label="2">期末考试</el-checkbox>
+                <el-checkbox label="3">周考</el-checkbox>
+                <el-checkbox label="4">月考</el-checkbox>
+              </el-checkbox-group>
+              <el-button type="primary" @click="getChart" style="margin-left:20px">查询</el-button>
+            </div>
+            <div id="chart10" style="width:100%; height:450px;"></div>
+          </div>
+      </div>
     </div>
 
     <el-dialog title="创建新考试" :visible.sync="showAddExam" size="tiny">
@@ -434,7 +434,6 @@ export default {
 @import '../../style/theme.less';
 
 .card {
-  min-height: 600px;
   margin-bottom: 15px; // text-align: center;
   .ml20 {
     margin-left: 20px;
