@@ -33,7 +33,13 @@ export default {
   data() {
     return {
       data: {},
-      chart1: null
+      chart1: null,
+      chart1_X: [],
+      chart1_legend: [],
+      chart1_series: [],
+      chart2: null,
+      chart2_indicator: [],
+      chart2_series: [],
     }
   },
   computed: {
@@ -80,62 +86,116 @@ export default {
     getData() {
       this.$API.getExamInfo(this.$route.params.examId).then(res => {
         this.data = res
-        let data = this.data
-        let time = new Date(data.CreateTime)
-        data.CreateTime = time.Format('MM-dd hh:mm')
+        let time = new Date(this.data.CreateTime)
+        this.data.CreateTime = time.Format('MM-dd hh:mm')
+        this.data.StudentSummary.forEach(o => {
+          this.chart1_X.push(o.TrueName)
+          let oneRadar = 0
+          this.chart2_series.push({
+            name: '学生曲线',
+            type: 'radar',
+            symbol: 'none',
+            itemStyle: {
+              normal: {
+                lineStyle: {
+                  width: 1
+                }
+              },
+              emphasis: {
+                areaStyle: { color: 'rgba(0,250,0,0.3)' }
+              }
+            },
+            data: [
+              {
+                value: o.Courses.map(b => { return b.Score }),
+                name: o.TrueName
+              }
+            ]
+          })
+        })
+        this.data.CoursesList.forEach(o => {
+          this.chart1_legend.push(o.CourseName)
+        })
+        this.data.CoursesSummary.forEach(o => {
+          this.chart1_series.push({
+            name: o.CourseName,
+            type: 'bar',
+            stack: '总量',
+            label: {
+              normal: {
+                show: true,
+                position: 'insideRight'
+              }
+            },
+            data: o.Scores.map(b => { return b.Score })
+          })
+          this.chart2_indicator.push({ text: o.CourseName, max: o.FullScore })
+        })
+        this.setChart1()
+        this.setChart2()
       })
     },
     setChart1() {
-			this.chart1.setOption({
-				title: {
-					text: '学校信息',
-					subtext: '暂无数据',
-				},
-				tooltip: {
-					trigger: 'axis',
-					axisPointer: {
-						type: 'shadow',
-					}
-				},
-				legend: {
-					data: ['已激活', '未激活'],
-				},
-				grid: {
-					left: '3%',
-					right: '4%',
-					bottom: '3%',
-					containLabel: true,
-				},
-				yAxis: {
-					type: 'value',
-				},
-				xAxis: {
-					type: 'category',
-					data: ['学校1', '学校2', '学校3', '学校4', '学校5', '学校6'],
-				},
-				series: [
-					{
-						name: '已激活',
-						type: 'bar',
-						stack: '总用户',
-						data: [300, 354, 141, 155, 240, 320],
-					},
-					{
-						name: '未激活',
-						type: 'bar',
-						stack: '总用户',
-						data: [500, 600, 500, 300, 400, 700],
-					}
-				],
-			});
-		},
+      this.chart1.setOption({
+        title: {
+          text: '班级学生成绩详情'
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
+        },
+        legend: {
+          data: this.chart1_legend
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        xAxis: {
+          type: 'value'
+        },
+        yAxis: {
+          type: 'category',
+          data: this.chart1_X
+        },
+        series: this.chart1_series
+      });
+    },
+    setChart2() {
+      this.chart2.setOption({
+        title: {
+          text: '班级学生各科成绩分布',
+          top: 10,
+          left: 10
+        },
+        tooltip: {
+          trigger: 'item',
+          backgroundColor: 'rgba(0,0,250,0.2)'
+        },
+        visualMap: {
+          top: 'middle',
+          right: 10,
+          color: ['red', 'yellow'],
+          calculable: true
+        },
+        radar: {
+          indicator: this.chart2_indicator
+        },
+        series: this.chart2_series
+      })
+    }
   },
   created() {
     this.getData()
   },
   mounted() {
     this.chart1 = echarts.init(document.getElementById('chart1'))
-    this.setChart1()
+    this.chart2 = echarts.init(document.getElementById('chart2'))
+
   },
   watch: {
     '$route': 'getData'
