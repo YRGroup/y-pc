@@ -85,9 +85,9 @@ API.addExamScore = (data) => {
   })
 }
 
-API.GetSingleCourseScoreByExamID = (id) => {
+API.GetSingleCourseScoreByExamID = (para) => {
   return new Promise((resolve, reject) => {
-    axios.get(_APIurl+'/api/ExamChart/GetSingleCourseScoreByExamID?ExamID'+id).then((res)=>{
+    axios.get(_APIurl+'/api/ExamChart/GetSingleCourseScoreByExamID',{params:para}).then((res)=>{
       resolve(res.data.Content)
     }).catch((err)=>{
       reject(err)
@@ -95,9 +95,9 @@ API.GetSingleCourseScoreByExamID = (id) => {
   })
 }
 
-API.GetSingleCourseScoreByClassID = (id) => {
+API.GetSingleCourseScoreByClassID = (para) => {
   return new Promise((resolve, reject) => {
-    axios.get(_APIurl+'/api/ExamChart/GetSingleCourseScoreByClassID?ClassID='+id).then((res)=>{
+    axios.get(_APIurl+'/api/ExamChart/GetSingleCourseScoreByClassID',{params:para}).then((res)=>{
       resolve(res.data.Content)
     }).catch((err)=>{
       reject(err)
