@@ -7,40 +7,43 @@
       </div>
 
       <no-data v-if="nodataImg"></no-data>
-      <div class="examlist" v-else>
-        <li class="item" v-for="(i,index) in data" :key="index">
-          <div class="examtitle">{{i.ExamName}}</div>
-          <div class="examinfo">
-            <span>
-              <i class="iconfont">&#xe621;</i>考试时间：{{i.ExamTime|FormatDate}}</span>
-            <span>
-              <i class="iconfont">&#xe6b4;</i>考试类型： {{i.Type | formatExamType}}
-            </span>
+      <div v-else>
+        <div class="examlist">
+          <li class="item" v-for="(i,index) in data" :key="index">
+            <div class="examtitle">{{i.ExamName}}</div>
+            <div class="examinfo">
+              <span>
+                <i class="iconfont">&#xe621;</i>考试时间：{{i.ExamTime|FormatDate}}</span>
+              <span>
+                <i class="iconfont">&#xe6b4;</i>考试类型： {{i.Type | formatExamType}}
+              </span>
+            </div>
+            <div class="exambtn">
+              <el-button class="delbtn" :plain="true" type="text" @click="delExam(i.ID,i.ExamName)" size="small">
+                <i class="iconfont">&#xe630;</i> 删除</el-button>
+              <el-button :type="!i.IsSendMsg?'info':null" @click="sendExamNotice(i.ID)" :disabled="i.IsSendMsg">发通知</el-button>
+              <el-button type="success" class="type" @click="$router.push('/exam/'+i.ID)">录入成绩</el-button>
+              <el-button type="warning" class="type" @click="$router.push('/examChart/'+i.ID)">成绩报表</el-button>
+            </div>
+          </li>
+        </div>
+
+        <div class="chart">
+          <div class="header">
+            <div class="label">数据对比</div>
+            <el-checkbox-group v-model="chartDataType">
+              <el-checkbox label="自订" disabled></el-checkbox>
+              <el-checkbox label="1">期中考试</el-checkbox>
+              <el-checkbox label="2">期末考试</el-checkbox>
+              <el-checkbox label="3">周考</el-checkbox>
+              <el-checkbox label="4">月考</el-checkbox>
+            </el-checkbox-group>
+            <el-button type="primary" @click="getChart" style="margin-left:20px">查询</el-button>
           </div>
-          <div class="exambtn">
-            <el-button class="delbtn" :plain="true" type="text" @click="delExam(i.ID,i.ExamName)" size="small">
-              <i class="iconfont">&#xe630;</i> 删除</el-button>
-            <el-button :type="!i.IsSendMsg?'info':null" @click="sendExamNotice(i.ID)" :disabled="i.IsSendMsg">发通知</el-button>
-            <el-button type="success" class="type" @click="$router.push('/exam/'+i.ID)">录入成绩</el-button>
-            <el-button type="warning" class="type" @click="$router.push('/examChart/'+i.ID)">成绩报表</el-button>
-          </div>
-        </li>
+          <div id="chart10" style="width:100%; height:450px;"></div>
+        </div>
       </div>
 
-      <div class="chart">
-        <div class="header">
-          <div class="label">选择数据来源</div>
-          <el-checkbox-group v-model="chartDataType">
-            <el-checkbox label="自订" disabled></el-checkbox>
-            <el-checkbox label="1">期中考试</el-checkbox>
-            <el-checkbox label="2">期末考试</el-checkbox>
-            <el-checkbox label="3">周考</el-checkbox>
-            <el-checkbox label="4">月考</el-checkbox>
-          </el-checkbox-group>
-          <el-button type="primary" @click="getChart">重新查询</el-button>
-        </div>
-        <div id="chart10" style="width:100%; height:400px;"></div>
-      </div>
     </div>
 
     <el-dialog title="创建新考试" :visible.sync="showAddExam" size="tiny">
@@ -248,9 +251,9 @@ export default {
       })
     },
     getChart() {
-      this.chart10_xAxis = []
-      this.chart10_legend = []
-      this.chart10_series = []
+      this.chart10_xAxis = []   //考试名称
+      this.chart10_legend = []  //科目
+      this.chart10_series = []   //数据
       let para = {
         ClassID: this.currentClass,
         Type: this.chartDataType.join(',')
@@ -258,21 +261,27 @@ export default {
       this.$API.GetSingleCourseScoreByClassID(para).then(res => {
         this.chartData = res
         this.chart10_legend = this.chartData[0].Info.map(b => { return b.CourseName })
-        this.chart10_legend.forEach(o => {
-          let seriesData = []
-          this.chartData.forEach(b => {
-            seriesData.push(b.Info.find(j => { return j.CourseName == o }).AvgTotalScore)
-          })
-          this.chart10_series.push({
-            name: o,
-            type: 'line',
-            stack: '总量',
-            data: seriesData
-          })
-        })
         this.chartData.forEach(o => {
           this.chart10_xAxis.push(o.ExamName)
         })
+        let seriesData = []
+        this.chartData.forEach(b => {
+          let sore = []
+          b.Info.forEach(k => {
+            sore.push(k.AvgTotalScore)
+          })
+          seriesData.push(sore)
+          // seriesData.push(b.Info.find(j => { return j.CourseName == o }).AvgTotalScore)
+        })
+        this.chart10_xAxis.forEach((o, index) => {
+          this.chart10_series.push({
+            name: o,
+            type: 'line',
+            // stack: '总量',
+            data: seriesData[index]
+          })
+        })
+
         this.setChart10()
       })
     },
@@ -339,6 +348,37 @@ export default {
       })
     },
     setChart10() {
+      // this.chart10.setOption({
+      //   title: {
+      //     text: '各科平均分走势'
+      //   },
+      //   tooltip: {
+      //     trigger: 'axis'
+      //   },
+      //   legend: {
+      //     data: this.chart10_legend
+      //   },
+      //   grid: {
+      //     left: '3%',
+      //     right: '4%',
+      //     bottom: '3%',
+      //     containLabel: true
+      //   },
+      //   toolbox: {
+      //     feature: {
+      //       saveAsImage: {}
+      //     }
+      //   },
+      //   xAxis: {
+      //     type: 'category',
+      //     boundaryGap: false,
+      //     data: this.chart10_xAxis
+      //   },
+      //   yAxis: {
+      //     type: 'value'
+      //   },
+      //   series: this.chart10_series
+      // })
       this.chart10.setOption({
         title: {
           text: '各科平均分走势'
@@ -347,7 +387,7 @@ export default {
           trigger: 'axis'
         },
         legend: {
-          data: this.chart10_legend
+          data: this.chart10_xAxis,
         },
         grid: {
           left: '3%',
@@ -362,14 +402,22 @@ export default {
         },
         xAxis: {
           type: 'category',
-          boundaryGap: false,
-          data: this.chart10_xAxis
+          // boundaryGap: false,
+          // data: this.chart10_xAxis
+          splitArea: {
+            show: true
+          },
+          data: this.chart10_legend
         },
         yAxis: {
-          type: 'value'
+          type: 'value',
+          name: '分数',
+          
+          max: 150
         },
         series: this.chart10_series
       })
+
     },
   },
   created() {
@@ -476,7 +524,7 @@ export default {
     }
   }
   #chart10 {
-    margin-top: 30px;
+    margin-top: 20px;
   }
 }
 </style>
