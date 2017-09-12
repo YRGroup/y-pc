@@ -104,7 +104,6 @@
 <script>
 import noData from '@//components/noData'
 import echarts from 'echarts'
-require('../../../static/shine.js')
 
 export default {
   components: { noData },
@@ -357,7 +356,11 @@ export default {
     setChart10() {
       this.chart10.setOption({
         title: {
-          text: '各科平均分走势'
+          text: '各科平均分走势',
+          textStyle:{
+            color:'#333',
+            fontWeight : 500
+          }
         },
         tooltip: {
           trigger: 'axis'
@@ -395,7 +398,7 @@ export default {
     this.getChart()
   },
   mounted() {
-    this.chart10 = echarts.init(document.getElementById('chart10'),'shine')
+    this.chart10 = echarts.init(document.getElementById('chart10'),'macarons')
   }
 }
 </script>

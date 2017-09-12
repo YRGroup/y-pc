@@ -28,6 +28,7 @@
 
 <script>
 import echarts from 'echarts';
+import theme from '../../../static/macarons.js'
 
 export default {
   data() {
@@ -193,8 +194,8 @@ export default {
     this.getData()
   },
   mounted() {
-    this.chart1 = echarts.init(document.getElementById('chart1'))
-    this.chart2 = echarts.init(document.getElementById('chart2'))
+    this.chart1 = echarts.init(document.getElementById('chart1'),'macarons')
+    this.chart2 = echarts.init(document.getElementById('chart2'),'macarons')
 
   },
   watch: {
