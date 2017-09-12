@@ -42,6 +42,16 @@
           <el-button type="primary" @click="getChart10" style="margin-left:20px">重新查询</el-button>
         </div>
         <div id="chart10" style="width:100%; height:450px;"></div>
+        <div class="header">
+          <div class="label">选择数据来源：</div>
+          <el-radio-group v-model="chartDataNum">
+            <el-radio :label="1">最近1次</el-radio>
+            <el-radio :label="2">最近2次</el-radio>
+            <el-radio :label="3">最近3次</el-radio>
+            <el-radio :label="4">最近4次</el-radio>
+          </el-radio-group>
+          <el-button type="primary" @click="getChart11" style="margin-left:20px">重新查询</el-button>
+        </div>
         <div id="chart11" style="width:100%; height:450px;"></div>
       </div>
 
@@ -175,6 +185,7 @@ export default {
       chart10_legend: [],
       chart10_series: [],
       chartDataStack: false,
+      chartDataNum: 2,
       chart11: null,
       chart11_xAxis: [],
       chart11_legend: [],
@@ -308,7 +319,7 @@ export default {
         Type: this.chartDataType.join(',')
       }
       this.$API.GetSingleCourseScoreByClassID(para).then(res => {
-        this.chartData = res
+        this.chartData = res.slice(0,this.chartDataNum)
         this.chart11_xAxis = this.chartData[0].Info.map(b => { return b.CourseName })
         this.chartData.forEach(o => {
           this.chart11_legend.push(o.ExamName)
@@ -387,9 +398,9 @@ export default {
       this.chart10.setOption({
         title: {
           text: '各科平均分走势',
-          textStyle:{
-            color:'#333',
-            fontWeight : 500
+          textStyle: {
+            color: '#333',
+            fontWeight: 500
           }
         },
         tooltip: {
@@ -423,6 +434,7 @@ export default {
     },
     setChart11() {
       this.chart11.setOption({
+        color: ['#5793f3', '#d14a61', '#675bba'],
         title: {
           text: '考试成绩对比',
         },
@@ -462,7 +474,7 @@ export default {
     this.getChart11()
   },
   mounted() {
-    this.chart10 = echarts.init(document.getElementById('chart10'),'macarons')
+    this.chart10 = echarts.init(document.getElementById('chart10'), 'macarons')
     this.chart11 = echarts.init(document.getElementById('chart11'))
   }
 }
