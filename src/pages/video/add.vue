@@ -1,29 +1,32 @@
 <template>
-  <div>
+  <div class="addVideo">
+    this is add video page
   </div>
 </template>
 
 <script>
 export default {
-  data() {
+  name: 'addVideo',
+  data () {
     return {
     }
   },
-  computed: {
+  computed:{
 
   },
-  methods: {
+  methods:{
 
   },
-  created() {
+  created(){
+
   },
-  mounted() {
-  },
-  watch: {
+  mounted(){
+
   }
 }
 </script>
 
 <style lang="less" scoped>
 @import '../../style/theme.less';
+
 </style>

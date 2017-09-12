@@ -16,6 +16,17 @@ API.getVideoAuth = (para) => {
   })
 }
 
+// 修改视频信息
+API.editVideoInfo = (para) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl+'/api/video/GetVideoPlayAuth',para).then((res)=>{
+      resolve(res.data.Content)
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
+
 // 获取当前用户的视频列表
 API.getMyVideoList = (para) => {
   return new Promise((resolve, reject) => {

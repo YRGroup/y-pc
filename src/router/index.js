@@ -44,9 +44,9 @@ import login from '@/pages/login/login'
 import errorPage from '@/pages/sys/404'
 
 import player from '@/pages/video/player'
+import videoList from '@/pages/video/list'
+import addVideo from '@/pages/video/add'
 
-import courselist from '@/pages/course/list'
-import learn from '@/pages/course/learn'
 
 
 
@@ -205,18 +205,16 @@ export default new Router({
           component: admin,
         },
         {
-          path: '/course',
-          name: 'course',
-          component: courselist,
-        },
-        {
-          path: '/learn',
-          name: 'learn',
-          component: learn,
+          path: '/video',
+          component: videoList,
         },
         {
           path: '/player',
           component: player,
+        },
+        {
+          path: '/video/add',
+          component: addVideo,
         },
       ]
     },
