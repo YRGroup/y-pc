@@ -32,7 +32,7 @@
         <div class="chart">
             <div class="header">
               <div class="label">数据对比</div>
-              <el-checkbox-group v-model="chartDataType">
+              <el-checkbox-group v-model="chartDataType" size="small">
                 <el-checkbox label="自订" disabled></el-checkbox>
                 <el-checkbox label="1">期中考试</el-checkbox>
                 <el-checkbox label="2">期末考试</el-checkbox>
@@ -46,18 +46,18 @@
       </div>
     </div>
 
-    <el-dialog title="创建新考试" :visible.sync="showAddExam" size="tiny">
-      <el-form :model="newExamData" label-width="100px">
+    <el-dialog title="创建新考试" :visible.sync="showAddExam">
+      <el-form :model="newExamData" label-width="120px">
         <div>
           <el-form-item label="所属班级">
-            <el-select v-model="newExamData.ClassID" placeholder="请选择班级">
+            <el-select v-model="newExamData.ClassID" placeholder="请选择班级" :disabled="true">
               <el-option :label="i.name" :value="i.id" v-for="i in currentClassList" :key="i.id"></el-option>
             </el-select>
           </el-form-item>
         </div>
         <div>
           <el-form-item label="考试名称" :rules="[{ required: true}]">
-            <el-input v-model="newExamData.ExamName" auto-complete="off"></el-input>
+            <el-input v-model="newExamData.ExamName" auto-complete="off" style="width:400px"></el-input>
           </el-form-item>
         </div>
         <div>
@@ -67,8 +67,8 @@
           </el-form-item>
         </div>
         <div>
-          <el-form-item label="考试类型">
-            <el-radio-group v-model="newExamData.Type" @change="examType">
+          <el-form-item label="考试类型" :rules="[{ required: true}]">
+            <el-radio-group v-model="newExamData.Type" @change="examType" size="small">
               <el-radio class="radio" label="0">自订</el-radio>
               <el-radio class="radio" label="1">期中考试</el-radio>
               <el-radio class="radio" label="2">期末考试</el-radio>
@@ -78,7 +78,7 @@
           </el-form-item>
         </div>
         <div>
-          <el-form-item label="学科" :rules="[{ required: true}]">
+          <el-form-item label="学科">
             <el-checkbox-group v-model="newExamData.courses" class="checkbox">
               <el-checkbox :label="i.CourseId" v-for="i in courseList" :key="i.CourseId" class="item" :disabled="newExamData.Type!=0">
                 {{i.name}}
@@ -103,7 +103,8 @@
 
 <script>
 import noData from '@//components/noData'
-import echarts from 'echarts';
+import echarts from 'echarts'
+require('../../../static/shine.js')
 
 export default {
   components: { noData },
@@ -162,7 +163,7 @@ export default {
         Name: '',
         Remark: '',
         ClassID: '',
-        Type: '',
+        Type: '4',
         ExamTime: '',
         ExamCourses: [],
         courses: []
@@ -425,7 +426,7 @@ export default {
     this.getChart()
   },
   mounted() {
-    this.chart10 = echarts.init(document.getElementById('chart10'))
+    this.chart10 = echarts.init(document.getElementById('chart10'),'shine')
   }
 }
 </script>
