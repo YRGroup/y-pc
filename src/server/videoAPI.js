@@ -5,6 +5,17 @@ import axios from 'axios'
 // API根目录
 import _APIurl from './config'
 
+// 搜索视频
+API.searchVideo = (para) => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl+'/api/video/search',{params:para}).then((res)=>{
+      resolve(res.data.Content)
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
+
 // 获取视频认证信息
 API.getVideoAuth = (para) => {
   return new Promise((resolve, reject) => {

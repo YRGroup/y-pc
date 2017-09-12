@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="card panel">
+    <div class="card panel" v-show="showTool">
       <div class="addbtn" v-show="role=='老师'">
         <el-button type="success" size="small" @click="$router.push('/video/add')">
           <i class="iconfont">&#xe623;</i> 上传视频
@@ -65,6 +65,12 @@
 export default {
   data() {
     return {
+      filter: {
+        key: '',
+        cateid: '',
+        courseid: '',
+        grade: ''
+      },
       data: {},
     }
   },
@@ -72,13 +78,44 @@ export default {
     role() {
       return this.$store.getters.role
     },
+    showTool() {
+      if (this.$route.name !== 'video') {
+        return false
+      } else {
+        return true
+      }
+    }
   },
   methods: {
+    getData() {
+      if (this.$route.name !== 'teacher') {
+        this.getMyVideoList()
+      } else {
+        this.getVideoList()
+      }
+    },
+    getMyVideoList() {
+      this.$API.getMyVideoList().then(res => {
+        this.data = res
+      })
+    },
+    getVideoList() {
+      let para = this.filter
+      this.$API.getVideoList(para).then(res => {
+        this.data = res
+      })
+    },
     search() {
-      console.log(11111)
+      let para = {
+        key: 'keyword'
+      }
+      this.$API.searchVideo(para).then(res => {
+
+      })
     }
   },
   created() {
+    this.getData()
   },
   mounted() {
   },
