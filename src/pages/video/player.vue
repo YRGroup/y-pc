@@ -94,10 +94,23 @@ export default {
   },
   methods: {
     getVideoList() {
-      // 000
+      let para = {
+        key:'',
+        cateid:'',
+        courseid:'',
+        grade:''
+      }
+      this.$API.getVideoList(para).then(res=>{
+        
+      })
     },
     getVideoInfo() {
-      // 000
+      let para = {
+        videoId:"7f6a4afc988a48b78eb1481ca78174bc"
+      }
+      this.$API.getVideoAuth(para).then(res=>{
+        
+      })
     },
     addComment() {
       // 000
@@ -183,6 +196,9 @@ export default {
   }
   .content {
     padding: 2em;
+    button {
+      margin: .5em;
+    }
     .add {
       margin-bottom: 2em;
       .input {
