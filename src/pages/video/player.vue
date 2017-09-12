@@ -6,65 +6,65 @@
           <div class="prism-player" id="J_prismPlayer">
           </div>
           <!-- <div class="danmu">
-            <li v-for="(i,index) in 20" :style="{top:index+1+'em'}">弹幕000</li>
-          </div> -->
+              <li v-for="(i,index) in 20" :style="{top:index+1+'em'}">弹幕000</li>
+            </div> -->
         </div>
         <!-- <div class="card" v-show="videoCol===12">
-          <div class="title">播放器控制</div>
-          <div class="content">
-            <el-button type="primary" @click="changeSize('small')">小</el-button>
-            <el-button type="primary" @click="changeSize('middle')">中</el-button>
-            <el-button type="primary" @click="changeSize('large')">大</el-button>
-          </div>
-        </div> -->
+            <div class="title">播放器控制</div>
+            <div class="content">
+              <el-button type="primary" @click="changeSize('small')">小</el-button>
+              <el-button type="primary" @click="changeSize('middle')">中</el-button>
+              <el-button type="primary" @click="changeSize('large')">大</el-button>
+            </div>
+          </div> -->
       </el-col>
       <!-- <el-col :span="24-videoCol" v-show="videoCol!==24">
-        <div class="card" v-show="videoCol===18">
-          <div class="title">播放器控制</div>
-          <div class="content">
-            <el-button type="primary" @click="changeSize('small')">小</el-button>
-            <el-button type="primary" @click="changeSize('middle')">中</el-button>
-            <el-button type="primary" @click="changeSize('large')">大</el-button>
-          </div>
-        </div>
-        <div class="card">
-          <div class="title">课程列表</div>
-          <div class="content">
-            <div class="item" v-for="i in 4">
-              <div class="header">课程1</div>
-              <div class="time">2017-9-11</div>
+          <div class="card" v-show="videoCol===18">
+            <div class="title">播放器控制</div>
+            <div class="content">
+              <el-button type="primary" @click="changeSize('small')">小</el-button>
+              <el-button type="primary" @click="changeSize('middle')">中</el-button>
+              <el-button type="primary" @click="changeSize('large')">大</el-button>
             </div>
           </div>
-        </div>
-      </el-col> -->
+          <div class="card">
+            <div class="title">课程列表</div>
+            <div class="content">
+              <div class="item" v-for="i in 4">
+                <div class="header">课程1</div>
+                <div class="time">2017-9-11</div>
+              </div>
+            </div>
+          </div>
+        </el-col> -->
     </el-row>
 
     <el-row :gutter="20">
       <el-col :span="18">
         <!-- <div class="card" v-show="videoCol===24">
-          <div class="title">播放器控制</div>
-          <div class="content">
-            <el-button type="primary" @click="changeSize('small')">小</el-button>
-            <el-button type="primary" @click="changeSize('middle')">中</el-button>
-            <el-button type="primary" @click="changeSize('large')">大</el-button>
-          </div>
-        </div> -->
-        <div class="card">
+            <div class="title">播放器控制</div>
+            <div class="content">
+              <el-button type="primary" @click="changeSize('small')">小</el-button>
+              <el-button type="primary" @click="changeSize('middle')">中</el-button>
+              <el-button type="primary" @click="changeSize('large')">大</el-button>
+            </div>
+          </div> -->
+        <div class="card introduce">
           <div class="title">课程介绍</div>
           <div class="content">
             {{text}}
           </div>
           <!-- <div class="content">
-            <div class="add">
-              <el-input class="input" v-model="width"></el-input>
-              <el-button class="button" type="primary" @click="addComment">添加评论</el-button>
-            </div>
-            <div class="item" v-for="i in 6">
-              <div class="header">李老师：</div>
-              <div class="item_content">很好</div>
-              <div class="time">2017-9-11</div>
-            </div>
-          </div> -->
+              <div class="add">
+                <el-input class="input" v-model="width"></el-input>
+                <el-button class="button" type="primary" @click="addComment">添加评论</el-button>
+              </div>
+              <div class="item" v-for="i in 6">
+                <div class="header">李老师：</div>
+                <div class="item_content">很好</div>
+                <div class="time">2017-9-11</div>
+              </div>
+            </div> -->
         </div>
       </el-col>
       <el-col :span="6">
@@ -93,27 +93,27 @@ export default {
       player: null,
       videoCol: 24,
       width: '100%',
-      text:'简介：亲，这里有资深讲师为初学者量身打造的Java Web入门级课程JSP，讲师将通过大量的案例向您展示JavaWeb开发环境搭建、工具使用和JSP的基本语法，深入理解Java Web开发思想，最终使您能独立开发简单的Java Web应用。'
+      text: '简介：亲，这里有资深讲师为初学者量身打造的Java Web入门级课程JSP，讲师将通过大量的案例向您展示JavaWeb开发环境搭建、工具使用和JSP的基本语法，深入理解Java Web开发思想，最终使您能独立开发简单的Java Web应用。'
     }
   },
   methods: {
     getVideoList() {
       let para = {
-        key:'',
-        cateid:'',
-        courseid:'',
-        grade:''
+        key: '',
+        cateid: '',
+        courseid: '',
+        grade: ''
       }
-      this.$API.getVideoList(para).then(res=>{
-        
+      this.$API.getVideoList(para).then(res => {
+
       })
     },
     getVideoInfo() {
       let para = {
-        videoId:"7f6a4afc988a48b78eb1481ca78174bc"
+        videoId: "7f6a4afc988a48b78eb1481ca78174bc"
       }
-      this.$API.getVideoAuth(para).then(res=>{
-        
+      this.$API.getVideoAuth(para).then(res => {
+
       })
     },
     addComment() {
@@ -170,8 +170,7 @@ export default {
 .video {
   position: relative;
   margin-bottom: 1em;
-  #J_prismPlayer {
-  }
+  #J_prismPlayer {}
   .danmu {
     position: absolute;
     top: 0;
@@ -187,6 +186,10 @@ export default {
       animation: fly 2s ease;
     }
   }
+}
+
+.introduce {
+  min-height: 300px;
 }
 
 .card {
@@ -227,13 +230,13 @@ export default {
       }
     }
   }
-  .techerInfo{
+  .techerInfo {
     padding: 10px;
     overflow: hidden;
     position: relative;
     padding-left: 80px;
     height: 60px;
-    .headerImg{
+    .headerImg {
       position: absolute;
       left: 10px;
       display: inline-block;
@@ -242,16 +245,16 @@ export default {
       border-radius: 50%;
       background: red;
     }
-    .name{
+    .name {
       font-size: 16px;
       display: block;
-      margin:5px 0;
+      margin: 5px 0;
     }
-    .banji{
+    .banji {
       color: @grey;
       margin-right: 10px;
     }
-    .course{
+    .course {
       color: @grey;
     }
   }
