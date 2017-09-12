@@ -21,22 +21,10 @@
                 </div>
             </div>
             <div class="course-row">
-                <span class="hd">学科：</span>
+                <span class="hd">搜索：</span>
                 <div class="bd">
-                    <ul>
-                        <li class="course-item on">
-                            <a>全部</a>
-                        </li>
-                        <li class="course-item">
-                            <a>语文</a>
-                        </li>
-                        <li class="course-item">
-                            <a>语文</a>
-                        </li>
-                        <li class="course-item">
-                            <a>语文</a>
-                        </li>
-                    </ul>
+                    <el-input placeholder="请输入关键词" icon="search" :on-icon-click="search" size="small" style="width:200px">
+                    </el-input>
                 </div>
             </div>
         </div>
@@ -50,6 +38,10 @@
                             </div>
                             <div class="content">
                                 <h3 class="name">JAVA遇见HTML——JSP篇</h3>
+                                <div class="info">
+                                    <span><i class="iconfont">&#xe621;</i>01:13:34</span>
+                                    <span><i class="iconfont">&#xe678;</i>133</span>
+                                </div>
                                 <div class="bottom">
                                     <p class="desc">Java Web入门级教程JSP，带你轻松的学习JSP基础知识</p>
                                 </div>
@@ -82,6 +74,9 @@ export default {
         },
     },
     methods: {
+        search(){
+            console.log(11111)
+        }
     },
     created() {
     },
@@ -99,7 +94,7 @@ export default {
 .card {
     background: #fff;
     .course-row {
-        padding: 16px 0 5px;
+        padding: 10px 0;
         border-bottom: 1px solid @border;
         .hd {
             width: 52px;
@@ -117,7 +112,6 @@ export default {
                 a {
                     display: block;
                     line-height: 14px;
-                    margin-bottom: 10px;
                     padding: 8px;
                 }
             }
@@ -137,12 +131,12 @@ export default {
         float: left;
         margin: 0 0 10px 28px;
         width: 230px;
-        height: 220px;
+        height: 230px;
         transition: .3s all linear;
         overflow: hidden;
         .couse-card {
             .top {
-                border-radius: 6px; 
+                border-radius: 6px;
                 width: 230px;
                 height: 130px;
                 position: relative;
@@ -153,30 +147,40 @@ export default {
                     width: 100%;
                     height: 100%;
                     border-radius: 6px;
-                    transition:transform .3s linear 0s;
-                    &:hover{
+                    transition: transform .3s linear 0s;
+                    &:hover {
                         transform: scale(1.05);
                     }
                 }
             }
-            .content{
+            .content {
                 padding: 10px 5px;
-                .name{
+                .name {
                     font-size: 16px;
                     line-height: 24px;
-                    word-wrap:break-word;
+                    word-wrap: break-word;
                     overflow: hidden;
-                    text-overflow:ellipsis;
-                    max-height:44px;
+                    text-overflow: ellipsis;
+                    max-height: 44px;
                 }
-                .bottom{
+                .info{
                     font-size: 12px;
-                    font-weight:300;
+                    font-weight: 300;
+                    color: @grey;
+                    .iconfont{
+                        margin-right: 5px;
+                    }
+                    span{
+                        margin-right: 20px;
+                    }
+                }
+                .bottom {
+                    font-size: 12px;
+                    font-weight: 300;
                     color: @grey;
                     line-height: 20px;
                     overflow: hidden;
                     height: 44px;
-                    margin-top:4px;
                 }
             }
         }
