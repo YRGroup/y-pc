@@ -39,9 +39,10 @@
           </el-checkbox-group>
           <div class="label">展示形式：</div>
           <el-checkbox v-model="chartDataStack">各科数据层叠</el-checkbox>
-          <el-button type="primary" @click="getChart" style="margin-left:20px">重新查询</el-button>
+          <el-button type="primary" @click="getChart10" style="margin-left:20px">重新查询</el-button>
         </div>
         <div id="chart10" style="width:100%; height:450px;"></div>
+        <div id="chart11" style="width:100%; height:450px;"></div>
       </div>
 
     </div>
@@ -174,6 +175,10 @@ export default {
       chart10_legend: [],
       chart10_series: [],
       chartDataStack: false,
+      chart11: null,
+      chart11_xAxis: [],
+      chart11_legend: [],
+      chart11_series: [],
       chartData: {}
     }
   },
@@ -251,7 +256,7 @@ export default {
         }
       })
     },
-    getChart() {
+    getChart10() {
       this.chart10_xAxis = []
       this.chart10_legend = []
       this.chart10_series = []
@@ -289,6 +294,31 @@ export default {
           this.chart10_xAxis.push(o.ExamName)
         })
         this.setChart10()
+      })
+    },
+    getChart11() {
+      this.chart11_xAxis = []
+      this.chart11_legend = []
+      this.chart11_series = []
+      if (this.chart11) {
+        this.chart11.clear()
+      }
+      let para = {
+        ClassID: this.currentClass,
+        Type: this.chartDataType.join(',')
+      }
+      this.$API.GetSingleCourseScoreByClassID(para).then(res => {
+        this.chartData = res
+        this.chart11_xAxis = this.chartData[0].Info.map(b => { return b.CourseName })
+        this.chartData.forEach(o => {
+          this.chart11_legend.push(o.ExamName)
+          this.chart11_series.push({
+            name: o.ExamName,
+            type: 'bar',
+            data: o.Info.map(b => { return b.AvgTotalScore })
+          })
+        })
+        this.setChart11()
       })
     },
     addNewExam() {
@@ -386,15 +416,50 @@ export default {
         },
         series: this.chart10_series
       })
-
     },
+    setChart11() {
+      this.chart11.setOption({
+        title: {
+          text: '考试成绩对比',
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
+        },
+        legend: {
+          data: this.chart11_legend
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        xAxis: [
+          {
+            type: 'category',
+            data: this.chart11_xAxis
+          }
+        ],
+        yAxis: [
+          {
+            type: 'value'
+          }
+        ],
+        series: this.chart11_series
+      })
+    }
   },
   created() {
     this.getData()
-    this.getChart()
+    this.getChart10()
+    this.getChart11()
   },
   mounted() {
     this.chart10 = echarts.init(document.getElementById('chart10'))
+    this.chart11 = echarts.init(document.getElementById('chart11'))
   }
 }
 </script>
