@@ -43,7 +43,7 @@ import login from '@/pages/login/login'
 
 import errorPage from '@/pages/sys/404'
 
-import add from '@/components/address'
+import player from '@/pages/video/player'
 
 import courselist from '@/pages/course/list'
 import learn from '@/pages/course/learn'
@@ -214,6 +214,10 @@ export default new Router({
           name: 'learn',
           component: learn,
         },
+        {
+          path: '/player',
+          component: player,
+        },
       ]
     },
     {
@@ -226,10 +230,7 @@ export default new Router({
       name: 'login',
       component: login,
     },
-    {
-      path: '/add',
-      component: add,
-    },
+    
     {
       path: '/404',
       name: 'errorPage',
