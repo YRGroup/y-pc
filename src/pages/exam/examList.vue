@@ -47,18 +47,18 @@
 
     </div>
 
-    <el-dialog title="创建新考试" :visible.sync="showAddExam" size="tiny">
-      <el-form :model="newExamData" label-width="100px">
+    <el-dialog title="创建新考试" :visible.sync="showAddExam">
+      <el-form :model="newExamData" label-width="120px">
         <div>
           <el-form-item label="所属班级">
-            <el-select v-model="newExamData.ClassID" placeholder="请选择班级">
+            <el-select v-model="newExamData.ClassID" placeholder="请选择班级" :disabled="true">
               <el-option :label="i.name" :value="i.id" v-for="i in currentClassList" :key="i.id"></el-option>
             </el-select>
           </el-form-item>
         </div>
         <div>
           <el-form-item label="考试名称" :rules="[{ required: true}]">
-            <el-input v-model="newExamData.ExamName" auto-complete="off"></el-input>
+            <el-input v-model="newExamData.ExamName" auto-complete="off" style="width:400px"></el-input>
           </el-form-item>
         </div>
         <div>
@@ -68,8 +68,8 @@
           </el-form-item>
         </div>
         <div>
-          <el-form-item label="考试类型">
-            <el-radio-group v-model="newExamData.Type" @change="examType">
+          <el-form-item label="考试类型" :rules="[{ required: true}]">
+            <el-radio-group v-model="newExamData.Type" @change="examType" size="small">
               <el-radio class="radio" label="0">自订</el-radio>
               <el-radio class="radio" label="1">期中考试</el-radio>
               <el-radio class="radio" label="2">期末考试</el-radio>
@@ -79,7 +79,7 @@
           </el-form-item>
         </div>
         <div>
-          <el-form-item label="学科" :rules="[{ required: true}]">
+          <el-form-item label="学科">
             <el-checkbox-group v-model="newExamData.courses" class="checkbox">
               <el-checkbox :label="i.CourseId" v-for="i in courseList" :key="i.CourseId" class="item" :disabled="newExamData.Type!=0">
                 {{i.name}}
@@ -104,7 +104,7 @@
 
 <script>
 import noData from '@//components/noData'
-import echarts from 'echarts';
+import echarts from 'echarts'
 
 export default {
   components: { noData },
@@ -163,7 +163,7 @@ export default {
         Name: '',
         Remark: '',
         ClassID: '',
-        Type: '',
+        Type: '4',
         ExamTime: '',
         ExamCourses: [],
         courses: []
@@ -386,7 +386,11 @@ export default {
     setChart10() {
       this.chart10.setOption({
         title: {
-          text: '各科平均分走势'
+          text: '各科平均分走势',
+          textStyle:{
+            color:'#333',
+            fontWeight : 500
+          }
         },
         tooltip: {
           trigger: 'axis'
@@ -458,7 +462,7 @@ export default {
     this.getChart11()
   },
   mounted() {
-    this.chart10 = echarts.init(document.getElementById('chart10'))
+    this.chart10 = echarts.init(document.getElementById('chart10'),'macarons')
     this.chart11 = echarts.init(document.getElementById('chart11'))
   }
 }
