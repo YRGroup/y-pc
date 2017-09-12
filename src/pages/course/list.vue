@@ -36,7 +36,7 @@
             <div class="course-list">
                 <ul class="clearfix">
                     <li class="container">
-                        <a class="couse-card" @click="$router.push('/learn')">
+                        <a class="couse-card" @click="$router.push('/player')">
                             <div class="top">
                                 <img class="banner" src="http://img.mukewang.com/576b7afb00019e4906000338-240-135.jpg" style="display: inline;">
                             </div>

@@ -1,7 +1,5 @@
 <template>
   <div>
-    <div class="title">如何用CSS进行网页布局继续学习
-    </div>
   </div>
 </template>
 
