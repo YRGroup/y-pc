@@ -1,6 +1,10 @@
 <template>
     <div>
         <div class="card panel">
+            <div class="addbtn" v-show="role=='老师'">
+                <el-button type="success" size="small">
+                    <i class="iconfont">&#xe623;</i> 上传视频</el-button>
+            </div>
             <div class="course-row">
                 <span class="hd">学科：</span>
                 <div class="bd">
@@ -23,7 +27,7 @@
             <div class="course-row">
                 <span class="hd">搜索：</span>
                 <div class="bd">
-                    <el-input placeholder="请输入关键词" icon="search" :on-icon-click="search" size="small" style="width:200px">
+                    <el-input placeholder="请输入关键词" icon="search" :on-icon-click="search" size="small" style="width:260px">
                     </el-input>
                 </div>
             </div>
@@ -32,15 +36,17 @@
             <div class="course-list">
                 <ul class="clearfix">
                     <li class="container">
-                        <a class="couse-card">
+                        <a class="couse-card" @click="$router.push('/learn')">
                             <div class="top">
                                 <img class="banner" src="http://img.mukewang.com/576b7afb00019e4906000338-240-135.jpg" style="display: inline;">
                             </div>
                             <div class="content">
                                 <h3 class="name">JAVA遇见HTML——JSP篇</h3>
                                 <div class="info">
-                                    <span><i class="iconfont">&#xe621;</i>01:13:34</span>
-                                    <span><i class="iconfont">&#xe678;</i>133</span>
+                                    <span>
+                                        <i class="iconfont">&#xe621;</i>01:13:34</span>
+                                    <span>
+                                        <i class="iconfont">&#xe678;</i>133</span>
                                 </div>
                                 <div class="bottom">
                                     <p class="desc">Java Web入门级教程JSP，带你轻松的学习JSP基础知识</p>
@@ -62,19 +68,12 @@ export default {
         }
     },
     computed: {
-        summaryScore() {
-            return this.data.VueData
-        },
-        currentClassInfo() {
-            if (!this.$store.state.currentClassInfo) {
-                return this.$store.dispatch('getCurrentClassInfo')
-            } else {
-                return this.$store.state.currentClassInfo
-            }
+        role() {
+            return this.$store.getters.role
         },
     },
     methods: {
-        search(){
+        search() {
             console.log(11111)
         }
     },
@@ -93,6 +92,12 @@ export default {
 
 .card {
     background: #fff;
+    position: relative;
+    .addbtn {
+        position: absolute;
+        right: 30px;
+        top: 20px;
+    }
     .course-row {
         padding: 10px 0;
         border-bottom: 1px solid @border;
@@ -163,14 +168,14 @@ export default {
                     text-overflow: ellipsis;
                     max-height: 44px;
                 }
-                .info{
+                .info {
                     font-size: 12px;
                     font-weight: 300;
                     color: @grey;
-                    .iconfont{
+                    .iconfont {
                         margin-right: 5px;
                     }
-                    span{
+                    span {
                         margin-right: 20px;
                     }
                 }

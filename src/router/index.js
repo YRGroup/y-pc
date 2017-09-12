@@ -210,7 +210,7 @@ export default new Router({
           component: courselist,
         },
         {
-          path: '/learn/:learn',
+          path: '/learn',
           name: 'learn',
           component: learn,
         },
