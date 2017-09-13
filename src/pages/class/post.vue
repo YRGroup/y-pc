@@ -36,8 +36,6 @@
           <div class="liked">
             <div class="item" v-for="(i,index) in data.zans" :key="index">
               <div class="img">
-                <!-- <img :src="i.HeadImg" v-if="i.HeadImg!='http://pic.yearnedu.com/himg.png' && i.HeadImg!=''"> -->
-                <!-- <div class="headTextImg" v-else>{{(i.TrueName||'user').substr(0,1)}}</div> -->
                 <img :src="i.HeadImg">
               </div>
               <div class="name">

@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div class="card">
       <div class="maintitle">
         <i class="iconfont">&#xe737;</i>成绩报表
@@ -11,17 +10,34 @@
       <div class="panel">
         <div class="examinfo">
           <p class="title">{{data.Name}}</p>
-          <!-- <p>当前考试:{{data.Remark}}</p> -->
-          <p class="examtime">创建时间：{{data.CreateTime}}</p>
+          <p class="examtime">创建时间：{{data.CreateTExamIDime}}</p>
         </div>
       </div>
-    
+
+      <div class="list">
+        <div class="item" v-for="(i,index) in data.CoursesSummary" :key="index">
+          <div class="mainscore">
+            <span class="score">{{i.AverageScore}}</span>
+            <span> / {{i.FullScore}}</span>
+          </div>
+          <div class="name">{{i.CourseName}}</div>
+        </div>
+      </div>
 
       <div class="panel">
-        <div id="chart1" style="width:100%; height:400px;display:none;"></div>
+        <div id="chart1" style="width:100%; height:400px;"></div>
         <div id="chart2" style="width:100%; height:400px;"></div>
-        <div id="chart3" style="width:100%; height:400px;display:none;"></div>
-        <div id="chart4" style="width:100%; height:400px;display:none;"></div>
+        <div class="toolBar">
+          <span class="label">学科：</span>
+          <el-select v-model="chart3courseId" size="small" placeholder="请选择" style="width:120px">
+            <el-option v-for="item in chart3CourseList" :key="item.ID" :label="item.CourseName" :value="item.ID">
+            </el-option>
+          </el-select>
+          <el-button type="success" size="small" @click="refshChart3Data">
+            <i class="iconfont">&#xe623;</i> 重新查询
+          </el-button>
+        </div>
+        <div id="chart3" style="width:100%; height:400px;"></div>
       </div>
     </div>
 
@@ -37,18 +53,22 @@ export default {
     return {
       data: {},
       chart1: null,
-      chart1_X: [],
       chart1_legend: [],
+      chart1_indicator: [],
       chart1_series: [],
       chart2: null,
       chart2_indicator: [],
       chart2_series: [],
+      chart3AllData: {},
+      chart3Data: {},
+      chart3: null,
+      chart3_legend: [],
+      chart3_series: [],
+      chart3CourseList: [],
+      chart3courseId: ''
     }
   },
   computed: {
-    summaryScore() {
-      return this.data.VueData
-    },
     currentClassInfo() {
       if (!this.$store.state.currentClassInfo) {
         return this.$store.dispatch('getCurrentClassInfo')
@@ -56,44 +76,22 @@ export default {
         return this.$store.state.currentClassInfo
       }
     },
+    courseList() {
+      if (this.$store.state.courseList) {
+        return this.$store.state.courseList
+      } else {
+        this.$store.dispatch('getCourseList').then(() => {
+          return this.$store.state.courseList
+        })
+      }
+    }
   },
   methods: {
-    startEditOneScore(val) {
-      this.showEditOneScore = true
-      this.editScoreOneData = val
-    },
-    submitEditOneScore() {
-      let editData = []
-      editData.push(this.editScoreOneData)
-      this.$API.addExamScore(editData).then(res => {
-        this.$message.success('添加成绩成功')
-        this.editScoreOneData = {}
-        this.showEditOneScore = false
-      }).catch(err => {
-        this.$message.error(err)
-      })
-    },
-    submitAllScore(n) {
-      let allData = this.data.CoursesSummary.find(el => {
-        return el.CourseName == n
-      })
-      this.$API.addExamScore(allData.Scores).then(res => {
-        this.$message.success('添加成绩成功')
-        this.editScoreOneData = {}
-        this.getData()
-
-      }).catch(err => {
-        this.$message.error(err)
-      })
-    },
     getData() {
       this.$API.getExamInfo(this.$route.params.examId).then(res => {
         this.data = res
-        let time = new Date(this.data.CreateTime)
-        this.data.CreateTime = time.Format('MM-dd hh:mm')
+        this.data.CreateTime = new Date(this.data.CreateTime).Format('MM-dd hh:mm')
         this.data.StudentSummary.forEach(o => {
-          this.chart1_X.push(o.TrueName)
-          let oneRadar = 0
           this.chart2_series.push({
             name: '学生曲线',
             type: 'radar',
@@ -116,56 +114,91 @@ export default {
             ]
           })
         })
-        this.data.CoursesList.forEach(o => {
-          this.chart1_legend.push(o.CourseName)
-        })
         this.data.CoursesSummary.forEach(o => {
-          this.chart1_series.push({
-            name: o.CourseName,
-            type: 'bar',
-            stack: '总量',
-            label: {
-              normal: {
-                show: true,
-                position: 'insideRight'
-              }
-            },
-            data: o.Scores.map(b => { return b.Score })
-          })
           this.chart2_indicator.push({ text: o.CourseName, max: o.FullScore })
+          this.chart1_indicator.push({ name: o.CourseName, max: o.FullScore })
+          this.chart1_series.push(o.AverageScore)
         })
         this.setChart1()
         this.setChart2()
+        this.getChart3Data()
       })
     },
-    setChart1() {
-      this.chart1.setOption({
+    refshChart3Data() {
+      this.chart3_legend = []
+      this.chart3_series = []
+      this.chart3CourseList = []
+      this.chart3.clear()
+      this.chart3Data = this.chart3AllData.find(o => {
+        return this.chart3courseId == o.CourseID
+      })
+      this.chart3AllData.forEach(o => {
+        this.chart3CourseList.push({ CourseName: o.CourseName, ID: o.CourseID })
+      })
+      this.chart3_legend = Object.keys(this.chart3Data.Regions)
+      this.chart3_legend.forEach(o => {
+        let a = { value: this.chart3Data.Regions[o], name: o }
+        this.chart3_series.push(a)
+      })
+      this.setChart3()
+    },
+    getChart3Data() {
+      let para = {
+        classid: this.$store.state.currentClassId,
+        examid: this.$route.params.examId
+      }
+      this.$API.getChart3Data(para).then(res => {
+        this.chart3AllData = res
+        this.chart3Data = this.chart3AllData[0]
+        res.forEach(o => {
+          this.chart3CourseList.push({ CourseName: o.CourseName, ID: o.CourseID })
+        })
+        this.chart3_legend = Object.keys(this.chart3Data.Regions)
+        this.chart3_legend.forEach(o => {
+          let a = { value: this.chart3Data.Regions[o], name: o }
+          this.chart3_series.push(a)
+        })
+        this.setChart3()
+      })
+    },
+    setChart3() {
+      this.chart3.setOption({
         title: {
-          text: '班级学生成绩详情'
+          text: '各科成绩段分布',
+          x: 'center'
         },
         tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            type: 'shadow'
-          }
+          trigger: 'item',
+          formatter: "{a} <br/>{b} : {c} ({d}%)"
         },
         legend: {
-          data: this.chart1_legend
+          x: 'center',
+          y: 'bottom',
+          data: this.chart3_legend
         },
-        grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '3%',
-          containLabel: true
+        toolbox: {
+          show: true,
+          feature: {
+            mark: { show: true },
+            dataView: { show: true, readOnly: false },
+            magicType: {
+              show: true,
+              type: ['pie', 'funnel']
+            },
+            restore: { show: true },
+            saveAsImage: { show: true }
+          }
         },
-        xAxis: {
-          type: 'value'
-        },
-        yAxis: {
-          type: 'category',
-          data: this.chart1_X
-        },
-        series: this.chart1_series
+        calculable: true,
+        series: [
+          {
+            name: '面积模式',
+            type: 'pie',
+            radius: [30, 110],
+            roseType: 'area',
+            data: this.chart3_series
+          }
+        ]
       });
     },
     setChart2() {
@@ -190,15 +223,60 @@ export default {
         },
         series: this.chart2_series
       })
+    },
+    setChart1() {
+      this.chart1.setOption({
+        title: {
+          text: '班级各科平均分'
+        },
+        tooltip: { show: true },
+        legend: {
+          show: true,
+          data: this.chart1_legend,
+          right: 'right'
+        },
+        label: {
+          normal: {
+            show: true,
+            formatter: function(params) {
+              return params.value;
+            }
+          }
+        },
+        radar: {
+          name: {
+            formatter: '【{value}】',
+            textStyle: {
+              color: '#666'
+            }
+          },
+          indicator: this.chart1_indicator
+        },
+        series: [{
+          type: 'radar',
+          itemStyle: { normal: { areaStyle: { type: 'default' } } },
+          data: [
+            {
+              name: this.chart1_legend,
+              value: this.chart1_series,
+              itemStyle: {
+                normal: {
+                  color: '#F9713C'
+                }
+              },
+            },
+          ]
+        }]
+      })
     }
   },
   created() {
     this.getData()
   },
   mounted() {
-    this.chart1 = echarts.init(document.getElementById('chart1'),'macarons')
-    this.chart2 = echarts.init(document.getElementById('chart2'),'macarons')
-
+    this.chart1 = echarts.init(document.getElementById('chart1'), 'macarons')
+    this.chart2 = echarts.init(document.getElementById('chart2'), 'macarons')
+    this.chart3 = echarts.init(document.getElementById('chart3'), 'macarons')
   },
   watch: {
     '$route': 'getData'
@@ -293,6 +371,33 @@ export default {
   background: #f8f8f8;
   .el-tabs__nav-wrap {
     background: red;
+  }
+}
+
+.list {
+  padding: 0 50px;
+  margin-top: 20px;
+  .item {
+    border: 1px solid @border;
+    background: #f1faf6;
+    display: inline-block;
+    text-align: center;
+    width: 100px;
+    height: 80px;
+    padding: 16px;
+    margin: 10px;
+    .mainscore {
+      line-height: 40px;
+      color: @grey;
+      .score {
+        color: @sub;
+        font-size: 20px;
+      }
+    }
+    .name {
+      line-height: 40px;
+      font-weight: 600;
+    }
   }
 }
 </style>

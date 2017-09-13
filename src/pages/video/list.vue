@@ -30,12 +30,15 @@
       <div class="course-list">
         <ul class="clearfix">
           <li class="container" v-for="(i,index) in data" :key="index">
-            <a class="couse-card" @click="openVideo(i)">
-              <div class="top">
+            <a class="couse-card">
+              <div class="top" @click="openVideo(i)">
                 <img class="banner" :src="i.CoverUrl||'http://img.mukewang.com/576b7afb00019e4906000338-240-135.jpg'" style="display: inline;">
               </div>
               <div class="content">
-                <h3 class="name">{{i.Title}}</h3>
+                <h3 class="name">
+                  {{i.Title}}
+                  <span style="float:right;color:red" @click="deleteVideo(i.VideoId)" v-show="isAdmin">X</span>
+                </h3>
                 <div class="info">
                   <span>
                     <i class="iconfont">&#xe678;</i>{{i.TrueName}}</span>
@@ -68,63 +71,63 @@ export default {
           CoverUrl: 'http://img-ph-mirror.nosdn.127.net/uGlHQbFYwbOqtawebgKIBw==/6631585635678682130.png?imageView&thumbnail=223y124&quality=100',
           Title: '初中数学 八年级下册 同步精讲',
           TrueName: '李老师',
-          Tags:"数学,同步"
+          Tags: "数学,同步"
         },
         {
           CoverUrl: 'http://img-ph-mirror.nosdn.127.net/XAZPnNfRddZqbrT04KUxrA==/6598247343671202738.jpg?imageView&thumbnail=223y124&quality=100',
           Title: '初三化学微课',
           TrueName: '李老师',
-          Tags:"化学,同步"
+          Tags: "化学,同步"
         },
         {
           CoverUrl: 'http://img-ph-mirror.nosdn.127.net/77PDx1agj4rzPFCD5so8zQ==/2568459162502715937.png?imageView&thumbnail=223y124&quality=100',
           Title: '初中数学 八年级下册 同步精讲',
           TrueName: '李老师',
-          Tags:"数学,同步"
+          Tags: "数学,同步"
         },
         {
           CoverUrl: 'http://img-ph-mirror.nosdn.127.net/smdzncVmj3X3Cl5OFKIAhw==/6630623563001917320.jpg?imageView&thumbnail=223y124&quality=100',
           Title: '初中数学 八年级下册 同步精讲',
           TrueName: '李老师',
-          Tags:"数学,同步"
+          Tags: "数学,同步"
         },
         {
           CoverUrl: 'http://img-ph-mirror.nosdn.127.net/huMaOaCPqytlKxQ_nUMQzA==/6631511968396193449.jpg?imageView&thumbnail=223y124&quality=100',
           Title: '初中数学 八年级下册 同步精讲',
           TrueName: '李老师',
-          Tags:"数学,同步"
+          Tags: "数学,同步"
         },
         {
           CoverUrl: 'http://img-ph-mirror.nosdn.127.net/xLhTxA-12xVYZ5w3rsxC7w==/3387551344813173665.jpg?imageView&thumbnail=223y124&quality=100',
           Title: '初中数学 八年级下册 同步精讲',
           TrueName: '李老师',
-          Tags:"数学,同步"
+          Tags: "数学,同步"
         },
         {
           CoverUrl: 'http://img-ph-mirror.nosdn.127.net/cFSnhZAB33crH-lP3y55Ug==/6597302863123106487.jpg?imageView&thumbnail=223y124&quality=100',
           Title: '初中数学 八年级下册 同步精讲',
           TrueName: '李老师',
-          Tags:"数学,同步"
+          Tags: "数学,同步"
         },
         {
           CoverUrl: 'http://img-ph-mirror.nosdn.127.net/IyIYI1pi2EooL-v4mGnHFA==/3751498489699903968.jpg?imageView&thumbnail=223y124&quality=100',
           Title: '初中数学 八年级下册 同步精讲',
           TrueName: '李老师',
-          Tags:"数学,同步"
+          Tags: "数学,同步"
         },
         {
           CoverUrl: 'http://img-ph-mirror.nosdn.127.net/rjjix596Qb68iAN9V5ZWRQ==/6598156084206716095.jpg?imageView&thumbnail=223y124&quality=100',
           Title: '初中数学 八年级下册 同步精讲',
           TrueName: '李老师',
-          Tags:"数学,同步"
+          Tags: "数学,同步"
         },
         {
           CoverUrl: 'http://img-ph-mirror.nosdn.127.net/7pF5L7CiS2TtGPuUoQvygg==/6631914389652756457.jpg?imageView&thumbnail=223y124&quality=100',
           Title: '初中数学 八年级下册 同步精讲',
           TrueName: '李老师',
-          Tags:"数学,同步"
+          Tags: "数学,同步"
         },
-        
+
       ],
       gradeList:[],
       categoryList:[],
@@ -152,6 +155,13 @@ export default {
         })
       }
     },
+    isAdmin() {
+      if (this.$store.state.currentClassInfo.teacher) {
+        return this.$store.state.currentUser.Meid == this.$store.state.currentClassInfo.teacher.Meid
+      } else {
+        return false
+      }
+    }
   },
   methods: {
     getData() {
@@ -186,6 +196,17 @@ export default {
       this.$router.push('/player?id=' + val.VideoId)
       this.$store.commit('setCurrentVideoInfo', val)
     },
+    deleteVideo(id) {
+      let para = {
+        VideoId: id
+      }
+      this.$API.deleteVideo(para).then(res => {
+        this.$message.success('删除成功')
+        this.getData()
+      }).catch(err => {
+        this.$message.error(err)
+      })
+    }
     getGradeList() {
 			  this.$API.getGradeList().then(res => {
 							  this.gradeList = res;
@@ -201,6 +222,7 @@ export default {
   },
   created() {
     this.getData();
+    this.$store.dispatch('getCurrentClassInfo')
   },
   mounted() {
     this.getGradeList();
