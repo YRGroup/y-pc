@@ -39,8 +39,7 @@
         <div class="content" @click="$router.push('/post/'+i.ID)">{{i.content}}</div>
         <div class="albums">
           <li v-for="(p,index) in i.albums" :key="index">
-            <div class="imgCon" :style="{backgroundImage:'url\('+p+'\)'}"></div>
-            <img :src="p" @click="openImgBig(p)">
+            <div class="imgCon" :style="{backgroundImage:'url\('+p+'\)'}" @click="openImgBig(p)"></div>
           </li>
         </div>
         <div class="comment" v-if="i.comment1">
@@ -346,16 +345,11 @@ export default {
     li {
       display: inline-block;
       .imgCon {
-        width: calc(~"(100% - 30px) / 3");
-        height: 100px;
+        width: 200px;
+        height: 200px;
         background-position: center;
         background-size: cover;
         margin: 5px;
-      }
-      img {
-        max-height: 120px;
-        margin-right: 15px;
-        margin-bottom: 15px;
       }
     }
   }
