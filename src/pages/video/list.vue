@@ -34,7 +34,9 @@
               <div class="content">
                 <h3 class="name">
                   {{i.Title}}
-                  <span class="delete"  @click="deleteVideo(i.VideoId)" v-show="isAdmin"><i class="iconfont">&#xe641;</i></span>
+                  <span class="delete" @click="deleteVideo(i.VideoId)" v-show="isAdmin">
+                    <i class="iconfont">&#xe641;</i>
+                  </span>
                 </h3>
                 <div class="info">
                   <span>
@@ -89,7 +91,7 @@ export default {
   },
   methods: {
     getData() {
-      this.data=[]
+      this.data = []
       if (this.$route.name == 'teacher') {
         this.getMyVideoList()
       } else {
@@ -123,28 +125,28 @@ export default {
       let para = {
         VideoId: id
       }
-      this.$API.deleteVideo(para).then(res => {
-        this.$confirm('确定要删除吗?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
+      this.$confirm('确定要删除吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$API.deleteVideo(para).then(res => {
           this.$message({
             type: 'success',
             message: '删除成功!'
           });
           this.getData()
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
+        }).catch(err => {
+          this.$message.error(err)
+        })
+
+        this.getData()
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
         });
-        // this.$message.success('删除成功')
-        // this.getData()
-      }).catch(err => {
-        this.$message.error(err)
-      })
+      });
     },
     getGradeList() {
       this.$API.getGradeList().then(res => {
@@ -244,7 +246,7 @@ export default {
           }
         }
       }
-      &:hover .delete{
+      &:hover .delete {
         display: block;
         float: right;
       }
@@ -281,9 +283,10 @@ export default {
     }
   }
 }
-.delete{
+
+.delete {
   float: left;
-  color:#666;
+  color: #666;
   display: none;
   font-size: 12px;
 }
