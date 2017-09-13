@@ -13,10 +13,10 @@
           </el-option>
         </el-select>
         <!-- <span class="label">学科：</span>
-          <el-select v-model="filter.courseid" size="small" placeholder="请选择" style="width:120px">
-            <el-option v-for="item in courseList" :key="item.ID" :label="item.CourseName" :value="item.ID">
-            </el-option>
-          </el-select>  -->
+            <el-select v-model="filter.courseid" size="small" placeholder="请选择" style="width:120px">
+              <el-option v-for="item in courseList" :key="item.ID" :label="item.CourseName" :value="item.ID">
+              </el-option>
+            </el-select>  -->
         <span class="label">搜索：</span>
         <el-input placeholder="请输入关键词" icon="search" :on-icon-click="search" size="small" style="width:220px" v-model="filter.key">
         </el-input>
@@ -207,9 +207,9 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-              this.$API.deleteVideo(para).then(res => {
-        this.getData()
-      })
+        this.$API.deleteVideo(para).then(res => {
+          this.getData()
+        })
         this.$message({
           type: 'success',
           message: '删除成功!'
@@ -322,7 +322,6 @@ export default {
       }
       &:hover .delete {
         display: block;
-        float: right;
       }
       .content {
         padding: 10px 5px;
@@ -333,6 +332,8 @@ export default {
           overflow: hidden;
           text-overflow: ellipsis;
           max-height: 44px;
+          position: relative;
+          width: 220px;
         }
         .info {
           font-size: 12px;
@@ -359,7 +360,9 @@ export default {
 }
 
 .delete {
-  float: left;
+  position: absolute;
+  right: 0;
+  top: 0;
   color: #666;
   display: none;
   font-size: 12px;
