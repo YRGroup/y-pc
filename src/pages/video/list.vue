@@ -4,22 +4,23 @@
       <div class="toolBar">
         <span class="label">类别：</span>
         <el-select v-model="filter.cateid" size="small" placeholder="请选择" style="width:120px">
-          <el-option v-for="item in categoryList" :key="item.ID" :label="item.CourseName" :value="item.ID">
+          <el-option v-for="item in categoryList" :key="item.CateID" :label="item.CateName" :value="item.CateID">
           </el-option>
         </el-select>
         <span class="label">年级：</span>
         <el-select v-model="filter.grade" size="small" placeholder="请选择" style="width:120px">
-          <el-option v-for="item in gradeList" :key="item.ID" :label="item.CourseName" :value="item.ID">
+          <el-option v-for="item in gradeList" :key="item.ID" :label="item.GradeName" :value="item.ID">
           </el-option>
         </el-select>
-        <span class="label">学科：</span>
+         <!-- <span class="label">学科：</span>
         <el-select v-model="filter.courseid" size="small" placeholder="请选择" style="width:120px">
           <el-option v-for="item in courseList" :key="item.ID" :label="item.CourseName" :value="item.ID">
           </el-option>
-        </el-select>
+        </el-select>  -->
         <span class="label">搜索：</span>
         <el-input placeholder="请输入关键词" icon="search" :on-icon-click="search" size="small" style="width:220px" v-model="filter.key">
         </el-input>
+
         <el-button type="success" size="small" @click="$router.push('/video/add')" style="float:right" v-show="role=='老师'">
           <i class="iconfont">&#xe623;</i> 上传视频
         </el-button>
@@ -60,7 +61,6 @@ export default {
       filter: {
         key: '',
         cateid: '',
-        courseid: '',
         grade: ''
       },
       mockdata: [
@@ -126,6 +126,8 @@ export default {
         },
         
       ],
+      gradeList:[],
+      categoryList:[],
       data: [],
     }
   },
@@ -140,12 +142,7 @@ export default {
         return true
       }
     },
-    categoryList() {
-      return [{ CourseName: '全部', ID: '0' }]
-    },
-    gradeList() {
-      return [{ CourseName: '全部', ID: '0' }]
-    },
+
     courseList() {
       if (this.$store.state.courseList) {
         return this.$store.state.courseList
@@ -158,10 +155,12 @@ export default {
   },
   methods: {
     getData() {
+      
       if (this.$route.name == 'teacher') {
         this.getMyVideoList()
       } else {
         this.getVideoList()
+  
       }
     },
     getMyVideoList() {
@@ -186,12 +185,26 @@ export default {
     openVideo(val) {
       this.$router.push('/player?id=' + val.VideoId)
       this.$store.commit('setCurrentVideoInfo', val)
-    }
+    },
+    getGradeList() {
+			  this.$API.getGradeList().then(res => {
+							  this.gradeList = res;
+							  // this.classList.splice(0,0,{Name:'全部',cid:-1});				
+				});
+    },
+    getCategoryList() {
+			  this.$API.getCategeryList().then(res => {
+							  this.categoryList = res;
+							  // this.classList.splice(0,0,{Name:'全部',cid:-1});				
+				});
+    },
   },
   created() {
-    this.getData()
+    this.getData();
   },
   mounted() {
+    this.getGradeList();
+    this.getCategoryList();
   },
   watch: {
     '$route': 'getData'
