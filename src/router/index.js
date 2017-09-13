@@ -229,7 +229,6 @@ export default new Router({
       name: 'login',
       component: login,
     },
-
     {
       path: '/404',
       name: 'errorPage',
