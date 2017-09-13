@@ -169,8 +169,8 @@ export default {
           {
             name: '面积模式',
             type: 'pie',
-            radius: [30, 110],
-            roseType: 'area',
+            radius: '55%',
+            center: ['50%', '60%'],
             data: this.chart3_series
           }
         ]
