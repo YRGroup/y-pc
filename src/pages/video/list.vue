@@ -12,11 +12,11 @@
           <el-option v-for="item in gradeList" :key="item.ID" :label="item.GradeName" :value="item.ID">
           </el-option>
         </el-select>
-         <!-- <span class="label">学科：</span>
-        <el-select v-model="filter.courseid" size="small" placeholder="请选择" style="width:120px">
-          <el-option v-for="item in courseList" :key="item.ID" :label="item.CourseName" :value="item.ID">
-          </el-option>
-        </el-select>  -->
+        <!-- <span class="label">学科：</span>
+          <el-select v-model="filter.courseid" size="small" placeholder="请选择" style="width:120px">
+            <el-option v-for="item in courseList" :key="item.ID" :label="item.CourseName" :value="item.ID">
+            </el-option>
+          </el-select>  -->
         <span class="label">搜索：</span>
         <el-input placeholder="请输入关键词" icon="search" :on-icon-click="search" size="small" style="width:220px" v-model="filter.key">
         </el-input>
@@ -37,7 +37,9 @@
               <div class="content">
                 <h3 class="name">
                   {{i.Title}}
-                  <span class="delete"  @click="deleteVideo(i.VideoId)" v-show="isAdmin"><i class="iconfont">&#xe641;</i></span>
+                  <span class="delete" @click="deleteVideo(i.VideoId)" v-show="isAdmin">
+                    <i class="iconfont">&#xe641;</i>
+                  </span>
                 </h3>
                 <div class="info">
                   <span>
@@ -129,8 +131,8 @@ export default {
         },
 
       ],
-      gradeList:[],
-      categoryList:[],
+      gradeList: [],
+      categoryList: [],
       data: [],
     }
   },
@@ -165,12 +167,12 @@ export default {
   },
   methods: {
     getData() {
-      
+
       if (this.$route.name == 'teacher') {
         this.getMyVideoList()
       } else {
         this.getVideoList()
-  
+
       }
     },
     getMyVideoList() {
@@ -200,40 +202,37 @@ export default {
       let para = {
         VideoId: id
       }
-      this.$API.deleteVideo(para).then(res => {
-        this.$confirm('确定要删除吗?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
-          this.getData()
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
-        });
-        // this.$message.success('删除成功')
-        // this.getData()
-      }).catch(err => {
-        this.$message.error(err)
+      this.$confirm('确定要删除吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+              this.$API.deleteVideo(para).then(res => {
+        this.getData()
       })
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        });
+        this.getData()
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
     },
     getGradeList() {
-			  this.$API.getGradeList().then(res => {
-							  this.gradeList = res;
-							  // this.classList.splice(0,0,{Name:'全部',cid:-1});				
-				});
+      this.$API.getGradeList().then(res => {
+        this.gradeList = res;
+        // this.classList.splice(0,0,{Name:'全部',cid:-1});				
+      });
     },
     getCategoryList() {
-			  this.$API.getCategeryList().then(res => {
-							  this.categoryList = res;
-							  // this.classList.splice(0,0,{Name:'全部',cid:-1});				
-				});
+      this.$API.getCategeryList().then(res => {
+        this.categoryList = res;
+        // this.classList.splice(0,0,{Name:'全部',cid:-1});				
+      });
     },
   },
   created() {
@@ -321,7 +320,7 @@ export default {
           }
         }
       }
-      &:hover .delete{
+      &:hover .delete {
         display: block;
         float: right;
       }
@@ -358,9 +357,10 @@ export default {
     }
   }
 }
-.delete{
+
+.delete {
   float: left;
-  color:#666;
+  color: #666;
   display: none;
   font-size: 12px;
 }
