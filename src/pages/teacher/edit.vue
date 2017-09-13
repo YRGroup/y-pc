@@ -29,7 +29,7 @@
             <el-form-item label="身份证号" prop="IDCard">
               <el-input v-model="data.IDCard"></el-input>
             </el-form-item>
-            <el-form-item label="年龄" prop="Resume">
+            <el-form-item label="生日" prop="Resume">
               <!-- <el-input v-model="data.Resume"></el-input> -->
               <el-date-picker type="date" placeholder="选择日期" v-model="data.Resume" ></el-date-picker>
             </el-form-item>
@@ -196,7 +196,7 @@ export default {
           { required: true, message: '请输入身份证号', trigger: 'blur' }
         ],
         Resume: [
-          { type: 'date', required: true, message: '请选择年龄', trigger: 'blur' }
+          { type: 'date', required: true, message: '请选择生日', trigger: 'blur' }
         ],
         Volk: [
           { required: true, message: '请选择民族' ,trigger: 'change' }
