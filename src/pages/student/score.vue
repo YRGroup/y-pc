@@ -328,8 +328,8 @@ export default {
 
 .card {
   background: #fff;
-  margin: 20px 0;
-  padding: 20px;
+  margin: 10px 0;
+  padding: 10px;
 }
 
 #scoreChart {

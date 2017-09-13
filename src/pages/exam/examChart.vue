@@ -15,11 +15,13 @@
           <p class="examtime">创建时间：{{data.CreateTime}}</p>
         </div>
       </div>
+    
+
       <div class="panel">
-        <div id="chart1" style="width:100%; height:400px;"></div>
+        <div id="chart1" style="width:100%; height:400px;display:none;"></div>
         <div id="chart2" style="width:100%; height:400px;"></div>
-        <div id="chart3" style="width:100%; height:400px;"></div>
-        <div id="chart4" style="width:100%; height:400px;"></div>
+        <div id="chart3" style="width:100%; height:400px;display:none;"></div>
+        <div id="chart4" style="width:100%; height:400px;display:none;"></div>
       </div>
     </div>
 

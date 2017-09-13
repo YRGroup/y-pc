@@ -6,6 +6,38 @@
 
     <no-data v-if="nodataImg"></no-data>
     <div v-else>
+ <div class="card panel">
+      <div class="chart">
+        <div class="header">
+          <div class="label">选择数据来源：</div>
+          <el-checkbox-group v-model="chartDataType">
+            <el-checkbox label="自订" disabled></el-checkbox>
+            <el-checkbox label="1">期中考试</el-checkbox>
+            <el-checkbox label="2">期末考试</el-checkbox>
+            <el-checkbox label="3">周考</el-checkbox>
+            <el-checkbox label="4">月考</el-checkbox>
+          </el-checkbox-group>
+          <!-- <div class="label">展示形式：</div>
+          <el-checkbox v-model="chartDataStack">各科数据层叠</el-checkbox>
+          <el-button type="primary" @click="getChart10" style="margin-left:20px">重新查询</el-button> -->
+        </div>
+         <div id="chart10" style="width:100%; height:450px;display:none"></div> 
+        <div class="header">
+          <div class="label">选择数据来源：</div>
+          <el-radio-group v-model="chartDataNum">
+            <el-radio :label="1">最近1次</el-radio>
+            <el-radio :label="2">最近2次</el-radio>
+            <el-radio :label="3">最近3次</el-radio>
+            <el-radio :label="4">最近4次</el-radio>
+          </el-radio-group>
+          <el-button type="primary" @click="getChart11" style="margin-left:20px">重新查询</el-button>
+        </div>
+        <div id="chart11" style="width:100%; height:450px;"></div>
+      </div>
+
+    </div>
+
+
       <div class="examlist">
         <li class="item" v-for="(i,index) in data" :key="index">
           <div class="examtitle">{{i.ExamName}}</div>
@@ -26,36 +58,7 @@
         </li>
       </div>
     </div>
-    <div class="card panel">
-      <div class="chart">
-        <div class="header">
-          <div class="label">选择数据来源：</div>
-          <el-checkbox-group v-model="chartDataType">
-            <el-checkbox label="自订" disabled></el-checkbox>
-            <el-checkbox label="1">期中考试</el-checkbox>
-            <el-checkbox label="2">期末考试</el-checkbox>
-            <el-checkbox label="3">周考</el-checkbox>
-            <el-checkbox label="4">月考</el-checkbox>
-          </el-checkbox-group>
-          <div class="label">展示形式：</div>
-          <el-checkbox v-model="chartDataStack">各科数据层叠</el-checkbox>
-          <el-button type="primary" @click="getChart10" style="margin-left:20px">重新查询</el-button>
-        </div>
-        <div id="chart10" style="width:100%; height:450px;"></div>
-        <div class="header">
-          <div class="label">选择数据来源：</div>
-          <el-radio-group v-model="chartDataNum">
-            <el-radio :label="1">最近1次</el-radio>
-            <el-radio :label="2">最近2次</el-radio>
-            <el-radio :label="3">最近3次</el-radio>
-            <el-radio :label="4">最近4次</el-radio>
-          </el-radio-group>
-          <el-button type="primary" @click="getChart11" style="margin-left:20px">重新查询</el-button>
-        </div>
-        <div id="chart11" style="width:100%; height:450px;"></div>
-      </div>
-
-    </div>
+   
 
     <el-dialog title="创建新考试" :visible.sync="showAddExam">
       <el-form :model="newExamData" label-width="120px">
