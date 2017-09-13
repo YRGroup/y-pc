@@ -56,8 +56,8 @@
               </el-table-column>
               <el-table-column prop="Score" label="操作" width="260" align="center">
                 <template scope="scope">
-                   <el-input-number v-show="scoreEdit" size="small" v-model="scope.row.Score" :max="100" :min="0"></el-input-number> 
-                   <!-- <el-input v-show="scoreEdit" :class="(startEdit!=scope.row.ExamCourseID)?'inline':null" size="small" :disabled="startEdit!=i.CourseName" v-model="scope.row.Score" max="50" type="number" placeholder="修改分数"></el-input>  -->
+                   <!-- <el-input-number v-show="scoreEdit" size="small" v-model="scope.row.Score" :max="100" :min="0"></el-input-number>  -->
+                    <el-input v-show="scoreEdit" :class="(startEdit!=scope.row.ExamCourseID)?'inline':null" size="small" :max="150" :min="0" :disabled="startEdit!=i.CourseName" v-model="scope.row.Score" max="50" type="number" placeholder="修改分数"></el-input>  
                    <el-button type="text" @click.native="startEditOneScore(scope.row)" v-show="startEdit!=i.CourseName">修改</el-button> 
                 </template>
               </el-table-column>
@@ -81,7 +81,7 @@
             </el-form-item>
             <el-form-item label="分数">
               <!-- <el-input v-model.number="editScoreOneData.Score" style="width:100px"></el-input> -->
-              <el-input-number v-model="editScoreOneData.Score" :max="100" min="0"></el-input-number> 
+              <el-input-number v-model="editScoreOneData.Score" :max="150" :min="0"></el-input-number> 
             </el-form-item>
             <el-form-item>
               <el-button type="success" @click="submitEditOneScore">确 定</el-button>
