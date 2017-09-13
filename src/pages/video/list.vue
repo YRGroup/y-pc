@@ -42,7 +42,7 @@
                   <span>
                     <i class="iconfont">&#xe678;</i>{{i.TrueName}}</span>
                   <span>
-                    <i class="iconfont">&#xe621;</i>{{i.Tags.replace(/,/g,' ')}}</span>
+                    <i class="iconfont">&#xe621;</i>{{i.Duration | formatTime}}</span>
                 </div>
                 <div class="bottom">
                   <p class="desc">{{i.Description}}</p>
@@ -68,6 +68,33 @@ export default {
       gradeList: [],
       categoryList: [],
       data: [],
+    }
+  },
+  filters: {
+    formatTime(val) {
+      if (val) {
+        var theTime = parseInt(val)
+        var theTime1 = 0
+        var theTime2 = 0
+        if (theTime > 60) {
+          theTime1 = parseInt(theTime / 60)
+          theTime = parseInt(theTime % 60)
+          if (theTime1 > 60) {
+            theTime2 = parseInt(theTime1 / 60);
+            theTime1 = parseInt(theTime1 % 60);
+          }
+        }
+        var result = "" + parseInt(theTime) + "秒";
+        if (theTime1 > 0) {
+          result = "" + parseInt(theTime1) + "分" + result;
+        }
+        if (theTime2 > 0) {
+          result = "" + parseInt(theTime2) + "小时" + result;
+        }
+        return result
+      } else {
+        return '-'
+      }
     }
   },
   computed: {
@@ -139,14 +166,13 @@ export default {
         }).catch(err => {
           this.$message.error(err)
         })
-
         this.getData()
       }).catch(() => {
         this.$message({
           type: 'info',
           message: '已取消删除'
-        });
-      });
+        })
+      })
     },
     getGradeList() {
       this.$API.getGradeList().then(res => {
