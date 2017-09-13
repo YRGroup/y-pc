@@ -346,12 +346,12 @@ export default {
     li {
       display: inline-block;
       .imgCon {
-        width: 140px;
-        height: 140px;
+        width: 160px;
+        height: 160px;
         background-position: center;
         background-size: cover;
         display: inline-block;
-        margin: 0 10px 10px;
+        margin: 0 10px 10px 0;
       }
     }
   }

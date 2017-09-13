@@ -176,7 +176,7 @@ export default {
         Type: '4',
         ExamTime: '',
         ExamCourses: [],
-        courses: [1,2,3,4,5,6,7,8,9]
+        courses: [1, 2, 3, 4, 5, 6, 7, 8, 9]
       },
       data: [],
       chartDataType: ["1", "2", "3", "4"],
@@ -210,7 +210,7 @@ export default {
     currentClassList() {
       return this.$store.state.currentClassList
     },
-    
+
   },
   filters: {
     formatExamType(val) {
@@ -320,14 +320,21 @@ export default {
         Type: this.chartDataType.join(',')
       }
       this.$API.GetSingleCourseScoreByClassID(para).then(res => {
-        this.chartData = res.slice(0,this.chartDataNum)
+        this.chartData = res.slice(0, this.chartDataNum)
         this.chart11_xAxis = this.chartData[0].Info.map(b => { return b.CourseName })
         this.chartData.forEach(o => {
           this.chart11_legend.push(o.ExamName)
           this.chart11_series.push({
             name: o.ExamName,
             type: 'bar',
-            data: o.Info.map(b => { return b.AvgTotalScore })
+            label: {
+                normal: {
+                    show: true,
+                    position: 'top'
+                }
+            },
+            barCategoryGap : '30%' ,
+            data: o.Info.map(b => { return b.AvgTotalScore }),
           })
         })
         this.setChart11()
@@ -343,8 +350,8 @@ export default {
       console.log(this.newExamData)
       if (!this.newExamData.ExamName) {
         this.$message.error('请填写考试名称')
-      } else if(!this.newExamData.ExamTime){
-         this.$message.error('请添加考试时间')
+      } else if (!this.newExamData.ExamTime) {
+        this.$message.error('请添加考试时间')
       } else if (!this.newExamData.ExamCourses.length) {
         this.$message.error('请选择学科')
       } else {
@@ -459,12 +466,18 @@ export default {
         xAxis: [
           {
             type: 'category',
-            data: this.chart11_xAxis
+            data: this.chart11_xAxis,
+            splitArea: {
+              show: true
+            },
           }
         ],
         yAxis: [
           {
-            type: 'value'
+            type: 'value',
+            splitArea: {
+              show: false
+            },
           }
         ],
         series: this.chart11_series
