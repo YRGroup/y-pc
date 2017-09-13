@@ -46,7 +46,7 @@ export default {
       player: null,
       videoId: '',
       videoAuth: '',
-      videoinfo:this.$store.state.currentVideoInfo,
+      videoinfo: this.$store.state.currentVideoInfo,
       videoCover: 'http://liveroom-img.oss-cn-qingdao.aliyuncs.com/logo.png',
     }
   },
@@ -121,13 +121,15 @@ export default {
     }
   }
 }
-.videoTitle{
+
+.videoTitle {
   font-size: 20px;
   line-height: 48px;
   height: 48px;
   overflow: hidden;
-  padding:10px 20px;
+  padding: 10px 20px;
 }
+
 .introduce {
   min-height: 300px;
 }
@@ -183,8 +185,9 @@ export default {
       width: 60px;
       height: 60px;
       border-radius: 50%;
-      img{
-        max-width: 100%;;
+      img {
+        max-width: 100%;
+        ;
       }
     }
     .name {
