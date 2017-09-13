@@ -12,7 +12,7 @@
         <div class="time">{{data.AddTime}}</div>
         <div class="content" v-html="data.content"></div>
         <div class="footer">
-          <div class="btn"><i class="iconfont">&#xe60c;</i></div>
+          <!-- <div class="btn"><i class="iconfont">&#xe60c;</i></div> -->
         </div>
       </div>
   
