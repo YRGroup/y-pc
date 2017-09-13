@@ -36,8 +36,6 @@
           <div class="liked">
             <div class="item" v-for="(i,index) in data.zans" :key="index">
               <div class="img">
-                <!-- <img :src="i.HeadImg" v-if="i.HeadImg!='http://pic.yearnedu.com/himg.png' && i.HeadImg!=''"> -->
-                <!-- <div class="headTextImg" v-else>{{(i.TrueName||'user').substr(0,1)}}</div> -->
                 <img :src="i.HeadImg">
               </div>
               <div class="name">
@@ -183,20 +181,12 @@ export default {
       li {
         display: inline-block;
         .imgCon {
-<<<<<<< HEAD
-          width: 200px;
-          height: 200px;
-          background-position: center;
-          background-size: cover;
-          margin: 5px;
-=======
           width: 160px;
           height: 160px;
           background-position: center;
           background-size: cover;
           display: inline-block;
           margin: 0 10px 10px 0;
->>>>>>> a2fffc14ba087822ee610d537e50214eadda10d4
         }
       }
     }

@@ -1,16 +1,10 @@
 <template>
-<<<<<<< HEAD
   <div class="addVideo">
     <div class="header">
       添加新视频
     </div>
     <div class="panel">
       <iframe src="../../../static/videoupload.html" frameborder="0" id="videoUploadFrame"></iframe>
-=======
-  <div class="card">
-    <div class="addvideo">
-      this is add video page
->>>>>>> a2fffc14ba087822ee610d537e50214eadda10d4
     </div>
   </div>
 </template>
@@ -20,7 +14,6 @@ export default {
   name: 'addVideo',
   data() {
     return {
-<<<<<<< HEAD
       data: {
         FileName: '',
         FileSize: '',
@@ -31,9 +24,6 @@ export default {
         Grade: '',
         Tags: '',
       },
-=======
-      data:{}
->>>>>>> a2fffc14ba087822ee610d537e50214eadda10d4
     }
   },
   computed: {
@@ -46,12 +36,9 @@ export default {
 
   },
   mounted() {
-<<<<<<< HEAD
 
   },
   watch: {
-=======
->>>>>>> a2fffc14ba087822ee610d537e50214eadda10d4
 
   }
 }
@@ -60,7 +47,6 @@ export default {
 <style lang="less" scoped>
 @import '../../style/theme.less';
 
-<<<<<<< HEAD
 .header {
   color: #fff;
   background: @main;
@@ -76,12 +62,5 @@ export default {
 #videoUploadFrame {
   width: 100%;
   height: 690px;
-=======
-.card{
-  background: #fff;
-}
-.addvideo{
-  padding:50px 0 20px 50px;
->>>>>>> a2fffc14ba087822ee610d537e50214eadda10d4
 }
 </style>
