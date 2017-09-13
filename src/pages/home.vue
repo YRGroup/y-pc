@@ -75,7 +75,7 @@ export default {
       return this.$route.name
     },
     isFullpage() {
-      return this.$route.name === 'video'
+      // return this.$route.name === 'video'
     }
   },
   methods: {
