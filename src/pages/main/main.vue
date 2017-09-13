@@ -7,8 +7,7 @@
         <el-tab-pane name="1">
           <span slot="label">
             <i class="iconfont">&#xe737;</i> 校园动态</span>
-          <no-data v-if="nodataImg"></no-data>
-  
+          <no-data v-if="!data.length"></no-data>
           <div v-else class="card" v-for="(i,index) in data" :key="index">
             <div class="img" v-if="i.ImgUrl">
               <img :src="i.ImgUrl">
@@ -32,7 +31,7 @@
         <el-tab-pane name="2">
           <span slot="label">
             <i class="iconfont">&#xe604;</i> 资料库</span>
-          <no-data v-if="nodataImg"></no-data>
+          <no-data v-if="!data.length"></no-data>
           <div v-else class="card" v-for="(i,index) in data" :key="index">
             <div class="img" v-if="i.ImgUrl">
               <img :src="i.ImgUrl">
@@ -72,7 +71,6 @@ export default {
       data: [],
       page: 1,
       publicImg: require('@/assets/publicImg.png'),
-      nodataImg: false
     }
   },
   methods: {
@@ -88,7 +86,6 @@ export default {
       this.$API.getNewsList(para).then(res => {
         this.data = res
         if (this.data.length == 0 && this.page == 1) {
-          this.nodataImg = true
         }
       }).catch(err => this.$message.error(err.msg))
     }
