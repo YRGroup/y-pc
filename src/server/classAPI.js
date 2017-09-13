@@ -189,4 +189,15 @@ API.getClassList = () => {
   })
 }
 
+
+// 获取年级列表
+API.getGradeList = () => { 
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl+'/api/school/GetGrade').then((res)=>{
+        resolve(res.data.Content)
+    })
+  })
+}
+
+
 export default API
