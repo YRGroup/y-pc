@@ -15,7 +15,7 @@
           <i class="iconfont">&#xe623;</i>添加学生</el-button>
       </li>
     </ul>
-    <el-dialog title="添加学生" :visible.sync="showAddStudent" size="tiny">
+    <el-dialog title="添加学生" :visible.sync="showAddStudent" size="small">
       <el-form label-width="80px">
         <div>
           <el-form-item label="">
@@ -81,7 +81,7 @@
         </div>
       </el-form>
     </el-dialog>
-    <el-dialog title="添加老师" :visible.sync="showAddTeacher" size="tiny">
+    <el-dialog title="添加老师" :visible.sync="showAddTeacher" size="small">
       <el-form label-width="80px">
         <div>
           <el-form-item label="">
