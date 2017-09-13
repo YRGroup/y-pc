@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div class="card">
       <div class="maintitle">
         <i class="iconfont">&#xe737;</i>成绩报表
@@ -12,16 +11,24 @@
         <div class="examinfo">
           <p class="title">{{data.Name}}</p>
           <!-- <p>当前考试:{{data.Remark}}</p> -->
-          <p class="examtime">创建时间：{{data.CreateTime}}</p>
+          <p class="examtime">创建时间：{{data.CreateTExamIDime}}</p>
         </div>
       </div>
-    
+
+      <div class="list">
+         <div class="item" v-for="(i,index) in data.CoursesSummary" :key="index">
+          <div class="mainscore">
+            <span class="score">{{i.AverageScore}}</span>
+            <span> / {{i.FullScore}}</span>
+          </div>
+          <div class="name">{{i.CourseName}}</div>
+        </div> 
+      </div>
 
       <div class="panel">
         <div id="chart1" style="width:100%; height:400px;display:none;"></div>
+        <div id="chart3" style="width:100%; height:400px;"></div>
         <div id="chart2" style="width:100%; height:400px;"></div>
-        <div id="chart3" style="width:100%; height:400px;display:none;"></div>
-        <div id="chart4" style="width:100%; height:400px;display:none;"></div>
       </div>
     </div>
 
@@ -43,6 +50,10 @@ export default {
       chart2: null,
       chart2_indicator: [],
       chart2_series: [],
+      chart3_indicator: [],
+      chart3_series: [],
+      chart3_title: '',
+      sourseList: []
     }
   },
   computed: {
@@ -119,6 +130,7 @@ export default {
         this.data.CoursesList.forEach(o => {
           this.chart1_legend.push(o.CourseName)
         })
+        this.chart3_title = this.data.Name
         this.data.CoursesSummary.forEach(o => {
           this.chart1_series.push({
             name: o.CourseName,
@@ -133,9 +145,13 @@ export default {
             data: o.Scores.map(b => { return b.Score })
           })
           this.chart2_indicator.push({ text: o.CourseName, max: o.FullScore })
+          this.chart3_indicator.push({ name: o.CourseName, max: o.FullScore })
+          this.chart3_series.push(o.AverageScore)
+          this.sourseList.push(o.CourseName)
         })
         this.setChart1()
         this.setChart2()
+        this.setChart3()
       })
     },
     setChart1() {
@@ -190,14 +206,61 @@ export default {
         },
         series: this.chart2_series
       })
+    },
+    setChart3() {
+      this.chart3.setOption({
+        title: {
+          text: '班级各科平均分'
+        },
+        tooltip: { show: true },
+        legend: {
+          show: true,
+          data: this.sourseList,
+          right: 'right'
+        },
+        label: {
+          normal: {
+            show: true,
+            formatter: function(params) {
+              return params.value;
+            }
+          }
+        },
+        radar: {
+          // shape: 'circle',
+          name: {
+            formatter: '【{value}】',
+            textStyle: {
+              color: '#666'
+            }
+          },
+          indicator: this.chart3_indicator
+        },
+        series: [{
+          type: 'radar',
+          itemStyle: { normal: { areaStyle: { type: 'default' } } },
+          data: [
+            {
+              value: this.chart3_series,
+              name: this.chart3_title,
+              itemStyle: {
+                normal: {
+                  color: '#F9713C'
+                }
+              },
+            },
+          ]
+        }]
+      })
     }
   },
   created() {
     this.getData()
   },
   mounted() {
-    this.chart1 = echarts.init(document.getElementById('chart1'),'macarons')
-    this.chart2 = echarts.init(document.getElementById('chart2'),'macarons')
+    this.chart1 = echarts.init(document.getElementById('chart1'), 'macarons')
+    this.chart2 = echarts.init(document.getElementById('chart2'), 'macarons')
+    this.chart3 = echarts.init(document.getElementById('chart3'), 'macarons')
 
   },
   watch: {
@@ -293,6 +356,33 @@ export default {
   background: #f8f8f8;
   .el-tabs__nav-wrap {
     background: red;
+  }
+}
+
+.list {
+  padding:0 50px;
+  margin-top: 20px;
+  .item {
+    border: 1px solid @border;
+    background: #f1faf6;
+    display: inline-block;
+    text-align: center;
+    width: 100px;
+    height: 80px;
+    padding: 16px;
+    margin:10px;
+    .mainscore {
+      line-height: 40px;
+      color: @grey;
+      .score {
+        color: @sub;
+        font-size: 20px;
+      }
+    }
+    .name {
+      line-height: 40px;
+      font-weight: 600;
+    }
   }
 }
 </style>
