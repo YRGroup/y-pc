@@ -41,6 +41,7 @@
           <li v-for="(p,index) in i.albums" :key="index">
             <div class="imgCon" :style="{backgroundImage:'url\('+p+'\)'}" @click="openImgBig(p)"></div>
           </li>
+          
         </div>
         <div class="comment" v-if="i.comment1">
           <div class="name">
@@ -345,11 +346,12 @@ export default {
     li {
       display: inline-block;
       .imgCon {
-        width: 200px;
-        height: 200px;
+        width: 140px;
+        height: 140px;
         background-position: center;
         background-size: cover;
-        margin: 5px;
+        display: inline-block;
+        margin: 0 10px 10px;
       }
     }
   }

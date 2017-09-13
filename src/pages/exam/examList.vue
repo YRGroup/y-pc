@@ -176,7 +176,7 @@ export default {
         Type: '4',
         ExamTime: '',
         ExamCourses: [],
-        courses: []
+        courses: [1,2,3,4,5,6,7,8,9]
       },
       data: [],
       chartDataType: ["1", "2", "3", "4"],
@@ -343,6 +343,8 @@ export default {
       console.log(this.newExamData)
       if (!this.newExamData.ExamName) {
         this.$message.error('请填写考试名称')
+      } else if(!this.newExamData.ExamTime){
+         this.$message.error('请添加考试时间')
       } else if (!this.newExamData.ExamCourses.length) {
         this.$message.error('请选择学科')
       } else {

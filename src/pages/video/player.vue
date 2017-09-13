@@ -12,7 +12,7 @@
     <el-row :gutter="20">
       <el-col :span="18">
         <div class="card introduce">
-          <h3 class="videoTitle">{{title}}</h3>
+          <h3 class="videoTitle">{{videoinfo.Title}}</h3>
           <div class="title">课程介绍</div>
           <div class="content">
             {{videoinfo.Description}}
@@ -56,7 +56,7 @@ export default {
       this.$API.getVideoAuth(para).then(res => {
         this.videoAuth = res
         this.initPlayer()
-        this.player.play()
+        // this.player.play()
       })
     },
     initPlayer() {
@@ -182,8 +182,8 @@ export default {
       display: inline-block;
       width: 60px;
       height: 60px;
-      border-radius: 50%;
       img {
+        border-radius: 50%;
         max-width: 100%;
         ;
       }
