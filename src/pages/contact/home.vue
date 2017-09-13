@@ -87,7 +87,7 @@
     
                   <div class="bottom">
                     <div class="tel" v-show="$store.getters.role=='老师'">{{i.ParentPhone}}</div>
-                    <el-button size="mini" class="btn" @click="$router.push('/msg/'+i.ParentMeid)">消息</el-button>
+                    <el-button size="mini" class="btn" @click="$router.push('/msg/'+i.ParentMeid)" v-show="$store.getters.role=='老师'">消息</el-button>
                   </div>
     
                 </li>
