@@ -37,7 +37,7 @@
               <div class="content">
                 <h3 class="name">
                   {{i.Title}}
-                  <span style="float:right;color:red" @click="deleteVideo(i.VideoId)" v-show="isAdmin">X</span>
+                  <span class="delete"  @click="deleteVideo(i.VideoId)" v-show="isAdmin"><i class="iconfont">&#xe641;</i></span>
                 </h3>
                 <div class="info">
                   <span>
@@ -201,8 +201,24 @@ export default {
         VideoId: id
       }
       this.$API.deleteVideo(para).then(res => {
-        this.$message.success('删除成功')
-        this.getData()
+        this.$confirm('确定要删除吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+          this.getData()
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+        // this.$message.success('删除成功')
+        // this.getData()
       }).catch(err => {
         this.$message.error(err)
       })
@@ -305,6 +321,10 @@ export default {
           }
         }
       }
+      &:hover .delete{
+        display: block;
+        float: right;
+      }
       .content {
         padding: 10px 5px;
         .name {
@@ -337,5 +357,11 @@ export default {
       }
     }
   }
+}
+.delete{
+  float: left;
+  color:#666;
+  display: none;
+  font-size: 12px;
 }
 </style>
