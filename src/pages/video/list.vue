@@ -206,7 +206,7 @@ export default {
       }).catch(err => {
         this.$message.error(err)
       })
-    }
+    },
     getGradeList() {
 			  this.$API.getGradeList().then(res => {
 							  this.gradeList = res;
