@@ -12,15 +12,12 @@
           <el-option v-for="item in gradeList" :key="item.ID" :label="item.GradeName" :value="item.ID">
           </el-option>
         </el-select>
-         <!-- <span class="label">学科：</span>
-        <el-select v-model="filter.courseid" size="small" placeholder="请选择" style="width:120px">
-          <el-option v-for="item in courseList" :key="item.ID" :label="item.CourseName" :value="item.ID">
-          </el-option>
-        </el-select>  -->
         <span class="label">搜索：</span>
         <el-input placeholder="请输入关键词" icon="search" :on-icon-click="search" size="small" style="width:220px" v-model="filter.key">
         </el-input>
-
+        <el-button type="success" size="small" @click="getData">
+          <i class="iconfont">&#xe623;</i> 重新查询
+        </el-button>
         <el-button type="success" size="small" @click="$router.push('/video/add')" style="float:right" v-show="role=='老师'">
           <i class="iconfont">&#xe623;</i> 上传视频
         </el-button>
@@ -66,71 +63,8 @@ export default {
         cateid: '',
         grade: ''
       },
-      mockdata: [
-        {
-          CoverUrl: 'http://img-ph-mirror.nosdn.127.net/uGlHQbFYwbOqtawebgKIBw==/6631585635678682130.png?imageView&thumbnail=223y124&quality=100',
-          Title: '初中数学 八年级下册 同步精讲',
-          TrueName: '李老师',
-          Tags: "数学,同步"
-        },
-        {
-          CoverUrl: 'http://img-ph-mirror.nosdn.127.net/XAZPnNfRddZqbrT04KUxrA==/6598247343671202738.jpg?imageView&thumbnail=223y124&quality=100',
-          Title: '初三化学微课',
-          TrueName: '李老师',
-          Tags: "化学,同步"
-        },
-        {
-          CoverUrl: 'http://img-ph-mirror.nosdn.127.net/77PDx1agj4rzPFCD5so8zQ==/2568459162502715937.png?imageView&thumbnail=223y124&quality=100',
-          Title: '初中数学 八年级下册 同步精讲',
-          TrueName: '李老师',
-          Tags: "数学,同步"
-        },
-        {
-          CoverUrl: 'http://img-ph-mirror.nosdn.127.net/smdzncVmj3X3Cl5OFKIAhw==/6630623563001917320.jpg?imageView&thumbnail=223y124&quality=100',
-          Title: '初中数学 八年级下册 同步精讲',
-          TrueName: '李老师',
-          Tags: "数学,同步"
-        },
-        {
-          CoverUrl: 'http://img-ph-mirror.nosdn.127.net/huMaOaCPqytlKxQ_nUMQzA==/6631511968396193449.jpg?imageView&thumbnail=223y124&quality=100',
-          Title: '初中数学 八年级下册 同步精讲',
-          TrueName: '李老师',
-          Tags: "数学,同步"
-        },
-        {
-          CoverUrl: 'http://img-ph-mirror.nosdn.127.net/xLhTxA-12xVYZ5w3rsxC7w==/3387551344813173665.jpg?imageView&thumbnail=223y124&quality=100',
-          Title: '初中数学 八年级下册 同步精讲',
-          TrueName: '李老师',
-          Tags: "数学,同步"
-        },
-        {
-          CoverUrl: 'http://img-ph-mirror.nosdn.127.net/cFSnhZAB33crH-lP3y55Ug==/6597302863123106487.jpg?imageView&thumbnail=223y124&quality=100',
-          Title: '初中数学 八年级下册 同步精讲',
-          TrueName: '李老师',
-          Tags: "数学,同步"
-        },
-        {
-          CoverUrl: 'http://img-ph-mirror.nosdn.127.net/IyIYI1pi2EooL-v4mGnHFA==/3751498489699903968.jpg?imageView&thumbnail=223y124&quality=100',
-          Title: '初中数学 八年级下册 同步精讲',
-          TrueName: '李老师',
-          Tags: "数学,同步"
-        },
-        {
-          CoverUrl: 'http://img-ph-mirror.nosdn.127.net/rjjix596Qb68iAN9V5ZWRQ==/6598156084206716095.jpg?imageView&thumbnail=223y124&quality=100',
-          Title: '初中数学 八年级下册 同步精讲',
-          TrueName: '李老师',
-          Tags: "数学,同步"
-        },
-        {
-          CoverUrl: 'http://img-ph-mirror.nosdn.127.net/7pF5L7CiS2TtGPuUoQvygg==/6631914389652756457.jpg?imageView&thumbnail=223y124&quality=100',
-          Title: '初中数学 八年级下册 同步精讲',
-          TrueName: '李老师',
-          Tags: "数学,同步"
-        },
-
-      ],
-      gradeList:[],
-      categoryList:[],
+      gradeList: [],
+      categoryList: [],
       data: [],
     }
   },
@@ -145,16 +79,6 @@ export default {
         return true
       }
     },
-
-    courseList() {
-      if (this.$store.state.courseList) {
-        return this.$store.state.courseList
-      } else {
-        this.$store.dispatch('getCourseList').then(() => {
-          return this.$store.state.courseList
-        })
-      }
-    },
     isAdmin() {
       if (this.$store.state.currentClassInfo.teacher) {
         return this.$store.state.currentUser.Meid == this.$store.state.currentClassInfo.teacher.Meid
@@ -165,12 +89,11 @@ export default {
   },
   methods: {
     getData() {
-      
+      this.data=[]
       if (this.$route.name == 'teacher') {
         this.getMyVideoList()
       } else {
         this.getVideoList()
-  
       }
     },
     getMyVideoList() {
@@ -208,16 +131,16 @@ export default {
       })
     },
     getGradeList() {
-			  this.$API.getGradeList().then(res => {
-							  this.gradeList = res;
-							  // this.classList.splice(0,0,{Name:'全部',cid:-1});				
-				});
+      this.$API.getGradeList().then(res => {
+        this.gradeList = res
+        this.gradeList.unshift({ GradeName: '全部', ID: -1 })
+      });
     },
     getCategoryList() {
-			  this.$API.getCategeryList().then(res => {
-							  this.categoryList = res;
-							  // this.classList.splice(0,0,{Name:'全部',cid:-1});				
-				});
+      this.$API.getCategeryList().then(res => {
+        this.categoryList = res
+        this.categoryList.unshift({ CateName: '全部', CateID: -1 })
+      });
     },
   },
   created() {
