@@ -206,6 +206,7 @@ export default new Router({
         },
         {
           path: '/video',
+          name: 'video',
           component: videoList,
         },
         {
@@ -228,7 +229,6 @@ export default new Router({
       name: 'login',
       component: login,
     },
-    
     {
       path: '/404',
       name: 'errorPage',

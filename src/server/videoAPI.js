@@ -5,6 +5,17 @@ import axios from 'axios'
 // API根目录
 import _APIurl from './config'
 
+// 搜索视频
+API.searchVideo = (para) => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl+'/api/video/search',{params:para}).then((res)=>{
+      resolve(res.data.Content)
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
+
 // 获取视频认证信息
 API.getVideoAuth = (para) => {
   return new Promise((resolve, reject) => {
@@ -30,7 +41,7 @@ API.editVideoInfo = (para) => {
 // 获取当前用户的视频列表
 API.getMyVideoList = (para) => {
   return new Promise((resolve, reject) => {
-    axios.get(_APIurl+'/api/video/getVideoList',{params:para}).then((res)=>{
+    axios.get(_APIurl+'/api/video/getMyVideoList',{params:para}).then((res)=>{
       resolve(res.data.Content)
     }).catch((err) => {
       reject(err)
@@ -41,7 +52,7 @@ API.getMyVideoList = (para) => {
 // 获取所有视频列表
 API.getVideoList = (para) => {
   return new Promise((resolve, reject) => {
-    axios.get(_APIurl+'/api/video/getVideoList',{params:para}).then((res)=>{
+    axios.get(_APIurl+'/api/video/search',{params:para}).then((res)=>{
       resolve(res.data.Content)
     }).catch((err) => {
       reject(err)

@@ -52,7 +52,7 @@
 
             </div>
           </div>
-  
+
           <div class="itemList">
             <div class="header">
               <i class="iconfont">&#xe69b;</i>教学经历</div>
@@ -63,7 +63,7 @@
               </p>
             </div>
           </div>
-  
+
           <div class="itemList">
             <div class="header">
               <i class="iconfont">&#xe63d;</i>个人荣誉</div>
@@ -74,10 +74,10 @@
               </li>
             </div>
           </div>
-  
+
         </div>
       </el-tab-pane>
-  
+
       <el-tab-pane name="profile" v-else>
         <span class="title" slot="label">资料</span>
         <div class="content info">
@@ -104,7 +104,7 @@
               </p>
             </div>
           </div>
-  
+
           <div class="itemList">
             <div class="header">
               <i class="iconfont">&#xe69b;</i>教学经历</div>
@@ -115,7 +115,7 @@
               </p>
             </div>
           </div>
-  
+
           <div class="itemList">
             <div class="header">
               <i class="iconfont">&#xe63d;</i>个人荣誉</div>
@@ -126,37 +126,39 @@
               </li>
             </div>
           </div>
-  
+
         </div>
       </el-tab-pane>
-  
+
       <el-tab-pane name="post">
         <span class="title" slot="label">动态</span>
         <div class="content">
-  
           <teacher-post :id="currentUserId"></teacher-post>
-  
         </div>
       </el-tab-pane>
-  
+
       <el-tab-pane name="homework">
         <span class="title" slot="label">作业</span>
         <div class="content">
-  
           <teacher-homework :id="currentUserId"></teacher-homework>
-  
         </div>
       </el-tab-pane>
-  
+      <el-tab-pane name="video">
+        <span class="title" slot="label">视频</span>
+        <div class="content">
+          <teacher-video :id="currentUserId"></teacher-video>
+        </div>
+      </el-tab-pane>
+
       <el-tab-pane name="msg" v-if="!$route.query.id">
         <span class="title" slot="label">消息</span>
         <div class="content">
-  
+
           <msg></msg>
-  
+
         </div>
       </el-tab-pane>
-  
+
     </el-tabs>
   </div>
 </template>
@@ -165,10 +167,11 @@
 import teacherHomework from '@/pages/teacher/components/homework'
 import teacherPost from '@/pages/teacher/components/post'
 import msg from '@/pages/contact/main'
+import teacherVideo from '@/pages/video/list'
 
 export default {
   name: 'app',
-  components: { teacherHomework, teacherPost, msg },
+  components: { teacherHomework, teacherPost, msg, teacherVideo },
   data() {
     return {
       activeTab: 'profile',
@@ -178,13 +181,13 @@ export default {
     }
   },
   computed: {
-    currentUser: function () {
+    currentUser: function() {
       return this.$store.state.currentUser
     },
-    currentUserId(){
-      if(!this.$route.query.id){
+    currentUserId() {
+      if (!this.$route.query.id) {
         return this.$store.getters.currentUserId
-      }else{
+      } else {
         return this.$route.query.id
       }
     }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="card panel">
+    <div class="card panel" v-show="showTool">
       <div class="addbtn" v-show="role=='老师'">
         <el-button type="success" size="small" @click="$router.push('/video/add')">
           <i class="iconfont">&#xe623;</i> 上传视频
@@ -8,27 +8,15 @@
       </div>
       <div class="course-row">
         <span class="hd">学科：</span>
-        <div class="bd">
-          <ul>
-            <li class="course-item on">
-              <a>全部</a>
-            </li>
-            <li class="course-item">
-              <a>语文</a>
-            </li>
-            <li class="course-item">
-              <a>语文</a>
-            </li>
-            <li class="course-item">
-              <a>语文</a>
-            </li>
-          </ul>
-        </div>
+        <el-select v-model="value" placeholder="请选择">
+          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+          </el-option>
+        </el-select>
       </div>
       <div class="course-row">
         <span class="hd">搜索：</span>
         <div class="bd">
-          <el-input placeholder="请输入关键词" icon="search" :on-icon-click="search" size="small" style="width:260px">
+          <el-input placeholder="请输入关键词" icon="search" :on-icon-click="search" size="small" style="width:260px" v-model="filter.key">
           </el-input>
         </div>
       </div>
@@ -36,21 +24,21 @@
     <div class="panel">
       <div class="course-list">
         <ul class="clearfix">
-          <li class="container">
-            <a class="couse-card" @click="$router.push('/player')">
+          <li class="container" v-for="(i,index) in data" :key="index">
+            <a class="couse-card" @click="openVideo(i)">
               <div class="top">
-                <img class="banner" src="http://img.mukewang.com/576b7afb00019e4906000338-240-135.jpg" style="display: inline;">
+                <img class="banner" :src="i.CoverUrl||'http://img.mukewang.com/576b7afb00019e4906000338-240-135.jpg'" style="display: inline;">
               </div>
               <div class="content">
-                <h3 class="name">JAVA遇见HTML——JSP篇</h3>
+                <h3 class="name">{{i.Title}}</h3>
                 <div class="info">
                   <span>
-                    <i class="iconfont">&#xe621;</i>01:13:34</span>
+                    <i class="iconfont">&#xe678;</i>{{i.TrueName}}</span>
                   <span>
-                    <i class="iconfont">&#xe678;</i>133</span>
+                    <i class="iconfont">&#xe621;</i>{{i.Tags.replace(/,/g,' ')}}</span>
                 </div>
                 <div class="bottom">
-                  <p class="desc">Java Web入门级教程JSP，带你轻松的学习JSP基础知识</p>
+                  <p class="desc">{{i.Description}}</p>
                 </div>
               </div>
             </a>
@@ -65,20 +53,61 @@
 export default {
   data() {
     return {
-      data: {},
+      filter: {
+        key: '',
+        cateid: '',
+        courseid: '',
+        grade: ''
+      },
+      data: [],
     }
   },
   computed: {
     role() {
       return this.$store.getters.role
     },
+    showTool() {
+      if (this.$route.name !== 'video') {
+        return false
+      } else {
+        return true
+      }
+    }
   },
   methods: {
+    getData() {
+      if (this.$route.name == 'teacher') {
+        this.getMyVideoList()
+      } else {
+        this.getVideoList()
+      }
+    },
+    getMyVideoList() {
+      this.$API.getMyVideoList().then(res => {
+        this.data = res
+      })
+    },
+    getVideoList() {
+      let para = this.filter
+      this.$API.getVideoList(para).then(res => {
+        this.data = res
+      })
+    },
     search() {
-      console.log(11111)
+      let para = {
+        key: 'keyword'
+      }
+      this.$API.searchVideo(para).then(res => {
+
+      })
+    },
+    openVideo(val){
+      this.$router.push('/player?id='+val.VideoId)
+      this.$store.commit('setCurrentVideoInfo',val)
     }
   },
   created() {
+    this.getData()
   },
   mounted() {
   },
