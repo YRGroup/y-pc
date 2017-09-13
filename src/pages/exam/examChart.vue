@@ -174,7 +174,11 @@ export default {
         legend: {
           x: 'center',
           y: 'bottom',
-          data: this.chart3_legend
+          data: this.chart3_legend,
+          formatter: function(o) {
+            return o.replace(/R/g, '').replace(/_/g, '-')
+          }
+
         },
         toolbox: {
           show: true,
