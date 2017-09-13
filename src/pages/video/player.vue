@@ -50,6 +50,7 @@
             </div>
           </div> -->
         <div class="card introduce">
+          <h3 class="videoTitle">{{title}}</h3>
           <div class="title">课程介绍</div>
           <div class="content">
             {{text}}
@@ -93,7 +94,8 @@ export default {
       player: null,
       videoCol: 24,
       width: '100%',
-      text: '简介：亲，这里有资深讲师为初学者量身打造的Java Web入门级课程JSP，讲师将通过大量的案例向您展示JavaWeb开发环境搭建、工具使用和JSP的基本语法，深入理解Java Web开发思想，最终使您能独立开发简单的Java Web应用。'
+      text: '简介：亲，这里有资深讲师为初学者量身打造的Java Web入门级课程JSP，讲师将通过大量的案例向您展示JavaWeb开发环境搭建、工具使用和JSP的基本语法，深入理解Java Web开发思想，最终使您能独立开发简单的Java Web应用。',
+      title:'JAVA遇见HTML——JSP篇'
     }
   },
   methods: {
@@ -187,7 +189,13 @@ export default {
     }
   }
 }
-
+.videoTitle{
+  font-size: 20px;
+  line-height: 48px;
+  height: 48px;
+  overflow: hidden;
+  padding:10px 20px;
+}
 .introduce {
   min-height: 300px;
 }
