@@ -1,29 +1,7 @@
 <template>
   <div class="card">
-    <div class="maintitle">
-      添加视频
-      <span class="goreturn">
-        <el-button size="small" @click="$router.go(-1)" type="success" :plain="true">返回</el-button>
-      </span>
-    </div>
     <div class="addvideo">
-      <el-form :model="data" label-width="120px">
-        <div>
-          <el-form-item label="视频名称">
-            <el-input v-model="data.Title" style="width:400px"></el-input>
-          </el-form-item>
-        </div>
-        <div>
-          <el-form-item label="视频介绍">
-            <el-input v-model="data.Description" style="width:400px"></el-input>
-          </el-form-item>
-        </div>
-        <div>
-          <el-form-item label="学科">
-            <el-input type="textarea" v-model="data.ExamName" style="width:400px"></el-input>
-          </el-form-item>
-        </div>
-      </el-form>
+      this is add video page
     </div>
   </div>
 </template>

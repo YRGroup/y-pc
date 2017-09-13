@@ -22,7 +22,7 @@
           <el-button type="primary" @click="getChart10" style="margin-left:20px">重新查询</el-button> -->
         </div>
          <div id="chart10" style="width:100%; height:450px;display:none"></div> 
-        <div class="header">
+        <div class="header"  style="margin-bottom:20px">
           <div class="label">选择数据来源：</div>
           <el-radio-group v-model="chartDataNum">
             <el-radio :label="1">最近1次</el-radio>
@@ -30,7 +30,7 @@
             <el-radio :label="3">最近3次</el-radio>
             <el-radio :label="4">最近4次</el-radio>
           </el-radio-group>
-          <el-button type="primary" @click="getChart11" style="margin-left:20px">重新查询</el-button>
+          <el-button type="primary" @click="getChart11" style="margin-left:20px">查询</el-button>
         </div>
         <div id="chart11" style="width:100%; height:450px;"></div>
       </div>
