@@ -166,7 +166,6 @@ export default {
         }).catch(err => {
           this.$message.error(err)
         })
-        this.getData()
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -274,7 +273,6 @@ export default {
       }
       &:hover .delete {
         display: block;
-        float: right;
       }
       .content {
         padding: 10px 5px;
@@ -285,6 +283,8 @@ export default {
           overflow: hidden;
           text-overflow: ellipsis;
           max-height: 44px;
+          position: relative;
+          width: 220px;
         }
         .info {
           font-size: 12px;
@@ -311,7 +311,9 @@ export default {
 }
 
 .delete {
-  float: left;
+  position: absolute;
+  right: 0;
+  top: 0;
   color: #666;
   display: none;
   font-size: 12px;
