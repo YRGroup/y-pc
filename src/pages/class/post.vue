@@ -1,6 +1,6 @@
 <template>
   <div>
-  
+
     <div class="body card">
       <div class="maintitle">
         <i class="iconfont">&#xe737;</i>动态详情
@@ -20,7 +20,7 @@
         <div class="content">{{data.content}}</div>
         <div class="albums">
           <li v-for="(p,index) in data.albums" :key="index">
-            <img :src="p" @click="openImgBig(p)">
+            <div class="imgCon" :style="{backgroundImage:'url\('+p+'\)'}" @click="openImgBig(p)"></div>
           </li>
         </div>
         <div class="footer">
@@ -92,7 +92,7 @@ export default {
     },
     submitReply() {
       this.replyData.did = this.data.ID
-      if(this.$store.getters.role=='家长' && this.$store.state.currentStudentId != null){
+      if (this.$store.getters.role == '家长' && this.$store.state.currentStudentId != null) {
         this.replyData.student_meid = this.$store.state.currentStudentId
       }
       this.$API.postNewComment(this.replyData).then(res => {
@@ -134,7 +134,7 @@ export default {
   background: #fff;
   .mainCon {
     position: relative;
-    padding:0 20px 20px 80px;
+    padding: 0 20px 20px 80px;
     .img {
       position: absolute;
       left: 20px;
@@ -147,11 +147,10 @@ export default {
     }
     .header {
       display: inline-block;
-      font-size: 16px;
-      // line-height: 42px;
+      font-size: 16px; // line-height: 42px;
       margin-top: 24px;
     }
-    .content{
+    .content {
       margin-top: 10px;
     }
     .tips {
@@ -178,8 +177,12 @@ export default {
       li {
         padding: 10px 10px 10px 0;
         display: inline-block;
-        img {
-          max-height: 120px;
+        .imgCon {
+          width: 200px;
+          height: 200px;
+          background-position: center;
+          background-size: cover;
+          margin: 5px;
         }
       }
     }
@@ -195,22 +198,22 @@ export default {
           color: @main;
         }
       }
-      .liked{
-        .item{
+      .liked {
+        .item {
           display: inline-block;
           position: relative;
           text-align: center;
-          margin:5px;
-          .img{
+          margin: 5px;
+          .img {
             position: static;
-            img{
-              width:30px;
-              height:30px;
+            img {
+              width: 30px;
+              height: 30px;
               border-radius: 50%;
             }
-            .headTextImg{
-              width:30px;
-              height:30px;
+            .headTextImg {
+              width: 30px;
+              height: 30px;
               line-height: 30px;
               font-size: 20px;
             }

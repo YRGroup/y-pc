@@ -17,7 +17,7 @@
           <div class="taskcon" @click="$router.push('/homework?id='+i.HID)">{{i.Content}}</div>
           <div class="albums">
             <li v-for="(p,index) in i.Albums" :key="index">
-              <img :src="p" @click="openImgBig(p)">
+              <div class="imgCon" :style="{backgroundImage:'url\('+p+'\)'}" @click="openImgBig(p)"></div>
             </li>
           </div>
           <div class="taskbottom">
@@ -273,13 +273,14 @@ export default {
       overflow: hidden;
       li {
         float: left;
-        width: 120px;
-        height: 120px;
-        line-height: 120px;
         margin: 10px 10px 0 0;
-      }
-      img {
-        max-width: 120px;
+        .imgCon {
+          width: 200px;
+          height: 200px;
+          background-position: center;
+          background-size: cover;
+          margin: 5px;
+        }
       }
     }
     .taskbottom {
@@ -375,16 +376,20 @@ export default {
   margin: 10px 0;
   li {
     display: inline-block;
-    img {
-      max-height: 120px;
-      margin-right: 15px;
-      margin-bottom: 15px;
+    .imgCon {
+      width: 200px;
+      height: 200px;
+      background-position: center;
+      background-size: cover;
+      margin: 5px;
     }
   }
 }
-.bigImg{
-  img{
-    max-width: 80%;;
+
+.bigImg {
+  img {
+    max-width: 80%;
+    ;
   }
 }
 </style>

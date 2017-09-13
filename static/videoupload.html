@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Demo</title>
+  <script src="js\aliyun-sdk.min.js"></script>
+  <script src="js\vod-sdk-upload-1.0.6.min.js"></script>
+  <script src="js\jquery-1.10.2.min.js"></script>
+  <style>
+    tr {
+      line-height: 50px;
+    }
+
+    input {
+      height: 30px;
+    }
+
+    hr {
+      color: #ccc;
+    }
+
+  </style>
+</head>
+
+<body>
+  上传视频
+  <hr />
+  <table frame=void width="400px">
+    <tr>
+      <td>标题:</td>
+      <td><input type="text" id="ud_title" size="20" value=""></td>
+    </tr>
+    <tr>
+      <td>描述</td>
+      <td><input type="text" id="ud_des" size="20" value=""></td>
+    </tr>
+    <tr>
+      <td>类别:</td>
+      <td><input type="text" id="ud_cate" size="20" value=""></td>
+    </tr>
+    <tr>
+      <td>年级:</td>
+      <td><input type="text" id="ud_grade" size="20" value=""></td>
+    </tr>
+    <tr>
+      <td>标签:</td>
+      <td><input type="text" id="ud_tag" size="20" value=""></td>
+    </tr>
+    <tr>
+      <td>选择文件:</td>
+      <td><input type="file" name="file" id="ud_file" /></td>
+    </tr>
+    <tr>
+      <td>
+        <button type="button" onclick="start()">开始上传</button>
+        <button type="button" onclick="stop()">停止上传</button></td>
+    </tr>
+  </table>
+  <select multiple="multiple" id="textarea" style="position:relative; width:620px; height:250px; vertical-align:top; border:1px solid #cccccc;"></select>
+
+  <script>
+    var uploader;
+    var uploadAuth;
+    var uploadAddress;
+    window.onload = new function () {
+      uploader = new VODUpload({
+        // 文件上传失败
+        'onUploadFailed': function (uploadInfo, code, message) {
+          log("onUploadFailed: file:" + uploadInfo.file.name + ",code:" + code + ", message:" + message);
+        },
+        // 文件上传完成
+        'onUploadSucceed': function (uploadInfo) {
+          log("onUploadSucceed: " + uploadInfo.file.name + ", endpoint:" + uploadInfo.endpoint + ", bucket:" +
+            uploadInfo.bucket + ", object:" + uploadInfo.object);
+        },
+        // 文件上传进度
+        'onUploadProgress': function (uploadInfo, totalSize, uploadedSize) {
+          log("onUploadProgress:file:" + uploadInfo.file.name + ", fileSize:" + totalSize + ", percent:" + Math
+            .ceil(uploadedSize * 100 / totalSize) + "%");
+        },
+        // STS临时账号会过期，过期时触发函数
+        'onUploadTokenExpired': function () {
+          log("onUploadTokenExpired");
+          // 实现时，从新获取UploadAuth
+          // uploader.resumeUploadWithAuth(uploadAuth);
+
+        },
+        // 开始上传
+        'onUploadstarted': function (uploadInfo) {
+          var uploadAuth = document.getElementById("uploadAuth").value;
+          var uploadAddress = document.getElementById("uploadAddress").value;
+          uploader.setUploadAuthAndAddress(uploadInfo, uploadAuth, uploadAddress);
+          log("onUploadStarted:" + uploadInfo.file.name + ", endpoint:" + uploadInfo.endpoint + ", bucket:" +
+            uploadInfo.bucket + ", object:" + uploadInfo.object);
+        }
+      });
+      uploader.init();
+    };
+
+    document.getElementById("ud_file")
+      .addEventListener('change', function (event) {
+        var userData = '{"Vod":{"UserData":"{"IsShowWaterMark":"false","Priority":"7"}"}}';
+        for (var i = 0; i < event.target.files.length; i++) {
+          log("add file: " + event.target.files[i].name);
+          uploader.addFile(event.target.files[i], null, null, null, userData);
+        }
+      });
+
+    var textarea = document.getElementById("textarea");
+
+    function start() {
+      getUpdateAuth()
+      if (!uploadAuth || !uploadAddress) {
+        alert('请先获取上传授权');
+        getUpdateAuth()
+        return;
+      }
+      log("start upload.");
+      uploader.startUpload();
+    }
+
+    function stop() {
+      log("stop upload.");
+      uploader.stopUpload();
+    }
+
+    function resumeWithToken() {
+      log("resume upload with token.");
+
+      uploader.resumeUploadWithAuth(uploadAuth);
+
+    }
+
+    function clearList() {
+      log("clean upload list.");
+      uploader.cleanList();
+    }
+
+    function clearLog() {
+      textarea.options.length = 0;
+    }
+
+    function log(value) {
+      if (!value) {
+        return;
+      }
+
+      var len = textarea.options.length;
+      if (len > 0 && textarea.options[len - 1].value.substring(0, 40) == value.substring(0, 40)) {
+        textarea.remove(len - 1);
+      } else if (len > 25) {
+        textarea.remove(0);
+      }
+
+      var option = document.createElement("option");
+      option.value = value, option.innerHTML = value;
+      textarea.appendChild(option);
+    }
+
+    function getUpdateAuth() {
+      var f = document.getElementById("ud_file");
+      if (f.files.length == 0) {
+        alert('必须先选择文件');
+        return;
+      }
+      $.ajax({
+        type: "POST",
+        url: "http://api.test.com/api/Video/GetVideoUploadAuth",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify({
+          FileName: f.files[0].name,
+          Title: f.files[0].name,
+          FileSize: f.files[0].size,
+          Description: "Description",
+          Coverurl: "",
+          CateId: 0,
+          CourseId: 1,
+          Grade: 1,
+          Tags: "a,b,c",
+        }),
+        success: function (result) {
+          uploadAuth = result.Content.UploadAuth
+          uploadAddress = result.Content.UploadAddress
+        }
+      });
+    }
+
+  </script>
+
+</body>
+
+</html>
