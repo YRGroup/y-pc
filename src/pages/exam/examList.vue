@@ -209,7 +209,8 @@ export default {
     },
     currentClassList() {
       return this.$store.state.currentClassList
-    }
+    },
+    
   },
   filters: {
     formatExamType(val) {
@@ -516,7 +517,7 @@ export default {
     },
     setChart11() {
       this.chart11.setOption({
-        color: ['#5793f3', '#d14a61', '#675bba'],
+        // color: ['#5793f3', '#d14a61', '#675bba'],
         title: {
           text: '考试成绩对比',
         },
@@ -557,7 +558,7 @@ export default {
   },
   mounted() {
     this.chart10 = echarts.init(document.getElementById('chart10'), 'macarons')
-    this.chart11 = echarts.init(document.getElementById('chart11'))
+    this.chart11 = echarts.init(document.getElementById('chart11'), 'macarons')
   }
 }
 </script>
