@@ -1,11 +1,11 @@
 <template>
   <div>
-  
+
     <div class="addPost">
       <div class="title addbtn" @click="showAddPost=true">
         <i class="iconfont">&#xe623;</i>发布动态</div>
     </div>
-  
+
     <el-dialog title="发布动态" :visible.sync="showAddPost" size="tiny">
       <el-form :model="newPost">
         <el-form-item>
@@ -25,20 +25,21 @@
         <el-button type="success" @click="addNewPost">发 布</el-button>
       </div>
     </el-dialog>
-  
+
     <no-data v-if="nodataImg"></no-data>
     <div v-else>
       <div class="card panel" v-for="i in data" :key="i.ID">
         <div class="img" @click="openUserPage(i)">
           <!-- <img :src="i.userImg" v-if="i.userImg!='http://pic.yearnedu.com/himg.png' && i.userImg!=''">
-          <div class="headTextImg" v-else>{{i.auther.substr(0,1)}}</div> -->
-           <img :src="i.userImg">
+            <div class="headTextImg" v-else>{{i.auther.substr(0,1)}}</div> -->
+          <img :src="i.userImg">
         </div>
         <div class="tips">{{i.category}}</div>
         <div class="header">{{i.auther}}</div>
         <div class="content" @click="$router.push('/post/'+i.ID)">{{i.content}}</div>
         <div class="albums">
           <li v-for="(p,index) in i.albums" :key="index">
+            <div class="imgCon" :style="{backgroundImage:'url\('+p+'\)'}"></div>
             <img :src="p" @click="openImgBig(p)">
           </li>
         </div>
@@ -66,11 +67,11 @@
       </div>
       <load-more @click.native="loadMore" :noMoreData="noMoreData"></load-more>
     </div>
-  
+
     <el-dialog :visible.sync="showImgBig" class="bigImg">
       <img :src="imgBig">
     </el-dialog>
-  
+
   </div>
 </template>
 
@@ -102,7 +103,7 @@ export default {
     }
   },
   methods: {
-    updateData: function (data) {
+    updateData: function(data) {
       this.newPost.content = data
     },
     getData() {
@@ -206,22 +207,22 @@ export default {
         this.$message('内容不能为空')
       }
     },
-    openUserPage(u){
-      if(u.Role=='老师'){
-        this.$router.push('/t?id='+u.auther_meid)
-      }else if(u.Role=='家长'){
+    openUserPage(u) {
+      if (u.Role == '老师') {
+        this.$router.push('/t?id=' + u.auther_meid)
+      } else if (u.Role == '家长') {
         this.$message({
           showClose: true,
           message: '家长没有个人主页',
           type: 'warning'
         })
-      }else if(u.Role=='学生'){
-        this.$router.push('/s?id='+u.auther_meid)
+      } else if (u.Role == '学生') {
+        this.$router.push('/s?id=' + u.auther_meid)
       }
     }
   },
   created() {
-      this.getData()
+    this.getData()
   },
   mounted() {
   },
@@ -344,6 +345,13 @@ export default {
     margin: 10px 0;
     li {
       display: inline-block;
+      .imgCon {
+        width: calc(~"(100% - 30px) / 3");
+        height: 100px;
+        background-position: center;
+        background-size: cover;
+        margin: 5px;
+      }
       img {
         max-height: 120px;
         margin-right: 15px;

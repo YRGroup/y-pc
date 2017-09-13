@@ -395,42 +395,6 @@ export default {
       })
     },
     setChart10() {
-      // this.chart10.setOption({
-      //   title: {
-      //     text: '各科平均分走势',
-      //     textStyle: {
-      //       color: '#333',
-      //       fontWeight: 500
-      //     }
-      //   },
-      //   tooltip: {
-      //     trigger: 'axis'
-      //   },
-      //   legend: {
-      //     data: this.chart10_legend,
-      //   },
-      //   grid: {
-      //     left: '3%',
-      //     right: '4%',
-      //     bottom: '3%',
-      //     containLabel: true
-      //   },
-      //   toolbox: {
-      //     feature: {
-      //       saveAsImage: {}
-      //     }
-      //   },
-      //   xAxis: {
-      //     type: 'category',
-      //     boundaryGap: false,
-      //     data: this.chart10_xAxis
-      //   },
-      //   yAxis: {
-      //     type: 'value',
-      //     name: '分数'
-      //   },
-      //   series: this.chart10_series
-      // })
       this.chart10.setOption({
         title: {
           text: '各科平均分走势',
@@ -443,7 +407,7 @@ export default {
           trigger: 'axis'
         },
         legend: {
-          data: ["语文","数学","英语","物理","化学","生物","历史","地理","政治"],
+          data: this.chart10_legend,
         },
         grid: {
           left: '3%',
@@ -459,59 +423,13 @@ export default {
         xAxis: {
           type: 'category',
           boundaryGap: false,
-          data: ['考试1','考试2','考试3','考试4','考试5']
+          data: this.chart10_xAxis
         },
         yAxis: {
           type: 'value',
           name: '分数'
         },
-        series: [
-          {
-            type:'line',
-            name:'语文',
-            data:['90','91','92','95','85']
-          },
-          {
-            type:'line',
-            name:'数学',
-            data:['102','108','105','110','112']
-          },
-          {
-            type:'line',
-            name:'英语',
-            data:['105','110','118','107','101']
-          },
-          {
-            type:'line',
-            name:'物理',
-            data:['55','63','62','52','58']
-          },
-          {
-            type:'line',
-            name:'化学',
-            data:['35','41','44','49','52']
-          },
-          {
-            type:'line',
-            name:'生物',
-            data:['40','45','40','42','49']
-          },
-          {
-            type:'line',
-            name:'历史',
-            data:['90','90','90','90','90']
-          },
-          {
-            type:'line',
-            name:'地理',
-            data:['90','90','90','90','90']
-          },
-          {
-            type:'line',
-            name:'政治',
-            data:['90','90','90','90','90']
-          },
-        ]
+        series: this.chart10_series
       })
     },
     setChart11() {
