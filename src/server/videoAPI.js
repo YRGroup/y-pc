@@ -16,6 +16,17 @@ API.searchVideo = (para) => {
   })
 }
 
+// 搜索视频
+API.GetVideoUploadAuth = (para) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl+'/api/Video/GetVideoUploadAuth',para).then((res)=>{
+      resolve(res.data.Content)
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
+
 // 获取视频认证信息
 API.getVideoAuth = (para) => {
   return new Promise((resolve, reject) => {

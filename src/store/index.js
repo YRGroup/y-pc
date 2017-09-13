@@ -93,7 +93,7 @@ const store = new Vuex.Store({
       } else {
         return 'ok'
       }
-    }
+    },
   },
   mutations: {
     login(state, val) {
