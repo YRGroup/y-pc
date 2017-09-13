@@ -74,7 +74,7 @@
       </div>
 
       <div class="item" v-show="step==3">
-        <el-input size="large" class="input" type="password" placeholder="请输入学生的密码" :minlength='6' @keyup.enter.native="login" v-model.trim="studentLoginData.password">
+        <el-input size="large" class="input" type="password" placeholder="请输入学生的密码"  :minlength='6' @keyup.enter.native="studentLogin" v-model.trim="studentLoginData.password">
           <template slot="prepend">
             <i class="iconfont">&#xe692;</i>
           </template>
