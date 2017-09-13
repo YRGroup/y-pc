@@ -207,7 +207,7 @@ export default {
             // this.$router.push('/reg?tel=' + this.phone)
           }
         }).catch(err => this.$message.error(err.msg))
-      } else if (this.phone.slice(0, 1) == 2 && this.phone.length === 9) {
+      } else if (this.phone.slice(0, 1) != 1 && this.phone.length === 9) {
         this.step = 3
       }
     },
