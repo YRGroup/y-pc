@@ -1,24 +1,28 @@
 <template>
   <div>
-    <div class="card panel" v-show="showTool">
-      <div class="addbtn" v-show="role=='老师'">
-        <el-button type="success" size="small" @click="$router.push('/video/add')">
-          <i class="iconfont">&#xe623;</i> 上传视频
-        </el-button>
-      </div>
-      <div class="course-row">
-        <span class="hd">学科：</span>
-        <el-select v-model="value" placeholder="请选择">
-          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+    <div class="panel" v-show="showTool">
+      <div class="toolBar">
+        <span class="label">类别：</span>
+        <el-select v-model="filter.cateid" size="small" placeholder="请选择" style="width:120px">
+          <el-option v-for="item in categoryList" :key="item.ID" :label="item.CourseName" :value="item.ID">
           </el-option>
         </el-select>
-      </div>
-      <div class="course-row">
-        <span class="hd">搜索：</span>
-        <div class="bd">
-          <el-input placeholder="请输入关键词" icon="search" :on-icon-click="search" size="small" style="width:260px" v-model="filter.key">
-          </el-input>
-        </div>
+        <span class="label">年级：</span>
+        <el-select v-model="filter.grade" size="small" placeholder="请选择" style="width:120px">
+          <el-option v-for="item in gradeList" :key="item.ID" :label="item.CourseName" :value="item.ID">
+          </el-option>
+        </el-select>
+        <span class="label">学科：</span>
+        <el-select v-model="filter.courseid" size="small" placeholder="请选择" style="width:120px">
+          <el-option v-for="item in courseList" :key="item.ID" :label="item.CourseName" :value="item.ID">
+          </el-option>
+        </el-select>
+        <span class="label">搜索：</span>
+        <el-input placeholder="请输入关键词" icon="search" :on-icon-click="search" size="small" style="width:220px" v-model="filter.key">
+        </el-input>
+        <el-button type="success" size="small" @click="$router.push('/video/add')" style="float:right" v-show="role=='老师'">
+          <i class="iconfont">&#xe623;</i> 上传视频
+        </el-button>
       </div>
     </div>
     <div class="panel">
@@ -72,7 +76,22 @@ export default {
       } else {
         return true
       }
-    }
+    },
+    categoryList() {
+      return [{ CourseName: '全部', ID: '0' }]
+    },
+    gradeList() {
+      return [{ CourseName: '全部', ID: '0' }]
+    },
+    courseList() {
+      if (this.$store.state.courseList) {
+        return this.$store.state.courseList
+      } else {
+        this.$store.dispatch('getCourseList').then(() => {
+          return this.$store.state.courseList
+        })
+      }
+    },
   },
   methods: {
     getData() {
@@ -101,9 +120,9 @@ export default {
 
       })
     },
-    openVideo(val){
-      this.$router.push('/player?id='+val.VideoId)
-      this.$store.commit('setCurrentVideoInfo',val)
+    openVideo(val) {
+      this.$router.push('/player?id=' + val.VideoId)
+      this.$store.commit('setCurrentVideoInfo', val)
     }
   },
   created() {
@@ -120,7 +139,7 @@ export default {
 <style lang="less" scoped>
 @import '../../style/theme.less';
 
-.card {
+.panel {
   background: #fff;
   position: relative;
   .addbtn {
@@ -128,16 +147,16 @@ export default {
     right: 30px;
     top: 20px;
   }
-  .course-row {
+  .toolBar {
     padding: 10px 0;
     border-bottom: 1px solid @border;
-    .hd {
+    .label {
       width: 52px;
       height: 20px;
       line-height: 30px;
       font-weight: 700;
       text-align: right;
-      float: left;
+      padding: 0 1em;
     }
     .bd {
       margin-left: 60px;
