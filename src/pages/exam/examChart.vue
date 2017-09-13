@@ -26,7 +26,6 @@
 
       <div class="panel">
         <div id="chart1" style="width:100%; height:400px;"></div>
-        <div id="chart2" style="width:100%; height:400px;"></div>
         <div class="toolBar">
           <span class="label">学科：</span>
           <el-select v-model="chart3courseId" size="small" placeholder="请选择" style="width:120px">
@@ -56,9 +55,6 @@ export default {
       chart1_legend: [],
       chart1_indicator: [],
       chart1_series: [],
-      chart2: null,
-      chart2_indicator: [],
-      chart2_series: [],
       chart3AllData: {},
       chart3Data: {},
       chart3: null,
@@ -91,36 +87,11 @@ export default {
       this.$API.getExamInfo(this.$route.params.examId).then(res => {
         this.data = res
         this.data.CreateTime = new Date(this.data.CreateTime).Format('MM-dd hh:mm')
-        this.data.StudentSummary.forEach(o => {
-          this.chart2_series.push({
-            name: '学生曲线',
-            type: 'radar',
-            symbol: 'none',
-            itemStyle: {
-              normal: {
-                lineStyle: {
-                  width: 1
-                }
-              },
-              emphasis: {
-                areaStyle: { color: 'rgba(0,250,0,0.3)' }
-              }
-            },
-            data: [
-              {
-                value: o.Courses.map(b => { return b.Score }),
-                name: o.TrueName
-              }
-            ]
-          })
-        })
         this.data.CoursesSummary.forEach(o => {
-          this.chart2_indicator.push({ text: o.CourseName, max: o.FullScore })
           this.chart1_indicator.push({ name: o.CourseName, max: o.FullScore })
           this.chart1_series.push(o.AverageScore)
         })
         this.setChart1()
-        this.setChart2()
         this.getChart3Data()
       })
     },
@@ -174,7 +145,11 @@ export default {
         legend: {
           x: 'center',
           y: 'bottom',
-          data: this.chart3_legend
+          data: this.chart3_legend,
+          formatter: function(o) {
+            return o.replace(/R/g, '').replace(/_/g, '-')
+          }
+
         },
         toolbox: {
           show: true,
@@ -200,29 +175,6 @@ export default {
           }
         ]
       });
-    },
-    setChart2() {
-      this.chart2.setOption({
-        title: {
-          text: '班级学生各科成绩分布',
-          top: 10,
-          left: 10
-        },
-        tooltip: {
-          trigger: 'item',
-          backgroundColor: 'rgba(0,0,250,0.2)'
-        },
-        visualMap: {
-          top: 'middle',
-          right: 10,
-          color: ['red', 'yellow'],
-          calculable: true
-        },
-        radar: {
-          indicator: this.chart2_indicator
-        },
-        series: this.chart2_series
-      })
     },
     setChart1() {
       this.chart1.setOption({
@@ -275,7 +227,6 @@ export default {
   },
   mounted() {
     this.chart1 = echarts.init(document.getElementById('chart1'), 'macarons')
-    this.chart2 = echarts.init(document.getElementById('chart2'), 'macarons')
     this.chart3 = echarts.init(document.getElementById('chart3'), 'macarons')
   },
   watch: {
