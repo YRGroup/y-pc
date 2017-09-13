@@ -12,6 +12,7 @@
     <el-row :gutter="20">
       <el-col :span="18">
         <div class="card introduce">
+          <h3 class="videoTitle">{{title}}</h3>
           <div class="title">课程介绍</div>
           <div class="content">
             {{videoinfo.Description}}
@@ -120,7 +121,13 @@ export default {
     }
   }
 }
-
+.videoTitle{
+  font-size: 20px;
+  line-height: 48px;
+  height: 48px;
+  overflow: hidden;
+  padding:10px 20px;
+}
 .introduce {
   min-height: 300px;
 }

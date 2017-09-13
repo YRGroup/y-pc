@@ -77,7 +77,7 @@
                     <div class="img">
                       <!-- <img :src="i.ParentHeadimgurl" v-if="i.ParentHeadimgurl!='http://pic.yearnedu.com/himg.png' && i.ParentHeadimgurl!=''">
                       <div class="headTextImg" v-else>{{i.StudentTrueName.substr(0,1) || 'null'}}</div>  -->
-                      <img :src="i.Headimgurl">
+                      <img :src="i.ParentHeadimgurl">
                     </div>
                     <div class="name">
                       {{i.ParentTrueName}}

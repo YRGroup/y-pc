@@ -162,7 +162,7 @@ export default {
     return {
       pickerOptions0: {
         disabledDate(time) {
-          return time.getTime() > Date.now() - 8.64e7;
+          return time.getTime() < Date.now() - 8.64e7;
         }
       },
       data: {
@@ -196,7 +196,7 @@ export default {
           { required: true, message: '请输入身份证号', trigger: 'blur' }
         ],
         Resume: [
-          { type: 'date', required: true, message: '请选择生日', trigger: 'blur' }
+          { required: true, message: '请选择年龄' }
         ],
         Volk: [
           { required: true, message: '请选择民族' ,trigger: 'change' }

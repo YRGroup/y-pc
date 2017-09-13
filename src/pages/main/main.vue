@@ -127,6 +127,7 @@ export default {
     display: inline-block;
     img {
       width: 100%;
+      height: 120px;
     }
   }
   .cardCon {
