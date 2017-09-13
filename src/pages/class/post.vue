@@ -10,8 +10,9 @@
       </div>
       <div class="mainCon">
         <div class="img">
-          <img :src="data.userImg" v-if="data.userImg!='http://pic.yearnedu.com/himg.png' && data.userImg!=''">
-          <div class="headTextImg" v-else>{{data.auther.substr(0,1)}}</div>
+          <!-- <img :src="data.userImg" v-if="data.userImg!='http://pic.yearnedu.com/himg.png' && data.userImg!=''"> -->
+          <!-- <div class="headTextImg" v-else>{{data.auther.substr(0,1)}}</div> -->
+          <img :src="data.userImg">
         </div>
         <div class="header">
           {{data.auther}}
@@ -19,6 +20,9 @@
         <div class="tips">{{data.category}}</div>
         <div class="content">{{data.content}}</div>
         <div class="albums">
+          <!-- <li v-for="(p,index) in data.albums" :key="index">
+              <img :src="p" @click="openImgBig(p)">
+            </li> -->
           <li v-for="(p,index) in data.albums" :key="index">
             <div class="imgCon" :style="{backgroundImage:'url\('+p+'\)'}" @click="openImgBig(p)"></div>
           </li>
@@ -32,8 +36,9 @@
           <div class="liked">
             <div class="item" v-for="(i,index) in data.zans" :key="index">
               <div class="img">
-                <img :src="i.HeadImg" v-if="i.HeadImg!='http://pic.yearnedu.com/himg.png' && i.HeadImg!=''">
-                <div class="headTextImg" v-else>{{(i.TrueName||'user').substr(0,1)}}</div>
+                <!-- <img :src="i.HeadImg" v-if="i.HeadImg!='http://pic.yearnedu.com/himg.png' && i.HeadImg!=''"> -->
+                <!-- <div class="headTextImg" v-else>{{(i.TrueName||'user').substr(0,1)}}</div> -->
+                <img :src="i.HeadImg">
               </div>
               <div class="name">
                 {{i.TrueName||'user'}}
@@ -174,15 +179,24 @@ export default {
       }
     }
     .albums {
+      margin: 10px 0;
       li {
-        padding: 10px 10px 10px 0;
         display: inline-block;
         .imgCon {
+<<<<<<< HEAD
           width: 200px;
           height: 200px;
           background-position: center;
           background-size: cover;
           margin: 5px;
+=======
+          width: 160px;
+          height: 160px;
+          background-position: center;
+          background-size: cover;
+          display: inline-block;
+          margin: 0 10px 10px 0;
+>>>>>>> a2fffc14ba087822ee610d537e50214eadda10d4
         }
       }
     }

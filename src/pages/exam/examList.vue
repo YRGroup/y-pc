@@ -6,6 +6,38 @@
 
     <no-data v-if="nodataImg"></no-data>
     <div v-else>
+ <div class="card panel">
+      <div class="chart">
+        <div class="header">
+          <div class="label">选择数据来源：</div>
+          <el-checkbox-group v-model="chartDataType">
+            <el-checkbox label="自订" disabled></el-checkbox>
+            <el-checkbox label="1">期中考试</el-checkbox>
+            <el-checkbox label="2">期末考试</el-checkbox>
+            <el-checkbox label="3">周考</el-checkbox>
+            <el-checkbox label="4">月考</el-checkbox>
+          </el-checkbox-group>
+          <!-- <div class="label">展示形式：</div>
+          <el-checkbox v-model="chartDataStack">各科数据层叠</el-checkbox>
+          <el-button type="primary" @click="getChart10" style="margin-left:20px">重新查询</el-button> -->
+        </div>
+         <div id="chart10" style="width:100%; height:450px;display:none"></div> 
+        <div class="header"  style="margin-bottom:20px">
+          <div class="label">选择数据来源：</div>
+          <el-radio-group v-model="chartDataNum">
+            <el-radio :label="1">最近1次</el-radio>
+            <el-radio :label="2">最近2次</el-radio>
+            <el-radio :label="3">最近3次</el-radio>
+            <el-radio :label="4">最近4次</el-radio>
+          </el-radio-group>
+          <el-button type="primary" @click="getChart11" style="margin-left:20px">查询</el-button>
+        </div>
+        <div id="chart11" style="width:100%; height:450px;"></div>
+      </div>
+
+    </div>
+
+
       <div class="examlist">
         <li class="item" v-for="(i,index) in data" :key="index">
           <div class="examtitle">{{i.ExamName}}</div>
@@ -26,36 +58,7 @@
         </li>
       </div>
     </div>
-    <div class="card panel">
-      <div class="chart">
-        <div class="header">
-          <div class="label">选择数据来源：</div>
-          <el-checkbox-group v-model="chartDataType">
-            <el-checkbox label="自订" disabled></el-checkbox>
-            <el-checkbox label="1">期中考试</el-checkbox>
-            <el-checkbox label="2">期末考试</el-checkbox>
-            <el-checkbox label="3">周考</el-checkbox>
-            <el-checkbox label="4">月考</el-checkbox>
-          </el-checkbox-group>
-          <div class="label">展示形式：</div>
-          <el-checkbox v-model="chartDataStack">各科数据层叠</el-checkbox>
-          <el-button type="primary" @click="getChart10" style="margin-left:20px">重新查询</el-button>
-        </div>
-        <div id="chart10" style="width:100%; height:450px;"></div>
-        <div class="header">
-          <div class="label">选择数据来源：</div>
-          <el-radio-group v-model="chartDataNum">
-            <el-radio :label="1">最近1次</el-radio>
-            <el-radio :label="2">最近2次</el-radio>
-            <el-radio :label="3">最近3次</el-radio>
-            <el-radio :label="4">最近4次</el-radio>
-          </el-radio-group>
-          <el-button type="primary" @click="getChart11" style="margin-left:20px">重新查询</el-button>
-        </div>
-        <div id="chart11" style="width:100%; height:450px;"></div>
-      </div>
-
-    </div>
+   
 
     <el-dialog title="创建新考试" :visible.sync="showAddExam">
       <el-form :model="newExamData" label-width="120px">
@@ -176,7 +179,7 @@ export default {
         Type: '4',
         ExamTime: '',
         ExamCourses: [],
-        courses: []
+        courses: [1, 2, 3, 4, 5, 6, 7, 8, 9]
       },
       data: [],
       chartDataType: ["1", "2", "3", "4"],
@@ -209,7 +212,8 @@ export default {
     },
     currentClassList() {
       return this.$store.state.currentClassList
-    }
+    },
+
   },
   filters: {
     formatExamType(val) {
@@ -319,14 +323,21 @@ export default {
         Type: this.chartDataType.join(',')
       }
       this.$API.GetSingleCourseScoreByClassID(para).then(res => {
-        this.chartData = res.slice(0,this.chartDataNum)
+        this.chartData = res.slice(0, this.chartDataNum)
         this.chart11_xAxis = this.chartData[0].Info.map(b => { return b.CourseName })
         this.chartData.forEach(o => {
           this.chart11_legend.push(o.ExamName)
           this.chart11_series.push({
             name: o.ExamName,
             type: 'bar',
-            data: o.Info.map(b => { return b.AvgTotalScore })
+            label: {
+                normal: {
+                    show: true,
+                    position: 'top'
+                }
+            },
+            barCategoryGap : '30%' ,
+            data: o.Info.map(b => { return b.AvgTotalScore }),
           })
         })
         this.setChart11()
@@ -342,6 +353,8 @@ export default {
       console.log(this.newExamData)
       if (!this.newExamData.ExamName) {
         this.$message.error('请填写考试名称')
+      } else if (!this.newExamData.ExamTime) {
+        this.$message.error('请添加考试时间')
       } else if (!this.newExamData.ExamCourses.length) {
         this.$message.error('请选择学科')
       } else {
@@ -434,7 +447,7 @@ export default {
     },
     setChart11() {
       this.chart11.setOption({
-        color: ['#5793f3', '#d14a61', '#675bba'],
+        // color: ['#5793f3', '#d14a61', '#675bba'],
         title: {
           text: '考试成绩对比',
         },
@@ -456,12 +469,18 @@ export default {
         xAxis: [
           {
             type: 'category',
-            data: this.chart11_xAxis
+            data: this.chart11_xAxis,
+            splitArea: {
+              show: true
+            },
           }
         ],
         yAxis: [
           {
-            type: 'value'
+            type: 'value',
+            splitArea: {
+              show: false
+            },
           }
         ],
         series: this.chart11_series
@@ -475,7 +494,7 @@ export default {
   },
   mounted() {
     this.chart10 = echarts.init(document.getElementById('chart10'), 'macarons')
-    this.chart11 = echarts.init(document.getElementById('chart11'))
+    this.chart11 = echarts.init(document.getElementById('chart11'), 'macarons')
   }
 }
 </script>
