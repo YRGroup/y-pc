@@ -4,7 +4,7 @@
       添加新视频
     </div>
     <div class="panel">
-      <iframe src="../../../static/videoupload.html" frameborder="0" id="videoUploadFrame"></iframe>
+      <iframe src="/web/static/videoupload.html" frameborder="0" id="videoUploadFrame"></iframe>
     </div>
   </div>
 </template>
@@ -61,6 +61,6 @@ export default {
 
 #videoUploadFrame {
   width: 100%;
-  height: 690px;
+  height: 630px;
 }
 </style>

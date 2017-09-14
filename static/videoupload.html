@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+<!-- 0.4 -->
 
 <head>
   <meta charset="UTF-8">
@@ -7,6 +8,7 @@
   <script src="js\aliyun-sdk.min.js"></script>
   <script src="js\vod-sdk-upload-1.0.6.min.js"></script>
   <script src="js\jquery-1.10.2.min.js"></script>
+  <link type="text/css" rel="stylesheet" href="css\button.css" />
   <style>
     tr {
       line-height: 50px;
@@ -14,10 +16,81 @@
 
     input {
       height: 30px;
+      border-radius: 5px;
+      border:1px solid #A5DE37;
+      padding:0 10px;
     }
 
     hr {
       color: #ccc;
+    }
+
+    .body-color {
+      z-index: 9998;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      opacity: 0.4;
+      filter: alpha(opacity=40);
+      display: none
+    }
+
+    .hide-body {
+      z-index: 9999;
+      position: fixed;
+      top: 20%;
+      left: 25%;
+      width: 500px;
+      border-radius: 5px;
+      border: solid 2px #666;
+      background-color: #fff;
+      display: none;
+      box-shadow: 0 0 10px #666;
+    }
+
+    .popup-body ul {
+      list-style: none;
+    }
+
+    .close-window {
+      border-bottom: 1px solid #ddd;
+      padding: 0 22px;
+      position: relative;
+    }
+
+    .bottom {
+      padding: 20px;
+      text-align: right;
+    }
+
+    .close-window .close {
+      float: right;
+      color: #999;
+      padding: 5px;
+      margin: -2px -5px -5px;
+      font: bold 14px/14px simsun;
+      text-shadow: 0 1px 0 #ddd;
+    }
+
+    .close-window .close:hover {
+      color: #f00;
+    }
+
+    .a-upload {
+      width: 190px;
+      position: relative;
+    }
+
+    .a-upload input {
+      position: absolute;
+      right: 0;
+      top: 0;
+      opacity: 0;
+      filter: alpha(opacity=0);
+      cursor: pointer;
     }
 
   </style>
@@ -26,7 +99,7 @@
 <body>
   上传视频
   <hr />
-  <table frame=void width="400px">
+  <table frame=void>
     <tr>
       <td>标题:</td>
       <td><input type="text" id="ud_title" size="20" value=""></td>
@@ -35,29 +108,57 @@
       <td>描述</td>
       <td><input type="text" id="ud_des" size="20" value=""></td>
     </tr>
-    <tr>
+    <!-- <tr>
       <td>类别:</td>
       <td><input type="text" id="ud_cate" size="20" value=""></td>
     </tr>
     <tr>
       <td>年级:</td>
       <td><input type="text" id="ud_grade" size="20" value=""></td>
-    </tr>
+    </tr> -->
     <tr>
       <td>标签:</td>
       <td><input type="text" id="ud_tag" size="20" value=""></td>
     </tr>
     <tr>
       <td>选择文件:</td>
-      <td><input type="file" name="file" id="ud_file" /></td>
+      <td>
+        <a href="javascript:;" class="button button-glow button-border button-rounded button-action  a-upload">
+          选择文件
+          <input type="file" name="file" id="ud_file"  />
+        </a>
+      </td>
     </tr>
     <tr>
-      <td>
-        <button type="button" onclick="start()">开始上传</button>
-        <button type="button" onclick="stop()">停止上传</button></td>
+      <td><button type="button" onclick="start()" class="button button-raised button-primary button-pill">开始上传</button></td>
+      <!-- <td><button type="button" onclick="showPopup()">弹窗</button></td> -->
     </tr>
   </table>
-  <select multiple="multiple" id="textarea" style="position:relative; width:620px; height:250px; vertical-align:top; border:1px solid #cccccc;"></select>
+  <select multiple="multiple" id="textarea" style="position:relative; width:620px; height:170px; vertical-align:top; border:1px solid #cccccc;"></select>
+
+  <div class="hide-body">
+    <div class="close-window">
+      <!-- 关闭窗口，也就是触发关闭div的事件-->
+      <a href="javascript:;" title="关闭" class="close">×</a>
+      <h3>视频上传成功</h3>
+    </div>
+    <div class="popup-body">
+      <ul>
+        <li>
+          <h4>视频信息</h4>
+        </li>
+        <li>标题：123</li>
+        <li>描述：123</li>
+        <li>时长：123</li>
+      </ul>
+    </div>
+    <div class="bottom">
+      <hr>
+      <td><button type="button" onclick="toHome()" class="button button-raised button-primary button-pill">返回主页</button></td>
+    </div>
+  </div>
+
+  <div class="body-color"></div>
 
   <script>
     var uploader;
@@ -71,12 +172,15 @@
         },
         // 文件上传完成
         'onUploadSucceed': function (uploadInfo) {
-          log("onUploadSucceed: " + uploadInfo.file.name + ", endpoint:" + uploadInfo.endpoint + ", bucket:" +
+          log("onUploadSucceed: " + uploadInfo.file.name + ", endpoint:" + uploadInfo.endpoint +
+            ", bucket:" +
             uploadInfo.bucket + ", object:" + uploadInfo.object);
+          showPopup()
         },
         // 文件上传进度
         'onUploadProgress': function (uploadInfo, totalSize, uploadedSize) {
-          log("onUploadProgress:file:" + uploadInfo.file.name + ", fileSize:" + totalSize + ", percent:" + Math
+          log("onUploadProgress:file:" + uploadInfo.file.name + ", fileSize:" + totalSize + ", percent:" +
+            Math
             .ceil(uploadedSize * 100 / totalSize) + "%");
         },
         // STS临时账号会过期，过期时触发函数
@@ -88,10 +192,9 @@
         },
         // 开始上传
         'onUploadstarted': function (uploadInfo) {
-          var uploadAuth = document.getElementById("uploadAuth").value;
-          var uploadAddress = document.getElementById("uploadAddress").value;
           uploader.setUploadAuthAndAddress(uploadInfo, uploadAuth, uploadAddress);
-          log("onUploadStarted:" + uploadInfo.file.name + ", endpoint:" + uploadInfo.endpoint + ", bucket:" +
+          log("onUploadStarted:" + uploadInfo.file.name + ", endpoint:" + uploadInfo.endpoint +
+            ", bucket:" +
             uploadInfo.bucket + ", object:" + uploadInfo.object);
         }
       });
@@ -111,6 +214,51 @@
 
     function start() {
       getUpdateAuth()
+    }
+
+    function getUpdateAuth() {
+      var f = document.getElementById("ud_file");
+      if (!$("#ud_title").val()) {
+        alert('标题不能为空');
+      } else if (!$("#ud_des").val()) {
+        alert('描述不能为空');
+      } else {
+        var ud_title = $("#ud_title").val();
+        var ud_des = $("#ud_des").val();
+      }
+      var ud_cate = $("#ud_cate").val();
+      var ud_grade = $("#ud_grade").val();
+      var ud_tag = $("#ud_tag").val()
+      if (f.files.length == 0) {
+        alert('必须先选择文件');
+        return;
+      }
+      $.ajax({
+        type: "POST",
+        url: "/api/Video/GetVideoUploadAuth",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        xhrFields: {
+          withCredentials: true
+        },
+        data: JSON.stringify({
+          FileName: f.files[0].name,
+          FileSize: f.files[0].size,
+          Title: ud_title,
+          Description: ud_des,
+          CateId: ud_cate,
+          Grade: ud_grade,
+          Tags: ud_tag,
+        }),
+        success: function (result) {
+          uploadAuth = result.Content.UploadAuth
+          uploadAddress = result.Content.UploadAddress
+          startUpload()
+        }
+      });
+    }
+
+    function startUpload() {
       if (!uploadAuth || !uploadAddress) {
         alert('请先获取上传授权');
         getUpdateAuth()
@@ -158,33 +306,24 @@
       textarea.appendChild(option);
     }
 
-    function getUpdateAuth() {
-      var f = document.getElementById("ud_file");
-      if (f.files.length == 0) {
-        alert('必须先选择文件');
-        return;
-      }
-      $.ajax({
-        type: "POST",
-        url: "http://api.test.com/api/Video/GetVideoUploadAuth",
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify({
-          FileName: f.files[0].name,
-          Title: f.files[0].name,
-          FileSize: f.files[0].size,
-          Description: "Description",
-          Coverurl: "",
-          CateId: 0,
-          CourseId: 1,
-          Grade: 1,
-          Tags: "a,b,c",
-        }),
-        success: function (result) {
-          uploadAuth = result.Content.UploadAuth
-          uploadAddress = result.Content.UploadAddress
-        }
-      });
+    jQuery(document).ready(function ($) {
+      $('.close-window .close').click(function () {
+        closePopup()
+      })
+    })
+
+    function closePopup() {
+      $('.body-color').fadeOut(100);
+      $('.hide-body').slideUp(200);
+    }
+
+    function showPopup() {
+      $('.body-color').fadeIn(100);
+      $('.hide-body').slideDown(200);
+    }
+
+    function toHome() {
+      window.location.href = 'http://jkyr.yearnedu.com/web'
     }
 
   </script>
