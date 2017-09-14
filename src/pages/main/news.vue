@@ -84,7 +84,7 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="less" >
 @import '../../style/theme.less';
 
 .nav {
@@ -93,8 +93,6 @@ export default {
 }
 
 .card {
-  // margin: 15px 0;
-  // padding: 20px 40px;
   border: 1px solid @border;
   background: #fff;
   .body {
@@ -178,5 +176,9 @@ export default {
       }
     }
   }
+}
+
+img{
+  max-width:100%;
 }
 </style>

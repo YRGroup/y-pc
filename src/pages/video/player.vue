@@ -45,7 +45,7 @@ export default {
       videoId: '',
       videoAuth: '',
       videoinfo: this.$store.state.currentVideoInfo,
-      videoCover: 'http://liveroom-img.oss-cn-qingdao.aliyuncs.com/logo.png',
+      // videoCover: 'http://liveroom-img.oss-cn-qingdao.aliyuncs.com/logo.png',
     }
   },
   methods: {
@@ -101,7 +101,6 @@ export default {
 .video {
   position: relative;
   margin-bottom: 1em;
-  #J_prismPlayer {}
   .danmu {
     position: absolute;
     top: 0;
