@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en">
-<!-- 0.4 -->
 
 <head>
   <meta charset="UTF-8">
@@ -17,8 +16,8 @@
     input {
       height: 30px;
       border-radius: 5px;
-      border:1px solid #A5DE37;
-      padding:0 10px;
+      border: 1px solid #A5DE37;
+      padding: 0 10px;
     }
 
     hr {
@@ -147,9 +146,9 @@
         <li>
           <h4>视频信息</h4>
         </li>
-        <li>标题：123</li>
-        <li>描述：123</li>
-        <li>时长：123</li>
+        <li>文件名：<span id="ov_name"></span></li>
+        <li>标题：<span id="ov_title"></span></li>
+        <li>描述：<span id="ov_des"></span></li>
       </ul>
     </div>
     <div class="bottom">
@@ -168,18 +167,18 @@
       uploader = new VODUpload({
         // 文件上传失败
         'onUploadFailed': function (uploadInfo, code, message) {
-          log("onUploadFailed: file:" + uploadInfo.file.name + ",code:" + code + ", message:" + message);
+          log("上传失败: 当前文件:" + uploadInfo.file.name + ",code:" + code + ", message:" + message);
         },
         // 文件上传完成
         'onUploadSucceed': function (uploadInfo) {
-          log("onUploadSucceed: " + uploadInfo.file.name + ", endpoint:" + uploadInfo.endpoint +
+          log("上传成功: " + uploadInfo.file.name + ", 接入点:" + uploadInfo.endpoint +
             ", bucket:" +
             uploadInfo.bucket + ", object:" + uploadInfo.object);
-          showPopup()
+          showPopup(uploadInfo)
         },
         // 文件上传进度
         'onUploadProgress': function (uploadInfo, totalSize, uploadedSize) {
-          log("onUploadProgress:file:" + uploadInfo.file.name + ", fileSize:" + totalSize + ", percent:" +
+          log("上传进度：当前文件：" + uploadInfo.file.name + ", 文件大小:" + totalSize + ", 完成度:" +
             Math
             .ceil(uploadedSize * 100 / totalSize) + "%");
         },
@@ -193,7 +192,7 @@
         // 开始上传
         'onUploadstarted': function (uploadInfo) {
           uploader.setUploadAuthAndAddress(uploadInfo, uploadAuth, uploadAddress);
-          log("onUploadStarted:" + uploadInfo.file.name + ", endpoint:" + uploadInfo.endpoint +
+          log("开始上传:" + uploadInfo.file.name + ", 接入点:" + uploadInfo.endpoint +
             ", bucket:" +
             uploadInfo.bucket + ", object:" + uploadInfo.object);
         }
@@ -205,7 +204,7 @@
       .addEventListener('change', function (event) {
         var userData = '{"Vod":{"UserData":"{"IsShowWaterMark":"false","Priority":"7"}"}}';
         for (var i = 0; i < event.target.files.length; i++) {
-          log("add file: " + event.target.files[i].name);
+          log("添加文件: " + event.target.files[i].name);
           uploader.addFile(event.target.files[i], null, null, null, userData);
         }
       });
@@ -253,6 +252,8 @@
         success: function (result) {
           uploadAuth = result.Content.UploadAuth
           uploadAddress = result.Content.UploadAddress
+          $("#ov_title").text(ud_title)
+          $("#ov_des").text(ud_des)
           startUpload()
         }
       });
@@ -317,13 +318,14 @@
       $('.hide-body').slideUp(200);
     }
 
-    function showPopup() {
+    function showPopup(val) {
+      $('#ov_name').text(val.file.name)
       $('.body-color').fadeIn(100);
       $('.hide-body').slideDown(200);
     }
 
     function toHome() {
-      window.location.href = 'http://jkyr.yearnedu.com/web'
+      parent.window.location.href = 'http://jkyr.yearnedu.com/web'
     }
 
   </script>
