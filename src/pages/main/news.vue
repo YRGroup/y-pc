@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="newsPage">
     <div class="card">
       <div class="maintitle">
         <i class="iconfont">&#xe737;</i>校园动态
@@ -15,7 +15,7 @@
           <!-- <div class="btn"><i class="iconfont">&#xe60c;</i></div> -->
         </div>
       </div>
-  
+
       <div class="reply">
         <el-input class="input" v-model="commentData.Content" placeholder="请添加评论" @keyup.enter.native="addComment"></el-input>
         <el-button class="btn" type="success" @click="addComment">回复</el-button>
@@ -38,7 +38,7 @@
         </ul>
       </div>
     </div>
-  
+
   </div>
 </template>
 
@@ -84,101 +84,99 @@ export default {
 }
 </script>
 
-<style lang="less" >
+<style lang="less">
 @import '../../style/theme.less';
 
-.nav {
-  font-size: 12px;
-  margin-top: -10px;
-}
+.newsPage {
+  letter-spacing: 1px;
+  img {
+    max-width: 100%;
+  }
 
-.card {
-  border: 1px solid @border;
-  background: #fff;
-  .body {
-    padding: 20px 80px;
-    text-align: center;
-    .title {
-      margin-top: 10px;
-      line-height: 36px;
-      font-size: 24px;
-    }
-    .time {
-      color: @grey;
-      line-height: 30px;
-    }
-    .content {
-      line-height: 2em;
-      text-indent: 2em;
-      text-align: left;
-      overflow: hidden;
-      .ql-align-center{
-        text-align: center!important;
-        margin:10px 0;
+  .card {
+    border: 1px solid @border;
+    background: #fff;
+    .body {
+      padding: 20px 80px;
+      text-align: center;
+      .title {
+        margin-top: 10px;
+        line-height: 36px;
+        font-size: 24px;
       }
-    }
-    .footer {
-      .btn {
-        height: 60px;
-        width: 60px;
-        line-height: 60px;
-        border-radius: 50%;
-        color: #fff;
-        background: @main;
-        display: inline-block;
-        margin: 20px;
-        font-size: 20px;
-        cursor: pointer;
-      }
-    }
-  }
-  .reply {
-    text-align: center;
-    padding: 20px;
-    .input {
-      display: inline-block;
-      width: 80%;
-    }
-    .btn {
-      display: inline-block;
-    }
-  }
-  .replyList {
-    .list{
-      padding:0 40px 20px;
-    }
-    .title {
-      padding: 10px 20px;
-      border-bottom: 1px solid @border;
-    }
-    .item {
-      padding-left: 80px;
-      padding-top: 10px;
-      position: relative;
-      min-height: 70px;
-      border-bottom: 1px dashed @border;
-    }
-    .img {
-      position: absolute;
-      left: 20px;
-      top: 10px;
-      img {
-        border-radius: 50%;
-        width: 50px;
-      }
-    }
-    .top {
-      line-height: 30px;
-      margin-bottom: 5px;
       .time {
         color: @grey;
-        margin-left: 20px;
+        line-height: 30px;
+      }
+      .content {
+        line-height: 2em;
+        text-indent: 2em;
+        text-align: left;
+        overflow: hidden;
+        .ql-align-center {
+          text-align: center!important;
+          margin: 10px 0;
+        }
+      }
+      .footer {
+        .btn {
+          height: 60px;
+          width: 60px;
+          line-height: 60px;
+          border-radius: 50%;
+          color: #fff;
+          background: @main;
+          display: inline-block;
+          margin: 20px;
+          font-size: 20px;
+          cursor: pointer;
+        }
+      }
+    }
+    .reply {
+      text-align: center;
+      padding: 20px;
+      .input {
+        display: inline-block;
+        width: 80%;
+      }
+      .btn {
+        display: inline-block;
+      }
+    }
+    .replyList {
+      .list {
+        padding: 0 40px 20px;
+      }
+      .title {
+        padding: 10px 20px;
+        border-bottom: 1px solid @border;
+      }
+      .item {
+        padding-left: 80px;
+        padding-top: 10px;
+        position: relative;
+        min-height: 70px;
+        border-bottom: 1px dashed @border;
+      }
+      .img {
+        position: absolute;
+        left: 20px;
+        top: 10px;
+        img {
+          border-radius: 50%;
+          width: 50px;
+        }
+      }
+      .top {
+        line-height: 30px;
+        margin-bottom: 5px;
+        .time {
+          color: @grey;
+          margin-left: 20px;
+        }
       }
     }
   }
-}
-
-img{
-  max-width:100%;
 }
 </style>
