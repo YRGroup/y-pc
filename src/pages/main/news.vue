@@ -25,7 +25,8 @@
         <ul class="list">
           <li class="item" v-for="(i,index) in data.Comments" :key="index">
             <div class="img">
-              <div class="headTextImg">{{i.UserName.substr(0,1)}}</div>
+              <img :src="i.Headimgurl">
+              <!-- <div class="headTextImg">{{i.UserName.substr(0,1)}}</div> -->
             </div>
             <div class="top">
               <span class="name">{{i.UserName}}</span>
