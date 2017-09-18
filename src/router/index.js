@@ -85,12 +85,21 @@ export default new Router({
               name: 'post',
               component: post,
             },
+
             {
               path: '/homework',
               name: 'homework',
               component: homework,
             },
           ]
+        },
+        {
+          path: '/p/:postId',
+          name: 'anonymousPost',
+          component: post,
+          meta: {
+            anonymous: true
+          }
         },
         {
           path: '/s',

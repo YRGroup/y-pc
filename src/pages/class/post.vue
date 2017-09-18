@@ -10,8 +10,6 @@
       </div>
       <div class="mainCon">
         <div class="img">
-          <!-- <img :src="data.userImg" v-if="data.userImg!='http://pic.yearnedu.com/himg.png' && data.userImg!=''"> -->
-          <!-- <div class="headTextImg" v-else>{{data.auther.substr(0,1)}}</div> -->
           <img :src="data.userImg">
         </div>
         <div class="header">
@@ -20,9 +18,6 @@
         <div class="tips">{{data.category}}</div>
         <div class="content">{{data.content}}</div>
         <div class="albums">
-          <!-- <li v-for="(p,index) in data.albums" :key="index">
-              <img :src="p" @click="openImgBig(p)">
-            </li> -->
           <li v-for="(p,index) in data.albums" :key="index">
             <div class="imgCon" :style="{backgroundImage:'url\('+p+'\)'}" @click="openImgBig(p)"></div>
           </li>
@@ -31,9 +26,13 @@
           <span class="time">{{data.date}}</span>
           <span class="iconbtn">
             <span @click.once="doLike(data.ID),data.like++">
-              <i class="iconfont">&#xe646;</i>{{data.like}}</span>
+              <i class="iconfont">&#xe646;</i>{{data.like}}
+            </span>
+            <span @click="$router.push(`/p/${data.EncryptID}`)">
+              <i class="iconfont">&#xe646;</i>分享
+            </span>
           </span>
-          <div class="liked">
+          <div class="liked" v-if="$store.getters.hasLogin">
             <div class="item" v-for="(i,index) in data.zans" :key="index">
               <div class="img">
                 <img :src="i.HeadImg">
@@ -46,7 +45,7 @@
         </div>
       </div>
     </div>
-    <div class="replybox">
+    <div class="replybox" v-if="$store.getters.hasLogin">
       <div class="reply">
         <el-input class="input" v-model.trim="replyData.content" placeholder="请输入内容" v-show="showReply"></el-input>
         <el-button class="btn" type="success" v-show="showReply" @click="submitReply">回复</el-button>
@@ -89,6 +88,19 @@ export default {
   },
   methods: {
     getData() {
+      if (this.$route.name === 'post') {
+        this.userGetData()
+      }
+      if (this.$route.name === 'anonymousPost') {
+        this.anonymousGetData()
+      }
+    },
+    anonymousGetData() {
+      this.$API.getPostAnonymouse(this.$route.params.postId).then(res => {
+        this.data = res
+      })
+    },
+    userGetData() {
       this.$API.getClassDynamic(this.$store.state.currentClassId, this.$route.params.postId).then(res => {
         this.data = res
       })

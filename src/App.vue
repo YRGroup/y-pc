@@ -8,7 +8,7 @@
 export default {
   name: 'app',
   created() {
-    if (!this.$store.getters.hasLogin) {
+    if (!this.$store.getters.hasLogin && !this.$route.meta.anonymous) {
       this.$store.dispatch('getCurrentUser')
     }
     if (localStorage.user && !this.$store.getters.hasLogin) {
