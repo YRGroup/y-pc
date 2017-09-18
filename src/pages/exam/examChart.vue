@@ -26,17 +26,19 @@
 
       <div class="panel">
         <div id="chart1" style="width:100%; height:400px;"></div>
-        <div class="toolBar">
-          <span class="label">学科：</span>
-          <el-select v-model="chart3courseId" size="small" placeholder="请选择" style="width:120px">
-            <el-option v-for="item in chart3CourseList" :key="item.ID" :label="item.CourseName" :value="item.ID">
-            </el-option>
-          </el-select>
-          <el-button type="success" size="small" @click="refshChart3Data">
-            <i class="iconfont">&#xe623;</i> 重新查询
-          </el-button>
+        <div class="scorebox">
+          <div class="toolBar">
+            <span class="label"></span>
+            <el-select v-model="chart3courseId" size="small" placeholder="请选择学科" style="width:120px">
+              <el-option v-for="item in chart3CourseList" :key="item.ID" :label="item.CourseName" :value="item.ID">
+              </el-option>
+            </el-select>
+            <el-button type="success" size="small" @click="refshChart3Data">
+              查询
+            </el-button>
+          </div>
+          <div id="chart3" style="width:100%; height:400px;"></div>
         </div>
-        <div id="chart3" style="width:100%; height:400px;"></div>
       </div>
     </div>
 
@@ -136,7 +138,6 @@ export default {
       this.chart3.setOption({
         title: {
           text: '各科成绩段分布',
-          x: 'center'
         },
         tooltip: {
           trigger: 'item',
@@ -349,6 +350,14 @@ export default {
       line-height: 40px;
       font-weight: 600;
     }
+  }
+}
+.scorebox{
+  position: relative;
+  .toolBar{
+    position: absolute;
+    right: 100px;
+    z-index: 100;
   }
 }
 </style>
