@@ -23,8 +23,6 @@ API.login = (logData) => {
     axios.post(_APIurl + '/api/User/LoginByPhone', logData).then((res) => {
       resolve(res.data.Content)
     }).catch((err) => {
-      console.log('获取信息失败：')
-      console.log(err)
       reject(err)
     })
   })
@@ -38,8 +36,6 @@ API.studentLogin = (logData) => {
     axios.post(_APIurl + '/api/User/LoginByStudentID', logData).then((res) => {
       resolve(res.data.Content)
     }).catch((err) => {
-      console.log('获取信息失败：')
-      console.log(err)
       reject(err)
     })
   })
@@ -53,8 +49,6 @@ API.loginBySms = (data) => {
     axios.post(_APIurl+'/api/user/LoginByPhoneCode',data).then((res)=>{
       resolve(res.data.Content)
     }).catch((err)=>{
-      console.log('获取信息失败：')
-      console.log(err)
       reject(err)
     })
   })
@@ -78,7 +72,6 @@ API.userReg = (regdata) => {
     axios.post(_APIurl + '/api/User/RegisterByPhone', regdata).then((res) => {
       resolve(res.data.Content)
     }).catch((err) => {
-      console.log(err)
       reject(err)
     })
   })
@@ -90,7 +83,6 @@ API.changePassword = (data) => {
     axios.post(_APIurl + '/api/User/ModifyPassword', data).then((res) => {
       resolve(res.data.Content)
     }).catch((err) => {
-      console.log(err)
       reject(err)
     })
   })
@@ -103,7 +95,6 @@ API.addStudent = (addStudentData) => {
     axios.post(_APIurl + '/api/Parent/BindStudent', addStudentData).then((res) => {
       resolve(res)
     }).catch((err) => {
-      console.log(err)
       reject(err)
     })
   })
@@ -116,7 +107,6 @@ API.UnBindStudent = (UnBindStudentData) => {
     axios.post(_APIurl + '/api/Parent/UnBindStudent', UnBindStudentData).then((res) => {
       resolve(res)
     }).catch((err) => {
-      console.log(err)
       reject(err)
     })
   })
@@ -129,7 +119,6 @@ API.editParentInfo = (editData) => {
     axios.post(_APIurl + '/api/Parent/ModifyInfo', editData).then((res) => {
       resolve(res)
     }).catch((err) => {
-      console.log(err)
       reject(err)
     })
   })
@@ -142,7 +131,6 @@ API.editTeacherInfo = (editData) => {
     axios.post(_APIurl + '/api/Teacher/ModifyInfo', editData).then((res) => {
       resolve(res)
     }).catch((err) => {
-      console.log(err)
       reject(err)
     })
   })
@@ -161,7 +149,6 @@ API.getCurrentUser = () => {
         reject(error)
       }
     }).catch((err) => {
-      console.log(err)
       reject(err)
     })
   })

@@ -9,7 +9,9 @@ export default {
   name: 'app',
   created() {
     if (!this.$store.getters.hasLogin && !this.$route.meta.anonymous) {
-      this.$store.dispatch('getCurrentUser')
+      this.$store.dispatch('getCurrentUser').then(res=>{}).catch(err=>{
+        this.$router.push('/login')
+      })
     }
     if (localStorage.user && !this.$store.getters.hasLogin) {
       this.$store.commit('login', JSON.parse(localStorage.user))

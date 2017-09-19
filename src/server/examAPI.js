@@ -85,6 +85,17 @@ API.addExamScore = (data) => {
   })
 }
 
+// 发布考试
+API.publishExam = (data) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl+'/api/class/publishExam',data).then((res)=>{
+      resolve(res)
+    }).catch((err)=>{
+      reject(err)
+    })
+  })
+}
+
 API.GetSingleCourseScoreByExamID = (para) => {
   return new Promise((resolve, reject) => {
     axios.get(_APIurl+'/api/ExamChart/GetSingleCourseScoreByExamID',{params:para}).then((res)=>{

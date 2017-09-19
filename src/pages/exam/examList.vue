@@ -6,37 +6,36 @@
 
     <no-data v-if="nodataImg"></no-data>
     <div v-else>
- <div class="card panel">
-      <div class="chart">
-        <div class="header">
-          <div class="label">选择数据来源：</div>
-          <el-checkbox-group v-model="chartDataType">
-            <el-checkbox label="自订" disabled></el-checkbox>
-            <el-checkbox label="1">期中考试</el-checkbox>
-            <el-checkbox label="2">期末考试</el-checkbox>
-            <el-checkbox label="3">周考</el-checkbox>
-            <el-checkbox label="4">月考</el-checkbox>
-          </el-checkbox-group>
-          <!-- <div class="label">展示形式：</div>
-          <el-checkbox v-model="chartDataStack">各科数据层叠</el-checkbox>
-          <el-button type="primary" @click="getChart10" style="margin-left:20px">重新查询</el-button> -->
+      <div class="card panel">
+        <div class="chart">
+          <div class="header">
+            <div class="label">选择数据来源：</div>
+            <el-checkbox-group v-model="chartDataType">
+              <el-checkbox label="自订" disabled></el-checkbox>
+              <el-checkbox label="1">期中考试</el-checkbox>
+              <el-checkbox label="2">期末考试</el-checkbox>
+              <el-checkbox label="3">周考</el-checkbox>
+              <el-checkbox label="4">月考</el-checkbox>
+            </el-checkbox-group>
+            <!-- <div class="label">展示形式：</div>
+            <el-checkbox v-model="chartDataStack">各科数据层叠</el-checkbox>
+            <el-button type="primary" @click="getChart10" style="margin-left:20px">重新查询</el-button> -->
+          </div>
+          <div id="chart10" style="width:100%; height:450px;display:none"></div>
+          <div class="header" style="margin-bottom:20px">
+            <div class="label">选择数据来源：</div>
+            <el-radio-group v-model="chartDataNum">
+              <el-radio :label="1">最近1次</el-radio>
+              <el-radio :label="2">最近2次</el-radio>
+              <el-radio :label="3">最近3次</el-radio>
+              <el-radio :label="4">最近4次</el-radio>
+            </el-radio-group>
+            <el-button type="primary" @click="getChart11" style="margin-left:20px">查询</el-button>
+          </div>
+          <div id="chart11" style="width:100%; height:450px;"></div>
         </div>
-         <div id="chart10" style="width:100%; height:450px;display:none"></div> 
-        <div class="header"  style="margin-bottom:20px">
-          <div class="label">选择数据来源：</div>
-          <el-radio-group v-model="chartDataNum">
-            <el-radio :label="1">最近1次</el-radio>
-            <el-radio :label="2">最近2次</el-radio>
-            <el-radio :label="3">最近3次</el-radio>
-            <el-radio :label="4">最近4次</el-radio>
-          </el-radio-group>
-          <el-button type="primary" @click="getChart11" style="margin-left:20px">查询</el-button>
-        </div>
-        <div id="chart11" style="width:100%; height:450px;"></div>
+
       </div>
-
-    </div>
-
 
       <div class="examlist">
         <li class="item" v-for="(i,index) in data" :key="index">
@@ -53,12 +52,12 @@
               <i class="iconfont">&#xe630;</i> 删除</el-button>
             <el-button :type="!i.IsSendMsg?'info':null" @click="sendExamNotice(i.ID)" :disabled="i.IsSendMsg">发通知</el-button>
             <el-button type="success" class="type" @click="$router.push('/exam/'+i.ID)">录入成绩</el-button>
+            <el-button type="success" class="type" @click="publishExam(i.ID)" :disabled="i.IsPublished">发布考试</el-button>
             <el-button type="warning" class="type" @click="$router.push('/examChart/'+i.ID)">成绩报表</el-button>
           </div>
         </li>
       </div>
     </div>
-   
 
     <el-dialog title="创建新考试" :visible.sync="showAddExam">
       <el-form :model="newExamData" label-width="120px">
@@ -200,7 +199,7 @@ export default {
     isClassAdmin() {
       return false
     },
-    currentClass() {
+    currentClassId() {
       return this.$store.state.currentClassId
     },
     currentClassInfo() {
@@ -241,10 +240,26 @@ export default {
         type: 'warning'
       }).then(() => {
         let para = {
-          classid: this.currentClass,
+          classid: this.currentClassId,
           examid: id
         }
         this.$API.sendExamSms(para).then(res => {
+          this.$message.success('发送成功')
+          this.getData()
+        }).catch(err => {
+          this.$message.error(err.msg)
+        })
+      })
+    },
+    publishExam(id) {
+      this.$confirm('请确认考试成绩录入完整', '提示', {
+        type: 'warning'
+      }).then(() => {
+        let para = {
+          classid: this.currentClassId,
+          examid: id
+        }
+        this.$API.publishExam(para).then(res => {
           this.$message.success('发送成功')
           this.getData()
         }).catch(err => {
@@ -258,8 +273,8 @@ export default {
       this.$store.dispatch('getExamList')
     },
     getData() {
-      this.newExamData.ClassID = this.currentClass
-      this.$API.getClassExamList(this.currentClass).then(res => {
+      this.newExamData.ClassID = this.currentClassId
+      this.$API.getClassExamList(this.currentClassId).then(res => {
         this.data = res
         if (this.data.length == 0) {
           this.nodataImg = true
@@ -279,7 +294,7 @@ export default {
         this.chart10.clear()
       }
       let para = {
-        ClassID: this.currentClass,
+        ClassID: this.currentClassId,
         Type: this.chartDataType.join(',')
       }
       this.$API.GetSingleCourseScoreByClassID(para).then(res => {
@@ -319,7 +334,7 @@ export default {
         this.chart11.clear()
       }
       let para = {
-        ClassID: this.currentClass,
+        ClassID: this.currentClassId,
         Type: this.chartDataType.join(',')
       }
       this.$API.GetSingleCourseScoreByClassID(para).then(res => {
@@ -331,12 +346,12 @@ export default {
             name: o.ExamName,
             type: 'bar',
             label: {
-                normal: {
-                    show: true,
-                    position: 'top'
-                }
+              normal: {
+                show: true,
+                position: 'top'
+              }
             },
-            barCategoryGap : '30%' ,
+            barCategoryGap: '30%',
             data: o.Info.map(b => { return b.AvgTotalScore }),
           })
         })
