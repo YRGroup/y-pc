@@ -56,8 +56,10 @@ axios.interceptors.request.use(config => {
 });
 axios.interceptors.response.use(
   response => {
-    console.log('axios to:' + response.config.url)
-    console.log(response)
+    if(process.env.NODE_ENV !== 'production'){
+      console.log('axios to:' + response.config.url)
+      console.log(response)
+    }
     if (response.data.Status == 0) {
       let err = {}
       err.code = response.data.Status
@@ -75,7 +77,7 @@ axios.interceptors.response.use(
       err.code = error.response.data.Status
       err.msg = error.response.data.Msg
     }
-    if (error.response.status == 401) {
+    if (error.response.status == 401 || error.response.data.Msg === "操作令牌错误！" || error.response.data.Msg === "校验签名失败！") {
       router.push('/login')
     }
     if (error.response.status == 500) {
