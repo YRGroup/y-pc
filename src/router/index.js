@@ -61,6 +61,9 @@ export default new Router({
           path: '',
           name: 'main',
           component: main,
+          meta: {
+            anonymous: true
+          }
         },
         {
           path: '/news',
@@ -232,16 +235,25 @@ export default new Router({
       path: '/reg',
       name: 'reg',
       component: reg,
+      meta: {
+        anonymous: true
+      }
     },
     {
       path: '/login',
       name: 'login',
       component: login,
+      meta: {
+        anonymous: true
+      }
     },
     {
       path: '/404',
       name: 'errorPage',
       component: errorPage,
+      meta: {
+        anonymous: true
+      }
     },
     {
       path: '*',
