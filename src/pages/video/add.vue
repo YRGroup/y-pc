@@ -1,7 +1,15 @@
 <template>
   <div class="addVideo">
-    <div class="header">
+    <!-- <div class="header">
       添加新视频
+    </div> -->
+    <div class="card">
+      <div class="maintitle">
+        <i class="iconfont">&#xe63c;</i>上传视频
+        <span class="goreturn">
+          <el-button size="small" @click="$router.push('/video')" type="success" :plain="true">返回</el-button>
+        </span>
+      </div>
     </div>
     <div class="panel">
       <iframe src="/web/static/videoupload.html" frameborder="0" id="videoUploadFrame"></iframe>
@@ -53,7 +61,9 @@ export default {
   line-height: 50px;
   padding: 0 3rem;
 }
-
+.card{
+  background: #fff;
+}
 .info {
   display: inline-block;
   color: @grey;

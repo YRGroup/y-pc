@@ -13,10 +13,10 @@
           </el-option>
         </el-select>
         <span class="label">搜索：</span>
-        <el-input placeholder="请输入关键词" icon="search" :on-icon-click="search" size="small" style="width:220px" v-model="filter.key">
+        <el-input placeholder="请输入关键词" :on-icon-click="search" size="small" style="width:220px" v-model="filter.key">
         </el-input>
         <el-button type="success" size="small" @click="getData">
-          <i class="iconfont">&#xe623;</i> 重新查询
+          查询
         </el-button>
         <el-button type="success" size="small" @click="$router.push('/video/add')" style="float:right" v-show="role=='老师'">
           <i class="iconfont">&#xe623;</i> 上传视频
@@ -127,6 +127,8 @@ export default {
     },
     getMyVideoList() {
       this.$API.getMyVideoList().then(res => {
+        let myvideo = res.length
+        this.$store.state.numLength.video = myvideo
         this.data = res
       })
     },

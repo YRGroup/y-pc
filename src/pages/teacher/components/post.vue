@@ -38,6 +38,7 @@ export default {
       currentPage: 1,
       pageSize: 10,
       noMoreData: false,
+      postLength: 0
     }
   },
   props: {
@@ -50,6 +51,8 @@ export default {
       para.currentPage = this.currentPage
       para.pagesize = this.pageSize
       this.$API.getAllTeacherDynamic(para).then(res => {
+        let post = res.length
+        this.$store.state.numLength.post = post
         if (res.length) {
           res.forEach((element) => {
             this.data.push(element)

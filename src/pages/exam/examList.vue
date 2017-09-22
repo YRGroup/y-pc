@@ -21,10 +21,10 @@
           <div class="exambtn">
             <el-button class="delbtn" :plain="true" type="text" @click="delExam(i.ID,i.ExamName)" size="small">
               <i class="iconfont">&#xe630;</i> 删除</el-button>
-            <el-button :type="!i.IsSendMsg?'info':null" @click="sendExamNotice(i.ID)" :disabled="i.IsSendMsg">发通知</el-button>
-            <el-button type="success" class="type" @click="$router.push('/exam/'+i.ID)">录入成绩</el-button>
-            <el-button type="success" class="type" @click="publishExam(i.ID)" :disabled="i.IsPublished">发布考试</el-button>
-            <el-button type="warning" class="type" @click="$router.push('/examChart/'+i.ID)">成绩报表</el-button>
+            <el-button :type="!i.IsSendMsg?'info':null" @click="sendExamNotice(i.ID)" :disabled="i.IsSendMsg">推送</el-button>
+            <el-button type="success" class="type" @click="publishExam(i.ID)" :disabled="i.IsPublished">发布</el-button>
+            <el-button type="warning" class="type" @click="$router.push('/examChart/'+i.ID)">报表</el-button>
+            <el-button type="success" class="type" @click="$router.push('/exam/'+i.ID)">详情</el-button>
           </div>
         </li>
       </div>
@@ -371,7 +371,7 @@ export default {
       this.chart11.setOption({
         // color: ['#5793f3', '#d14a61', '#675bba'],
         title: {
-          text: '考试成绩对比',
+          text: '最近考试对比',
         },
         tooltip: {
           trigger: 'axis',
