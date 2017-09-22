@@ -22,16 +22,16 @@
         </div>
         <ul class="num-info">
           <li>动态
-            <span>10</span>
+            <span>{{$store.state.numLength.post}}</span>
           </li>
           <li>作业
-            <span>10</span>
+            <span>{{$store.state.numLength.homework}}</span>
           </li>
           <li>视频
-            <span>10</span>
+            <span>{{$store.state.numLength.video}}</span>
           </li>
           <li>消息
-            <span>10</span>
+            <span>{{$store.state.numLength.msg}}</span>
           </li>
         </ul>
         <div class="content">
@@ -130,8 +130,6 @@ export default {
     getData() {
       if (this.$route.query.id) {
         this.$API.getTeacherInfo(this.$route.query.id).then(res => {
-          console.log(111111)
-          console.log(res)
           this.data = res
           this.data.Classes = res.ExtendInfo.Classes
           if (res.ExtendInfo.Course.CourseName) {
