@@ -6,37 +6,6 @@
 
     <no-data v-if="nodataImg"></no-data>
     <div v-else>
-      <div class="card panel">
-        <div class="chart">
-          <div class="header">
-            <div class="label">选择数据来源：</div>
-            <el-checkbox-group v-model="chartDataType">
-              <el-checkbox label="自订" disabled></el-checkbox>
-              <el-checkbox label="1">期中考试</el-checkbox>
-              <el-checkbox label="2">期末考试</el-checkbox>
-              <el-checkbox label="3">周考</el-checkbox>
-              <el-checkbox label="4">月考</el-checkbox>
-            </el-checkbox-group>
-            <!-- <div class="label">展示形式：</div>
-            <el-checkbox v-model="chartDataStack">各科数据层叠</el-checkbox>
-            <el-button type="primary" @click="getChart10" style="margin-left:20px">重新查询</el-button> -->
-          </div>
-          <div id="chart10" style="width:100%; height:450px;display:none"></div>
-          <div class="header" style="margin-bottom:20px">
-            <div class="label">选择数据来源：</div>
-            <el-radio-group v-model="chartDataNum">
-              <el-radio :label="1">最近1次</el-radio>
-              <el-radio :label="2">最近2次</el-radio>
-              <el-radio :label="3">最近3次</el-radio>
-              <el-radio :label="4">最近4次</el-radio>
-            </el-radio-group>
-            <el-button type="primary" @click="getChart11" style="margin-left:20px">查询</el-button>
-          </div>
-          <div id="chart11" style="width:100%; height:450px;"></div>
-        </div>
-
-      </div>
-
       <div class="examlist">
         <li class="item" v-for="(i,index) in data" :key="index">
           <div class="examtitle">{{i.ExamName}}</div>
@@ -57,6 +26,24 @@
           </div>
         </li>
       </div>
+
+      <div class="card panel">
+        <div class="chart">
+          <div class="header" style="margin-bottom:20px">
+            <div class="label">选择数据来源：</div>
+            <el-radio-group v-model="chartDataNum">
+              <el-radio :label="1">最近1次</el-radio>
+              <el-radio :label="2">最近2次</el-radio>
+              <el-radio :label="3">最近3次</el-radio>
+              <el-radio :label="4">最近4次</el-radio>
+            </el-radio-group>
+            <el-button type="primary" @click="getChart11" style="margin-left:20px">查询</el-button>
+          </div>
+          <div id="chart11" style="width:100%; height:450px;"></div>
+        </div>
+
+      </div>
+
     </div>
 
     <el-dialog title="创建新考试" :visible.sync="showAddExam">
@@ -182,10 +169,6 @@ export default {
       },
       data: [],
       chartDataType: ["1", "2", "3", "4"],
-      chart10: null,
-      chart10_xAxis: [],
-      chart10_legend: [],
-      chart10_series: [],
       chartDataStack: false,
       chartDataNum: 2,
       chart11: null,
@@ -286,46 +269,6 @@ export default {
         }
       })
     },
-    getChart10() {
-      this.chart10_xAxis = []
-      this.chart10_legend = []
-      this.chart10_series = []
-      if (this.chart10) {
-        this.chart10.clear()
-      }
-      let para = {
-        ClassID: this.currentClassId,
-        Type: this.chartDataType.join(',')
-      }
-      this.$API.GetSingleCourseScoreByClassID(para).then(res => {
-        this.chartData = res
-        this.chart10_legend = this.chartData[0].Info.map(b => { return b.CourseName })
-        this.chart10_legend.forEach(o => {
-          let seriesData = []
-          this.chartData.forEach(b => {
-            seriesData.push(b.Info.find(j => { return j.CourseName == o }).AvgTotalScore)
-          })
-          if (this.chartDataStack) {
-            this.chart10_series.push({
-              name: o,
-              type: 'line',
-              stack: '总量',
-              data: seriesData
-            })
-          } else {
-            this.chart10_series.push({
-              name: o,
-              type: 'line',
-              data: seriesData
-            })
-          }
-        })
-        this.chartData.forEach(o => {
-          this.chart10_xAxis.push(o.ExamName)
-        })
-        this.setChart10()
-      })
-    },
     getChart11() {
       this.chart11_xAxis = []
       this.chart11_legend = []
@@ -422,44 +365,6 @@ export default {
         })
       })
     },
-    setChart10() {
-      this.chart10.setOption({
-        title: {
-          text: '各科平均分走势',
-          textStyle: {
-            color: '#333',
-            fontWeight: 500
-          }
-        },
-        tooltip: {
-          trigger: 'axis'
-        },
-        legend: {
-          data: this.chart10_legend,
-        },
-        grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '3%',
-          containLabel: true
-        },
-        toolbox: {
-          feature: {
-            saveAsImage: {}
-          }
-        },
-        xAxis: {
-          type: 'category',
-          boundaryGap: false,
-          data: this.chart10_xAxis
-        },
-        yAxis: {
-          type: 'value',
-          name: '分数'
-        },
-        series: this.chart10_series
-      })
-    },
     setChart11() {
       this.chart11.setOption({
         // color: ['#5793f3', '#d14a61', '#675bba'],
@@ -504,11 +409,9 @@ export default {
   },
   created() {
     this.getData()
-    this.getChart10()
     this.getChart11()
   },
   mounted() {
-    this.chart10 = echarts.init(document.getElementById('chart10'), 'macarons')
     this.chart11 = echarts.init(document.getElementById('chart11'), 'macarons')
   }
 }

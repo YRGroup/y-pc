@@ -116,11 +116,24 @@ API.GetSingleCourseScoreByClassID = (para) => {
   })
 }
 
-API.getChart3Data = (para) => {
+API.GetSingleCourseRegionByClassID = (para) => {
   return new Promise((resolve, reject) => {
     axios.get(_APIurl+'/api/ExamChart/GetSingleCourseRegionByClassID',{params:para}).then((res)=>{
       resolve(res.data.Content)
     }).catch((err)=>{
+      reject(err)
+    })
+  })
+}
+
+// 获取年级考试成绩详情
+API.getGradeExamInfo = (para) => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl + '/api/ExamChart/GetGradeTotalScore', {
+      params: para
+    }).then((res) => {
+      resolve(res.data.Content)
+    }).catch((err) => {
       reject(err)
     })
   })
