@@ -14,6 +14,10 @@
             <span class="score">{{score.Score}}</span>
             <span> / {{score.FullScore}}</span>
           </span>
+          <span class="item">
+            <span>班级排名</span>
+            <span class="score">{{score.Ranking}}</span>
+          </span>
         </div>
         <div class="list">
           <div class="item" v-for="(i,index) in score.ScoreInfo" :key="index">
@@ -259,6 +263,7 @@ export default {
     margin-top: 20px;
     .item {
       font-size: 18px;
+      margin-right:40px;
       span {
         vertical-align: middle;
       }

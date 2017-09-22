@@ -72,17 +72,17 @@
           <el-form-item label="考试类型" :rules="[{ required: true}]">
             <el-radio-group v-model="newExamData.Type" @change="examType" size="small">
               <el-radio class="radio" label="0">自订</el-radio>
-              <el-radio class="radio" label="1">期中考试</el-radio>
+              <!-- <el-radio class="radio" label="1">期中考试</el-radio>
               <el-radio class="radio" label="2">期末考试</el-radio>
               <el-radio class="radio" label="3">周考</el-radio>
-              <el-radio class="radio" label="4">月考</el-radio>
+              <el-radio class="radio" label="4">月考</el-radio> -->
             </el-radio-group>
           </el-form-item>
         </div>
         <div>
           <el-form-item label="学科">
             <el-checkbox-group v-model="newExamData.courses" class="checkbox">
-              <el-checkbox :label="i.CourseId" v-for="i in courseList" :key="i.CourseId" class="item" :disabled="newExamData.Type!=0">
+              <el-checkbox :label="i.CourseId" v-for="i in courseList" :key="i.CourseId" class="item" >
                 {{i.name}}
                 <span style="font-size:12px">（总分
                   <el-input v-model="i.FullScore" size="mini" style="width:50px;" placeholder="总分"></el-input>）
@@ -113,58 +113,11 @@ export default {
     return {
       showAddExam: false,
       nodataImg: false,
-      courseList: [
-        {
-          CourseId: 1,
-          FullScore: 100,
-          name: '语文'
-        },
-        {
-          CourseId: 2,
-          FullScore: 100,
-          name: '数学'
-        },
-        {
-          CourseId: 3,
-          FullScore: 100,
-          name: '英语'
-        },
-        {
-          CourseId: 4,
-          FullScore: 100,
-          name: '物理'
-        },
-        {
-          CourseId: 5,
-          FullScore: 100,
-          name: '化学'
-        },
-        {
-          CourseId: 6,
-          FullScore: 100,
-          name: '生物'
-        },
-        {
-          CourseId: 7,
-          FullScore: 100,
-          name: '历史'
-        },
-        {
-          CourseId: 8,
-          FullScore: 100,
-          name: '地理'
-        },
-        {
-          CourseId: 9,
-          FullScore: 100,
-          name: '政治'
-        },
-      ],
       newExamData: {
         Name: '',
         Remark: '',
         ClassID: '',
-        Type: '4',
+        Type: '0',
         ExamTime: '',
         ExamCourses: [],
         courses: [1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -197,7 +150,18 @@ export default {
     currentClassList() {
       return this.$store.state.currentClassList
     },
-
+    courseList() {
+      if (this.$store.getters.courseList) {
+        this.$store.getters.courseList.shift()
+        return this.$store.getters.courseList.map(o => {
+          return {
+            ID: o.ID,
+            FullScore: 100,
+            name: o.CourseName
+          }
+        })
+      }
+    }
   },
   filters: {
     formatExamType(val) {
@@ -412,6 +376,7 @@ export default {
   created() {
     this.getData()
     this.getChart11()
+    this.$store.dispatch('getCourseList')
   },
   mounted() {
     this.chart11 = echarts.init(document.getElementById('chart11'), 'macarons')
