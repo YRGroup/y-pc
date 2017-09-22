@@ -11,6 +11,8 @@
           <div class="examtitle">{{i.ExamName}}</div>
           <div class="examinfo">
             <span>
+              <i class="iconfont">&#xe6b4;</i>总分平均分：{{i.TotalAvgScore}}</span>
+            <span>
               <i class="iconfont">&#xe621;</i>考试时间：{{i.ExamTime|FormatDate}}</span>
             <span>
               <i class="iconfont">&#xe6b4;</i>考试类型： {{i.Type | formatExamType}}
