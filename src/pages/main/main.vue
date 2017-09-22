@@ -1,7 +1,7 @@
 <template>
   <div class="panel">
     <img class="poster" :src="poster">
-  
+
     <div class="panel">
       <el-tabs v-model="activeName" @tab-click="handleSwitchTab">
         <el-tab-pane name="1">
@@ -26,7 +26,7 @@
               </div>
             </div>
           </div>
-  
+
         </el-tab-pane>
         <el-tab-pane name="2">
           <span slot="label">
@@ -50,11 +50,11 @@
               </div>
             </div>
           </div>
-  
+
         </el-tab-pane>
       </el-tabs>
     </div>
-  
+
   </div>
 </template>
 
@@ -163,9 +163,11 @@ export default {
     }
   }
 }
-.el-tabs{
+
+.el-tabs {
   min-height: 400px;
 }
+
 // .left {
 //   width: calc(~"100% - 320px");
 //   float: left;

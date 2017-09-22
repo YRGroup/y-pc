@@ -9,26 +9,37 @@
 
     <div class="right">
 
-      <div class="card">
-        <div class="header">
+      <div class="ques-wrap">
+        <div class="ques-info">
           <img :src="data.Headimgurl">
-        </div>
-        <div class="content">
-          <p class="title">{{data.TrueName}}</p>
-          <p>
+          <span class="name">{{data.TrueName}}</span>
+          <p class="msg-info">
             <span>
               <i class="iconfont">&#xe690;</i>{{data.Course || '暂无'}}</span>
             <span>
               <i class="iconfont">&#xe618;</i>{{data.Mobilephone}}</span>
           </p>
-          <!-- <div class="btn">
-                        <el-button type="primary" @click.native="$router.push('/teacher/edit')">修改资料</el-button>
-                      </div> -->
-          <div class="btn" v-if="!$route.query.id">
+        </div>
+        <ul class="num-info">
+          <li>动态
+            <span>10</span>
+          </li>
+          <li>作业
+            <span>10</span>
+          </li>
+          <li>视频
+            <span>10</span>
+          </li>
+          <li>消息
+            <span>10</span>
+          </li>
+        </ul>
+        <div class="content">
+          <div class="btn-info" v-if="!$route.query.id">
             <el-button :plain="true" type="text" @click.native="startEditPw" size="small">修改密码</el-button>
             <el-button :plain="true" type="text" @click.native="logout" size="small">退出</el-button>
           </div>
-          <div class="btn" v-else>
+          <div class="btn-info" v-else>
             <el-button type="info" @click.native="$router.push('/msg/'+data.Meid)">发消息</el-button>
           </div>
 
@@ -78,7 +89,7 @@
           {{i.ClassName}}
         </div>
         <div class="content noHeadImg">
-          <p>执教科目：{{i.CourseName}}</p>
+          <!-- <p>执教科目：{{i.CourseName}}</p> -->
           <div class="btn">
             <el-button type="info" @click.native="changeClass(i.ClassID),$router.push('/class')">班级主页</el-button>
           </div>
@@ -119,6 +130,8 @@ export default {
     getData() {
       if (this.$route.query.id) {
         this.$API.getTeacherInfo(this.$route.query.id).then(res => {
+          console.log(111111)
+          console.log(res)
           this.data = res
           this.data.Classes = res.ExtendInfo.Classes
           if (res.ExtendInfo.Course.CourseName) {
@@ -203,32 +216,28 @@ export default {
   float: right;
   width: 260px; // padding: 20px 10px;
   .card {
-    border: 1px solid @main;
-    text-align: center;
-    background: #edfff7;
-    margin-bottom: 20px;
+    background: #fff;
+    padding: 0 20px 20px;
     &:hover {
       // border: 1px solid @main;
     }
     .header {
-      height: 75px;
-      background: url(../../assets/header.jpg) no-repeat;
-      background-size: cover;
-      line-height: 75px;
-      color: #fff;
-      font-size: 25px;
+      text-align: center;
+      font-size: 16px;
+      padding: 15px 0 10px;
+      border-bottom: 1px solid @border;
       img {
-        margin-top: 30px;
-        width: 80px;
+        width: 60px;
+        height: 60px;
         border-radius: 50%;
-        border: 3px solid rgba(255, 255, 255, 0.5)
+        border: 2px solid rgba(255, 255, 255, 0.5)
+      }
+      .name {
+        display: block;
       }
     }
     .content {
-      margin-top: 26px;
       line-height: 2em;
-      padding: 20px;
-      text-align: center;
       .title {
         font-size: 18px;
         margin-bottom: 10px;
@@ -239,14 +248,71 @@ export default {
           margin-right: 5px;
         }
       }
-      .btn {
+      .btn{
         text-align: center;
-        margin-bottom: 10px;
       }
     }
     .noHeadImg {
       margin-top: 10px;
     }
+  }
+}
+
+.ques-wrap {
+  background: #fff;
+  margin-bottom: 20px;
+  padding: 0 20px;
+  .ques-info {
+    text-align: center;
+    font-size: 16px;
+    padding: 15px 0 10px;
+    border-bottom: 1px solid @border;
+    img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.5)
+    }
+    .name {
+      display: block;
+    }
+  }
+}
+
+.num-info {
+  margin-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid @border;
+  li {
+    display: inline-block;
+    line-height: 40px;
+    width: 43%;
+    color: #888;
+    text-align: center;
+    span {
+      color: #333;
+      margin-left: 10px;
+    }
+  }
+}
+
+.msg-info {
+  font-size: 13px;
+  margin-top: 5px;
+  color: #888;
+  span {
+    margin: 0 10px;
+    .iconfont {
+      margin-right: 5px;
+    }
+  }
+}
+
+.btn-info {
+  text-align: center;
+  padding: 10px 20px;
+  .el-button {
+    margin: 0 10px;
   }
 }
 </style>
