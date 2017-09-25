@@ -20,8 +20,26 @@
       padding: 0 10px;
     }
 
+    textarea {
+      border: 1px solid #A5DE37;
+      padding: 0 10px;
+      border-radius: 5px;
+    }
+
+    select {
+      border: 1px solid #A5DE37;
+      padding: 10px 20px;
+      border-radius: 5px;
+    }
+
     hr {
       color: #ccc;
+    }
+
+    .title {
+      width: 100px;
+      text-align: right;
+      padding-right: 20px;
     }
 
     .body-color {
@@ -100,6 +118,7 @@
       border-radius: 3px;
       position: relative;
       overflow: hidden;
+      display: none;
     }
 
     #progress-now {
@@ -119,27 +138,27 @@
   <hr />
   <table frame=void>
     <tr>
-      <td>标题:</td>
+      <td class="title">标题:</td>
       <td><input type="text" id="ud_title" size="20" value=""></td>
     </tr>
     <tr>
-      <td>描述</td>
-      <td><input type="text" id="ud_des" size="20" value=""></td>
+      <td class="title">描述</td>
+      <td><textarea type="text" id="ud_des" rows="3" cols="20"></textarea></td>
     </tr>
     <tr>
-      <td>类别:</td>
-      <td><input type="text" id="ud_cate" size="20" value=""></td>
+      <td class="title">类别:</td>
+      <td><select id="ud_cate"></select></td>
     </tr>
     <tr>
-      <td>年级:</td>
-      <td><input type="text" id="ud_grade" size="20" value=""></td>
+      <td class="title">年级:</td>
+      <td><select id="ud_grade"></select></td>
     </tr>
     <tr>
-      <td>标签:</td>
+      <td class="title">关键词:</td>
       <td><input type="text" id="ud_tag" size="20" value=""></td>
     </tr>
     <tr>
-      <td>选择文件:</td>
+      <td class="title">选择文件:</td>
       <td>
         <a href="javascript:;" class="button button-glow button-border button-rounded button-action  a-upload">
           选择文件
@@ -207,6 +226,8 @@
         }
       });
       uploader.init();
+      getGradeList();
+      getCourseList();
     };
 
     document.getElementById("ud_file")
@@ -221,6 +242,7 @@
     var textarea = document.getElementById("textarea");
 
     function start() {
+      $('.progress')[0].style.display = 'block';
       getUpdateAuth()
     }
 
@@ -315,6 +337,42 @@
 
     function toHome() {
       parent.window.location.href = 'http://jkyr.yearnedu.com/web/#/video'
+    }
+
+    function getGradeList() {
+      $.ajax({
+        type: "get",
+        url: "/api/school/GetGrade",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        xhrFields: {
+          withCredentials: true
+        },
+        success: function (result) {
+          for (var i = 1; i < result.Content.length; i++) {
+            $('#ud_grade').append("<option value =" + result.Content[i].ID + ">" + result.Content[i].GradeName +
+              "</option>");
+          }
+        }
+      });
+    }
+
+    function getCourseList() {
+      $.ajax({
+        type: "get",
+        url: "/api/Video/GetCategeryList",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        xhrFields: {
+          withCredentials: true
+        },
+        success: function (result) {
+          for (var i = 1; i < result.Content.length; i++) {
+            $('#ud_cate').append("<option value =" + result.Content[i].CateID + ">" + result.Content[i].CateName +
+              "</option>");
+          }
+        }
+      });
     }
 
   </script>

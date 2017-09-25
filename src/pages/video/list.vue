@@ -109,8 +109,8 @@ export default {
       }
     },
     isAdmin() {
-      if (this.$store.state.currentClassInfo.teacher) {
-        return this.$store.state.currentUser.Meid == this.$store.state.currentClassInfo.teacher.Meid
+      if (this.$route.name === 'teacher') {
+        return true
       } else {
         return false
       }
