@@ -16,10 +16,17 @@
     input {
       height: 30px;
       border-radius: 5px;
-      border: 1px solid #A5DE37;
+      border: 1px solid #bfcbd9;
       padding: 0 10px;
     }
 
+    input:hover{
+      border-color: #8391a5; 
+    }
+    input:focus{
+      border-color: #20a0ff;
+      outline:0;
+    }
     hr {
       color: #ccc;
     }
@@ -110,36 +117,38 @@
       bottom: 0;
       background: green;
     }
+    .labelName{
+      width: 120px;
+      text-align: right;
+    }
 
   </style>
 </head>
 
 <body>
-  上传视频
-  <hr />
   <table frame=void>
     <tr>
-      <td>标题:</td>
+      <td class="labelName">标题：</td>
       <td><input type="text" id="ud_title" size="20" value=""></td>
     </tr>
     <tr>
-      <td>描述</td>
-      <td><input type="text" id="ud_des" size="20" value=""></td>
+      <td class="labelName">描述：</td>
+      <td><textarea  type="text" id="ud_des" size="20" value=""  rows="5" cols="40"></textarea></td>
     </tr>
     <tr>
-      <td>类别:</td>
+      <td class="labelName">类别：</td>
       <td><input type="text" id="ud_cate" size="20" value=""></td>
     </tr>
     <tr>
-      <td>年级:</td>
+      <td class="labelName">年级：</td>
       <td><input type="text" id="ud_grade" size="20" value=""></td>
     </tr>
     <tr>
-      <td>标签:</td>
+      <td class="labelName">标签：</td>
       <td><input type="text" id="ud_tag" size="20" value=""></td>
     </tr>
     <tr>
-      <td>选择文件:</td>
+      <td class="labelName">选择文件：</td>
       <td>
         <a href="javascript:;" class="button button-glow button-border button-rounded button-action  a-upload">
           选择文件
@@ -148,6 +157,7 @@
       </td>
     </tr>
     <tr>
+        <td class="labelName"></td>
       <td><button type="button" onclick="start()" class="button button-raised button-primary button-pill">开始上传</button></td>
       <td><span style="margin-left:30px;" id="progress-text"></span></td>
     </tr>
