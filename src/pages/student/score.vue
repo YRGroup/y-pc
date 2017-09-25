@@ -5,6 +5,7 @@
       <div class="scoreSummary">
         <div class="title">{{score.ExamName || "暂无"}}</div>
         <div class="info">
+
           <span>考试时间：{{score.Time}}</span>
         </div>
         <div class="total">
@@ -12,6 +13,10 @@
             <span>总分</span>
             <span class="score">{{score.Score}}</span>
             <span> / {{score.FullScore}}</span>
+          </span>
+          <span class="item">
+            <span>班级排名</span>
+            <span class="score">{{score.Ranking}}</span>
           </span>
         </div>
         <div class="list">
@@ -35,8 +40,14 @@
         </div>
 
         <div class="item" v-for="(i,index) in currentScoreList" :key="index" @click="changeScore(i.ExamID)">
-          <div class="title">{{i.ExamName || "暂无"}}> </div>
-          <div class="time">{{i.Time}}</div>
+          <div class="title">{{i.ExamName || "暂无"}} </div>
+          <div class="time">
+            <span>
+              <i class="iconfont">&#xe621;</i>考试时间：{{i.ExamTime|FormatDate}}</span>
+            <span>
+              <i class="iconfont">&#xe6b4;</i>考试类型： {{i.Type}}
+            </span>
+          </div>
           <div class="score">{{i.Score}} 分</div>
         </div>
 
@@ -74,6 +85,26 @@ export default {
       chart_line1: [],
       chart_line2: [],
       myChart: null
+    }
+  },
+  filters: {
+    formatExamType(val) {
+      switch (val) {
+        case 0:
+          return '自定'
+        case 1:
+          return '期中考试'
+        case 2:
+          return '期末考试'
+        case 3:
+          return '周考'
+        case 4:
+          return '月考'
+      }
+    },
+    FormatDate(val) {
+      let data = new Date(val)
+      return data.getFullYear() + " 年 " + (data.getMonth() + 1) + " 月 " + data.getDate() + " 日"
     }
   },
   computed: {
@@ -232,6 +263,7 @@ export default {
     margin-top: 20px;
     .item {
       font-size: 18px;
+      margin-right:40px;
       span {
         vertical-align: middle;
       }
