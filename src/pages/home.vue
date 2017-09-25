@@ -105,8 +105,10 @@ header {
   list-style: none;
   line-height: 78px;
   border: 1px solid #ddd;
-  background: @main;
+  background: #fff;
+  position: relative;
   z-index: 1000;
+  box-shadow: 0 3px 3px 0 rgba(7,17,27,.1);
   .container {
     max-width: 1090px;
     margin: 0 auto;
@@ -123,24 +125,24 @@ header {
   .nav {
     float: right;
     font-size: 16px;
-    color: #fff;
     .iconfont {
       margin-right: 5px;
     }
   }
   .active {
-    color: #fff;
+    color: @main;
     opacity: 1;
-    border-bottom: 4px solid rgba(255, 255, 255, .8);
+    // border-bottom: 4px solid rgba(255, 255, 255, .8);
+    border-bottom:4px solid @main;
     line-height: 70px;
   }
   li {
     display: inline-block;
     padding: 0 14px;
     cursor: pointer;
-    opacity: .8;
+    color: #666;
     &:hover {
-      opacity: 1;
+      color: @main;
     }
   }
 }
