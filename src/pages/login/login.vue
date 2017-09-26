@@ -6,7 +6,7 @@
       <ul class="loginnav">
         <li class="navcurrent">登录</li>
         <!-- <li>·</li>
-        <li @click="$router.push('/reg')">家长注册</li> -->
+            <li @click="$router.push('/reg')">家长注册</li> -->
       </ul>
       <div class="item">
         <!-- <div class="title">手机号：</div> -->
@@ -37,8 +37,8 @@
       <div v-show="step==2">
         <div class="btn item">
           <!-- <el-button size="large" @click.native="getsms" type="success" :disabled="getsmsAvailable">
-                      {{getsmsAvailable?getsmsCount+'s后重发验证码':'发送验证码'}}
-                    </el-button> -->
+                          {{getsmsAvailable?getsmsCount+'s后重发验证码':'发送验证码'}}
+                        </el-button> -->
         </div>
         <div class="item sms">
           <el-input size="large" class="input" placeholder="请输入验证码" :minlength='4' v-model.trim="smsLoginData.code">
@@ -74,14 +74,15 @@
       </div>
 
       <div class="item" v-show="step==3">
-        <el-input size="large" class="input" type="password" placeholder="请输入学生的密码"  :minlength='6' @keyup.enter.native="studentLogin" v-model.trim="studentLoginData.password">
+        <el-input size="large" class="input" type="password" placeholder="请输入学生的密码" :minlength='6' @keyup.enter.native="studentLogin" v-model.trim="studentLoginData.password">
           <template slot="prepend">
             <i class="iconfont">&#xe692;</i>
           </template>
         </el-input>
       </div>
       <div class="btn item" v-show="step==3">
-        <el-button size="large" @click.native="studentLogin" type="success">学生登录</el-button>
+        <!-- <el-button size="large" @click.native="studentLogin" type="success">学号登录</el-button>123 -->
+        <el-button size="large" @click.native="LoginByNationID" type="success">学籍号登录</el-button>
       </div>
 
       <div class="btn item" v-show="step==0">
@@ -135,6 +136,10 @@ export default {
       this.studentLoginData.studentid = this.phone
       this.$API.studentLogin(this.studentLoginData).then(res => this.loginOK(res)).catch(err => this.$message.error(err.msg))
     },
+    LoginByNationID() {
+      this.studentLoginData.nationid = this.phone
+      this.$API.LoginByNationID(this.studentLoginData).then(res => this.loginOK(res)).catch(err => this.$message.error(err.msg))
+    },
     smsLogin() {
       this.smsLoginData.phone = this.phone
       if (this.unActived && this.smsLoginData.newPWd.length < 6) {
@@ -150,21 +155,21 @@ export default {
     loginOK(val) {
       this.$store.commit('login', val)
       this.$store.commit('setToken', val.Token)
-      if(this.$store.getters.hasFullInfo === 'teacher'){
+      if (this.$store.getters.hasFullInfo === 'teacher') {
         this.$message({
           showClose: true,
           message: '资料不完整，请先补齐资料',
           type: 'warning'
         });
         this.$router.push('/teacher/edit')
-      }else if(this.$store.getters.hasFullInfo === 'parent'){
+      } else if (this.$store.getters.hasFullInfo === 'parent') {
         this.$message({
           showClose: true,
           message: '资料不完整，请先补齐资料',
           type: 'warning'
         });
         this.$router.push('/student/edit')
-      }else{
+      } else {
         this.$router.push('/')
       }
     },
@@ -207,7 +212,7 @@ export default {
             // this.$router.push('/reg?tel=' + this.phone)
           }
         }).catch(err => this.$message.error(err.msg))
-      } else if (this.phone.slice(0, 1) != 1 && this.phone.length === 9) {
+      } else if (this.phone.slice(0, 1) != 1) {
         this.step = 3
       }
     },

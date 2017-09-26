@@ -17,6 +17,9 @@
           <el-form-item label="学号">
             <el-input v-model="data.StudentID" :disabled="true" style="width:260px"></el-input>
           </el-form-item>
+          <el-form-item label="学籍号">
+            <el-input v-model="data.nationid" :disabled="true" style="width:260px"></el-input>
+          </el-form-item>
           <el-form-item label="身份证" :rules="[{ required: true}]">
             <el-input v-model="data.IDCard" style="width:360px"></el-input>
           </el-form-item>

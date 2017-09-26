@@ -41,6 +41,19 @@ API.studentLogin = (logData) => {
   })
 }
 
+// 使用学籍号登陆
+API.LoginByNationID = (logData) => {
+  document.cookie = "meid=aa;path=/;domain="+document.domain.match(/[^\.]+\.[^\.]+$/)[0]+";expires=" +new Date(2011,1,1).toGMTString()
+  document.cookie = "meid=aa;path=/;domain="+document.domain+";expires=" +new Date(2011,1,1).toGMTString()
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl + '/api/User/LoginByNationID', logData).then((res) => {
+      resolve(res.data.Content)
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
+
 // 使用短信验证码登陆
 API.loginBySms = (data) => {
   document.cookie = "meid=aa;path=/;domain="+document.domain.match(/[^\.]+\.[^\.]+$/)[0]+";expires=" +new Date(2011,1,1).toGMTString()
@@ -171,6 +184,17 @@ API.getCardList = (para) => {
 API.addSchoolcard = (cardNum) => {
   return new Promise((resolve, reject) => {
     axios.post(_APIurl+'/api/user/BindYKT',cardNum).then((res)=>{
+      resolve(res)
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
+
+// 解绑一卡通
+API.deleteSchoolcard = () => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl + '/api/user/unBindYKT').then((res) => {
       resolve(res)
     }).catch((err) => {
       reject(err)

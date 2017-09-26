@@ -34,6 +34,10 @@
             <span>{{data.IDCard}}</span>
           </div>
           <div class="item">
+            <span class="title">学籍号：</span>
+            <span>{{data.nationid}}</span>
+          </div>
+          <div class="item">
             <span class="title">学号：</span>
             <span>{{data.StudentID}}</span>
           </div>

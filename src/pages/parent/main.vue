@@ -57,6 +57,10 @@
                   <span>{{currentStudent.ClassName}}</span>
                 </p>
                 <p>
+                  <span class="title">学籍号：</span>
+                  <span>{{currentStudent.nationid}}</span>
+                </p>
+                <p>
                   <span class="title">校园卡号：</span>
                   <span>{{currentStudent.CampusCard || '无'}}</span>
                 </p>

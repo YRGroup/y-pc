@@ -9,11 +9,11 @@
           </h4>
           <el-form :model="addCardData" label-width="100px" class="cardNum">
             <!-- <el-form-item label="学生：" v-if="$store.getters.role==='家长'">
-                        <el-select v-model="addCardData.student_meid" placeholder="请选择学生">
-                          <el-option v-for="i in studentList" :key="i.id" :label="i.name" :value="i.id">
-                          </el-option>
-                        </el-select>
-                      </el-form-item> -->
+                              <el-select v-model="addCardData.student_meid" placeholder="请选择学生">
+                                <el-option v-for="i in studentList" :key="i.id" :label="i.name" :value="i.id">
+                                </el-option>
+                              </el-select>
+                            </el-form-item> -->
             <div>
               <el-form-item label="卡号：">
                 <el-input v-model.number="addCardData.CardID" placeholder="请输入校园卡号" size="large"></el-input>
@@ -32,11 +32,18 @@
         <div class="cardSummary">
           <div class="total">
             <!-- <div class="student" v-if="$store.getters.role==='家长'">
-                        <el-select v-model="addCardData.student_meid" @change="changeCurrentStudent" placeholder="请选择学生">
-                          <el-option v-for="i in studentList" :key="i.id" :label="i.name" :value="i.id">
-                          </el-option>
-                        </el-select>
-                      </div> -->
+                              <el-select v-model="addCardData.student_meid" @change="changeCurrentStudent" placeholder="请选择学生">
+                                <el-option v-for="i in studentList" :key="i.id" :label="i.name" :value="i.id">
+                                </el-option>
+                              </el-select>
+                            </div> -->
+            <span class="item" style="float:left">
+              <el-button size="small" @click="unbindCard">解除绑定一卡通</el-button>
+            </span>
+            <span class="item">
+              <span>一卡通卡号 </span>
+              <span class="balance">{{CardID}}</span>
+            </span>
             <span class="item">
               <span>当前余额 </span>
               <span class="balance">{{Blance}}</span>
@@ -77,6 +84,7 @@ export default {
         CardID: '',
         student_meid: this.$store.state.currentStudentId
       },
+      CardID: '',
       Blance: 0,
       alllog: [],
       currentPage: 1,
@@ -108,6 +116,7 @@ export default {
       para.student_meid = this.$store.state.currentStudentId
       this.$API.getCardList(para).then(res => {
         if (res) {
+          this.CardID = res.CampusCard
           if (this.Blance == 0) {
             this.Blance = res.Blance
           }
@@ -139,6 +148,15 @@ export default {
       this.$API.addSchoolcard(this.addCardData).then(res => {
         this.$store.dispatch('getCurrentUser')
         this.$message('绑定卡号成功')
+        this.getData()
+      }).catch((err) => {
+        this.$message.error(err.msg)
+      })
+    },
+    unbindCard() {
+      this.$API.deleteSchoolcard(this.addCardData).then(res => {
+        this.$store.dispatch('getCurrentUser')
+        this.$message.success('解除绑定成功')
         this.getData()
       }).catch((err) => {
         this.$message.error(err.msg)
