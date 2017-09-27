@@ -83,10 +83,10 @@
                 <el-input v-model="addPersonalHonorData.Description">
                 </el-input>
               </el-form-item>
-              <el-form-item label="权限">
+              <!-- <el-form-item label="权限">
                 <el-radio class="radio" v-model="addPersonalHonorData.IsVisible" label="true">公开</el-radio>
                 <el-radio class="radio" v-model="addPersonalHonorData.IsVisible" label="false">不公开</el-radio>
-              </el-form-item>
+              </el-form-item> -->
               <el-form-item>
                 <el-button type="success" @click="addPersonalHonor">确 定</el-button>
                 <el-button :plain="true" type="success" @click="showAddPersonalHonor = false">取 消</el-button>
@@ -133,10 +133,10 @@
                   <el-date-picker type="date" placeholder="选择结束日期" v-model="i.EndTime" style="width: 100%;"></el-date-picker>
                 </el-col>
               </el-form-item>
-              <el-form-item label="权限">
+              <!-- <el-form-item label="权限">
                 <el-radio class="radio" v-model="i.IsVisible" label="true">公开</el-radio>
                 <el-radio class="radio" v-model="i.IsVisible" label="false">不公开</el-radio>
-              </el-form-item>
+              </el-form-item> -->
             </li>
 
           </div>
@@ -174,7 +174,7 @@ export default {
       addPersonalHonorData: {
         Description: '',
         ImgPath: '',
-        IsVisible: 'true'
+        IsVisible: 'false'
       },
       ruleForm: {
         TrueName: '',
