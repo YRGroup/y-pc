@@ -6,7 +6,7 @@
       <ul class="loginnav">
         <li class="navcurrent">登录</li>
         <!-- <li>·</li>
-            <li @click="$router.push('/reg')">家长注册</li> -->
+              <li @click="$router.push('/reg')">家长注册</li> -->
       </ul>
       <div class="item">
         <!-- <div class="title">手机号：</div> -->
@@ -37,8 +37,8 @@
       <div v-show="step==2">
         <div class="btn item">
           <!-- <el-button size="large" @click.native="getsms" type="success" :disabled="getsmsAvailable">
-                          {{getsmsAvailable?getsmsCount+'s后重发验证码':'发送验证码'}}
-                        </el-button> -->
+                            {{getsmsAvailable?getsmsCount+'s后重发验证码':'发送验证码'}}
+                          </el-button> -->
         </div>
         <div class="item sms">
           <el-input size="large" class="input" placeholder="请输入验证码" :minlength='4' v-model.trim="smsLoginData.code">
@@ -74,7 +74,7 @@
       </div>
 
       <div class="item" v-show="step==3">
-        <el-input size="large" class="input" type="password" placeholder="请输入学生的密码" :minlength='6' @keyup.enter.native="studentLogin" v-model.trim="studentLoginData.password">
+        <el-input size="large" class="input" type="password" placeholder="请输入密码" :minlength='6' @keyup.enter.native="studentLogin" v-model.trim="studentLoginData.password">
           <template slot="prepend">
             <i class="iconfont">&#xe692;</i>
           </template>
@@ -212,7 +212,7 @@ export default {
             // this.$router.push('/reg?tel=' + this.phone)
           }
         }).catch(err => this.$message.error(err.msg))
-      } else if (this.phone.slice(0, 1) != 1) {
+      } else if (this.phone.slice(0, 1) != 1 && this.phone.length > 13) {
         this.step = 3
       }
     },
