@@ -13,7 +13,7 @@
           </el-option>
         </el-select>
         <span class="label">搜索：</span>
-        <el-input placeholder="请输入关键词" :on-icon-click="search" size="small" style="width:220px" v-model="filter.key">
+        <el-input placeholder="请输入关键词" size="small" style="width:220px" v-model="filter.key">
         </el-input>
         <el-button type="success" size="small" @click="getData">
           查询
@@ -136,14 +136,6 @@ export default {
       let para = this.filter
       this.$API.getVideoList(para).then(res => {
         this.data = res
-      })
-    },
-    search() {
-      let para = {
-        key: 'keyword'
-      }
-      this.$API.searchVideo(para).then(res => {
-
       })
     },
     openVideo(val) {
