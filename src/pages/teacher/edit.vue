@@ -279,9 +279,13 @@ export default {
     },
     addPersonalHonor() {
       this.data.role = 3
-      this.data.PersonalHonor.push(this.addPersonalHonorData)
-      this.addPersonalHonorData = { Description: '', ImgPath: '', IsVisible: 'true' }
-      this.showAddPersonalHonor = false
+      if(this.addPersonalHonorData.Description && this.addPersonalHonorData.ImgPath){
+          this.data.PersonalHonor.push(this.addPersonalHonorData)
+          this.addPersonalHonorData = { Description: '', ImgPath: '', IsVisible: 'true' }
+          this.showAddPersonalHonor = false
+      }else{
+        this.$message.error('请完善图片和描述！')
+      }
     },
     delHonor(index) {
       this.data.PersonalHonor.splice(index, 1)

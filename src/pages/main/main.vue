@@ -146,6 +146,7 @@ export default {
     .content {
       margin-top: 8px;
       line-height: 24px;
+      height: 48px;
       color: #666;
       overflow: hidden;
       a {
