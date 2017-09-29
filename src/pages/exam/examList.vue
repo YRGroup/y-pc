@@ -82,7 +82,7 @@
         <div>
           <el-form-item label="学科">
             <el-checkbox-group v-model="newExamData.courses" class="checkbox">
-              <el-checkbox :label="i.ID" v-for="i in courseList" :key="i.ID" class="item">
+              <el-checkbox :label="i.courseID" v-for="i in courseList" :key="i.courseID" class="item">
                 {{i.name}}
                 <span style="font-size:12px">（总分
                   <el-input v-model="i.FullScore" size="mini" style="width:50px;" placeholder="总分"></el-input>）
@@ -114,7 +114,7 @@ export default {
       showAddExam: false,
       nodataImg: false,
       newExamData: {
-        Name: '',
+        ExamName: '',
         Remark: '',
         ClassID: '',
         Type: '0',
@@ -155,7 +155,7 @@ export default {
         this.$store.getters.courseList.shift()
         return this.$store.getters.courseList.map(o => {
           return {
-            ID: o.ID,
+            courseID: o.ID,
             FullScore: 100,
             name: o.CourseName
           }
@@ -270,7 +270,7 @@ export default {
     addNewExam() {
       this.newExamData.courses.forEach(obj => {
         let a = this.courseList.find(obj2 => {
-          return obj2.ID == obj
+          return obj2.courseID == obj
         })
         this.newExamData.ExamCourses.push(a)
       })
