@@ -80,7 +80,7 @@
         </div>
       </div>
   
-      <div class="info">
+      <!-- <div class="info">
         <div class="header">一卡通</div>
         <div class="content">
           <div class="item">
@@ -88,7 +88,7 @@
             <span>李明</span>
           </div>
         </div>
-      </div>
+      </div> -->
   
     </div>
   
