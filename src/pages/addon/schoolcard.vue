@@ -42,7 +42,7 @@
             </span>
             <span class="item">
               <span>一卡通卡号 </span>
-              <span class="balance">{{CardID}}</span>
+              <span>{{CardID}}</span>
             </span>
             <span class="item">
               <span>当前余额 </span>
