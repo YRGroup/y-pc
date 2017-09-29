@@ -135,7 +135,8 @@ export default {
     },
     openQRcode(val) {
       this.showQRcode = true
-      let url = document.location.href.split('#')[0] + '#/p/' + val
+      // let url = document.location.href.split('#')[0] + '#/p/' + val
+      let url = document.location.origin + '/m/#/p/' + val
       QRCode.toCanvas(document.getElementById('QRcodeInPost'), url, function(error) {
         if (error) console.error(error)
         console.log('success!');
