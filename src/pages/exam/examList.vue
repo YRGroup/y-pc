@@ -50,7 +50,7 @@
 
     <el-dialog title="创建新考试" :visible.sync="showAddExam">
       <el-form :model="newExamData" label-width="120px">
-        <div>
+        <div style="display:none;">
           <el-form-item label="所属班级">
             <el-select v-model="newExamData.ClassID" placeholder="请选择班级" :disabled="true">
               <el-option :label="i.name" :value="i.id" v-for="i in currentClassList" :key="i.id"></el-option>
@@ -68,21 +68,21 @@
             </el-date-picker>
           </el-form-item>
         </div>
-        <div>
+        <!-- <div>
           <el-form-item label="考试类型" :rules="[{ required: true}]">
-            <el-radio-group v-model="newExamData.Type" @change="examType" size="small">
+            <el-radio-group v-model="newExamData.Type" size="small">
               <el-radio class="radio" label="0">自订</el-radio>
-              <!-- <el-radio class="radio" label="1">期中考试</el-radio>
-              <el-radio class="radio" label="2">期末考试</el-radio>
-              <el-radio class="radio" label="3">周考</el-radio>
-              <el-radio class="radio" label="4">月考</el-radio> -->
+              <el-radio class="radio" label="1">期中考试</el-radio>
+                <el-radio class="radio" label="2">期末考试</el-radio>
+                <el-radio class="radio" label="3">周考</el-radio>
+                <el-radio class="radio" label="4">月考</el-radio>
             </el-radio-group>
           </el-form-item>
-        </div>
+        </div> -->
         <div>
           <el-form-item label="学科">
             <el-checkbox-group v-model="newExamData.courses" class="checkbox">
-              <el-checkbox :label="i.CourseId" v-for="i in courseList" :key="i.CourseId" class="item" >
+              <el-checkbox :label="i.ID" v-for="i in courseList" :key="i.ID" class="item">
                 {{i.name}}
                 <span style="font-size:12px">（总分
                   <el-input v-model="i.FullScore" size="mini" style="width:50px;" placeholder="总分"></el-input>）
@@ -270,7 +270,7 @@ export default {
     addNewExam() {
       this.newExamData.courses.forEach(obj => {
         let a = this.courseList.find(obj2 => {
-          return obj2.CourseId == obj
+          return obj2.ID == obj
         })
         this.newExamData.ExamCourses.push(a)
       })
