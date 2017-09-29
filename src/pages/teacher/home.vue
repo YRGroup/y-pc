@@ -9,7 +9,7 @@
 
     <div class="right">
 
-      <div class="ques-wrap">
+      <div class="ques-wrap card">
         <div class="ques-info">
           <img :src="data.Headimgurl">
           <span class="name">{{data.TrueName}}</span>
@@ -84,20 +84,28 @@
         </div>
       </div>
 
-      <div class="card" v-for="(i,index) in data.Classes" :key="index">
-        <div class="header">
-          {{i.ClassName}}
-        </div>
-        <div class="content noHeadImg">
-          <!-- <p>执教科目：{{i.CourseName}}</p> -->
-          <div class="btn">
-            <el-button type="info" @click.native="changeClass(i.ClassID),$router.push('/class')">班级主页</el-button>
+      <!-- <div class="card" v-for="(i,index) in data.Classes" :key="index">
+          <div class="header">
+            {{i.ClassName}}
           </div>
-          <div class="btn" v-show="data.Classes.length>1">
-            <el-button type="warning" v-if="classId!=i.ClassID" @click.native="changeClass(i.ClassID)">设为当前班级</el-button>
-            <p v-else>当前班级</p>
+          <div class="content noHeadImg">
+            <div class="btn">
+              <el-button type="info" @click.native="changeClass(i.ClassID),$router.push('/class')">班级主页</el-button>
+            </div>
+            <div class="btn" v-show="data.Classes.length>1">
+              <el-button type="warning" v-if="classId!=i.ClassID" @click.native="changeClass(i.ClassID)">设为当前班级</el-button>
+              <p v-else>当前班级</p>
+            </div>
           </div>
-        </div>
+        </div> -->
+      <div class="panelbox">
+        <h3><i class="iconfont">&#xe69b;</i>切换班级</h3>
+      </div>
+      <div class="card">
+        <el-select v-model="currenrClassId" @change="changeClass">
+          <el-option v-for="item in data.Classes" :key="item.ClassID" :label="item.ClassName" :value="item.ClassID">
+          </el-option>
+        </el-select>
       </div>
 
     </div>
@@ -119,6 +127,7 @@ export default {
         newpwd: '',
         newpwd2: ''
       },
+      currenrClassId: ''
     }
   },
   computed: {
@@ -152,6 +161,7 @@ export default {
       this.$API.changeCurrentClass(para).then(res => {
         this.$message.success('成功切换班级')
         this.$store.dispatch('getCurrentUser')
+        this.$router.push('/class')
       })
     },
     startEditPw() {
@@ -195,6 +205,7 @@ export default {
   },
   created() {
     this.getData()
+    this.currenrClassId = this.$store.state.currentClassId
   },
   mounted() {
 
@@ -215,7 +226,8 @@ export default {
   width: 260px; // padding: 20px 10px;
   .card {
     background: #fff;
-    padding: 0 20px 20px;
+    padding:20px;
+    margin-bottom: 15px;
     &:hover {
       // border: 1px solid @main;
     }
@@ -246,7 +258,7 @@ export default {
           margin-right: 5px;
         }
       }
-      .btn{
+      .btn {
         text-align: center;
       }
     }
@@ -257,13 +269,10 @@ export default {
 }
 
 .ques-wrap {
-  background: #fff;
-  margin-bottom: 20px;
-  padding: 0 20px;
   .ques-info {
     text-align: center;
     font-size: 16px;
-    padding: 15px 0 10px;
+    padding: 0 0 10px;
     border-bottom: 1px solid @border;
     img {
       width: 60px;
@@ -308,7 +317,7 @@ export default {
 
 .btn-info {
   text-align: center;
-  padding: 10px 20px;
+  padding: 10px 20px 0;
   .el-button {
     margin: 0 10px;
   }
