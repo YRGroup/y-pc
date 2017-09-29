@@ -6,11 +6,11 @@
       <ul class="loginnav">
         <li class="navcurrent">登录</li>
         <!-- <li>·</li>
-              <li @click="$router.push('/reg')">家长注册</li> -->
+                  <li @click="$router.push('/reg')">家长注册</li> -->
       </ul>
       <div class="item">
         <!-- <div class="title">手机号：</div> -->
-        <el-input size="large" slot="append" placeholder="请输入手机号 / 学号" autofocus @change="verifyAccount" @blur="verifyAccount" v-model.trim="phone">
+        <el-input size="large" slot="append" placeholder="请输入手机号 / 学号" autofocus @change="verifyAccount" @blur="verifyAccount" v-model.trim="data.uid">
           <template slot="prepend">
             <i class="iconfont">&#xe60b;</i>
           </template>
@@ -19,7 +19,7 @@
 
       <div v-show="step==1">
         <div class="item">
-          <el-input size="large" class="input" type="password" placeholder="请输入密码" :minlength='6' @keyup.enter.native="login" v-model.trim="loginData.password">
+          <el-input size="large" class="input" type="password" placeholder="请输入密码" :minlength='6' @keyup.enter.native="uniLogin" v-model.trim="data.pwd">
             <template slot="prepend">
               <i class="iconfont">&#xe692;</i>
             </template>
@@ -30,15 +30,15 @@
             <span>短信验证码</span>登录</div>
         </div>
         <div class="btn item">
-          <el-button size="large" @click.native="login" type="success">登录</el-button>
+          <el-button size="large" @click.native="uniLogin" type="success">登录</el-button>
         </div>
       </div>
 
       <div v-show="step==2">
         <div class="btn item">
           <!-- <el-button size="large" @click.native="getsms" type="success" :disabled="getsmsAvailable">
-                            {{getsmsAvailable?getsmsCount+'s后重发验证码':'发送验证码'}}
-                          </el-button> -->
+                                {{getsmsAvailable?getsmsCount+'s后重发验证码':'发送验证码'}}
+                              </el-button> -->
         </div>
         <div class="item sms">
           <el-input size="large" class="input" placeholder="请输入验证码" :minlength='4' v-model.trim="smsLoginData.code">
@@ -74,15 +74,15 @@
       </div>
 
       <div class="item" v-show="step==3">
-        <el-input size="large" class="input" type="password" placeholder="请输入密码" :minlength='6' @keyup.enter.native="studentLogin" v-model.trim="studentLoginData.password">
+        <el-input size="large" class="input" type="password" placeholder="请输入密码" :minlength='6' @keyup.enter.native="uniLogin" v-model.trim="data.pwd">
           <template slot="prepend">
             <i class="iconfont">&#xe692;</i>
           </template>
         </el-input>
       </div>
       <div class="btn item" v-show="step==3">
-        <!-- <el-button size="large" @click.native="studentLogin" type="success">学号登录</el-button>123 -->
-        <el-button size="large" @click.native="LoginByNationID" type="success">学籍号登录</el-button>
+        <!-- <el-button size="large" @click.native="uniLogin" type="success">学号登录</el-button>123 -->
+        <el-button size="large" @click.native="uniLogin" type="success">登录</el-button>
       </div>
 
       <div class="btn item" v-show="step==0">
@@ -100,6 +100,10 @@ export default {
   components: {},
   data() {
     return {
+      data: {
+        uid: '',
+        pwd: ''
+      },
       phone: '',
       loginData: {
         phone: '',
@@ -140,8 +144,11 @@ export default {
       this.studentLoginData.nationid = this.phone
       this.$API.LoginByNationID(this.studentLoginData).then(res => this.loginOK(res)).catch(err => this.$message.error(err.msg))
     },
+    uniLogin() {
+      this.$API.uniLogin(this.data).then(res => this.loginOK(res)).catch(err => this.$message.error(err.msg))
+    },
     smsLogin() {
-      this.smsLoginData.phone = this.phone
+      this.smsLoginData.phone = this.data.uid
       if (this.unActived && this.smsLoginData.newPWd.length < 6) {
         this.$message.error('密码不能小于6位')
       } else if (this.parent_unActived && this.smsLoginData.parent_truename == '') {
@@ -184,16 +191,16 @@ export default {
         , 1000)
     },
     getsms() {
-      this.$API.getLoginSms(this.phone).then(res => {
+      this.$API.getLoginSms(this.data.uid).then(res => {
         this.getsmsCount = 60
         this.step = 2
         this.startCount()
       }).catch(err => this.$message.error(err.msg))
     },
     verifyAccount() {
-      if (this.phone.slice(0, 1) == 1 && this.phone.length === 11) {
+      if (this.data.uid.slice(0, 1) == 1 && this.data.uid.length === 11) {
         let para = {
-          phone: this.phone
+          phone: this.data.uid
         }
         this.$API.verifyAccount(para).then(res => {
           if (res.Msg == "normal") {
@@ -212,12 +219,12 @@ export default {
             // this.$router.push('/reg?tel=' + this.phone)
           }
         }).catch(err => this.$message.error(err.msg))
-      } else if (this.phone.slice(0, 1) != 1 && this.phone.length > 13) {
+      } else {
         this.step = 3
       }
     },
     verifyPw() {
-      if (this.loginData.password.length < 6) {
+      if (this.data.pwd.length < 6) {
         this.$message.error('密码不完整')
         return false
       } else {
