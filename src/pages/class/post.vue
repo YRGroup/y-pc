@@ -28,8 +28,11 @@
             <span @click.once="doLike(data.ID),data.like++">
               <i class="iconfont">&#xe646;</i>{{data.like}}
             </span>
-            <span @click="$router.push(`/p/${data.EncryptID}`)">
+            <span @click="openQRcode(data.EncryptID)" style="position:relative">
               <i class="iconfont">&#xe646;</i>分享
+              <div v-show="showQRcode" class="QRcode" @click="showQRcode=false">
+                <canvas id="QRcodeInPost"></canvas>
+              </div>
             </span>
           </span>
           <div class="liked" v-if="$store.getters.hasLogin">
@@ -71,6 +74,7 @@
 </template>
 
 <script>
+var QRCode = require('qrcode')
 export default {
   name: 'post',
   components: {},
@@ -83,7 +87,8 @@ export default {
       replyData: {
         did: '',
         content: ''
-      }
+      },
+      showQRcode: false
     }
   },
   methods: {
@@ -128,6 +133,15 @@ export default {
         this.$message.error(err.msg)
       })
     },
+    openQRcode(val) {
+      this.showQRcode = true
+      // let url = document.location.href.split('#')[0] + '#/p/' + val
+      let url = document.location.origin + '/m/#/p/' + val
+      QRCode.toCanvas(document.getElementById('QRcodeInPost'), url, function(error) {
+        if (error) console.error(error)
+        console.log('success!');
+      })
+    }
   },
   created() {
     this.getData()
@@ -167,6 +181,7 @@ export default {
     }
     .content {
       margin-top: 10px;
+      position: relative;
     }
     .tips {
       position: absolute;
@@ -212,6 +227,9 @@ export default {
         cursor: pointer;
         &:hover {
           color: @main;
+        }
+        .iconfont {
+          position: relative;
         }
       }
       .liked {
@@ -283,5 +301,12 @@ export default {
       vertical-align: top;
     }
   }
+}
+
+.QRcode {
+  position: absolute;
+  z-index: 100;
+  right: 0;
+  top: 20px;
 }
 </style>
