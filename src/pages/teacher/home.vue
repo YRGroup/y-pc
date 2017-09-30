@@ -99,7 +99,7 @@
           </div>
         </div> -->
       <div class="panelbox">
-        <h3><i class="iconfont">&#xe69b;</i>切换班级</h3>
+        <h3><i class="iconfont">&#xe69b;</i>我的班级</h3>
       </div>
       <div class="card">
         <el-select v-model="currenrClassId" @change="changeClass">
