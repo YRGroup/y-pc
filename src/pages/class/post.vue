@@ -29,7 +29,7 @@
               <i class="iconfont">&#xe646;</i>{{data.like}}
             </span>
             <span @click="openQRcode(data.EncryptID)" style="position:relative">
-              <i class="iconfont">&#xe646;</i>分享
+              <i class="iconfont">&#xe60c;</i>分享
               <div v-show="showQRcode" class="QRcode" @click="showQRcode=false">
                 <canvas id="QRcodeInPost"></canvas>
               </div>

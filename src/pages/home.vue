@@ -13,7 +13,7 @@
             <i class="iconfont">&#xe633;</i>班级</li>
           <!-- <li @click="$router.push('/homework')" :class="link=='/homework'?'active':null"><i class="iconfont">&#xe608;</i>作业中心</li> -->
           <li @click="$router.push('/examList')" v-show="role=='老师'" :class="link=='examList'?'active':null">
-            <i class="iconfont">&#xe67f;</i>考试</li>
+            <i class="iconfont">&#xe60e;</i>考试</li>
           <li @click="$router.push('/schoolcard')" v-show="role=='老师'" :class="link=='schoolcard'?'active':null">
             <i class="iconfont">&#xe67f;</i>一卡通</li>
           <li @click="$router.push('/schoolcard')" v-show="role!='老师'" :class="link=='schoolcard'?'active':null">
