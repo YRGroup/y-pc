@@ -32,13 +32,19 @@
 
     <el-dialog title="布置作业" :visible.sync="showAddHomework" size="tiny">
       <el-form :model="newHomeworkData" label-width="60px">
-        <el-form-item label="标题">
+        <el-form-item label="标题" :rules="[{ required: true}]">
           <el-input v-model.trim="newHomeworkData.title" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="科目">
+        <el-form-item label="科目" v-show='notClassAdmin'>
           <el-input v-model="course" :disabled="true"></el-input>
         </el-form-item>
-        <el-form-item label="内容">
+        <el-form-item label="科目" v-show='isClassAdmin' :rules="[{ required: true}]">
+          <el-select v-model="newHomeworkData.course_name" size="small" placeholder="请选择" style="width:120px">
+            <el-option v-for="i in courseList" :key="i.courseID" :label="i.name" :value="i.name">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="内容" :rules="[{ required: true}]">
           <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model.trim="newHomeworkData.content">
           </el-input>
         </el-form-item>
@@ -80,19 +86,46 @@ export default {
       showAddHomework: false,
       newHomeworkData: {
         title: '',
-        content: ''
+        content: '',
+        course_name: ''
       },
       fileList: [],
       nodataImg: false,
-      nodataPic: require('@/assets/nodata.png')
+      nodataPic: require('@/assets/nodata.png'),
+      notClassAdmin: false
     }
   },
   computed: {
     course: function() {
       if (this.$store.state.currentUser.Role == '老师' && this.$store.state.currentUser.ExtendInfo.Course.CourseName) {
+        this.classroom = true
         return this.$store.state.currentUser.ExtendInfo.Course.CourseName
       } else {
         return '暂无'
+      }
+    },
+    classInfo() {
+      return this.$store.state.currentClassInfo
+    },
+    isClassAdmin() {
+      if (this.$store.getters.role == '老师') {
+        if(this.classInfo.teacher && this.$store.state.currentUser.Meid == this.classInfo.teacher.Meid){
+          return true
+        }else{
+          this.notClassAdmin = true
+          return false
+        }
+      }
+    },
+    courseList() {
+      if (this.$store.getters.courseList) {
+        this.$store.getters.courseList.shift()
+        return this.$store.getters.courseList.map(o => {
+          return {
+            courseID: o.ID,
+            name: o.CourseName
+          }
+        })
       }
     }
   },
@@ -174,19 +207,33 @@ export default {
     },
     addNewHomework() {
       this.newHomeworkData['class_id'] = this.$store.state.currentClassId
-      this.newHomeworkData['course_name'] = this.$store.state.currentUser.ExtendInfo.Course.CourseName
+      if(this.notClassAdmin == true){
+        this.newHomeworkData['course_name'] = this.$store.state.currentUser.ExtendInfo.Course.CourseName
+      }
       this.$refs.upload.uploadFiles.forEach((obj) => {
         this.fileList.push(obj.response.Content[0])
       })
       this.newHomeworkData['img_url_list'] = this.fileList.join(',')
-      this.$API.addHomework(this.newHomeworkData).then(res => {
-        this.showAddHomework = false
-        this.$message('发布作业成功')
-        this.refresh()
-        this.newHomeworkData = {}
-      }).catch(err => {
-        this.$message.error(err.msg)
-      })
+      if(!this.newHomeworkData.title){
+        this.$message('请填写标题')
+      }else if(!this.newHomeworkData.course_name){
+        this.$message('请选择学科')
+      }else if(!this.newHomeworkData.content){
+        this.$message('请填写内容')
+      }else{
+          this.$API.addHomework(this.newHomeworkData).then(res => {
+            this.showAddHomework = false
+            this.$message('发布作业成功')
+            this.refresh()
+            this.newHomeworkData = {
+              title: '',
+              content: '',
+              course_name: ''
+            }
+          }).catch(err => {
+            this.$message.error(err.msg)
+          })
+      }
     },
     handleAddHomework() {
       this.showAddHomework = true
@@ -194,6 +241,7 @@ export default {
   },
   created() {
     this.getData()
+    this.$store.dispatch('getCourseList')
   },
   mounted() {
 

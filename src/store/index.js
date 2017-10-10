@@ -29,7 +29,7 @@ const store = new Vuex.Store({
       homework: 0,
       video: 0,
       msg: 0
-    }
+    },
   },
   getters: {
     _APIurl: () => {
