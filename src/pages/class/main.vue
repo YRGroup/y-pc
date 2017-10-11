@@ -15,7 +15,7 @@
       </el-form>
       <el-form :model="newPost">
         <el-form-item>
-          <el-upload :on-success="handleChange" :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
+          <el-upload :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
             <i class="el-icon-plus"></i>
           </el-upload>
           </el-input>
@@ -31,7 +31,7 @@
       <div class="card panel" v-for="i in data" :key="i.ID">
         <div class="img" @click="openUserPage(i)">
           <!-- <img :src="i.userImg" v-if="i.userImg!='http://pic.yearnedu.com/himg.png' && i.userImg!=''">
-                    <div class="headTextImg" v-else>{{i.auther.substr(0,1)}}</div> -->
+                      <div class="headTextImg" v-else>{{i.auther.substr(0,1)}}</div> -->
           <img :src="i.userImg">
         </div>
         <div class="tips">{{i.category}}</div>
@@ -55,7 +55,7 @@
         <div class="footer">
           <span class="time">{{i.date}}</span>
           <span class="iconbtn">
-            <span title="删除" class="delBtn" v-if="isAdmin" @click="delPost(i.id)">
+            <span title="删除" class="delBtn" v-if="isAdmin" @click="delPost(i.ID)">
               <i class="iconfont">&#xe630;</i>
               <span class="delBtnTitle">删除</span>
             </span>
@@ -68,7 +68,7 @@
       <load-more @click.native="loadMore" :noMoreData="noMoreData"></load-more>
     </div>
 
-    <el-dialog :visible.sync="showImgBig" class="bigImg">
+    <el-dialog :visible.sync="showImgBig" class="bigImg" top="10%">
       <img :src="imgBig">
     </el-dialog>
 
@@ -131,29 +131,6 @@ export default {
         this.$message.error(err.msg)
       })
     },
-    handleChange(response, file, fileList) {
-      function convertImgToBase64(url, callback, outputFormat) {
-        var canvas = document.createElement('CANVAS'),
-          ctx = canvas.getContext('2d'),
-          img = new Image;
-        img.crossOrigin = 'Anonymous';
-        img.onload = function() {
-          canvas.height = img.height;
-          canvas.width = img.width;
-          ctx.drawImage(img, 0, 0);
-          var dataURL = canvas.toDataURL(outputFormat || 'image/png');
-          callback.call(this, dataURL);
-          canvas = null;
-        };
-        img.src = url;
-      }
-      let pic = file.response.Content[0]
-      // this.imgUrls.push(pic)
-
-      convertImgToBase64(pic, function(base64Img) {
-        this.imgUrls.push(base64Img)
-      })
-    },
     loadMore() {
       this.currentPage++
       this.getData()
@@ -212,7 +189,6 @@ export default {
     },
 
     addNewPost() {
-      console.log(this.imgUrls)
       if (this.$store.getters.role == '家长' && this.$store.state.currentStudentId != null) {
         this.newPost.student_meid = this.$store.state.currentStudentId
       }
@@ -224,7 +200,6 @@ export default {
         this.newPost.type = 1
         this.newPost.cid = this.$store.state.currentClassId
         this.newPost['img_url_list'] = this.fileList.join(',')
-        this.newPost['img_base64_list'] = this.imgUrls.join('|')
         this.$API.postNewClassDynamic(this.newPost).then(res => {
           this.showAddPost = false
           this.data = []
@@ -419,6 +394,18 @@ export default {
         }
       }
     }
+  }
+}
+
+.bigImg {
+  max-width: 100vw;
+  max-height: 100vh;
+  .el-dialog {
+    top: 0;
+  }
+  img {
+    max-width: 100%;
+    max-height: 100vh;
   }
 }
 </style>

@@ -22,6 +22,10 @@
           </div>
           <div class="taskbottom">
             <span class="time">{{i.CreateTime}}</span>
+            <span title="删除" class="delBtn" v-if="isClassAdmin" @click="delPost(i.HID)">
+              <i class="iconfont">&#xe630;</i>
+              <span class="delBtnTitle">删除</span>
+            </span>
           </div>
         </div>
       </div>
@@ -109,9 +113,9 @@ export default {
     },
     isClassAdmin() {
       if (this.$store.getters.role == '老师') {
-        if(this.classInfo.teacher && this.$store.state.currentUser.Meid == this.classInfo.teacher.Meid){
+        if (this.classInfo.teacher && this.$store.state.currentUser.Meid == this.classInfo.teacher.Meid) {
           return true
-        }else{
+        } else {
           this.notClassAdmin = true
           return false
         }
@@ -158,6 +162,23 @@ export default {
           this.fileList.splice(i, 1)
         }
       }
+    },
+    delPost(id) {
+      let para = {
+        hid: id
+      }
+      this.$API.deleteHomeWork(para).then(() => {
+        this.$message({
+          message: '删除成功',
+          type: 'success',
+        })
+        this.refresh()
+      }).catch((err) => {
+        this.$message({
+          message: '删除失败了哦!',
+          type: 'error',
+        })
+      })
     },
     refresh() {
       this.homework = []
@@ -207,32 +228,32 @@ export default {
     },
     addNewHomework() {
       this.newHomeworkData['class_id'] = this.$store.state.currentClassId
-      if(this.notClassAdmin == true){
+      if (this.notClassAdmin == true) {
         this.newHomeworkData['course_name'] = this.$store.state.currentUser.ExtendInfo.Course.CourseName
       }
       this.$refs.upload.uploadFiles.forEach((obj) => {
         this.fileList.push(obj.response.Content[0])
       })
       this.newHomeworkData['img_url_list'] = this.fileList.join(',')
-      if(!this.newHomeworkData.title){
+      if (!this.newHomeworkData.title) {
         this.$message('请填写标题')
-      }else if(!this.newHomeworkData.course_name){
+      } else if (!this.newHomeworkData.course_name) {
         this.$message('请选择学科')
-      }else if(!this.newHomeworkData.content){
+      } else if (!this.newHomeworkData.content) {
         this.$message('请填写内容')
-      }else{
-          this.$API.addHomework(this.newHomeworkData).then(res => {
-            this.showAddHomework = false
-            this.$message('发布作业成功')
-            this.refresh()
-            this.newHomeworkData = {
-              title: '',
-              content: '',
-              course_name: ''
-            }
-          }).catch(err => {
-            this.$message.error(err.msg)
-          })
+      } else {
+        this.$API.addHomework(this.newHomeworkData).then(res => {
+          this.showAddHomework = false
+          this.$message('发布作业成功')
+          this.refresh()
+          this.newHomeworkData = {
+            title: '',
+            content: '',
+            course_name: ''
+          }
+        }).catch(err => {
+          this.$message.error(err.msg)
+        })
       }
     },
     handleAddHomework() {
@@ -433,7 +454,13 @@ export default {
     }
   }
 }
-
+.delBtn{
+  font-size: 12px;
+  float: right;
+  &:hover{
+    color: @main;
+  }
+}
 .bigImg {
   img {
     max-width: 80%;

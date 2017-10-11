@@ -119,6 +119,19 @@ API.deletePost = (params) => {
   })
 }
 
+// 班主任删除作业
+API.deleteHomeWork = (params) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl + '/api/Class/DeleteHomeWork', params).then((res) => {
+      resolve(res.data.Content)
+    }).catch((err) => {
+      console.log('获取信息失败：')
+      console.log(err)
+      reject(err)
+    })
+  })
+}
+
 // 获取校园新闻
 API.getNewsList = params => {
   return new Promise((resolve, reject) => {
