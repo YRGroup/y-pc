@@ -15,7 +15,7 @@
       </el-form>
       <el-form :model="newPost">
         <el-form-item>
-          <el-upload :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
+          <el-upload :on-success="handleChange" :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
             <i class="el-icon-plus"></i>
           </el-upload>
           </el-input>
@@ -31,7 +31,7 @@
       <div class="card panel" v-for="i in data" :key="i.ID">
         <div class="img" @click="openUserPage(i)">
           <!-- <img :src="i.userImg" v-if="i.userImg!='http://pic.yearnedu.com/himg.png' && i.userImg!=''">
-            <div class="headTextImg" v-else>{{i.auther.substr(0,1)}}</div> -->
+                    <div class="headTextImg" v-else>{{i.auther.substr(0,1)}}</div> -->
           <img :src="i.userImg">
         </div>
         <div class="tips">{{i.category}}</div>
@@ -41,7 +41,7 @@
           <li v-for="(p,index) in i.albums" :key="index">
             <div class="imgCon" :style="{backgroundImage:'url\('+p+'\)'}" @click="openImgBig(p)"></div>
           </li>
-          
+
         </div>
         <div class="comment" v-if="i.comment1">
           <div class="name">
@@ -87,6 +87,8 @@ export default {
       newPost: {},
       data: [],
       fileList: [],
+      imgUrls: [],
+      imgbase64List: [],
       currentPage: 1,
       pageSize: 10,
       imgBig: '',
@@ -129,9 +131,36 @@ export default {
         this.$message.error(err.msg)
       })
     },
+    handleChange(response, file, fileList) {
+      function convertImgToBase64(url, callback, outputFormat) {
+        var canvas = document.createElement('CANVAS'),
+          ctx = canvas.getContext('2d'),
+          img = new Image;
+        img.crossOrigin = 'Anonymous';
+        img.onload = function() {
+          canvas.height = img.height;
+          canvas.width = img.width;
+          ctx.drawImage(img, 0, 0);
+          var dataURL = canvas.toDataURL(outputFormat || 'image/png');
+          callback.call(this, dataURL);
+          canvas = null;
+        };
+        img.src = url;
+      }
+      let pic = file.response.Content[0]
+      // this.imgUrls.push(pic)
+
+      convertImgToBase64(pic, function(base64Img) {
+        this.imgUrls.push(base64Img)
+      })
+    },
     loadMore() {
       this.currentPage++
       this.getData()
+    },
+    addImg(e) {
+      let files = e.target.files || e.dataTransfer.files
+      console.log(files)
     },
     doLike(id) {
       this.$API.doLikeThisPost(id).then((res) => {
@@ -181,7 +210,9 @@ export default {
       }
       return isJPG && isLt5M;
     },
+
     addNewPost() {
+      console.log(this.imgUrls)
       if (this.$store.getters.role == '家长' && this.$store.state.currentStudentId != null) {
         this.newPost.student_meid = this.$store.state.currentStudentId
       }
@@ -193,6 +224,7 @@ export default {
         this.newPost.type = 1
         this.newPost.cid = this.$store.state.currentClassId
         this.newPost['img_url_list'] = this.fileList.join(',')
+        this.newPost['img_base64_list'] = this.imgUrls.join('|')
         this.$API.postNewClassDynamic(this.newPost).then(res => {
           this.showAddPost = false
           this.data = []
