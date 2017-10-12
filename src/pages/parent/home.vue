@@ -19,7 +19,7 @@
           <div class="btn">
             <el-button  type="success" @click.native="InviteParent=true">邀请家长</el-button>
             <el-button  type="warning" @click.native="$router.push('/parent/edit')">修改资料</el-button>
-            <el-button  type="text" @click.native="logout">退出</el-button>
+            <el-button class="logou" size="small" type="text" @click.native="logout">退出</el-button>
           </div>
         </div>
       </div>
@@ -223,6 +223,11 @@ export default {
       text-align: center;
       .btn{
         margin-top: 10px;
+        .logou{
+          display: inline;
+          margin-top: 10px;
+          margin-bottom: -10px;
+        }
       }
       .name {
         font-size: 20px;
