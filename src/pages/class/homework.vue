@@ -44,7 +44,7 @@
         </el-form-item>
         <el-form-item label="科目" v-show='isClassAdmin' :rules="[{ required: true}]">
           <el-select v-model="newHomeworkData.course_name" size="small" placeholder="请选择" style="width:120px">
-            <el-option v-for="i in courseList" :key="i.courseID" :label="i.name" :value="i.name">
+            <el-option v-for="i in courseList" :key="i.ID" :label="i.CourseName" :value="i.CourseName">
             </el-option>
           </el-select>
         </el-form-item>
@@ -124,12 +124,13 @@ export default {
     courseList() {
       if (this.$store.getters.courseList) {
         this.$store.getters.courseList.shift()
-        return this.$store.getters.courseList.map(o => {
-          return {
-            courseID: o.ID,
-            name: o.CourseName
-          }
-        })
+        return this.$store.getters.courseList
+        // return this.$store.getters.courseList.map(o => {
+        //   return {
+        //     courseID: o.ID,
+        //     name: o.CourseName
+        //   }
+        // })
       }
     }
   },

@@ -26,7 +26,6 @@
 
         <div class="panelbox">
           <h3><i class="iconfont">&#xe672;</i>家长信息</h3>
-          
         </div>
 
 
