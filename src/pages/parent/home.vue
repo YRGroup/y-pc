@@ -67,7 +67,7 @@
               </el-form-item>
             </div>
             <div>
-              <el-form-item label="身份" :rules="[{ required: true}]">
+              <el-form-item label="关系" :rules="[{ required: true}]">
                 <el-radio-group v-model="ParentType">
                   <el-radio class="radio" label="1">爸爸</el-radio>
                   <el-radio class="radio" label="2">妈妈</el-radio>
