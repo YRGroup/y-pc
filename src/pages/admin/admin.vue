@@ -108,8 +108,14 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="手机号" style="margin-right:40px" :rules="[{ required: true}]">
+          <el-form-item label="手机号" :rules="[{ required: true}]">
             <el-input v-model="i.MobilePhone" palceholder="请输入手机号" style="width:180px"></el-input>
+          </el-form-item>
+          <el-form-item label="性别" style="margin-right:30px" :rules="[{ required: true}]">
+            <template>
+              <el-radio class="radio" v-model="i.Sex" label="1">男</el-radio>
+              <el-radio class="radio" v-model="i.Sex" label="2">女</el-radio>
+            </template>
           </el-form-item>
           <el-form-item>
             <el-button type="text" :plain="true" @click.native="teacherData.splice(index,1)">
@@ -222,11 +228,11 @@
                   </el-popover>
                 </template>
               </el-table-column>
-              <el-table-column prop="Status" label="状态" align="center">
+              <el-table-column prop="Status" label="资料" align="center">
                 <template scope="scope">
                   <div>
-                    <span v-show="scope.row.Status==0" style="color:grey">未提交</span>
-                    <span v-show="scope.row.Status==1" style="color:green">正常</span>
+                    <span v-show="scope.row.Status==0" style="color:red">未修改</span>
+                    <span v-show="scope.row.Status==1" style="color:grey">已修改</span>
                     <span v-show="scope.row.Status==2" style="color:#888">等待审核</span>
                     <span v-show="scope.row.Status==3" style="color:red">审核失败</span>
                   </div>
@@ -278,16 +284,13 @@
       </el-form>
     </el-dialog>
     <el-dialog title="编辑学生资料" :visible.sync="showEditStudent" size="tiny">
-      <el-form :model="editStudentData" label-width="80px">
-        <el-form-item label="ID">
+      <el-form :model="editStudentData" label-width="88px">
+        <!-- <el-form-item label="ID">
           <el-input v-model="editStudentData.Meid" :disabled="true"></el-input>
-        </el-form-item>
-        <el-form-item label="学号">
+        </el-form-item> -->
+        <!-- <el-form-item label="学号">
           <el-input v-model="editStudentData.StudentID" :disabled="true"></el-input>
-        </el-form-item>
-        <el-form-item label="学籍号">
-          <el-input v-model="editStudentData.nationid"></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="姓名">
           <el-input v-model="editStudentData.TrueName"></el-input>
         </el-form-item>
@@ -296,6 +299,12 @@
             <el-radio class="radio" v-model="editStudentData.Sex" label="男">男</el-radio>
             <el-radio class="radio" v-model="editStudentData.Sex" label="女">女</el-radio>
           </template>
+        </el-form-item>
+        <el-form-item label="学籍号">
+          <el-input v-model="editStudentData.nationid"></el-input>
+        </el-form-item>
+        <el-form-item label="家长手机号">
+          <el-input v-model="editStudentData.ParentPhone"></el-input>
         </el-form-item>
         <el-form-item label="">
           <el-button type="success" @click="submitEditStudent">确 定</el-button>
@@ -319,7 +328,8 @@ export default {
       teacherData: [{
         TrueName: '',
         MobilePhone: '',
-        courseID: ''
+        courseID: '',
+        Sex: '',
       }],
       classInfo: {
         name: '',
