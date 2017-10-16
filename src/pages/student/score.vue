@@ -5,7 +5,6 @@
       <div class="scoreSummary">
         <div class="title">{{score.ExamName || "暂无"}}</div>
         <div class="info">
-
           <span>考试时间：{{score.Time}}</span>
         </div>
         <div class="total">
