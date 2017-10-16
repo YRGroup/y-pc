@@ -31,7 +31,7 @@
               </el-upload>
             </div>
           </el-form-item>
-          <el-form-item label="身份">
+          <el-form-item label="关系">
             <el-radio-group v-model="ParentType">
               <el-radio class="radio" label="1">爸爸</el-radio>
               <el-radio class="radio" label="2">妈妈</el-radio>

@@ -29,7 +29,7 @@
               <i class="iconfont">&#xe646;</i>{{data.like}}
             </span>
             <span @click="openQRcode(data.EncryptID)" style="position:relative">
-              <i class="iconfont">&#xe646;</i>分享
+              <i class="iconfont">&#xe60c;</i>分享
               <div v-show="showQRcode" class="QRcode" @click="showQRcode=false">
                 <canvas id="QRcodeInPost"></canvas>
               </div>
@@ -134,13 +134,17 @@ export default {
       })
     },
     openQRcode(val) {
-      this.showQRcode = true
-      // let url = document.location.href.split('#')[0] + '#/p/' + val
-      let url = document.location.origin + '/m/#/p/' + val
-      QRCode.toCanvas(document.getElementById('QRcodeInPost'), url, function(error) {
-        if (error) console.error(error)
-        console.log('success!');
-      })
+      if(this.showQRcode == false){
+        this.showQRcode = true
+        // let url = document.location.href.split('#')[0] + '#/p/' + val
+        let url = document.location.origin + '/m/#/p/' + val
+        QRCode.toCanvas(document.getElementById('QRcodeInPost'), url, function(error) {
+          if (error) console.error(error)
+          console.log('success!');
+        })
+      }else{
+        this.showQRcode = false
+      }
     }
   },
   created() {
@@ -225,8 +229,10 @@ export default {
       .iconbtn {
         float: right;
         cursor: pointer;
-        &:hover {
-          color: @main;
+        span{
+          &:hover {
+            color: @main;
+          }
         }
         .iconfont {
           position: relative;
@@ -308,5 +314,7 @@ export default {
   z-index: 100;
   right: 0;
   top: 20px;
+  background: #fff;
+  box-shadow: 0 1px 1px 1px rgba(7,17,7,.1);
 }
 </style>

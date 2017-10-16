@@ -226,4 +226,15 @@ API.changeCurrentStudent = (para) => {
   })
 }
 
+//邀请家长
+API.inviteParent = (para) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl+'/api/Parent/InviteParent',para).then((res)=>{
+      resolve(res.data.Content)
+    }).catch((err)=>{
+      reject(err)
+    })
+  })
+}
+
 export default API

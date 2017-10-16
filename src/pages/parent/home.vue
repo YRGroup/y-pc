@@ -12,42 +12,80 @@
         </div>
         <div class="content">
           <p class="name">{{$store.state.currentUser.TrueName}}</p>
-          <span><i class="iconfont">&#xe60b;</i> {{$store.state.currentUser.Mobilephone}}</span>
-          <span><i class="iconfont">&#xe66c;</i> {{$store.getters.role}}</span>
+          <span>
+            <i class="iconfont">&#xe60b;</i> {{$store.state.currentUser.Mobilephone}}</span>
+          <span>
+            <i class="iconfont">&#xe66c;</i> {{$store.getters.role}}</span>
           <div class="btn">
-             <el-button type="text" @click.native="$router.push('/parent/edit')">修改资料</el-button> 
-            <el-button type="text" @click.native="logout">退出</el-button>
+            <el-button  type="success" @click.native="InviteParent=true">邀请家长</el-button>
+            <el-button  type="warning" @click.native="$router.push('/parent/edit')">修改资料</el-button>
+            <el-button class="logou" size="small" type="text" @click.native="logout">退出</el-button>
           </div>
         </div>
       </div>
 
-      <div class="card" v-if="!$store.state.currentUser.ExtendInfo.Students.length">
+      <!-- <div class="card" v-if="!$store.state.currentUser.ExtendInfo.Students.length">
         <div class="header">
           暂无学生
         </div>
         <div class="btn">
           <el-button type="warning" @click="$router.push('/addStudent')">添加学生</el-button>
         </div>
-      </div>
+      </div> -->
 
-      <div class="card" v-else>
+      <div class="panelbox">
+          <h3><i class="iconfont">&#xe672;</i>学生信息</h3>
+      </div>
+      <div class="cardlist">
         <div class="header">
           <img :src="currentStudent.Headimgurl">
         </div>
         <div class="content">
-          <p>姓名：{{currentStudent.TrueName}}</p>
-          <p>学号：{{currentStudent.StudentID}}</p>
-          <p>班级：{{currentStudent.ClassName}}</p>
-          <div class="btn">
-            <!-- <el-button type="primary" @click.native="$router.push('/student/edit')">修改学生资料</el-button> -->
-          </div>
+          <p class="name">{{currentStudent.TrueName}} <span class="classname">{{currentStudent.ClassName}}</span></p>
+          <p class="classNum">学号：{{currentStudent.StudentID}}</p>
+        </div>
+        <div class="currentStu" v-show="studentList.length > 1">
           <el-select v-model="currenrStudentId" @change="changeCurrentStudent" placeholder="切换学生">
             <el-option v-for="i in studentList" :key="i.id" :label="i.name" :value="i.id">
             </el-option>
           </el-select>
         </div>
       </div>
-
+      <el-dialog title="邀请家长" :visible.sync="InviteParent" size="tiny">
+        <div>
+          <el-form label-width="90px">
+            <div>
+              <el-form-item label="手机号" :rules="[{ required: true}]">
+                <el-input v-model.trim="Invitedata.MobilePhone" style="width:280px">
+                </el-input>
+              </el-form-item>
+            </div>
+            <div>
+              <el-form-item label="姓名" :rules="[{ required: true}]">
+                <el-input v-model.trim="Invitedata.truename" style="width:280px">
+                </el-input>
+              </el-form-item>
+            </div>
+            <div>
+              <el-form-item label="关系" :rules="[{ required: true}]">
+                <el-radio-group v-model="ParentType">
+                  <el-radio class="radio" label="1">爸爸</el-radio>
+                  <el-radio class="radio" label="2">妈妈</el-radio>
+                  <el-radio class="radio" label="3">爷爷</el-radio>
+                  <el-radio class="radio" label="4">奶奶</el-radio>
+                  <el-radio class="radio" label="5">家人</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </div>
+            <div>
+              <el-form-item label="">
+                <el-button type="primary" @click="inviteParent">确 定</el-button>
+                <el-button @click="InviteParent = false">取 消</el-button>
+              </el-form-item>
+            </div>
+          </el-form>
+        </div>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -57,7 +95,14 @@
 export default {
   data() {
     return {
-      currenrStudentId: ''
+      currenrStudentId: '',
+      InviteParent: false,
+      Invitedata: {
+        MobilePhone:'',
+        truename:'',
+        type: ''
+      },
+      ParentType: ''
     }
   },
   computed: {
@@ -71,6 +116,7 @@ export default {
           }
           v.push(a)
         })
+        this.currenrStudentId = v[0].name
         return v
       }
     },
@@ -84,21 +130,45 @@ export default {
     logout() {
       this.$store.dispatch('logout').then(res => {
         this.$router.push('/login')
-        this.$message('登出成功')
-      }).catch(err=>{
-        this.$message('登出00')
+        this.$message('退出成功')
+      }).catch(err => {
+        this.$message(err.msg)
       })
     },
     changeCurrentStudent(val) {
       this.$store.commit('changeCurrentStudentId', val)
-      let para={
-        Student_Meid:val
+      let para = {
+        Student_Meid: val
       }
-      this.$API.changeCurrentStudent(para).then(res=>{
+      this.$API.changeCurrentStudent(para).then(res => {
         this.$message.success('成功切换当前学生')
-        this.$store.commit('changeCurrentClass',this.currentStudent.ClassID)
+        this.$store.commit('changeCurrentClass', this.currentStudent.ClassID)
       })
-    }
+    },
+    inviteParent() {
+      this.Invitedata.type = this.ParentType
+      this.Invitedata.student_id = this.currentStudent.StudentID
+      this.Invitedata.student_meid = this.currentStudent.Meid
+      if(!this.Invitedata.MobilePhone){
+        this.$message('请填写手机号！')
+      }else if(!this.Invitedata.truename){
+        this.$message('请填写真实姓名！')
+      }else if(!this.Invitedata.type){
+        this.$message('请选择身份！')
+      }else{
+          this.$API.inviteParent(this.Invitedata).then(res => {
+            this.$message('绑定成功~！')
+            this.InviteParent = false
+            this.Invitedata = {
+              MobilePhone:'',
+              truename:'',
+              type: ''
+            }
+          }).catch(err => {
+            this.$message.error(err.msg)
+          })
+      }
+    },
   },
   created() {
 
@@ -136,7 +206,7 @@ export default {
       color: #fff;
       font-size: 25px;
       img {
-        border:3px solid rgba(255,255,255,0.5) ;
+        border: 3px solid rgba(255, 255, 255, 0.5);
         width: 100px;
         position: absolute;
         left: 80px;
@@ -151,16 +221,44 @@ export default {
       padding-bottom: 20px;
       padding: 20px;
       text-align: center;
-      .name{
+      .btn{
+        margin-top: 10px;
+        .logou{
+          display: inline;
+          margin-top: 10px;
+          margin-bottom: -10px;
+        }
+      }
+      .name {
         font-size: 20px;
       }
-      span{
-        margin:0 10px;
+      span {
+        margin: 0 10px;
       }
-      .iconfont{
+      .iconfont {
         font-size: 16px;
       }
     }
   }
+}
+
+.cardlist{
+  .content{
+    .name{
+      font-size: 16px;
+    }
+    .classNum{
+      font-size: 12px;
+      color: @grey;
+    }
+    .classname{
+      font-size: 12px;
+      color: @grey;
+      margin-left:8px;
+    }
+  }
+}
+.currentStu{
+  margin-top: 20px;
 }
 </style>
