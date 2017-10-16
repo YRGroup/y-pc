@@ -45,7 +45,7 @@
         <div class="followIcon">
           关注我们：
           <div class="wechat">
-            <img class="logopic" :src="QRcodeIMG">
+            <img class="logopic" :src="wxQRcodeIMG">
             <span>
               <i class="iconfont">&#xe659;</i>
             </span>
@@ -64,7 +64,7 @@ export default {
   data() {
     return {
       logo: require('@/assets/logo.png'),
-      QRcodeIMG: ''
+      wxQRcodeIMG: ''
     }
   },
   computed: {
@@ -80,7 +80,7 @@ export default {
   },
   methods: {
     getWXQRcode() {
-      this.QRcodeIMG = this.$API.getWXQRcode()
+      this.wxQRcodeIMG = this.$API.getWXQRcode()
     }
   },
   created() {
