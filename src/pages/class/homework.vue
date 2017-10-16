@@ -165,19 +165,23 @@ export default {
       }
     },
     delPost(id) {
-      let para = {
-        hid: id
-      }
-      this.$API.deleteHomeWork(para).then(() => {
-        this.$message({
-          message: '删除成功',
-          type: 'success',
-        })
-        this.refresh()
-      }).catch((err) => {
-        this.$message({
-          message: '删除失败了哦!',
-          type: 'error',
+      this.$confirm('确认删除该作业吗?', '提示', {
+        type: 'warning'
+      }).then(() => {
+        let para = {
+          hid: id
+        }
+        this.$API.deleteHomeWork(para).then(() => {
+          this.$message({
+            message: '删除成功',
+            type: 'success',
+          })
+          this.refresh()
+        }).catch((err) => {
+          this.$message({
+            message: '删除失败了哦!',
+            type: 'error',
+          })
         })
       })
     },
@@ -340,16 +344,16 @@ export default {
       }
     }
     .albums {
-      overflow: hidden;
+      margin: 10px 0;
       li {
-        float: left;
-        margin: 10px 10px 0 0;
+        display: inline-block;
         .imgCon {
-          width: 200px;
-          height: 200px;
+          width: 160px;
+          height: 160px;
           background-position: center;
           background-size: cover;
-          margin: 5px;
+          display: inline-block;
+          margin: 0 10px 10px 0;
         }
       }
     }
@@ -442,26 +446,14 @@ export default {
   }
 }
 
-.albums {
-  margin: 10px 0;
-  li {
-    display: inline-block;
-    .imgCon {
-      width: 200px;
-      height: 200px;
-      background-position: center;
-      background-size: cover;
-      margin: 5px;
-    }
-  }
-}
-.delBtn{
+.delBtn {
   font-size: 12px;
   float: right;
-  &:hover{
+  &:hover {
     color: @main;
   }
 }
+
 .bigImg {
   img {
     max-width: 80%;

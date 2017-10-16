@@ -1,11 +1,11 @@
 var _APIurl
 
 if (window.location.host == 'www.test.com') {
-  _APIurl = 'http://api.test.com'
+  _APIurl = 'http://www.test.com'
 } else if (window.location.host == 'admin.test.com') {
-  _APIurl = 'http://api.test.com'
+  _APIurl = 'http://www.test.com'
 } else if (window.location.host == 'pc.test.com') {
-  _APIurl = 'http://api.test.com'
+  _APIurl = 'http://www.test.com'
 } else {
   _APIurl = ''
 }

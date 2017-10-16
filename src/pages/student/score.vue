@@ -14,7 +14,7 @@
             <span class="score">{{score.Score}}</span>
             <span> / {{score.FullScore}}</span>
           </span>
-          <span class="item">
+          <span class="item" v-show="score.Ranking">
             <span>班级排名</span>
             <span class="score">{{score.Ranking}}</span>
           </span>
