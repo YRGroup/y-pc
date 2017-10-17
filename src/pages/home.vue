@@ -84,6 +84,8 @@ export default {
     }
   },
   created() {
+    console.log(11111)
+    console.log(this.link)
     this.getWXQRcode()
   },
   mounted() {
