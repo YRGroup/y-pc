@@ -354,6 +354,48 @@ export default {
       },
       showAddStudent: false,
       showAddTeacher: false,
+      // courseList: [
+      //   {
+      //     CourseId: 1,
+      //     name: '语文'
+      //   },
+      //   {
+      //     CourseId: 2,
+      //     name: '数学'
+      //   },
+      //   {
+      //     CourseId: 3,
+      //     name: '英语'
+      //   },
+      //   {
+      //     CourseId: 4,
+      //     name: '物理'
+      //   },
+      //   {
+      //     CourseId: 5,
+      //     name: '化学'
+      //   },
+      //   {
+      //     CourseId: 6,
+      //     name: '生物'
+      //   },
+      //   {
+      //     CourseId: 7,
+      //     name: '历史'
+      //   },
+      //   {
+      //     CourseId: 8,
+      //     name: '地理'
+      //   },
+      //   {
+      //     CourseId: 9,
+      //     name: '政治'
+      //   },
+      //   {
+      //     CourseId: 0,
+      //     name: '未指定'
+      //   }
+      // ]
     }
   },
   computed: {
@@ -365,7 +407,7 @@ export default {
         this.$store.getters.courseList.shift()
         return this.$store.getters.courseList.map(o => {
           return {
-            courseID: o.ID,
+            CourseId: o.ID,
             name: o.CourseName
           }
         })
