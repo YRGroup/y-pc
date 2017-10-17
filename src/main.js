@@ -7,17 +7,25 @@ import App from './App'
 import router from './router'
 import store from './store'
 import API from './server/API'
+import NProgress from 'nprogress' // Progress 进度条
+import 'nprogress/nprogress.css'// Progress 进度条 样式
 
 Vue.use(ElementUI)
 
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
+  NProgress.start() // 开启Progress
   if (!to.meta.anonymous) {
     API.refreshLiveness()
   }
   next()
+  NProgress.done()
 })
+
+router.afterEach(() => {
+  NProgress.done(); // 结束Progress
+});
 
 // 日期格式化
 Date.prototype.Format = function (fmt) { //author: meizz 
