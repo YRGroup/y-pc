@@ -5,8 +5,7 @@
        </div>
         <div class="main">
             <div class="title">
-              2017年第一次期中考试
-              <span @click="shezhiNum">设置人数</span>
+              {{nowObj.Name}}
             </div>
             <div class="now">
               正在考试
@@ -26,8 +25,30 @@
             <span @click="QueueSetZero" v-else>重置</span>
             <!--<video :src="videoSrc" ref="video" controls width="100%" height="100%"></video>-->
           </div>
+          <span @click="settingShow=true" class="doshezhi">设置</span>
+          <span @click="QueueSetZero" class="doshezhi">重置</span>
         </div>
       <audio src="http://yr-zhxy.oss-cn-beijing.aliyuncs.com/YRVoice/1.mp3" id="audio" ref="audio"></audio>
+      <el-dialog title="设置" :visible.sync="settingShow">
+        <!--<el-form-item label="活动名称" :label-width="formLabelWidth">-->
+          <!--<el-input v-model="form.name" auto-complete="off"></el-input>-->
+        <!--</el-form-item>-->
+        <el-form>
+          <el-form-item label="名称" :label-width="formLabelWidth">
+            <el-input  v-model="nowObj.Name"></el-input>
+          </el-form-item>
+          <el-form-item label="人数" :label-width="formLabelWidth">
+            <el-input  v-model="nowObj.MaxNo"></el-input>
+          </el-form-item>
+        </el-form>
+
+        <div slot="footer" class="dialog-footer">
+
+          <el-button @click="settingShow = false">取 消</el-button>
+          <el-button type="primary" @click="shezhiNum"  :loading="setAjax">确 定</el-button>
+        </div>
+      </el-dialog>
+
     </div>
 </template>
 
@@ -39,7 +60,10 @@
             return {
                 logo:require('@/assets/logo1.png'),
                 lid:'',
-                nowObj:{}
+                nowObj:{},
+                settingShow:false,
+                setAjax:false,
+                formLabelWidth:'120px',
             }
         },
         computed: {
@@ -62,41 +86,22 @@
         methods: {
 
           shezhiNum(){
-            this.$prompt('请输入排队的人数', '设置', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              inputPattern: /^[0-9]*$/,
-              inputErrorMessage: '请填写个数字',
-              beforeClose: (action, instance, done) => {
-                if (action === 'confirm') {
-                  instance.confirmButtonLoading = true;
-                  instance.confirmButtonText = '提交中...';
-                  var data={
-                    lid:this.lid,
-                    name:'队列'+this.lid,
-                    MaxNo:instance.inputValue
-                  }
-                  return this.$API.UpdateQueueConfig(data).then(res => {
-                    done();
-                    instance.confirmButtonLoading = false;
-                    this.QueueGet();
-                  }).catch(()=>{
-                    this.$message({
-                      type: 'error',
-                      message: '网络异常'
-                    });
-                    instance.confirmButtonText = '再次提交';
-                    instance.confirmButtonLoading = false;
-                  })
-                } else {
-                  done();
-                }
+
+              var data={
+                lid:this.lid,
+                name:this.nowObj.Name,
+                MaxNo:this.nowObj.MaxNo
               }
-            }).then(({ value }) => {
+              this.setAjax=true;
+              return this.$API.UpdateQueueConfig(data).then(res => {
+                this.settingShow=false;
+                this.QueueGet();
+                this.setAjax=false;
+              }).catch((err)=>{
+                this.$message.error(err.msg)
+                this.setAjax=false;
+              })
 
-            }).catch(() => {
-
-            });
           },
           QueueGet(){
             var data={
@@ -117,11 +122,8 @@
             }
             return this.$API.QueueAdd(data).then(res => {
                 this.nowObj.NowNo++;
-            }).catch(()=>{
-              this.$message({
-                type: 'error',
-                message: '网络异常'
-              });
+            }).catch((err)=>{
+              this.$message.error(err.msg)
             })
           },
           QueueSetZero(){
@@ -134,8 +136,8 @@
                 type: 'warning'
               }).then(() => {
                 this.doQueueSetZero();
-              }).catch(() => {
-
+              }).catch((err) => {
+                this.$message.error(err.msg)
               });
             }
           },
@@ -149,11 +151,8 @@
             }
             return this.$API.QueueSetNowNo(data).then(res => {
               this.nowObj.NowNo=1;
-            }).catch(()=>{
-              this.$message({
-                type: 'error',
-                message: 'v'
-              });
+            }).catch((err)=>{
+              this.$message.error(err.msg)
             })
           }
         },
@@ -177,11 +176,8 @@
 <style lang="less">
   #paihaoControl{
     background: url(../../assets/mainBg.jpg) no-repeat center center;
-    position: fixed;
     width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
+    height: 100vh;
     background-size: cover;
     #logo{
       margin: auto;
@@ -200,6 +196,10 @@
       color:#fff;
       text-align: center;
       background: rgba(29,111,163,.7);
+      .doshezhi{
+        padding-right: 20px;
+        cursor: pointer;
+      }
       .title{
         width: 860px;
         height: 100px;
@@ -233,7 +233,7 @@
         }
       }
       .makeNext{
-        height: 120px;
+        height: 150px;
         margin: auto;
         /*padding-top: 50px;*/
         span{
@@ -247,7 +247,7 @@
           margin: auto;
           cursor: pointer;
           position: relative;
-          top: 80px;
+          top: 60px;
           font-size: 20px;
           background: linear-gradient(180deg,#8DCFFF,#4CB9F6);
         }
