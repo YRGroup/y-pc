@@ -152,7 +152,7 @@
             }).catch(()=>{
               this.$message({
                 type: 'error',
-                message: '网络异常'
+                message: 'v'
               });
             })
           }
@@ -199,14 +199,14 @@
       margin-top: 20px;
       color:#fff;
       text-align: center;
-      background: rgba(29,111,163,.5);
+      background: rgba(29,111,163,.7);
       .title{
-        width: 460px;
+        width: 860px;
         height: 100px;
         margin: auto;
         line-height: 100px;
-        border-bottom: 2px solid #65B7E2;
-        font-size: 25px;
+        border-bottom: 2px solid rgba(101,183,226,.4);
+        font-size: 32px;
         span{
           float: right;
           color: yellow;
@@ -217,27 +217,24 @@
       .now{
         font-size: 60px;
         text-align: center;
-        line-height: 120px;
+        line-height: 200px;
         span{
-          font-size: 55px;
+          font-size: 80px;
           color: yellow;
         }
       }
       .next{
-        font-size: 30px;
+        font-size: 40px;
         line-height: 30px;
         display: inline-block;
-        padding-right: 20px;
+        margin: 0 100px;
         span{
-          font-size: 25px;
           color: yellow;
         }
       }
       .makeNext{
-        width: 320px;
-        height: 180px;
+        height: 120px;
         margin: auto;
-        margin-top: 30px;
         /*padding-top: 50px;*/
         span{
           width: 280px;
@@ -250,7 +247,7 @@
           margin: auto;
           cursor: pointer;
           position: relative;
-          top: 100px;
+          top: 80px;
           font-size: 20px;
           background: linear-gradient(180deg,#8DCFFF,#4CB9F6);
         }
