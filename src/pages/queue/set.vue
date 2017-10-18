@@ -179,7 +179,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 #paihaoControl {
   background: url(../../assets/mainBg.jpg) no-repeat center center;
   width: 100%;
