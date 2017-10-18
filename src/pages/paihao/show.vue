@@ -169,10 +169,10 @@
 
     },
     created(){
-      this.lid=window.location.href.split('?lid=')[1];
+      this.lid=window.location.href.split('?lid=')[1]||1;
       this.$nextTick(()=>{
         this.init();
-        this.getInterval();
+        this.QueueGet();
       })
     },
   }
