@@ -180,7 +180,7 @@
   }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
   .picon{
     width: 50px;
     height: 50px;
@@ -273,7 +273,6 @@
       .makeNext{
         width: 800px;
         height: 400px;
-        background: #000;
         margin: auto;
         margin-top: 30px;
         /*padding-top: 50px;*/
