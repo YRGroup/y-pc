@@ -14,14 +14,16 @@
       <div class="now">
         正在考试
         <span>{{nowObj.NowNo}}</span>
+        号考生
       </div>
       <div class="next">
         总人数
         <span>{{nowObj.MaxNo}}</span>
       </div>
       <div class="next">
-        下一位
+        请
         <span>{{queueNext}}</span>
+        号考生准备候场
       </div>
 
       <!--<div class="makeNext">-->
