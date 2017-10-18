@@ -10,7 +10,7 @@
     </div>
     <div class="main" style="position: relative;z-index: 9">
       <div class="title">
-        2017年第一次期中考试
+        {{nowObj.Name}}
       </div>
       <div class="now">
         正在考试
@@ -138,7 +138,7 @@
 
       },
       getInterval(){
-        setTimeout(this.QueueGet,500)
+        setTimeout(this.QueueGet,3000)
       },
       QueueGet(){
         this.getInterval();
