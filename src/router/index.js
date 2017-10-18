@@ -47,7 +47,9 @@ import player from '@/pages/video/player'
 import videoList from '@/pages/video/list'
 import addVideo from '@/pages/video/add'
 
-
+//排号组件
+import paihaoControl from '@/pages/paihao/control'
+import paihaoShow from '@/pages/paihao/show'
 
 
 
@@ -246,6 +248,16 @@ export default new Router({
       meta: {
         anonymous: true
       }
+    },
+    {
+      path: '/paihaoControl',
+      name: 'paihaoControl',
+      component: paihaoControl,
+    },
+    {
+      path: '/paihaoShow',
+      name: 'paihaoShow',
+      component: paihaoShow,
     },
     {
       path: '/404',
