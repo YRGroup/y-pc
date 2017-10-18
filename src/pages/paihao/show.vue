@@ -30,7 +30,7 @@
     props: {},
     data(){
       return {
-        bgurl:require('@/assets/mainbg.jpg'),
+        bgurl:require('@/assets/mainBg.jpg'),
         logo:require('@/assets/publicImg.png'),
         videoURL:[
           'http://yr-zhxy.oss-cn-beijing.aliyuncs.com/YRVideo/20161230%E5%A5%B3%E4%B8%ADBts_batch.mp4',

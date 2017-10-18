@@ -33,7 +33,7 @@
         props: {},
         data(){
             return {
-                bgurl:require('@/assets/mainbg.jpg'),
+                bgurl:require('@/assets/mainBg.jpg'),
                 logo:require('@/assets/publicImg.png'),
                 fullscreenLoading:false,
                 lid:'',
