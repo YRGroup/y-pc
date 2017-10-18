@@ -171,7 +171,6 @@ export default {
 
   },
   created() {
-    console.log(this.$router)
     this.lid=window.location.href.split('?lid=')[1]||1;
     this.$nextTick(() => {
       this.QueueGet();
