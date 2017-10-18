@@ -2,13 +2,12 @@
   <div id="paihaoControl">
     <video  ref="video" :src="videoSrc">
     </video>
-    <div class="fade">
-
-    </div>
-    <div id="logo" style="position: relative;z-index: 9">
+    <div class="fade"></div>
+    <div class="wrap"></div>
+    <div id="logo" style="position: relative;z-index: 999">
       <img :src="logo" alt="">
     </div>
-    <div class="main" style="position: relative;z-index: 9">
+    <div class="main" style="position: relative;z-index: 999">
       <div class="title">
         {{nowObj.Name}}
       </div>
@@ -192,7 +191,7 @@
     color: #fff;
     font-size: 20px;
     position: fixed;
-    z-index: 15;
+    z-index: 999;
     bottom: 50px;
     cursor: pointer;
   }
@@ -212,7 +211,7 @@
     top: 0;
     left: 0;
     background-size: cover;
-    video,.fade{
+    video{
       position: fixed;
       z-index: 1;
 
@@ -222,6 +221,8 @@
       opacity: .4;
       width: 100%;
       height: 100%;
+      position: fixed;
+      z-index: 10;
     }
     #logo{
       margin: auto;
@@ -242,29 +243,28 @@
 
       background: rgba(29,111,163,.5);
       .title{
-        width: 460px;
+        width: 860px;
         height: 100px;
         margin: auto;
         line-height: 100px;
-        border-bottom: 2px solid #65B7E2;
-        font-size: 25px;
+        border-bottom: 2px solid rgba(101,183,226,.4);
+        font-size: 32px;
       }
       .now{
-        font-size: 60px;
+        font-size: 80px;
         text-align: center;
-        line-height: 120px;
+        line-height: 300px;
         span{
-          font-size: 55px;
+          font-size: 100px;
           color: yellow;
         }
       }
       .next{
-        font-size: 20px;
+        font-size: 40px;
         line-height: 30px;
         display: inline-block;
-        padding-right: 20px;
+        margin: 0 100px;
         span{
-          font-size: 15px;
           color: yellow;
         }
       }
@@ -291,5 +291,12 @@
       }
     }
   }
-
+.wrap{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top:0;
+  background: rgba(0,0,0,.4);
+  z-index: 20;
+}
 </style>
