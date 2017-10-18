@@ -34,10 +34,10 @@
       <!--<el-input v-model="form.name" auto-complete="off"></el-input>-->
       <!--</el-form-item>-->
       <el-form>
-        <el-form-item label="考试标题" :label-width="formLabelWidth">
+        <el-form-item label="考试标题" label-width="80px">
           <el-input v-model="nowObj.Name"></el-input>
         </el-form-item>
-        <el-form-item label="人数" :label-width="formLabelWidth">
+        <el-form-item label="人数" label-width="80px">
           <el-input v-model="nowObj.MaxNo"></el-input>
         </el-form-item>
       </el-form>
@@ -66,7 +66,6 @@ export default {
       },
       settingShow: false,
       setAjax: false,
-      formLabelWidth: '80px',
     }
   },
   computed: {
