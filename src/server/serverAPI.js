@@ -56,8 +56,6 @@ API.getRegSms = (tel) => {
         reject(res.data.Msg)
       }
     }).catch((err) => {
-      console.log('获取信息失败：')
-      console.log(err)
       reject(err)
     })
   })
@@ -73,8 +71,6 @@ API.getSms = () => {
         reject(res.data.Msg)
       }
     }).catch((err) => {
-      console.log('获取信息失败：')
-      console.log(err)
       reject(err)
     })
   })
@@ -86,8 +82,6 @@ API.editPWBySms = (data) => {
     axios.post(_APIurl + '/api/user/ModifyPassword', data).then((res) => {
       resolve(res.data.Content)
     }).catch((err) => {
-      console.log('获取信息失败：')
-      console.log(err)
       reject(err)
     })
   })
@@ -99,8 +93,6 @@ API.getLoginSms = (tel) => {
     axios.get(_APIurl + '/api/user/SendLoginSMS?phone=' + tel).then((res) => {
       resolve(res.data.Content)
     }).catch((err) => {
-      console.log('获取信息失败：')
-      console.log(err)
       reject(err)
     })
   })
@@ -112,8 +104,6 @@ API.deletePost = (params) => {
     axios.post(_APIurl + '/api/Class/DeleteDynamic', params).then((res) => {
       resolve(res.data.Content)
     }).catch((err) => {
-      console.log('获取信息失败：')
-      console.log(err)
       reject(err)
     })
   })
@@ -125,8 +115,6 @@ API.deleteHomeWork = (params) => {
     axios.post(_APIurl + '/api/Class/DeleteHomeWork', params).then((res) => {
       resolve(res.data.Content)
     }).catch((err) => {
-      console.log('获取信息失败：')
-      console.log(err)
       reject(err)
     })
   })
@@ -140,8 +128,6 @@ API.getNewsList = params => {
     }).then(res => {
       resolve(res.data.Content)
     }).catch((err) => {
-      console.log('获取信息失败：')
-      console.log(err)
       reject(err)
     })
   })
@@ -155,8 +141,6 @@ API.getNewsInfo = params => {
     }).then(res => {
       resolve(res.data.Content)
     }).catch((err) => {
-      console.log('获取信息失败：')
-      console.log(err)
       reject(err)
     })
   })
@@ -168,8 +152,6 @@ API.addNewsComment = (params) => {
     axios.post(_APIurl + '/api/School/AddArticleComment', params).then((res) => {
       resolve(res.data.Content)
     }).catch((err) => {
-      console.log('获取信息失败：')
-      console.log(err)
       reject(err)
     })
   })
@@ -181,8 +163,6 @@ API.addTeacher = (params) => {
     axios.post(_APIurl + '/api/User/AddTeacher', params).then((res) => {
       resolve(res.data.Content)
     }).catch((err) => {
-      console.log('获取信息失败：')
-      console.log(err)
       reject(err)
     })
   })
@@ -194,8 +174,6 @@ API.addStudentAccount = (params) => {
     axios.post(_APIurl + '/api/User/AddStudent', params).then((res) => {
       resolve(res.data.Content)
     }).catch((err) => {
-      console.log('获取信息失败：')
-      console.log(err)
       reject(err)
     })
   })
@@ -214,8 +192,6 @@ API.refreshLiveness = () => {
 // 空API模板
 API.test = () => {
   return new Promise((resolve, reject) => {
-    console.log('测试：')
-    console.log(this)
   })
 }
 // testing

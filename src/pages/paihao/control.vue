@@ -1,5 +1,5 @@
 <template>
-    <div :style="{backgroundImage: 'url(' + bgurl + ')'}" id="paihaoControl">
+    <div id="paihaoControl">
        <div id="logo">
          <img :src="logo" alt="">
        </div>
@@ -37,7 +37,6 @@
         props: {},
         data(){
             return {
-                bgurl:require('@/assets/mainBg.jpg'),
                 logo:require('@/assets/logo1.png'),
                 lid:'',
                 nowObj:{}
@@ -177,6 +176,7 @@
 
 <style lang="less">
   #paihaoControl{
+    background: url(../../assets/mainBg.jpg) no-repeat center center;
     position: fixed;
     width: 100%;
     height: 100%;
@@ -193,13 +193,12 @@
       }
     }
     .main{
-      width: 700px;
-      height: 500px;
+      width: 1000px;
+      height: 600px;
       margin:auto;
       margin-top: 20px;
       color:#fff;
       text-align: center;
-
       background: rgba(29,111,163,.5);
       .title{
         width: 460px;
@@ -237,7 +236,6 @@
       .makeNext{
         width: 320px;
         height: 180px;
-        background: #000;
         margin: auto;
         margin-top: 30px;
         /*padding-top: 50px;*/

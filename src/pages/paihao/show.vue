@@ -1,5 +1,5 @@
 <template>
-  <div :style="{backgroundImage: 'url(' + bgurl + ')'}" id="paihaoControl">
+  <div id="paihaoControl">
     <video :src="videoSrc" ref="video" width="100%" height="100%"  style="position: fixed;z-index: 1"></video>
 
     <div id="logo" style="position: relative;z-index: 9">
@@ -202,6 +202,7 @@
     background: #000;
   }
   #paihaoControl{
+    background: url(../../assets/mainBg.jpg) no-repeat center center;
     position: fixed;
     width: 100%;
     height: 100%;
@@ -218,8 +219,8 @@
       }
     }
     .main{
-      width: 700px;
-      height: 500px;
+      width: 1000px;
+      height: 600px;
       margin:auto;
       margin-top: 20px;
       color:#fff;
@@ -254,8 +255,8 @@
         }
       }
       .makeNext{
-        width: 320px;
-        height: 180px;
+        width: 800px;
+        height: 400px;
         background: #000;
         margin: auto;
         margin-top: 30px;
