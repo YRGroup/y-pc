@@ -5,7 +5,6 @@
       <div class="scoreSummary">
         <div class="title">{{score.ExamName || "暂无"}}</div>
         <div class="info">
-
           <span>考试时间：{{score.Time}}</span>
         </div>
         <div class="total">
@@ -14,7 +13,7 @@
             <span class="score">{{score.Score}}</span>
             <span> / {{score.FullScore}}</span>
           </span>
-          <span class="item">
+          <span class="item" v-show="score.Ranking">
             <span>班级排名</span>
             <span class="score">{{score.Ranking}}</span>
           </span>

@@ -198,29 +198,31 @@ export default {
       }).catch(err => this.$message.error(err.msg))
     },
     verifyAccount() {
-      if (this.data.uid.slice(0, 1) == 1 && this.data.uid.length === 11) {
-        let para = {
-          phone: this.data.uid
-        }
-        this.$API.verifyAccount(para).then(res => {
-          if (res.Msg == "normal") {
-            this.step = 1
-          } else if (res.Msg == "unActived") {
-            this.step = 2
-            this.unActived = true
-            this.startCount()
-          } else if (res.Msg == "parent_unActived") {
-            this.step = 2
-            this.unActived = true
-            this.parent_unActived = true
-            this.startCount()
+      if(this.data.uid !== ''){
+          if (this.data.uid.slice(0, 1) == 1 && this.data.uid.length === 11) {
+            let para = {
+              phone: this.data.uid
+            }
+            this.$API.verifyAccount(para).then(res => {
+              if (res.Msg == "normal") {
+                this.step = 1
+              } else if (res.Msg == "unActived") {
+                this.step = 2
+                this.unActived = true
+                this.startCount()
+              } else if (res.Msg == "parent_unActived") {
+                this.step = 2
+                this.unActived = true
+                this.parent_unActived = true
+                this.startCount()
+              } else {
+                this.$message.error('账号不存在')
+                // this.$router.push('/reg?tel=' + this.phone)
+              }
+            }).catch(err => this.$message.error(err.msg))
           } else {
-            this.$message.error('账号不存在')
-            // this.$router.push('/reg?tel=' + this.phone)
+            this.step = 3
           }
-        }).catch(err => this.$message.error(err.msg))
-      } else {
-        this.step = 3
       }
     },
     verifyPw() {

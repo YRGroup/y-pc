@@ -147,20 +147,24 @@ export default {
       })
     },
     delPost(id) {
-      let para = {
-        did: id
-      }
-      this.$API.deletePost(para).then(() => {
-        this.$message({
-          message: '删除成功',
-          type: 'success',
-        })
-        this.data = []
-        this.getData()
-      }).catch((err) => {
-        this.$message({
-          message: '删除失败了哦!',
-          type: 'error',
+      this.$confirm('确认删除该动态吗?', '提示', {
+        type: 'warning'
+      }).then(() => {
+        let para = {
+          did: id
+        }
+        this.$API.deletePost(para).then(() => {
+          this.$message({
+            message: '删除成功',
+            type: 'success',
+          })
+          this.data = []
+          this.getData()
+        }).catch((err) => {
+          this.$message({
+            message: '删除失败了哦!',
+            type: 'error',
+          })
         })
       })
     },
