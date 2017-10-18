@@ -1,6 +1,6 @@
 <template>
     <div :style="{backgroundImage: 'url(' + bgurl + ')'}" id="paihaoControl">
-       <div id="logo" v-loading.fullscreen.lock="fullscreenLoading">
+       <div id="logo">
          <img :src="logo" alt="">
        </div>
         <div class="main">
@@ -11,6 +11,10 @@
             <div class="now">
               正在考试
               <span>{{nowObj.NowNo}}</span>
+            </div>
+            <div class="next">
+              总人数
+              <span>{{nowObj.MaxNo}}</span>
             </div>
             <div class="next">
               下一位
@@ -34,8 +38,7 @@
         data(){
             return {
                 bgurl:require('@/assets/mainBg.jpg'),
-                logo:require('@/assets/publicImg.png'),
-                fullscreenLoading:false,
+                logo:require('@/assets/logo1.png'),
                 lid:'',
                 nowObj:{}
             }
@@ -106,7 +109,7 @@
                 this.nowObj.NowNo++;
             }).catch((res)=>{
 
-                this.shezhiNum();
+//                this.shezhiNum();
             })
           },
           QueueAdd(){
@@ -185,6 +188,9 @@
       height: 120px;
       width: 200px;
       padding-top: 20px;
+      img{
+        background: transparent;
+      }
     }
     .main{
       width: 700px;
@@ -221,6 +227,8 @@
       .next{
         font-size: 30px;
         line-height: 30px;
+        display: inline-block;
+        padding-right: 20px;
         span{
           font-size: 25px;
           color: yellow;

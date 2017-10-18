@@ -286,11 +286,11 @@
     <el-dialog title="编辑学生资料" :visible.sync="showEditStudent" size="tiny">
       <el-form :model="editStudentData" label-width="88px">
         <!-- <el-form-item label="ID">
-          <el-input v-model="editStudentData.Meid" :disabled="true"></el-input>
-        </el-form-item> -->
+            <el-input v-model="editStudentData.Meid" :disabled="true"></el-input>
+          </el-form-item> -->
         <!-- <el-form-item label="学号">
-          <el-input v-model="editStudentData.StudentID" :disabled="true"></el-input>
-        </el-form-item> -->
+            <el-input v-model="editStudentData.StudentID" :disabled="true"></el-input>
+          </el-form-item> -->
         <el-form-item label="姓名">
           <el-input v-model="editStudentData.TrueName"></el-input>
         </el-form-item>

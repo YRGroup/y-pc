@@ -24,7 +24,7 @@
       <no-data v-else></no-data>
 
     </div>
-  
+
   </div>
 </template>
 
@@ -32,7 +32,7 @@
 import noData from '@//components/noData'
 export default {
   name: 'msg',
-  components: {noData},
+  components: { noData },
   data() {
     return {
       data: [],
@@ -45,7 +45,7 @@ export default {
         this.$store.state.numLength.msg = msg
         this.data = res
         let msgdata = this.data
-        for(var i = 0; i < msgdata.length; i++){
+        for (var i = 0; i < msgdata.length; i++) {
           let time = new Date(msgdata[i].LastTime)
           msgdata[i].LastTime = time.Format('MM-dd hh:mm')
         }
@@ -102,14 +102,14 @@ export default {
         max-height: 4em;
         overflow: hidden;
       }
-      .num{
+      .num {
         position: absolute;
-        right:1em;
-        top:1em;
-        height:18px;
-        width:18px;
+        right: 1em;
+        top: 1em;
+        height: 18px;
+        width: 18px;
         background: #ff7e00;
-        color:#fff;
+        color: #fff;
         border-radius: 50%;
         text-align: center;
         line-height: 18px;
