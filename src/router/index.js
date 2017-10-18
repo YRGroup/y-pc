@@ -48,8 +48,8 @@ import videoList from '@/pages/video/list'
 import addVideo from '@/pages/video/add'
 
 //排号组件
-import paihaoControl from '@/pages/paihao/control'
-import paihaoShow from '@/pages/paihao/show'
+import paihaoControl from '@/pages/queue/set'
+import paihaoShow from '@/pages/queue/main'
 
 
 
