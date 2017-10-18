@@ -250,12 +250,12 @@ export default new Router({
       }
     },
     {
-      path: '/paihaoControl',
+      path: '/queueset',
       name: 'paihaoControl',
       component: paihaoControl,
     },
     {
-      path: '/paihaoShow',
+      path: '/queue',
       name: 'paihaoShow',
       component: paihaoShow,
     },
