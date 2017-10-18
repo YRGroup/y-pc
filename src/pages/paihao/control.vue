@@ -240,9 +240,9 @@
         margin-top: 30px;
         /*padding-top: 50px;*/
         span{
-          width: 150px;
-          height: 40px;
-          line-height: 40px;
+          width: 280px;
+          height: 60px;
+          line-height: 60px;
           -webkit-border-radius: 5px;
           -moz-border-radius: 5px;
           border-radius: 5px;
@@ -251,6 +251,7 @@
           cursor: pointer;
           position: relative;
           top: 100px;
+          font-size: 20px;
           background: linear-gradient(180deg,#8DCFFF,#4CB9F6);
         }
 
