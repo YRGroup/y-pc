@@ -82,7 +82,7 @@ export default {
         }
         return a
       } else {
-        return '暂未设置排队人数'
+        return '请设置'
       }
 
     }

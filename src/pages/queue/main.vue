@@ -64,14 +64,14 @@
         return this.videoURL[this.videoIndex]
       },
       queueNext(){
-        if(this.nowObj.NowNo!=undefined){
+        if(this.nowObj.NowNo){
           var a=this.nowObj.NowNo+1;
           if(this.nowObj.MaxNo<a){
             a='无'
           }
           return a
         }else{
-          return '暂未设置排队人数'
+          return '请设置'
         }
 
       }
