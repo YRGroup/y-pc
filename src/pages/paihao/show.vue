@@ -1,5 +1,5 @@
 <template>
-  <div :style="{backgroundImage: 'url(' + bgurl + ')'}" id="paihaoControl">
+  <div id="paihaoControl">
     <div id="logo">
       <img :src="logo" alt="">
     </div>
@@ -124,6 +124,7 @@
 
 <style lang="less">
   #paihaoControl{
+    background: url(../../assets/mainBg.jpg) no-repeat center center;
     position: fixed;
     width: 100%;
     height: 100%;
@@ -137,8 +138,8 @@
       padding-top: 20px;
     }
     .main{
-      width: 700px;
-      height: 500px;
+      width: 1000px;
+      height: 600px;
       margin:auto;
       margin-top: 20px;
       color:#fff;
@@ -171,8 +172,8 @@
         }
       }
       .makeNext{
-        width: 320px;
-        height: 180px;
+        width: 800px;
+        height: 400px;
         background: #000;
         margin: auto;
         margin-top: 30px;
