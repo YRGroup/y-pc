@@ -1,7 +1,10 @@
 <template>
   <div id="paihaoControl">
-    <video :src="videoSrc" ref="video" width="100%" height="100%"  style="position: fixed;z-index: 1"></video>
+    <video  ref="video" :src="videoSrc">
+    </video>
+    <div class="fade">
 
+    </div>
     <div id="logo" style="position: relative;z-index: 9">
       <img :src="logo" alt="">
     </div>
@@ -209,6 +212,17 @@
     top: 0;
     left: 0;
     background-size: cover;
+    video,.fade{
+      position: fixed;
+      z-index: 1;
+
+    }
+    .fade{
+      background: url(../../assets/icon.png);
+      opacity: .4;
+      width: 100%;
+      height: 100%;
+    }
     #logo{
       margin: auto;
       height: 120px;
