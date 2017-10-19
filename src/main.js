@@ -58,15 +58,11 @@ axios.interceptors.request.use(config => {
   config.headers.sign = sigh
   return config
 }, err => {
-  console.log('error')
-  console.log(err)
   return Promise.reject(err)
 });
 axios.interceptors.response.use(
   response => {
     if(process.env.NODE_ENV !== 'production'){
-      console.log('axios to:' + response.config.url)
-      console.log(response)
     }
     if (response.data.Status == 0) {
       let err = {}

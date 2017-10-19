@@ -229,7 +229,7 @@
     #logo{
       margin: auto;
       height: 120px;
-      width: 200px;
+      width: 134px;
       padding-top: 20px;
       img{
         background: transparent;

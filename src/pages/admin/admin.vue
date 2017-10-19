@@ -228,7 +228,23 @@
                   </el-popover>
                 </template>
               </el-table-column>
-              <el-table-column prop="Status" label="资料" align="center">
+              <el-table-column prop="IsActive" label="激活" align="center">
+                <template scope="scope">
+                  <div>
+                    <span v-show="scope.row.IsActive==true" style="color:grey">是</span>
+                    <span v-show="scope.row.IsActive==false" style="color:red">否</span>
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column prop="IsSubscribe" label="关注" align="center">
+                <template scope="scope">
+                  <div>
+                    <span v-show="scope.row.IsSubscribe==true" style="color:grey">是</span>
+                    <span v-show="scope.row.IsSubscribe==false" style="color:red">否</span>
+                  </div>
+                </template>
+              </el-table-column>
+              <!-- <el-table-column prop="Status" label="资料" align="center">
                 <template scope="scope">
                   <div>
                     <span v-show="scope.row.Status==0" style="color:red">未修改</span>
@@ -237,7 +253,7 @@
                     <span v-show="scope.row.Status==3" style="color:red">审核失败</span>
                   </div>
                 </template>
-              </el-table-column>
+              </el-table-column> -->
               <el-table-column label="操作" width="100" align="center">
                 <template scope="scope">
                   <el-button type="text" size="small" @click="startEditStudent(scope.row)">编辑</el-button>
@@ -354,48 +370,6 @@ export default {
       },
       showAddStudent: false,
       showAddTeacher: false,
-      // courseList: [
-      //   {
-      //     CourseId: 1,
-      //     name: '语文'
-      //   },
-      //   {
-      //     CourseId: 2,
-      //     name: '数学'
-      //   },
-      //   {
-      //     CourseId: 3,
-      //     name: '英语'
-      //   },
-      //   {
-      //     CourseId: 4,
-      //     name: '物理'
-      //   },
-      //   {
-      //     CourseId: 5,
-      //     name: '化学'
-      //   },
-      //   {
-      //     CourseId: 6,
-      //     name: '生物'
-      //   },
-      //   {
-      //     CourseId: 7,
-      //     name: '历史'
-      //   },
-      //   {
-      //     CourseId: 8,
-      //     name: '地理'
-      //   },
-      //   {
-      //     CourseId: 9,
-      //     name: '政治'
-      //   },
-      //   {
-      //     CourseId: 0,
-      //     name: '未指定'
-      //   }
-      // ]
     }
   },
   computed: {
@@ -423,9 +397,11 @@ export default {
       this.$API.getClassList(this.ClassID).then(res => {
         this.classList = res
       })
+      // 获取教师列表
       this.$API.getTeacherList(this.ClassID).then(res => {
         this.teacherList = res
       })
+      //获取学生列表
       this.$API.getStudentList(this.ClassID).then(res => {
         this.studentList = res
         this.studentList.forEach(o => {
@@ -433,10 +409,13 @@ export default {
             o.ParentName = o.Parents[0].TrueName
             o.ParentPhone = o.Parents[0].Mobilephone
             o.ParentMeid = o.Parents[0].Meid
+            o.IsActive = o.Parents[0].IsActive
+            o.IsSubscribe = o.Parents[0].IsSubscribe
           }
         })
       })
     },
+    // 添加老师
     submitAddTeacher() {
       let e = true
       this.teacherData.forEach(o => {
@@ -464,6 +443,7 @@ export default {
         })
       }
     },
+    // 添加学生
     submitAddStudent() {
       let e = true
       this.studentData.forEach(o => {

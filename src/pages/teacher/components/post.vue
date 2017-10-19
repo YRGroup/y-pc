@@ -5,7 +5,7 @@
       <div class="img">
         <img :src="i.userImg">
       </div>
-      <div class="del" @click="del(i.id)" v-if="!$route.query.id">删除</div>
+      <div class="del" @click="del(i.ID)" v-if="!$route.query.id">删除</div>
       <div class="header">{{i.auther}}</div>
       <div class="content" @click="$router.push('/post/'+i.ID)">{{i.content}}</div>
       <div class="albums">
@@ -60,6 +60,28 @@ export default {
         } else {
           this.noMoreData = true
         }
+      })
+    },
+    del(id) {
+      this.$confirm('确认删除该动态吗?', '提示', {
+        type: 'warning'
+      }).then(() => {
+        let para = {
+          did: id
+        }
+        this.$API.deletePost(para).then(() => {
+          this.$message({
+            message: '删除成功',
+            type: 'success',
+          })
+          this.data = []
+          this.getData()
+        }).catch((err) => {
+          this.$message({
+            message: '删除失败了哦!',
+            type: 'error',
+          })
+        })
       })
     },
     loadMore() {

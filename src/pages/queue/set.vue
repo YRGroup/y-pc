@@ -100,10 +100,14 @@ export default {
 
 
       this.$API.UpdateQueueConfig(data).then(res => {
-        this.settingShow = false;
-        this.QueueGet();
+        this.settingShow = false
+        this.nowObj = {
+          Name: '',
+          MaxNo: ''
+        }
+        console.log(this.nowObj)
+          this.QueueGet();
         this.$message.success('修改成功')
-        this.formLabelWidth = false
         this.setAjax = false;
       }).catch((err) => {
         this.$message.error(err.msg)
@@ -138,7 +142,7 @@ export default {
       if (this.nowObj.NowNo == this.nowObj.MaxNo) {
         this.doQueueSetZero();
       } else {
-        this.$confirm('还没轮到最后一位，是否确定要重置, 是否继续?', '提示', {
+        this.$confirm('还没轮到最后一位， 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
@@ -173,9 +177,9 @@ export default {
 
   },
   created() {
-    this.lid=window.location.href.split('?lid=')[1]||1;
+    this.lid = window.location.href.split('?lid=')[1] || 1
     this.$nextTick(() => {
-      this.QueueGet();
+      this.QueueGet()
     })
   },
 }
@@ -190,7 +194,7 @@ export default {
   #logo {
     margin: auto;
     height: 120px;
-    width: 200px;
+    width: 134px;
     padding-top: 20px;
     img {
       background: transparent;
