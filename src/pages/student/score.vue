@@ -1,6 +1,6 @@
 <template>
   <div>
-    <no-data v-if="score.length"></no-data>
+    <no-data v-if="!score"></no-data>
     <div v-else>
       <div class="scoreSummary">
         <div class="title">{{score.ExamName || "暂无"}}</div>

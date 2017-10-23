@@ -237,9 +237,9 @@ export default {
   created() {
   },
   mounted() {
-    this.$store.dispatch('getCurrentUser').then(() => {
-      this.$router.push('/')
-    })
+    // this.$store.dispatch('getCurrentUser').then(() => {
+    //   this.$router.push('/')
+    // })
   },
 }
 </script>
