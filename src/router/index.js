@@ -87,7 +87,7 @@ export default new Router({
               component: klass,
             },
             {
-              path: '/post/:postId',
+              path: '/post/:postId(\\d+)',
               name: 'post',
               component: post,
             },
@@ -120,7 +120,7 @@ export default new Router({
               component: student,
             },
             {
-              path: '/student/:studentId/score/:examId',
+              path: '/student/:studentId/score/:examId(\\d+)',
               name: 'score',
               component: score,
             },
@@ -172,7 +172,7 @@ export default new Router({
               component: contact,
             },
             {
-              path: '/msg/:id',
+              path: '/msg/:id(\\d+)',
               name: 'msg',
               component: msg,
             },
@@ -210,7 +210,7 @@ export default new Router({
           component: exam,
         },
         {
-          path: '/examChart/:examId',
+          path: '/examChart/:examId(\\d+)',
           name: 'examChart',
           component: examChart,
         },

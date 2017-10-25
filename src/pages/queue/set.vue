@@ -55,134 +55,136 @@
 </template>
 
 <script type="text/ecmascript-6">
-
 export default {
   props: {},
   data() {
     return {
-      logo: require('@/assets/logo1.png'),
-      lid: '',
+      logo: require("@/assets/logo1.png"),
+      lid: "",
       nowObj: {
-        Name: '',
-        MaxNo: ''
+        Name: "",
+        MaxNo: ""
       },
       settingShow: false,
-      setAjax: false,
-    }
+      setAjax: false
+    };
   },
   computed: {
     videoSrc() {
-      return this.videoURL[this.videoIndex]
+      return this.videoURL[this.videoIndex];
     },
     queueNext() {
       if (this.nowObj.NowNo != undefined) {
         var a = this.nowObj.NowNo + 1;
         if (this.nowObj.MaxNo < a) {
-          a = '无'
+          a = "无";
         }
-        return a
+        return a;
       } else {
-        return '请设置'
+        return "请设置";
       }
-
     }
   },
   methods: {
-
     shezhiNum() {
-
       var data = {
         lid: this.lid,
         name: this.nowObj.Name,
         MaxNo: this.nowObj.MaxNo
-      }
-      this.setAjax = true
+      };
+      this.setAjax = true;
 
-
-      this.$API.UpdateQueueConfig(data).then(res => {
-        this.settingShow = false
-        this.nowObj = {
-          Name: '',
-          MaxNo: ''
-        }
-        console.log(this.nowObj)
+      this.$API
+        .UpdateQueueConfig(data)
+        .then(res => {
+          this.settingShow = false;
+          this.nowObj = {
+            Name: "",
+            MaxNo: ""
+          };
           this.QueueGet();
-        this.$message.success('修改成功')
-        this.setAjax = false;
-      }).catch((err) => {
-        this.$message.error(err.msg)
-        this.setAjax = false;
-      })
-
+          this.$message.success("修改成功");
+          this.setAjax = false;
+        })
+        .catch(err => {
+          this.$message.error(err.msg);
+          this.setAjax = false;
+        });
     },
     QueueGet() {
       var data = {
         lid: this.lid
-      }
-      return this.$API.QueueGet(data).then(res => {
-        var a = JSON.parse(res);
-        this.nowObj = a
-        this.nowObj.NowNo++;
-      }).catch((res) => {
-
-        //                this.shezhiNum();
-      })
+      };
+      return this.$API
+        .QueueGet(data)
+        .then(res => {
+          var a = JSON.parse(res);
+          this.nowObj = a;
+          this.nowObj.NowNo++;
+        })
+        .catch(res => {
+          //                this.shezhiNum();
+        });
     },
     QueueAdd() {
       var data = {
         lid: this.lid
-      }
-      return this.$API.QueueAdd(data).then(res => {
-        this.nowObj.NowNo++;
-      }).catch((err) => {
-        this.$message.error(err.msg)
-      })
+      };
+      return this.$API
+        .QueueAdd(data)
+        .then(res => {
+          this.nowObj.NowNo++;
+        })
+        .catch(err => {
+          this.$message.error(err.msg);
+        });
     },
     QueueSetZero() {
       if (this.nowObj.NowNo == this.nowObj.MaxNo) {
         this.doQueueSetZero();
       } else {
-        this.$confirm('还没轮到最后一位， 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.doQueueSetZero();
-        }).catch((err) => {
-          this.$message.error(err.msg)
-        });
+        this.$confirm("还没轮到最后一位， 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+          .then(() => {
+            this.doQueueSetZero();
+          })
+          .catch(err => {
+            this.$message.error(err.msg);
+          });
       }
     },
     doQueueSetZero() {
-      if (this.queueNext == '暂未设置排队人数') {
-        return
+      if (this.queueNext == "暂未设置排队人数") {
+        return;
       }
       var data = {
         lid: this.lid,
-        nowNo: 0,
-      }
-      return this.$API.QueueSetNowNo(data).then(res => {
-        this.nowObj.NowNo = 1;
-      }).catch((err) => {
-        this.$message.error(err.msg)
-      })
+        nowNo: 0
+      };
+      return this.$API
+        .QueueSetNowNo(data)
+        .then(res => {
+          this.nowObj.NowNo = 1;
+        })
+        .catch(err => {
+          this.$message.error(err.msg);
+        });
     }
   },
   components: {},
   watch: {},
-  beforeCreated() {
-
-  },
-  mounted() {
-
-  },
+  beforeCreated() {},
+  mounted() {},
   created() {
-    this.lid = window.location.href.split('?lid=')[1] || 1
+    this.lid = window.location.href.split("?lid=")[1] || 1;
     this.$nextTick(() => {
-      this.QueueGet()
-    })
-  },
-}
+      this.QueueGet();
+    });
+  }
+};
 </script>
 
 <style lang="less" scoped>
@@ -202,22 +204,21 @@ export default {
   }
   .main {
     width: 1000px;
-    height: 600px;
+    height: 460px;
     margin: auto;
-    margin-top: 20px;
     color: #fff;
     text-align: center;
-    background: rgba(29, 111, 163, .7);
+    background: rgba(29, 111, 163, 0.7);
     .doshezhi {
       padding-right: 20px;
       cursor: pointer;
     }
     .title {
       width: 860px;
-      height: 100px;
+      height: 80px;
       margin: auto;
-      line-height: 100px;
-      border-bottom: 2px solid rgba(101, 183, 226, .4);
+      line-height: 80px;
+      border-bottom: 2px solid rgba(101, 183, 226, 0.4);
       font-size: 32px;
       span {
         float: right;
@@ -229,7 +230,8 @@ export default {
     .now {
       font-size: 60px;
       text-align: center;
-      line-height: 200px;
+      line-height: 100px;
+      margin-bottom: 20px;
       span {
         font-size: 80px;
         color: yellow;
@@ -261,7 +263,7 @@ export default {
         position: relative;
         top: 60px;
         font-size: 20px;
-        background: linear-gradient(180deg, #8DCFFF, #4CB9F6);
+        background: linear-gradient(180deg, #8dcfff, #4cb9f6);
       }
     }
   }

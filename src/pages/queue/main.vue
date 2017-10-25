@@ -1,6 +1,6 @@
 <template>
   <div id="paihaoControl">
-    <video  ref="video" :src="videoSrc">
+    <video class="myvideo"  ref="video" :src="videoSrc">
     </video>
     <div class="fade"></div>
     <div class="wrap"></div>
@@ -206,16 +206,16 @@
     background: #000;
   }
   #paihaoControl{
-    background: url(../../assets/mainBg.jpg) no-repeat center center;
-    position: fixed;
+    background: #000 no-repeat center center;
     width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
+    height: 100vh;
     background-size: cover;
     video{
       position: fixed;
       z-index: 1;
+      top: 0;
+      width:100%;
+      height:100%;
 
     }
     .fade{
@@ -237,25 +237,24 @@
     }
     .main{
       width: 1000px;
-      height: 600px;
+      height: 460px;
       margin:auto;
-      margin-top: 20px;
       color:#fff;
       text-align: center;
 
       background: rgba(29,111,163,.5);
       .title{
         width: 860px;
-        height: 100px;
+        height: 80px;
         margin: auto;
-        line-height: 100px;
+        line-height: 80px;
         border-bottom: 2px solid rgba(101,183,226,.4);
         font-size: 32px;
       }
       .now{
         font-size: 80px;
         text-align: center;
-        line-height: 300px;
+        line-height: 200px;
         span{
           font-size: 100px;
           color: yellow;
