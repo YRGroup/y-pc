@@ -216,5 +216,35 @@ API.getGradeList = () => {
   })
 }
 
+//获取短信模板
+API.getMsgTemplate = () => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl + '/api/SMS/GetTemplateList').then((res) => {
+      resolve(res.data.Content)
+    })
+  })
+}
+
+//获取短信列表
+API.getMsglog = () => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl + '/api/SMS/GetSMSLog').then((res) => {
+      resolve(res.data.Content)
+    })
+  })
+}
+
+// 发短信
+API.sendMsg = (data) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl + '/api/SMS/SendSMS', data).then((res) => {
+      if (res.data.Status === 1) {
+        resolve(res.data.Content)
+      } else {
+        reject(res.data.Msg)
+      }
+    })
+  })
+}
 
 export default API

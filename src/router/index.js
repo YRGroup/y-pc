@@ -11,6 +11,7 @@ import classHome from '@/pages/class/home'
 import klass from '@/pages/class/main'
 import post from '@/pages/class/post'
 import homework from '@/pages/class/homework'
+import sendmsg from '@/pages/class/sendmsg'
 
 import contactHome from '@/pages/contact/home'
 import contact from '@/pages/contact/main'
@@ -217,6 +218,11 @@ export default new Router({
           path: '/admin',
           name: 'admin',
           component: admin,
+        },
+        {
+          path: '/sendmsg',
+          name: 'sendmsg',
+          component: sendmsg,
         },
         {
           path: '/video',

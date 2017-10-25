@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div class="body card">
       <div class="maintitle">
         <i class="iconfont">&#xe737;</i>动态详情

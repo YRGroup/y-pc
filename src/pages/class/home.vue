@@ -12,35 +12,19 @@
         <div class="classInfo classbox">
           <div class="header">
             <h3>{{classInfo.name}}</h3>
-            <!-- <img src="https://modao.cc/uploads3/images/900/9007936/raw_1493017171.jpeg"> -->
           </div>
           <div class="content">
-            <!-- <p>{{classInfo.name}}</p> -->
             <div class="info">
               <span>班主任：{{classInfo.teacher?classInfo.teacher.TrueName:'暂无'}}</span>
               <span>人数：{{classInfo.student_count}}</span>
             </div>
             <div style="text-align:center;" v-show="isClassAdmin">
-              <el-button type="warning" @click="$router.push('/admin')">班级管理</el-button>
+              <el-button type="success" @click="$router.push('/admin')">班级管理</el-button>
+              <el-button type="warning" @click="$router.push('/sendmsg')">发短信</el-button>
             </div>
           </div>
         </div>
-  
-        <!-- <div class="card">
-          <div class="title">
-            公告
-          </div>
-          <div class="content">
-            <div class="noticeItem">
-              <div class="noticeTitle">{{notice.content}}</div>
-              <div class="footer">
-                <span>{{notice.auther}}</span>
-                <span>{{notice.date}}</span>
-              </div>
-            </div>
-          </div>
-        </div> -->
-  
+
         <div class="card">
           <div class="title">
             班级作业
@@ -75,7 +59,6 @@
               <div>{{i.TrueName || '未命名'}}</div>
               <div class="subject">{{i.Course || '无学科'}}</div>
             </div>
-  
           </div>
         </div>
       </div>
@@ -86,90 +69,95 @@
 </template>
 
 <script>
-import hasNoStudent from '@/components/hasNoStudent'
+import hasNoStudent from "@/components/hasNoStudent";
 
 export default {
-  name: 'app',
+  name: "app",
   components: { hasNoStudent },
   data() {
     return {
       teachers: [],
       notice: {},
       homework: [],
-    }
+    };
   },
   computed: {
     classInfo() {
-      return this.$store.state.currentClassInfo
+      return this.$store.state.currentClassInfo;
     },
-    isClassAdmin(){
-      if(this.$store.getters.role=='老师'){
-        if(this.classInfo.teacher && this.$store.state.currentUser.Meid == this.classInfo.teacher.Meid){
-          return true
-        }else{
-          return false
+    isClassAdmin() {
+      if (this.$store.getters.role == "老师") {
+        if (
+          this.classInfo.teacher &&
+          this.$store.state.currentUser.Meid == this.classInfo.teacher.Meid
+        ) {
+          return true;
+        } else {
+          return false;
         }
       }
     }
   },
   methods: {
     getTeacherList() {
-      this.$API.getTeacherList(this.$store.state.currentClassId).then((res) => {
-        this.teachers = res
-      }).catch(err => {
-
-      })
+      this.$API
+        .getTeacherList(this.$store.state.currentClassId)
+        .then(res => {
+          this.teachers = res;
+        })
+        .catch(err => {});
     },
     getNotice() {
       let para = {
         cid: this.$store.state.currentClassId,
         currentPage: 1,
         pagesize: 1,
-        type: 3,
-      }
-      this.$API.getAllClassDynamic(para).then((res) => {
-        this.notice = res[0]
-      }).catch(err => {
-
-      })
+        type: 3
+      };
+      this.$API
+        .getAllClassDynamic(para)
+        .then(res => {
+          this.notice = res[0];
+        })
+        .catch(err => {});
     },
     getHomeWork() {
       let para = {
         cid: this.$store.state.currentClassId,
         currentPage: 1,
-        pagesize: 5,
-      }
-      this.$API.getHomeworkList(para).then((res) => {
-        this.homework = res
-      }).catch(err => {
-
-      })
+        pagesize: 5
+      };
+      this.$API
+        .getHomeworkList(para)
+        .then(res => {
+          this.homework = res;
+        })
+        .catch(err => {});
     },
     getClassInfo() {
-      this.$store.dispatch('getCurrentClassInfo')
+      this.$store.dispatch("getCurrentClassInfo");
     },
+
     getData() {
-      this.getClassInfo()
-      this.getTeacherList()
-      this.getNotice()
-      this.getHomeWork()
-    },
+      this.getClassInfo();
+      this.getTeacherList();
+      this.getNotice();
+      this.getHomeWork();
+    }
   },
   created() {
-    this.getData()
+    this.getData();
   },
-  mounted() {
-
-  },
+  mounted() {},
   watch: {
-    "$route": "getData"
-  },
-}
+    $route: "getData"
+  }
+};
 </script>
 
 <style lang="less" scoped>
-@import '../../style/theme.less';
-@import 'https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css';
+@import "../../style/theme.less";
+@import "https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css";
 
 .left {
   width: calc(~"100% - 280px");
@@ -179,7 +167,6 @@ export default {
 .right {
   float: right;
   width: 260px;
-
 
   .card {
     margin-bottom: 15px; // padding: 5px;
@@ -193,7 +180,7 @@ export default {
       font-size: 16px;
       position: relative;
       &:before {
-        content: '';
+        content: "";
         position: absolute;
         top: 13px;
         left: 0;
@@ -231,7 +218,7 @@ export default {
           color: @grey;
           font-size: 12px;
         }
-        &:hover{
+        &:hover {
           color: @main;
         }
       }
@@ -265,4 +252,5 @@ export default {
     }
   }
 }
+
 </style>

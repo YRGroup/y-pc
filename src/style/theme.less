@@ -1,263 +1,270 @@
 // 公用颜色
-@main:#00c06f;
-@sub:#ff673e;
-@bg:#f0f0f0;
-@grey:#999;
-@border:#f2f2f2;
-
+@main: #00c06f;
+@sub: #ff673e;
+@bg: #f0f0f0;
+@grey: #999;
+@border: #f2f2f2;
 // 查看大图弹出框
-.bigImg{
-  text-align: center;
-  line-height: 500px;
-  img{
-    // min-width: 300px;
-    max-width: 60%;
-  }
+.bigImg {
+    text-align: center;
+    line-height: 500px;
+    img {
+        // min-width: 300px;
+        max-width: 60%;
+    }
 }
 
 // 文字头像样式
-.headTextImg{
-  background: @main;
-  color:#fff;
-  width:48px;
-  height:48px;
-  line-height: 48px;
-  text-align: center;
-  border-radius: 50%;
-  font-size: 22px;
+.headTextImg {
+    background: @main;
+    color: #fff;
+    width: 48px;
+    height: 48px;
+    line-height: 48px;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 22px;
 }
 
-
 // 时间
-.time{
-  color:@grey;
-  font-size: 12px;
+.time {
+    color: @grey;
+    font-size: 12px;
 }
 
 //过渡动画
-// *{
-//     transition:all 0.2s;
-// }
-
+*{
+    transition:all 0.2s;
+}
 // 字体图标
 @font-face {
-  font-family: 'iconfont';  /* project id 291668 */
-  src: url('//at.alicdn.com/t/font_291668_9v0o7st6o2zqia4i.eot');
-  src: url('//at.alicdn.com/t/font_291668_9v0o7st6o2zqia4i.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_291668_9v0o7st6o2zqia4i.woff') format('woff'),
-  url('//at.alicdn.com/t/font_291668_9v0o7st6o2zqia4i.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_291668_9v0o7st6o2zqia4i.svg#iconfont') format('svg');
-}
+    font-family: 'iconfont';  /* project id 291668 */
+    src: url('//at.alicdn.com/t/font_291668_p9bmtp2jovml5wmi.eot');
+    src: url('//at.alicdn.com/t/font_291668_p9bmtp2jovml5wmi.eot?#iefix') format('embedded-opentype'),
+    url('//at.alicdn.com/t/font_291668_p9bmtp2jovml5wmi.woff') format('woff'),
+    url('//at.alicdn.com/t/font_291668_p9bmtp2jovml5wmi.ttf') format('truetype'),
+    url('//at.alicdn.com/t/font_291668_p9bmtp2jovml5wmi.svg#iconfont') format('svg');
+  }
+
 .iconfont {
-  font-family: "iconfont";
-  font-style: normal;
+    font-family: "iconfont";
+    font-style: normal;
 }
 
 // 公共面板
-.panel{
-  background: #fff;
-  padding:20px;
-  box-sizing:border-box;
+.panel {
+    background: #fff;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 // 点赞按钮
 .iconbtn {
-  float: right;
-  padding: 0 15px;
-  color:#999;
-  span{
-    margin-left:20px;
-  }
-  .iconfont{
-    font-size: 14px;
-    margin-right:5px;
-  }
-}
-// 班级右边卡片
-  .classbox{
-    background: #edfff7;
-    border:1px solid @main;
-    .header{
-      height: 88px;
-      line-height: 88px;
-      color: #fff;
-      font-size: 20px;
-      background: url(../assets/classBg.png) no-repeat;
-      h3{
-        font-weight: 400;
-      }
-      // img{
-      //   margin-top:40px;
-      //   width: 80px;
-      //   height: 80px;
-      //   border: 3px solid rgba(255, 255, 255, 0.8);
-      //   border-radius: 10px;
-      // }
+    float: right;
+    padding: 0 15px;
+    color: #999;
+    span {
+        margin-left: 20px;
     }
-  }
-    .classInfo {
+    .iconfont {
+        font-size: 14px;
+        margin-right: 5px;
+    }
+}
+
+// 班级右边卡片
+.classbox {
+    background: #edfff7;
+    border: 1px solid @main;
+    .header {
+        height: 88px;
+        line-height: 88px;
+        color: #fff;
+        font-size: 20px;
+        background: url(../assets/classBg.png) no-repeat;
+        h3 {
+            font-weight: 400;
+        } // img{
+        //   margin-top:40px;
+        //   width: 80px;
+        //   height: 80px;
+        //   border: 3px solid rgba(255, 255, 255, 0.8);
+        //   border-radius: 10px;
+        // }
+    }
+}
+
+.classInfo {
     color: #333;
     text-align: center;
     margin-bottom: 15px;
     .content {
-      line-height: 30px;
-      font-size: 18px;
-      margin:10px 0 10px;
-      .info {
-        font-size: 14px;
-        margin:10px 0;
-        span{
-          margin:0 10px;
+        line-height: 30px;
+        font-size: 18px;
+        margin: 10px 0 10px;
+        .info {
+            font-size: 14px;
+            margin: 10px 0;
+            span {
+                margin: 0 10px;
+            }
         }
-      }
     }
-  }
+}
 
-  .leftCon{
+.leftCon {
     border: none;
     min-height: calc(~"100vh - 238px");
-    box-shadow:none;
-  }
+    box-shadow: none;
+}
 
-  .el-upload--picture-card{
+.el-upload--picture-card {
     width: 80px;
     height: 80px;
     line-height: 80px;
-    border-radius:0;
-    i{
-      line-height: 80px;
-      font-size: 20px;
+    border-radius: 0;
+    i {
+        line-height: 80px;
+        font-size: 20px;
     }
-  }
-  .el-upload-list--picture-card .el-upload-list__item{
+}
+
+.el-upload-list--picture-card .el-upload-list__item {
     width: 80px;
     height: 80px;
-  }
-  .avatar-uploader{
-    .avatar-uploader-icon{
-      width: 80px;
-      height: 80px;
-      line-height: 80px;
-    }
+}
 
-    img.avatar{
-      width: 64px;
-      height: 64px;
-      background: transparent;
+.avatar-uploader {
+    .avatar-uploader-icon {
+        width: 80px;
+        height: 80px;
+        line-height: 80px;
     }
-  }
+    img.avatar {
+        width: 64px;
+        height: 64px;
+        background: transparent;
+    }
+}
 
 // 模块标题
 .maintitle {
-  border-bottom: 1px solid @border;
-  font-size: 20px;
-  line-height: 50px;
-  padding:10px 20px 0;
-  position: relative;
-  .iconfont{
-    color: @main;
-    margin-right: 8px;
-  }
-  .goreturn {
-    position: absolute;
-    top: 6px;
-    right: 20px;
-  }
+    border-bottom: 1px solid @border;
+    font-size: 20px;
+    line-height: 50px;
+    padding: 10px 20px 0;
+    position: relative;
+    .iconfont {
+        color: @main;
+        margin-right: 8px;
+    }
+    .goreturn {
+        position: absolute;
+        top: 6px;
+        right: 20px;
+    }
 }
 
 // style reset
 html {
-  color: #333;
-  background: @bg;
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
+    color: #333;
+    background: @bg;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
 }
+
 body {
-  margin: 0;
-  padding: 0;
-  font: 14px/1.5 "Microsoft Yahei",SimSun,Arial,sans-serif;
-  line-height: 24px;
-  overflow-x: hidden;
-}
-img{
-  vertical-align: middle;
-  background: #fff;
-}
-ol,ul {
-  list-style: none;
+    margin: 0;
+    padding: 0;
+    font: 14px/1.5 "Microsoft Yahei", SimSun, Arial, sans-serif;
+    line-height: 24px;
+    overflow-x: hidden;
 }
 
-a{
-  cursor: pointer;
-  transition: .2s all linear;
+img {
+    vertical-align: middle;
+    background: #fff;
 }
+
+ol,
+ul {
+    list-style: none;
+}
+
+a {
+    cursor: pointer;
+    transition: .2s all linear;
+}
+
 a:link {
-  text-decoration: none;
-}
-a:hover{
-  color: @main;
+    text-decoration: none;
 }
 
-.el-button.is-plain:focus, .el-button.is-plain:hover{
-  background: transparent;
+a:hover {
+    color: @main;
 }
 
-.nodata{
-  min-height: 600px;
-  text-align: center;
-  line-height: 600px;
+.el-button.is-plain:focus,
+.el-button.is-plain:hover {
+    background: transparent;
 }
 
-.cardlist{
+.nodata {
+    min-height: 600px;
+    text-align: center;
+    line-height: 600px;
+}
+
+.cardlist {
     background: #fff;
     border-bottom: 1px solid @border;
     overflow: hidden;
-    padding:20px;
-    .header{
-      float: left;
-      margin-right: 20px;
-      img {
-        width: 64px;
-        border-radius: 50%;
-      }
-    }
-    .content{
-      float: left;
-      margin-top: 6px;
-      .parent{
-        display: inline-block;
-        padding: 0 4px;
-        line-height: 20px;
-        background: #44dd9d;
-        color: #fff;
-        border-radius: 3px;
-        margin-right: 5px;
-        font-weight: 400;
-        font-size: 12px;
-      }
-      .phone{
-        margin-top: 5px;
-        .iconfont{
-          margin-right: 5px;
-          color: @main;
-          font-size: 16px;
+    padding: 20px;
+    .header {
+        float: left;
+        margin-right: 20px;
+        img {
+            width: 64px;
+            border-radius: 50%;
         }
-      }
     }
-  }
-.panelbox{
-  background: #fff;
-  h3{
-    line-height: 32px;
-    font-weight: 400;
-    padding:10px;
-    // color: @main;
-    border-bottom: 1px solid @border;
-    .iconfont{
-      margin-right: 10px;
-      font-size: 20px;
+    .content {
+        float: left;
+        margin-top: 6px;
+        .parent {
+            display: inline-block;
+            padding: 0 4px;
+            line-height: 20px;
+            background: #44dd9d;
+            color: #fff;
+            border-radius: 3px;
+            margin-right: 5px;
+            font-weight: 400;
+            font-size: 12px;
+        }
+        .phone {
+            margin-top: 5px;
+            .iconfont {
+                margin-right: 5px;
+                color: @main;
+                font-size: 16px;
+            }
+        }
     }
-  }
+}
+
+.panelbox {
+    background: #fff;
+    h3 {
+        line-height: 32px;
+        font-weight: 400;
+        padding: 10px; // color: @main;
+        border-bottom: 1px solid @border;
+        .iconfont {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+    }
 }
 
 .clearfix:after {
@@ -269,4 +276,25 @@ a:hover{
 }
 
 .clearfix {
-    *zoom:1}
+    *zoom: 1
+}
+
+.inputtext {
+    width: 120px;
+    padding: 8px;
+    border:1px solid #bfcbd9;
+    border-radius:4px;
+    color:#1f2d3d;
+    outline:0;
+    transition:border-color .2s cubic-bezier(.645,.045,.355,1);
+    font-size:14px;
+    
+}
+.inputtext:focus{
+  border-color:#20a0ff;
+  outline:none;
+}
+
+.inview{
+    min-height: calc(100vh - 25px);
+}

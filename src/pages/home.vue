@@ -9,7 +9,7 @@
         <div class="nav">
           <li @click="$router.push('/')" :class="link=='main'?'active':null">
             <i class="iconfont">&#xe636;</i>首页</li>
-          <li @click="$router.push('/class')" :class="(link=='klass' || link=='homework' || link=='post')?'active':null">
+          <li @click="$router.push('/class')" :class="(link=='klass' || link=='homework' || link=='post' || link=='admin'|| link=='sendmsg')?'active':null">
             <i class="iconfont">&#xe633;</i>班级</li>
           <!-- <li @click="$router.push('/homework')" :class="link=='/homework'?'active':null"><i class="iconfont">&#xe608;</i>作业中心</li> -->
           <li @click="$router.push('/examList')" v-show="role=='老师'" :class="(link=='examList' || link=='exam')?'active':null">

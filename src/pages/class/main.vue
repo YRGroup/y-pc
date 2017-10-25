@@ -1,6 +1,6 @@
 <template>
   <div>
-
+    
     <div class="addPost">
       <div class="title addbtn" @click="showAddPost=true">
         <i class="iconfont">&#xe623;</i>发布动态</div>
