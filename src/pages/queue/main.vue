@@ -4,8 +4,8 @@
     <!-- <div id="logo" style="position: relative;z-index: 999">
       <img :src="logo" alt="">
     </div> -->
-    <div class="fade"></div>
-    <div class="wrap"></div>
+    <!-- <div class="fade"></div> -->
+    <!-- <div class="wrap"></div> -->
     <div class="main">
       <div class="title">
         {{nowObj.Name}}
@@ -48,9 +48,17 @@ export default {
       bgurl: require("@/assets/mainBg.jpg"),
       logo: require("@/assets/logo.png"),
       videoURL: [
-        "http://yr-zhxy.oss-cn-beijing.aliyuncs.com/YRVideo/20161230%E5%A5%B3%E4%B8%ADBts_batch.mp4",
-        "http://yr-zhxy.oss-cn-beijing.aliyuncs.com/YRVideo/%E9%80%9A%E5%BE%80%E5%A4%A9%E5%9B%BD%E3%81%AE%E5%A5%94%E8%B7%91%E6%9C%80%E7%BB%88%E5%9B%9E_batch.mp4",
-        "http://yr-zhxy.oss-cn-beijing.aliyuncs.com/YRVideo/%E4%B9%9D%E5%AF%BC_batch.mp4"
+        "http://yr-zhxy.oss-cn-beijing.aliyuncs.com/YRVideo/meiyu/01%2010%E5%91%A8%E5%B9%B4%E5%AE%A3%E4%BC%A0%E7%89%873%E5%88%86%E9%92%9F%E7%89%88%5B%E8%82%B2%E4%BA%BA%E6%95%99%E8%82%B2%E9%9B%86%E5%9B%A2%5D_batch.mp4",
+        "http://yr-zhxy.oss-cn-beijing.aliyuncs.com/YRVideo/meiyu/02%E4%BD%A0%E5%9C%A8%E7%9E%8E%E5%BF%99%E4%BB%80%E4%B9%88%5B%E8%82%B2%E4%BA%BA%E6%95%99%E8%82%B2%E9%9B%86%E5%9B%A2%E5%8A%B1%E5%BF%97%E5%AE%A3%E4%BC%A0%E7%89%87%5D_batch.mp4",
+        "http://yr-zhxy.oss-cn-beijing.aliyuncs.com/YRVideo/meiyu/20161230%E5%A5%B3%E4%B8%ADBts_batch_batch.mp4",
+        "http://yr-zhxy.oss-cn-beijing.aliyuncs.com/YRVideo/meiyu/stand%20by%20me%E6%88%90%E7%89%87_batch.mp4",
+        "http://yr-zhxy.oss-cn-beijing.aliyuncs.com/YRVideo/meiyu/%E8%82%B2%E4%BA%BA-%E7%9B%B8%E4%BF%A1%E4%BA%BA%E7%9A%84%E5%8A%9B%E9%87%8F201710_x264.mp4",
+        "http://yr-zhxy.oss-cn-beijing.aliyuncs.com/YRVideo/meiyu/%E8%82%B2%E4%BA%BAidol%E6%9D%8E%E7%91%B620170613_batch.mp4",
+        "http://yr-zhxy.oss-cn-beijing.aliyuncs.com/YRVideo/meiyu/%E8%82%B2%E4%BA%BAiodl%E5%90%B4%E8%BF%AA-04.05.2017-PFBI_batch.mp4",
+        "http://yr-zhxy.oss-cn-beijing.aliyuncs.com/YRVideo/meiyu/%E8%82%B2%E4%BA%BAiodl%E5%B2%B3%E8%80%81%E5%B8%8820170602_batch.mp4",
+        "http://yr-zhxy.oss-cn-beijing.aliyuncs.com/YRVideo/meiyu/%E8%82%B2%E4%BA%BAiodl%E9%83%9D%E7%B4%A0%E9%9C%9E%E5%B7%B2%E8%B0%83%E8%89%B2-04.019.2017-PFBI_batch.mp4",
+        "http://yr-zhxy.oss-cn-beijing.aliyuncs.com/YRVideo/meiyu/%E8%82%B2%E8%A7%81%E6%88%91%E7%9A%84%E6%9C%AA%E6%9D%A5%5B%E5%AE%A3%E4%BC%A0%E9%83%A8%5D20170110.mp4",
+        "http://yr-zhxy.oss-cn-beijing.aliyuncs.com/YRVideo/meiyu/%E9%83%91%E5%A4%96%E5%A5%B3%E4%B8%AD%E6%88%90%E5%93%81%E7%AC%AC%E4%BA%8C%E5%9B%9E_batch.mp4",
       ],
       videoIndex: 0,
       nowObj: {},
@@ -82,6 +90,7 @@ export default {
     init() {
       var video = this.$refs.video;
       video.play();
+      video.volume = 0.3;
       video.addEventListener("ended", () => {
         this.qieVideo();
       });
@@ -205,8 +214,7 @@ export default {
   background: #000;
 }
 #paihaoControl {
-  background: url(../../assets/mainBg.jpg) no-repeat center center;
-  // background: #000 no-repeat center center;
+  background: #000 no-repeat center center;
   width: 100%;
   height: 100vh;
   background-size: cover;
@@ -214,17 +222,17 @@ export default {
   .myvideo {
     position: relative;
     top: 20px;
-    width: 100%;
-    height: calc(65vh);
-    background: transparent;
+    width: 100vw;
+    height: 100%;
     margin:0 auto;
     text-align: center;
     z-index: 999;
+    overflow: hidden;
   }
   .logo {
     position: absolute;
     top: 10px;
-    left: 340px;
+    left: 20px;
     width: 180px;
     img{
       background: transparent;
@@ -232,7 +240,8 @@ export default {
     }
   }
   video {
-    height: 100%;
+    width: 100%;
+    // height: 100%;
   }
   .fade {
     background: url(../../assets/icon.png);

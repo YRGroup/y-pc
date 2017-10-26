@@ -51,6 +51,7 @@ import addVideo from '@/pages/video/add'
 //排号组件
 import paihaoControl from '@/pages/queue/set'
 import paihaoShow from '@/pages/queue/main'
+import meiyu from '@/pages/queue/article'
 
 
 
@@ -237,6 +238,11 @@ export default new Router({
           path: '/video/add',
           component: addVideo,
         },
+        {
+          path: '/meiyu',
+          name: 'paihaoControl',
+          component: meiyu,
+        },
       ]
     },
     {
@@ -260,6 +266,7 @@ export default new Router({
       name: 'paihaoControl',
       component: paihaoControl,
     },
+
     {
       path: '/queue',
       name: 'paihaoShow',

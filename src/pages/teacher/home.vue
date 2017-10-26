@@ -107,6 +107,9 @@
           </el-option>
         </el-select>
       </div>
+      <div class="panelbox artical" v-show="data.TrueName == '张继锋' ">
+        <el-button @click="$router.push('/meiyu')" type="success" class="ml20 addBtn">美育活动</el-button>
+      </div>
 
     </div>
   </div>
@@ -321,5 +324,9 @@ export default {
   .el-button {
     margin: 0 10px;
   }
+}
+.artical{
+  padding:20px;
+  text-align: center;
 }
 </style>
