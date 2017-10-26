@@ -193,6 +193,7 @@ export default {
   width: 100%;
   height: 100vh;
   background-size: cover;
+  overflow-y:hidden;
   #logo {
     margin: auto;
     height: 120px;
