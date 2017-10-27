@@ -240,7 +240,7 @@ export default new Router({
         },
         {
           path: '/meiyu',
-          name: 'paihaoControl',
+          name: 'meiyu',
           component: meiyu,
         },
       ]

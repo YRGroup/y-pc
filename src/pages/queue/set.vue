@@ -87,22 +87,21 @@ export default {
   },
   methods: {
     shezhiNum() {
-      var data = {
+      var params = {
         lid: this.lid,
         name: this.nowObj.Name,
         MaxNo: this.nowObj.MaxNo
       };
       this.setAjax = true;
 
-      this.$API
-        .UpdateQueueConfig(data)
+      this.$API.UpdateQueueConfig(params)
         .then(res => {
           this.settingShow = false;
+          this.getdata()
           this.nowObj = {
             Name: "",
             MaxNo: ""
           };
-          this.QueueGet();
           this.$message.success("修改成功");
           this.setAjax = false;
         })
@@ -111,27 +110,23 @@ export default {
           this.setAjax = false;
         });
     },
-    QueueGet() {
-      var data = {
+    getdata() {
+      let params = {
         lid: this.lid
-      };
-      return this.$API
-        .QueueGet(data)
+      }
+      this.$API.QueueGet(params)
         .then(res => {
-          var a = JSON.parse(res);
-          this.nowObj = a;
-          this.nowObj.NowNo++;
+          this.nowObj = JSON.parse(res)
+          this.nowObj.NowNo ++
         })
         .catch(res => {
-          //                this.shezhiNum();
-        });
+        })
     },
     QueueAdd() {
       var data = {
         lid: this.lid
       };
-      return this.$API
-        .QueueAdd(data)
+      this.$API.QueueAdd(data)
         .then(res => {
           this.nowObj.NowNo++;
         })
@@ -160,12 +155,11 @@ export default {
       if (this.queueNext == "暂未设置排队人数") {
         return;
       }
-      var data = {
+      var params = {
         lid: this.lid,
         nowNo: 0
       };
-      return this.$API
-        .QueueSetNowNo(data)
+      this.$API.QueueSetNowNo(params)
         .then(res => {
           this.nowObj.NowNo = 1;
         })
@@ -174,14 +168,10 @@ export default {
         });
     }
   },
-  components: {},
-  watch: {},
-  beforeCreated() {},
-  mounted() {},
   created() {
     this.lid = window.location.href.split("?lid=")[1] || 1;
     this.$nextTick(() => {
-      this.QueueGet();
+      this.getdata();
     });
   }
 };

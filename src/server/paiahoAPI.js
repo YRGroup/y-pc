@@ -6,24 +6,55 @@ import axios from 'axios'
 import _APIurl from './config'
 
 // 设置排序队列
-API.UpdateQueueConfig = (data) => {
-  return axios.get(_APIurl + '/api/UQueue/UpdateQueueConfig',{
-    params:data
-  }).then(res => res.data.Content)
+API.UpdateQueueConfig = (para) => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl + '/api/UQueue/UpdateQueueConfig', {
+      params: para
+    }).then((res) => {
+      resolve(res.data.Content)
+    }).catch((err) => {
+      reject(err)
+    })
+  })
 }
-API.QueueAdd = (data) => {
-  return axios.get(_APIurl + '/api/UQueue/QueueAdd',{
-    params:data
-  }).then(res => res.data.Msg)
+
+// 下一号
+API.QueueAdd = (para) => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl + '/api/UQueue/QueueAdd', {
+      params: para
+    }).then((res) => {
+      resolve(res.data.Content)
+    }).catch((err) => {
+      reject(err)
+    })
+  })
 }
-API.QueueGet = (data) => {
-  return axios.get(_APIurl + '/api/UQueue/QueueGet',{
-    params:data
-  }).then(res => res.data.Msg)
+
+// 获取当前号码
+API.QueueGet = (para) => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl + '/api/UQueue/QueueGet', {
+      params: para
+    }).then((res) => {
+      resolve(res.data.Msg)
+    }).catch((err) => {
+      reject(err)
+    })
+  })
 }
-API.QueueSetNowNo = (data) => {
-  return axios.get(_APIurl + '/api/UQueue/QueueSetNowNo',{
-    params:data
-  }).then(res => res.data.Msg)
+
+// 重置
+API.QueueSetNowNo = (para) => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl + '/api/UQueue/QueueSetNowNo', {
+      params: para
+    }).then((res) => {
+      resolve(res.data.Msg)
+    }).catch((err) => {
+      reject(err)
+    })
+  })
 }
+
 export default API

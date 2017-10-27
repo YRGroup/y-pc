@@ -92,8 +92,9 @@ export default {
       video.play();
       video.volume = 0.3;
       video.addEventListener("ended", () => {
-        this.qieVideo();
+        this.qieVideo()
       });
+
     },
     qieVideo() {
       var video = this.$refs.video;
@@ -174,10 +175,6 @@ export default {
         .catch(res => {});
     }
   },
-  components: {},
-  watch: {},
-  beforeCreated() {},
-  mounted() {},
   created() {
     this.lid = window.location.href.split("?lid=")[1] || 200;
     this.$nextTick(() => {
