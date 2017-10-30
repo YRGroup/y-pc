@@ -73,6 +73,9 @@ export default new Router({
           path: '/news',
           name: 'news',
           component: news,
+          meta: {
+            anonymous: true
+          }
         },
         {
           path: '/docs',
