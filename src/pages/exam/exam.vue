@@ -14,7 +14,7 @@
           <!-- <p>当前考试:{{data.Remark}}</p> -->
           <p class="examtime">创建时间：{{data.CreateTime}}</p>
         </div>
-        <el-tabs v-model="currentCourse">
+        <el-tabs v-model="currentCourse" @tab-click="handleClick">
       
           <el-tab-pane label="成绩汇总" name="成绩汇总">
             <div class="info">
@@ -38,10 +38,10 @@
           <el-tab-pane :label="i.CourseName" :name="i.CourseName" v-for="(i,index) in data.CoursesSummary" :key="index">
             <div class="info">
               <span>总分：<b>{{i.FullScore}}</b></span>  <span>平均分：<b>{{i.AverageScore}}</b></span>
-              <div class="btn">
-                <el-button size="small" type="warning" @click="startEdit=i.CourseName , scoreEdit = true" v-show="startEdit!=i.CourseName">批量修改</el-button>
-                <el-button size="small" @click="startEdit=0,scoreEdit = false" v-show="startEdit==i.CourseName">取消</el-button>
-                <el-button size="small" type="primary" @click="submitAllScore(i.CourseName),startEdit=0,scoreEdit = false" v-show="startEdit==i.CourseName">全部提交</el-button>
+              <div class="btn" v-show="allEdit">
+                <el-button size="small" type="warning" @click="startEdit = true" v-show="!startEdit">批量修改</el-button>
+                <el-button size="small" @click="startEdit = false" v-show="startEdit">取消</el-button>
+                <el-button size="small" type="primary" @click="submitAllScore(i.CourseName),startEdit = false" v-show="startEdit">全部提交</el-button>
               </div>
             </div>
       
@@ -50,17 +50,25 @@
               </el-table-column>
               <el-table-column prop="TrueName" label="姓名" align="center">
               </el-table-column>
-              <el-table-column prop="Score" label="分数" sortable align="center">
-              </el-table-column>
               <el-table-column prop="Ranking" label="排名" align="center">
+              </el-table-column>
+              <el-table-column prop="Score" label="分数" sortable align="center">
               </el-table-column>
               <el-table-column prop="Score" label="操作" width="260" align="center">
                 <template scope="scope">
-                   <!-- <el-input-number v-show="scoreEdit" size="small" v-model="scope.row.Score" :max="100" :min="0"></el-input-number>  -->
-                    <el-input v-show="scoreEdit" :class="(startEdit!=scope.row.ExamCourseID)?'inline':null" size="small" :min="0" :disabled="startEdit!=i.CourseName" v-model="scope.row.Score" :max="i.FullScore" type="number" placeholder="修改分数"></el-input>  
-                   <el-button type="text" @click.native="startEditOneScore(scope.row)" v-show="startEdit!=i.CourseName">修改</el-button> 
+                  <span v-show="!i.showEdit">/</span>
+                  <!-- <el-input v-show="scope.row.edit && !startEdit" class="inline" size="small" v-model="scope.row.Score" :min="0" :max="i.FullScore" type="number" ></el-input> -->
+                  <el-input v-show="scope.row.edit || startEdit" class="inline" size="small" :min="0" v-model="scope.row.Score" :max="i.FullScore" type="number" placeholder="修改分数"></el-input>
+                  <el-button v-show='i.showEdit && !scope.row.edit && !startEdit' type="info" @click='scope.row.edit = true' size="small" icon="edit">编辑</el-button>
+                  <el-button v-show='i.showEdit && scope.row.edit && !startEdit' type="success" @click='editOneScore(scope.row)' size="small" icon="check">完成</el-button>
                 </template>
               </el-table-column>
+              <!-- <el-table-column prop="Score" label="操作" width="260" align="center">
+                <template scope="scope">
+                  <el-input v-show="scoreEdit" :class="(startEdit!=scope.row.ExamCourseID)?'inline':null" size="small" :min="0" :disabled="startEdit!=i.CourseName" v-model="scope.row.Score" :max="i.FullScore" type="number" placeholder="修改分数"></el-input>  
+                  <el-button type="text" @click.native="startEditOneScore(scope.row)" v-show="startEdit!=i.CourseName">修改</el-button>   
+                </template>
+              </el-table-column> -->
             </el-table>
           </el-tab-pane>
       
@@ -101,87 +109,165 @@
 export default {
   data() {
     return {
-      data:{},
-      startEdit: 0,
+      data: {},
+      newdata: null,
+      scorelist: null,
+      startEdit: false,
       showEditOneScore: false,
       editScoreOneData: {},
-      currentCourse: '成绩汇总',
-      scoreEdit: false
-    }
+      currentCourse: "成绩汇总",
+      scoreEdit: false,
+      allEdit: false
+    };
   },
   computed: {
     summaryScore() {
-      return this.data.VueData
+      return this.data.VueData;
+    },
+    myCourse() {
+      return this.$store.getters.myCourse;
     },
     currentClassInfo() {
       if (!this.$store.state.currentClassInfo) {
-        return this.$store.dispatch('getCurrentClassInfo')
+        return this.$store.dispatch("getCurrentClassInfo");
       } else {
-        return this.$store.state.currentClassInfo
+        return this.$store.state.currentClassInfo;
       }
     },
+    classInfo() {
+      return this.$store.state.currentClassInfo;
+    },
+    isClassAdmin() {
+      if (this.$store.getters.role == "老师") {
+        if (
+          this.classInfo.teacher &&
+          this.$store.state.currentUser.Meid == this.classInfo.teacher.Meid
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
   },
   methods: {
+    // 批量修改显示隐藏
+    handleClick(tab) {
+      if(this.isClassAdmin){
+        this.allEdit = true
+      }else{
+        if(this.myCourse == tab.label){
+          this.allEdit = true
+        }else{
+          this.allEdit = false
+        }
+      }
+    },
+    // 编辑个人成绩
+    editOneScore(val) {
+      val.edit = false;
+      let params = [];
+      let data = {};
+      data.ID = val.ID;
+      data.ExamCourseID = val.ExamCourseID;
+      data.Meid = val.Meid;
+      data.Score = val.Score;
+      params.push(data);
+      this.$API
+        .addExamScore(params)
+        .then(res => {
+          this.$message.success("修改成功~！");
+          val.edit = false;
+        })
+        .catch(err => {
+          this.$message.error(err.msg);
+        });
+    },
     startEditOneScore(val) {
-      this.showEditOneScore = true
-      this.editScoreOneData = val
+      this.showEditOneScore = true;
+      this.editScoreOneData = val;
     },
     submitEditOneScore() {
-      let editData = []
-      editData.push(this.editScoreOneData)
-      this.$API.addExamScore(editData).then(res => {
-        this.$message.success('添加成绩成功')
-        this.editScoreOneData = {}
-        this.showEditOneScore = false
-      }).catch(err => {
-        this.$message.error(err)
-      })
+      let editData = [];
+      editData.push(this.editScoreOneData);
+      this.$API
+        .addExamScore(editData)
+        .then(res => {
+          this.$message.success("添加成绩成功");
+          this.editScoreOneData = {};
+          this.showEditOneScore = false;
+        })
+        .catch(err => {
+          this.$message.error(err);
+        });
     },
     submitAllScore(n) {
       let allData = this.data.CoursesSummary.find(el => {
-        return el.CourseName == n
-      })
-      this.$API.addExamScore(allData.Scores).then(res => {
-        this.$message.success('添加成绩成功')
-        this.editScoreOneData = {}
-        this.getData()
-
-      }).catch(err => {
-        this.$message.error(err)
-      })
+        return el.CourseName == n;
+      });
+      this.$API
+        .addExamScore(allData.Scores)
+        .then(res => {
+          this.$message.success("添加成绩成功");
+          this.editScoreOneData = {};
+          this.getData();
+        })
+        .catch(err => {
+          this.$message.error(err.msg);
+        });
     },
     getData() {
-      this.$API.getExamInfo(this.$route.params.examId).then(res=>{
-        this.data=res
-        let data = this.data
-        let time = new Date(data.CreateTime)
-        data.CreateTime = time.Format('MM-dd hh:mm')
-      })
+      console.log(this.myCourse)
+      this.$API.getExamInfo(this.$route.params.examId).then(res => {
+        this.data = res;
+        let newdata = this.data;
+        let courseslist = this.data.CoursesSummary;
+        let time = new Date(this.data.CreateTime);
+        this.data.CreateTime = time.Format("MM-dd hh:mm");
+        courseslist.forEach(e => {
+          //学科老师只能编辑自己成绩
+          if(this.isClassAdmin){
+            e.showEdit = true
+          }else{
+            if(this.myCourse == e.CourseName){
+              e.showEdit = true
+            }else{
+              e.showEdit = false
+            }
+          }
+          // 表格数据中 添加一个字段  编辑显示隐藏
+          e.Scores.forEach(m => {
+            e.Scores = e.Scores.map(v => {
+              this.$set(v, "edit", false);
+              return v;
+            });
+          });
+        });
+      });
     }
   },
   created() {
-    this.getData()
+    this.getData();
   },
-  mounted(){
-  },
-  watch:{
-    '$route':'getData'
+  mounted() {},
+  watch: {
+    $route: "getData"
   }
-}
+};
 </script>
 
 <style lang="less" scoped>
-@import '../../style/theme.less';
+@import "../../style/theme.less";
 
 .card {
   background: #fff;
   .examinfo {
     text-align: center;
-    .title{
+    .title {
       font-size: 24px;
       line-height: 36px;
     }
-    .examtime{
+    .examtime {
       color: @grey;
     }
     .item {
@@ -234,10 +320,10 @@ export default {
 
 .info {
   color: @grey;
-  span{
+  span {
     margin-right: 20px;
   }
-  b{
+  b {
     color: @sub;
   }
   .btn {
@@ -248,13 +334,13 @@ export default {
 
 .inline {
   display: inline-block;
-  width: 90px;
+  width: 110px;
 }
-.el-tabs{
-  margin:10px 0;
-  padding:10px 20px; 
+.el-tabs {
+  margin: 10px 0;
+  padding: 10px 20px;
   background: #f8f8f8;
-  .el-tabs__nav-wrap{
+  .el-tabs__nav-wrap {
     background: red;
   }
 }

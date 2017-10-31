@@ -78,7 +78,14 @@ API.deleteExam = (data) => {
 API.addExamScore = (data) => {
   return new Promise((resolve, reject) => {
     axios.post(_APIurl+'/api/class/AddExamScore',data).then((res)=>{
-      resolve(res)
+      if (res.data.Status === 1) {
+        resolve(res)
+      } else {
+        let error = {}
+        error.status = res.data.Status
+        error.msg = res.data.Msg
+        reject(error)
+      }
     }).catch((err)=>{
       reject(err)
     })

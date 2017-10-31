@@ -74,6 +74,11 @@ const store = new Vuex.Store({
         }
       }
     },
+    myCourse: state => {
+      if(state.currentUser && state.currentUser.Role === '老师') {
+        return state.currentUser.ExtendInfo.Course.CourseName
+      }
+    },
     hasNewPost: state => {
       if (state.currentUser && state.currentUser.UnReadMsgCount > 0) {
         return true
@@ -233,22 +238,22 @@ const store = new Vuex.Store({
         commit('setCurrentClassInfo', res)
       })
     },
-    login({
-      getters,
-      commit,
-      state
-    }, payload) {
-      return new Promise((resolve, reject) => {
-        API.login(payload).then(res => {
-          localStorage.setItem('user', JSON.stringify(res))
-          commit('login', res)
-          commit('setToken', res.Token)
-          resolve(res)
-        }).catch(err => {
-          reject(err)
-        })
-      })
-    },
+    // login({
+    //   getters,
+    //   commit,
+    //   state
+    // }, payload) {
+    //   return new Promise((resolve, reject) => {
+    //     API.login(payload).then(res => {
+    //       localStorage.setItem('user', JSON.stringify(res))
+    //       commit('login', res)
+    //       commit('setToken', res.Token)
+    //       resolve(res)
+    //     }).catch(err => {
+    //       reject(err)
+    //     })
+    //   })
+    // },
     studentLogin({
       getters,
       commit,
