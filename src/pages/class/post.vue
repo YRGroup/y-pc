@@ -51,7 +51,7 @@
       <div class="reply">
         <el-input class="input" v-model.trim="replyData.content" placeholder="请输入内容" v-show="showReply"></el-input>
         <el-button class="btn" type="success" v-show="showReply" @click="submitReply">回复</el-button>
-        <el-button class="btn" style="margin-left:500px;" :plain="true" type="success" v-show="!showReply" @click.native="showReply=true">回复</el-button>
+        <el-button class="btn" size="small" style="float:right;margin-right:20px;margin-top:4px;" :plain="true" type="success" v-show="!showReply" @click.native="showReply=true">回复</el-button>
       </div>
       <div class="replyList">
         <div class="title">全部回复</div>
@@ -284,7 +284,7 @@ export default {
 
 .replyList {
   .title {
-    padding: 15px 24px;
+    padding: 15px 20px;
     font-size: 16px;
     border-bottom: 1px solid @border;
   }

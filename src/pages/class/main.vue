@@ -336,6 +336,7 @@ export default {
     background: #fbfbfb;
     border-radius: 5px;
     padding: 10px 20px;
+    margin-bottom: 8px;
     .name {
       display: inline-block;
       color: @main;
