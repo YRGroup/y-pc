@@ -29,7 +29,7 @@
             </span>
             <span @click="openQRcode(data.EncryptID)" style="position:relative">
               <i class="iconfont">&#xe60c;</i>分享
-              <div v-show="showQRcode" class="QRcode" @click="showQRcode=false">
+              <div v-show="showQRcode" class="QRcode">
                 <canvas id="QRcodeInPost"></canvas>
               </div>
             </span>
@@ -133,17 +133,11 @@ export default {
       })
     },
     openQRcode(val) {
-      if(this.showQRcode == false){
-        this.showQRcode = true
-        // let url = document.location.href.split('#')[0] + '#/p/' + val
-        let url = document.location.origin + '/m/#/p/' + val
-        QRCode.toCanvas(document.getElementById('QRcodeInPost'), url, function(error) {
-          if (error) console.error(error)
-          console.log('success!');
-        })
-      }else{
-        this.showQRcode = false
-      }
+      this.showQRcode = !this.showQRcode
+      let url = document.location.origin + '/m/#/p/' + val
+      QRCode.toCanvas(document.getElementById('QRcodeInPost'), url, function(error) {
+        if (error) console.error(error)
+      })
     }
   },
   created() {
