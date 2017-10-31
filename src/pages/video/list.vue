@@ -32,16 +32,16 @@
                 <img class="banner" :src="i.CoverUrl||'http://img.mukewang.com/576b7afb00019e4906000338-240-135.jpg'" style="display: inline;">
               </div>
               <div class="content">
-                <h3 class="name">
+                <p class="name">
                   {{i.Title}}
                   <span class="delete" @click="deleteVideo(i.VideoId)" v-show="isAdmin">
                     <i class="iconfont">&#xe641;</i>
                   </span>
-                </h3>
+                </p>
                 <div class="info">
                   <span>
                     <i class="iconfont">&#xe678;</i>{{i.TrueName}}</span>
-                  <span>
+                  <span class="time">
                     <i class="iconfont">&#xe621;</i>{{i.Duration | formatTime}}</span>
                 </div>
                 <div class="bottom">
@@ -279,16 +279,23 @@ export default {
           max-height: 44px;
           position: relative;
           width: 220px;
+          overflow: hidden;
+          text-overflow:ellipsis;
+          white-space: nowrap;
         }
         .info {
           font-size: 12px;
           font-weight: 300;
           color: @grey;
+          overflow: hidden;
           .iconfont {
             margin-right: 5px;
           }
-          span {
-            margin-right: 20px;
+          span:nth-child(1){
+            float: left;
+          }
+          .time{
+            float: right;
           }
         }
         .bottom {
