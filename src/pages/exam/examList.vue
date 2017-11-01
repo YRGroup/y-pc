@@ -120,7 +120,7 @@ export default {
         Type: '0',
         ExamTime: '',
         ExamCourses: [],
-        courses: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        courses: []
       },
       data: [],
       chartDataType: ["1", "2", "3", "4"],

@@ -53,7 +53,8 @@
         </div>
       </div>
     </div>
-
+     <!-- 返回顶部 -->
+     <div class="gototop" @click="goBacktopMain" v-show="goTopShow"><i class="iconfont">&#xe622;</i></div>
   </div>
 </template>
 
@@ -64,7 +65,9 @@ export default {
   data() {
     return {
       logo: require('@/assets/logo.png'),
-      wxQRcodeIMG: ''
+      wxQRcodeIMG: '',
+      scroll: '',
+      goTopShow:'',
     }
   },
   computed: {
@@ -81,10 +84,36 @@ export default {
   methods: {
     getWXQRcode() {
       this.wxQRcodeIMG = this.$API.getWXQRcode()
+    },
+    menu() {
+        this.scroll = document.documentElement.scrollTop || document.body.scrollTop;
+        if(this.scroll < 200) {
+            this.goTopShow = false;
+        }
+        else {
+            this.goTopShow = true;
+        }
+    },
+    goBacktopMain() {
+      
+        let gotoTop= function(){
+            let currentPosition = document.documentElement.scrollTop || document.body.scrollTop;
+            currentPosition -= 30;
+            if (currentPosition > 0) {
+                window.scrollTo(0, currentPosition);
+            }
+            else {
+                window.scrollTo(0, 0);
+                clearInterval(timer);
+                timer = null;
+            }
+        };
+        let timer = setInterval(gotoTop,1);
     }
   },
   created() {
-    this.getWXQRcode()
+    this.getWXQRcode(),
+    window.addEventListener('scroll', this.menu)
   },
   mounted() {
 
@@ -211,4 +240,24 @@ header {
     max-width: 100%;
   }
 }
+
+//回到顶部
+.gototop {
+    position: fixed;
+    bottom: 1rem;
+    left: 50%;
+    margin-left: 520px;
+    font-size: 48px;
+    color: rgba(170,170,170,.4);
+    cursor: pointer;
+}
+@media (max-width: 1330px){
+  .gototop {
+    left: inherit;
+    right: 2%;
+    margin-left: 0;
+}
+}
+
+
 </style>

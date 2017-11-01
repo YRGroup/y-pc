@@ -54,14 +54,20 @@
         <div class="cardList">
           <no-data v-if="noData"></no-data>
           <div v-else>
-            <div class="header">消费记录
-            </div>
+            <div class="header">消费记录</div>
+            
             <div class="item" v-for="(i,index) in alllog" :key="index">
               <div class="title">{{i.Title}}</div>
               <div class="time">{{i.CreateTime}}</div>
               <div class="log">{{i.OpeaType}} {{i.Money}}</div>
             </div>
-            <load-more @click.native="loadMore" :noMoreData="noMoreData"></load-more>
+            <!-- <load-more @click.native="loadMore" :noMoreData="noMoreData"></load-more> -->
+             <div class="pagination">
+              <el-pagination :current-Page="currentPage" :page-size="pageSize" 
+                  layout="prev, pager, next" :total="10*currentPage+40"
+                  @size-change="sizeChange" @current-change="pageIndexChange">
+              </el-pagination>
+            </div>
           </div>
 
         </div>
@@ -81,12 +87,12 @@ export default {
   data() {
     return {
       addCardData: {
-        CardID: '',
+        CardID: '', //卡号
         student_meid: this.$store.state.currentStudentId
       },
       CardID: '',
-      Blance: 0,
-      alllog: [],
+      Blance: 0,  //当前余额
+      alllog: [],  //所有记录
       currentPage: 1,
       pageSize: 10,
       noMoreData: false,
@@ -109,6 +115,14 @@ export default {
     }
   },
   methods: {
+     sizeChange: function (pageSize) {
+            this.pageSize = pageSize;
+            this.getData();
+        },
+        pageIndexChange: function (currentPage) {
+            this.currentPage = currentPage;
+            this.getData();
+        },
     getData() {
       let para = {}
       para.currentPage = this.currentPage
@@ -121,11 +135,12 @@ export default {
             this.Blance = res.Blance
           }
           if (res.Log.length) {
-            res.Log.forEach(element => {
-              let time = new Date(element.CreateTime)
-              element.CreateTime = time.Format('MM-dd hh:mm')
-              this.alllog.push(element)
-            })
+            // res.Log.forEach(element => {
+            //   let time = new Date(element.CreateTime)
+            //   element.CreateTime = time.Format('MM-dd hh:mm')
+            //   this.alllog.push(element)
+            // })
+            this.alllog=res.Log
           } else {
             this.noMoreData = true
           }
@@ -274,5 +289,9 @@ export default {
       font-size: 28px;
     }
   }
+}
+.pagination{
+  text-align: center;
+  margin-top: 20px;
 }
 </style>
