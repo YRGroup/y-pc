@@ -45,7 +45,7 @@
         <div class="followIcon">
           关注我们：
           <div class="wechat">
-            <img class="logopic" :src="wxQRcodeIMG">
+            <div class="qrcode"><img :src="wxQRcodeIMG"></div>
             <span>
               <i class="iconfont">&#xe659;</i>
             </span>
@@ -210,15 +210,37 @@ header {
       .wechat {
         display: inline-block;
         position: relative;
-        img {
-          display: none;
+        .qrcode {
           width: 160px;
+          height: 160px;
           position: absolute;
-          bottom: 40px;
-          right: 0;
+          bottom: 60px;
+          right: -50px;
+          transform-origin:50% 100%;
+          transform: scale(0);
+          opacity: 0;
+          box-shadow: 0 2px 3px rgba(0,0,0,.5);
+          color: #fff;
+          img{
+            width: 160px;
+            height: 160px;
+          }
+          &:after{
+            content: "";
+            border: solid transparent;
+            width: 0;
+            height: 0;
+            border-width:13px;
+            border-top-color:#fff;
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            margin-left: -13px;
+          }
         }
-        &:hover img {
-          display: block;
+        &:hover .qrcode {
+          opacity: 1;
+          transform: scale(1);
         }
       }
       .iconfont {
@@ -244,12 +266,15 @@ header {
 //回到顶部
 .gototop {
     position: fixed;
-    bottom: 1rem;
-    left: 50%;
+    bottom: 2rem;
+    right:20px;
     margin-left: 520px;
     font-size: 48px;
-    color: rgba(170,170,170,.4);
+    color: rgba(170,170,170,.3);
     cursor: pointer;
+    &:hover{
+      color: @main;
+    }
 }
 @media (max-width: 1330px){
   .gototop {
