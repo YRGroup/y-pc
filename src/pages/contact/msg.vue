@@ -18,7 +18,13 @@
           <div class="name" v-else>{{data.sendto_TrueName}}</div>
           <div class="time">{{i.CreateTime}}</div>
         </div>
-        <div class="content">{{i.Content}}</div>
+        <div class="msgCon">
+          <div class="isread" v-show="i.showRead">{{i.IsRead == false ? '未读' : '已读'}}</div>
+          <div class="content">
+            {{i.Content}}
+          </div>
+        </div>
+        
       </li>
       <li class="noMsg" v-show="msgList.length==0">
         暂无消息
@@ -59,6 +65,14 @@ export default {
       this.$API.getMsgInfo(this.userId).then(res => {
         this.data = res
         this.msgList = res.CL
+        this.msgList.forEach(element => {
+          element.showRead = null
+          if(this.userId == element.SendTo){
+            element.showRead = true
+          }else{
+            element.showRead = false
+          }
+        })
       })
     },
     addMsg() {
@@ -97,6 +111,7 @@ export default {
     padding: 5px 20px;
     margin: 15px 0;
     min-height: 60px;
+    overflow: hidden;
     .header {
       position: relative;
       .img {
@@ -114,10 +129,14 @@ export default {
     }
     .content {
       display: inline-block;
-      max-width: calc(~"100% - 210px");
+      // max-width: calc(~"100% - 210px");
       padding: 6px 10px;
       border-radius: 6px;
       margin: 0 5px;
+    }
+    .msgCon{
+      max-width: calc(~"100% - 210px");
+      overflow: hidden;
     }
   }
   .left {
@@ -150,11 +169,16 @@ export default {
   }
   .right {
     text-align: right;
+    .msgCon{
+      float: right;
+    }
     .content {
       background: #f5f5f5;
       color: #333;
       text-align: left;
+      display: inline-block;
       position: relative;
+      max-width: calc(~"100% - 59px");
       &:before {
         position: absolute;
         content: '';
@@ -165,6 +189,13 @@ export default {
         border: 6px solid transparent;
         border-left-color: #f5f5f5;
       }
+    }
+    .isread{
+      display: inline-block;
+      margin-right: 5px;
+      color: @grey;
+      font-size: 12px;
+      float: left;
     }
     .header {
       float: right;

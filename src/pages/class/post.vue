@@ -35,12 +35,18 @@
             </span>
           </span>
           <div class="liked" v-if="$store.getters.hasLogin">
-            <div class="item" v-for="(i,index) in data.zans" :key="index">
-              <div class="img">
-                <img :src="i.HeadImg">
-              </div>
-              <div class="name">
-                {{i.TrueName||'user'}}
+            <div class="iszan"><i class="iconfont">&#xe611;</i></div>
+            <div class="item">
+              <span v-for="(i,index) in data.zans">{{i.TrueName||'user'}} , </span>
+            </div>
+            <div class="zanNum">{{data.like}}人觉得很赞</div> 
+          </div>
+          <div class="look">
+            <div class="lookNum">已读：{{data.LookCount}}人</div>
+            <div class="lookuser">
+              <div class="item" v-for="(i,index) in data.LookUser">
+                <img :src="i.Headimgurl">
+                <span class="name">{{i.TrueName}}</span>
               </div>
             </div>
           </div>
@@ -73,84 +79,95 @@
 </template>
 
 <script>
-var QRCode = require('qrcode')
+var QRCode = require("qrcode");
 export default {
-  name: 'post',
+  name: "post",
   components: {},
   data() {
     return {
       data: {},
       showReply: false,
-      imgBig: '',
+      imgBig: "",
       showImgBig: false,
       replyData: {
-        did: '',
-        content: ''
+        did: "",
+        content: ""
       },
-      showQRcode: false
-    }
+      showQRcode: false,
+    };
   },
   methods: {
     getData() {
-      if (this.$route.name === 'post') {
-        this.userGetData()
+      if (this.$route.name === "post") {
+        this.userGetData();
       }
-      if (this.$route.name === 'anonymousPost') {
-        this.anonymousGetData()
+      if (this.$route.name === "anonymousPost") {
+        this.anonymousGetData();
       }
     },
     anonymousGetData() {
       this.$API.getPostAnonymouse(this.$route.params.postId).then(res => {
-        this.data = res
-      })
+        this.data = res;
+      });
     },
     userGetData() {
-      this.$API.getClassDynamic(this.$store.state.currentClassId, this.$route.params.postId).then(res => {
-        this.data = res
-      })
+      this.$API
+        .getClassDynamic(
+          this.$store.state.currentClassId,
+          this.$route.params.postId
+        )
+        .then(res => {
+          this.data = res;
+        });
     },
     submitReply() {
-      this.replyData.did = this.data.ID
-      if (this.$store.getters.role == '家长' && this.$store.state.currentStudentId != null) {
-        this.replyData.student_meid = this.$store.state.currentStudentId
+      this.replyData.did = this.data.ID;
+      if (
+        this.$store.getters.role == "家长" &&
+        this.$store.state.currentStudentId != null
+      ) {
+        this.replyData.student_meid = this.$store.state.currentStudentId;
       }
       this.$API.postNewComment(this.replyData).then(res => {
-        this.$message('添加回复成功！')
-        this.showReply = false
-        this.replyData.content = ''
-        this.getData()
-      })
+        this.$message("添加回复成功！");
+        this.showReply = false;
+        this.replyData.content = "";
+        this.getData();
+      });
     },
     openImgBig(val) {
-      this.imgBig = val
-      this.showImgBig = true
+      this.imgBig = val;
+      this.showImgBig = true;
     },
     doLike(id) {
-      this.$API.doLikeThisPost(id).then((res) => {
-        this.$message.success('点赞成功');
-      }).catch(err => {
-        this.$message.error(err.msg)
-      })
+      this.$API
+        .doLikeThisPost(id)
+        .then(res => {
+          this.$message.success("点赞成功");
+        })
+        .catch(err => {
+          this.$message.error(err.msg);
+        });
     },
     openQRcode(val) {
-      this.showQRcode = !this.showQRcode
-      let url = document.location.origin + '/m/#/p/' + val
-      QRCode.toCanvas(document.getElementById('QRcodeInPost'), url, function(error) {
-        if (error) console.error(error)
-      })
+      this.showQRcode = !this.showQRcode;
+      let url = document.location.origin + "/m/#/p/" + val;
+      QRCode.toCanvas(document.getElementById("QRcodeInPost"), url, function(
+        error
+      ) {
+        if (error) console.error(error);
+      });
     }
   },
   created() {
-    this.getData()
+    this.getData();
   },
-  mounted() {
-
-  },
-}
+  mounted() {}
+};
 </script>
 
 <style lang="less" scoped>
-@import '../../style/theme.less';
+@import "../../style/theme.less";
 
 .nav {
   font-size: 12px;
@@ -192,7 +209,7 @@ export default {
       opacity: 0.6;
       &:before {
         position: absolute;
-        content: '';
+        content: "";
         left: 0;
         width: 0;
         height: 0;
@@ -222,7 +239,7 @@ export default {
       .iconbtn {
         float: right;
         cursor: pointer;
-        span{
+        span {
           &:hover {
             color: @main;
           }
@@ -232,23 +249,42 @@ export default {
         }
       }
       .liked {
-        .item {
+        .iszan {
           display: inline-block;
           position: relative;
-          text-align: center;
-          margin: 5px;
-          .img {
-            position: static;
-            img {
-              width: 30px;
-              height: 30px;
-              border-radius: 50%;
-            }
-            .headTextImg {
-              width: 30px;
-              height: 30px;
-              line-height: 30px;
-              font-size: 20px;
+          top: 5px;
+          .iconfont {
+            font-size: 24px;
+            color: @main;
+          }
+        }
+        .zanNum{
+          display: inline-block;
+        }
+        .item {
+          display: inline-block;
+        }
+      }
+      .look{
+        background: #f7f7f7;
+        padding: 10px;
+        margin-top: 20px;
+        .lookNum{
+          font-size: 14px;
+          margin-bottom: 8PX;
+          font-weight: 600;
+        }
+        .lookuser{
+          .item{
+            display: inline-block;
+            margin:0 10px 10px 0;
+            text-align: center;
+            border-radius: 8px;
+            img{
+              width: 54px;
+              height: 54px;
+              border-radius: 8px;
+              display: block;
             }
           }
         }
@@ -308,6 +344,6 @@ export default {
   right: 0;
   top: 20px;
   background: #fff;
-  box-shadow: 0 1px 1px 1px rgba(7,17,7,.1);
+  box-shadow: 0 1px 1px 1px rgba(7, 17, 7, 0.1);
 }
 </style>

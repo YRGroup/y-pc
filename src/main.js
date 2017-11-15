@@ -74,14 +74,13 @@ axios.interceptors.response.use(
     }
   },
   error => {
-    console.log('发生错误：')
-    console.log(error)
     let err = {}
     if (error.response) {
       err.code = error.response.data.Status
       err.msg = error.response.data.Msg
     }
     if (error.response.status == 401 || error.response.data.Msg === "操作令牌错误！" || error.response.data.Msg === "校验签名失败！") {
+      this.$message.warning("请重新登录~！")
       router.push('/login')
     }
     if (error.response.status == 500) {

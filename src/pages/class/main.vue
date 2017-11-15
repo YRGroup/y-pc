@@ -6,6 +6,26 @@
         <i class="iconfont">&#xe623;</i>发布动态</div>
     </div>
 
+    <!-- <div class="sendpost">
+      <div class="input">
+          <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model.trim="newPost.content">
+          </el-input>
+      </div>
+      <div class="funArea">
+        <div class="sendBtn"></div>
+        <div class="kind">
+          <a>
+            <i class="iconfont">&#xe60e;</i>
+            图片
+          </a>
+          <a>
+            <i class="iconfont">&#xe60e;</i>
+            视频
+          </a>
+        </div>
+      </div>
+    </div> -->
+
     <el-dialog title="发布动态" :visible.sync="showAddPost" size="tiny">
       <el-form :model="newPost">
         <el-form-item>
@@ -22,7 +42,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="success" @click="addNewPost">发 布</el-button>
+        <el-button type="success" @click="addNewPost" v-loading.fullscreen.lock="fullscreenLoading">发 布</el-button>
       </div>
     </el-dialog>
 
@@ -55,7 +75,7 @@
         <div class="footer">
           <span class="time">{{i.date}}</span>
           <span class="iconbtn">
-            <span title="删除" class="delBtn" v-if="isAdmin" @click="delPost(i.ID)">
+            <span title="删除" class="delBtn" v-if="isAdmin" @click="delPost(i.ID)" v-loading.fullscreen.lock="fullscreenLoading">
               <i class="iconfont">&#xe630;</i>
               <span class="delBtnTitle">删除</span>
             </span>
@@ -96,6 +116,7 @@ export default {
       noMoreData: false,
       nodataImg: false,
       showAddPost: false,
+      fullscreenLoading: false,
       nodataPic: require('@/assets/nodata.png')
     }
   },
@@ -150,10 +171,12 @@ export default {
       this.$confirm('确认删除该动态吗?', '提示', {
         type: 'warning'
       }).then(() => {
+        this.fullscreenLoading = true
         let para = {
           did: id
         }
         this.$API.deletePost(para).then(() => {
+          this.fullscreenLoading = false
           this.$message({
             message: '删除成功',
             type: 'success',
@@ -198,6 +221,7 @@ export default {
       }
       let inputCon = this.newPost.content
       if (inputCon != undefined) {
+        this.fullscreenLoading = true
         this.$refs.upload.uploadFiles.forEach((obj) => {
           this.fileList.push(obj.response.Content[0])
         })
@@ -205,9 +229,10 @@ export default {
         this.newPost.cid = this.$store.state.currentClassId
         this.newPost['img_url_list'] = this.fileList.join(',')
         this.$API.postNewClassDynamic(this.newPost).then(res => {
+          this.fullscreenLoading = false
           this.showAddPost = false
           this.data = []
-          this.$message('发布动态成功')
+          this.$message.success('发布动态成功')
           this.getData()
           this.newPost.content = ''
           this.newPost.img_url_list = ''
