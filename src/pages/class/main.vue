@@ -32,13 +32,7 @@
           <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model.trim="newPost.content">
           </el-input>
         </el-form-item>
-        <el-form-item>
-          <el-upload :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
-            <i class="el-icon-plus"></i>
-          </el-upload>
-          </el-input>
-        </el-form-item>
-        <el-form-item label="接收人：">
+        <el-form-item label="是否@某学生：">
           <el-switch on-text="" off-text="" v-model="showstudent"></el-switch>
         </el-form-item label="">
         <el-form-item v-show="showstudent">
@@ -47,6 +41,13 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <el-form-item>
+          <el-upload :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+          </el-input>
+        </el-form-item>
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="success" @click="addNewPost" v-loading.fullscreen.lock="fullscreenLoading">发 布</el-button>
@@ -113,7 +114,7 @@ export default {
     return {
       newPost: {
         content: '',
-        at_meid:'',
+        at_meid:[],
         img_url_list:''
       },
       showstudent: false,
@@ -142,9 +143,6 @@ export default {
     },
   },
   methods: {
-    updateData: function(data) {
-      this.newPost.content = data;
-    },
     getData() {
       let para = {};
       para.cid = this.$store.state.currentClassId;
@@ -171,7 +169,6 @@ export default {
           this.$message.error(err.msg);
         });
       this.$API.getStudentList(para.cid).then(res => {
-        console.log(res)
         this.studentList = res;
       });
     },
@@ -252,15 +249,17 @@ export default {
         this.newPost.student_meid = this.$store.state.currentStudentId;
       }
       let inputCon = this.newPost.content;
-      if (inputCon != undefined) {
+      if (inputCon != "") {
         this.fullscreenLoading = true;
         this.$refs.upload.uploadFiles.forEach(obj => {
           this.fileList.push(obj.response.Content[0]);
         });
         this.newPost.type = 1;
         this.newPost.cid = this.$store.state.currentClassId;
+        if(!this.showstudent){
+          this.newPost.at_meid = []
+        }
         this.newPost["img_url_list"] = this.fileList.join(",");
-        console.log(this.newPost)
         this.$API.postNewClassDynamic(this.newPost).then(res => {
           this.fullscreenLoading = false;
           this.showAddPost = false;
@@ -268,12 +267,17 @@ export default {
           this.$message.success("发布动态成功");
           this.getData();
           this.newPost = {
-            content: '',
-            at_meid:'',
+            textcontent: '',
+            at_meid:[],
             img_url_list:''
           },
           this.fileList = [];
           this.$refs.upload.uploadFiles = [];
+        })
+        .catch(err => {
+          this.fullscreenLoading = false;
+          this.$message.error(err.msg);
+          
         });
       } else {
         this.$message("内容不能为空");

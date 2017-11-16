@@ -34,7 +34,7 @@
               </div>
             </span>
           </span>
-          <div class="liked" v-if="$store.getters.hasLogin">
+          <div class="liked">
             <div class="iszan"><i class="iconfont">&#xe611;</i></div>
             <div class="item">
               <span v-for="(i,index) in data.zans">{{i.TrueName||'user'}} , </span>
