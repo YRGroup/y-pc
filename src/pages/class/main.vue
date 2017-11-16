@@ -35,7 +35,7 @@
       </el-form>
       <el-form :model="newPost">
         <el-form-item>
-          <el-upload :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
+          <el-upload :http-request="imgUpload" :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
             <i class="el-icon-plus"></i>
           </el-upload>
           </el-input>
@@ -96,6 +96,7 @@
 </template>
 
 <script>
+import lrz from 'lrz'
 import loadMore from '@//components/loadMore'
 import noData from '@//components/noData'
 
@@ -123,11 +124,35 @@ export default {
   computed: {
     isAdmin() {
       return this.$store.state.currentUser.Meid == this.$store.state.currentClassInfo.teacher.Meid
-    }
+    },
+    imgBaseList(){
+          let arr=[];
+          this.imgUrls.forEach((n,i)=>{
+              arr.push(n.src)
+          })
+        return arr;
+      }
   },
   methods: {
     updateData: function(data) {
       this.newPost.content = data
+    },
+    imgUpload()
+    {
+      this.fullscreenLoading = true
+       let vm = this
+       let file=this.$refs.upload.uploadFiles[this.$refs.upload.uploadFiles.length-1].raw;
+       lrz(file, { quality :file.size>1024*200?0.7:1 }).then((rst)=>{
+          vm.imgUrls.push({
+              src:rst.base64,
+              uid:file.uid
+          });
+          this.fullscreenLoading = false
+          return rst;
+        }).always(function() {
+        // 清空文件上传控件的值
+        //e.target.value = null;
+        });
     },
     getData() {
       let para = {}
@@ -196,8 +221,12 @@ export default {
       this.showImgBig = true
     },
     handleRemove(file, fileList) {
-      console.log(fileList);
-      let c = file.response.Content[0]
+      for(var i=0; i<this.imgUrls.length; i++) {
+        if(this.imgUrls[i].uid== file.uid) {
+          this.imgUrls.splice(i, 1);
+          break;
+        }
+      }
     },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
@@ -205,14 +234,14 @@ export default {
     },
     beforePictureUpload(file) {
       const isJPG = (file.type === 'image/jpeg' || file.type === 'image/png')
-      const isLt5M = file.size / 1024 / 1024 < 5;
+      //const isLt5M = file.size / 1024 / 1024 < 5;
       if (!isJPG) {
         this.$message.error('上传图片只能是 JPG或PNG 格式!');
       }
-      if (!isLt5M) {
-        this.$message.error('上传图片大小不能超过 5MB!');
-      }
-      return isJPG && isLt5M;
+      //if (!isLt5M) {
+        //this.$message.error('上传图片大小不能超过 5MB!');
+      //}
+      return isJPG; //&& isLt5M;
     },
 
     addNewPost() {
@@ -222,12 +251,10 @@ export default {
       let inputCon = this.newPost.content
       if (inputCon != undefined) {
         this.fullscreenLoading = true
-        this.$refs.upload.uploadFiles.forEach((obj) => {
-          this.fileList.push(obj.response.Content[0])
-        })
         this.newPost.type = 1
         this.newPost.cid = this.$store.state.currentClassId
         this.newPost['img_url_list'] = this.fileList.join(',')
+        this.newPost['img_base64_list'] = this.imgBaseList.join('|')
         this.$API.postNewClassDynamic(this.newPost).then(res => {
           this.fullscreenLoading = false
           this.showAddPost = false
@@ -238,6 +265,7 @@ export default {
           this.newPost.img_url_list = ''
           this.fileList = []
           this.$refs.upload.uploadFiles = []
+          this.imgUrls=[]
         })
       } else {
         this.$message('内容不能为空')
