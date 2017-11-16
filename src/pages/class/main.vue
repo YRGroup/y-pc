@@ -47,12 +47,12 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item>
+        <!-- <el-form-item>
           <el-upload :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
             <i class="el-icon-plus"></i>
           </el-upload>
           </el-input>
-        </el-form-item>
+        </el-form-item> -->
 
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -157,8 +157,7 @@ export default {
     updateData: function(data) {
       this.newPost.content = data;
     },
-    imgUpload()
-    {
+    imgUpload() {
       this.fullscreenLoading = true
        let vm = this
        let file=this.$refs.upload.uploadFiles[this.$refs.upload.uploadFiles.length-1].raw;
@@ -284,7 +283,9 @@ export default {
         this.newPost.student_meid = this.$store.state.currentStudentId;
       }
       let inputCon = this.newPost.content;
-      if (inputCon != undefined) {
+      if(!inputCon && !this.newPost.img_base64_list){
+        this.$message.error("内容不能为空");
+      }else{
         this.fullscreenLoading = true
         if(!this.showstudent){
           this.newPost.at_meid = []
@@ -306,8 +307,6 @@ export default {
           this.$refs.upload.uploadFiles = []
           this.imgUrls=[]
         })
-      } else {
-        this.$message("内容不能为空");
       }
     },
     openUserPage(u) {
