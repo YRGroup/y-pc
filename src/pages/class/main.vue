@@ -32,13 +32,20 @@
           <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model.trim="newPost.content">
           </el-input>
         </el-form-item>
-      </el-form>
-      <el-form :model="newPost">
         <el-form-item>
           <el-upload :http-request="imgUpload" :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
             <i class="el-icon-plus"></i>
           </el-upload>
           </el-input>
+        </el-form-item>
+        <el-form-item label="接收人：">
+          <el-switch on-text="" off-text="" v-model="showstudent"></el-switch>
+        </el-form-item label="">
+        <el-form-item v-show="showstudent">
+          <el-select v-model="newPost.at_meid" multiple placeholder="请选择" style="width:300px">
+            <el-option v-for="item in studentList" :key="item.NickName" :label="item.NickName" :value="item.Meid" style="width:300px">
+            </el-option>
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -56,7 +63,7 @@
         </div>
         <div class="tips">{{i.category}}</div>
         <div class="header">{{i.auther}}</div>
-        <div class="content" @click="$router.push('/post/'+i.ID)">{{i.content}}</div>
+        <div class="content" @click="$router.push('/post/'+i.ID)">{{i.content}} <span class="atuser" v-for="item in i.AtUser">@{{item.TrueName}}</span></div>
         <div class="albums">
           <li v-for="(p,index) in i.albums" :key="index">
             <div class="imgCon" :style="{backgroundImage:'url\('+p+'\)'}" @click="openImgBig(p)"></div>
@@ -101,25 +108,31 @@ import loadMore from '@//components/loadMore'
 import noData from '@//components/noData'
 
 export default {
-  name: 'app',
+  name: "app",
   components: { loadMore, noData },
   data() {
     return {
-      newPost: {},
+      newPost: {
+        content: '',
+        at_meid:'',
+        img_url_list:''
+      },
+      showstudent: false,
       data: [],
       fileList: [],
       imgUrls: [],
       imgbase64List: [],
       currentPage: 1,
       pageSize: 10,
-      imgBig: '',
+      imgBig: "",
       showImgBig: false,
       noMoreData: false,
       nodataImg: false,
       showAddPost: false,
       fullscreenLoading: false,
-      nodataPic: require('@/assets/nodata.png')
-    }
+      nodataPic: require("@/assets/nodata.png"),
+      studentList:{}
+    };
   },
   computed: {
     isAdmin() {
@@ -135,7 +148,7 @@ export default {
   },
   methods: {
     updateData: function(data) {
-      this.newPost.content = data
+      this.newPost.content = data;
     },
     imgUpload()
     {
@@ -155,70 +168,83 @@ export default {
         });
     },
     getData() {
-      let para = {}
-      para.cid = this.$store.state.currentClassId
-      para.currentPage = this.currentPage
-      para.pagesize = this.pageSize
-      para.type = 1
-      this.$API.getAllClassDynamic(para).then(res => {
-        if (res.length) {
-          res.forEach((element) => {
-            if (element.comment.length) {
-              element.comment1 = element.comment[0]
-            }
-            this.data.push(element)
-          })
-        } else if (res.length == 0 && this.currentPage == 1) {
-          this.nodataImg = true
-        } else if (res.length == 0 && this.currentPage != 1) {
-          this.noMoreData = true
-        }
-      }).catch(err => {
-        this.$message.error(err.msg)
-      })
+      let para = {};
+      para.cid = this.$store.state.currentClassId;
+      para.currentPage = this.currentPage;
+      para.pagesize = this.pageSize;
+      para.type = 1;
+      this.$API
+        .getAllClassDynamic(para)
+        .then(res => {
+          if (res.length) {
+            res.forEach(element => {
+              if (element.comment.length) {
+                element.comment1 = element.comment[0];
+              }
+              this.data.push(element);
+            });
+          } else if (res.length == 0 && this.currentPage == 1) {
+            this.nodataImg = true;
+          } else if (res.length == 0 && this.currentPage != 1) {
+            this.noMoreData = true;
+          }
+        })
+        .catch(err => {
+          this.$message.error(err.msg);
+        });
+      this.$API.getStudentList(para.cid).then(res => {
+        console.log(res)
+        this.studentList = res;
+      });
     },
     loadMore() {
-      this.currentPage++
-      this.getData()
+      this.currentPage++;
+      this.getData();
     },
     addImg(e) {
-      let files = e.target.files || e.dataTransfer.files
-      console.log(files)
+      let files = e.target.files || e.dataTransfer.files;
+      console.log(files);
     },
     doLike(id) {
-      this.$API.doLikeThisPost(id).then((res) => {
-        this.$message.success('点赞成功')
-      }).catch(err => {
-        this.$message.error(err.msg)
-      })
+      this.$API
+        .doLikeThisPost(id)
+        .then(res => {
+          this.$message.success("点赞成功");
+        })
+        .catch(err => {
+          this.$message.error(err.msg);
+        });
     },
     delPost(id) {
-      this.$confirm('确认删除该动态吗?', '提示', {
-        type: 'warning'
+      this.$confirm("确认删除该动态吗?", "提示", {
+        type: "warning"
       }).then(() => {
-        this.fullscreenLoading = true
+        this.fullscreenLoading = true;
         let para = {
           did: id
-        }
-        this.$API.deletePost(para).then(() => {
-          this.fullscreenLoading = false
-          this.$message({
-            message: '删除成功',
-            type: 'success',
+        };
+        this.$API
+          .deletePost(para)
+          .then(() => {
+            this.fullscreenLoading = false;
+            this.$message({
+              message: "删除成功",
+              type: "success"
+            });
+            this.data = [];
+            this.getData();
           })
-          this.data = []
-          this.getData()
-        }).catch((err) => {
-          this.$message({
-            message: '删除失败了哦!',
-            type: 'error',
-          })
-        })
-      })
+          .catch(err => {
+            this.$message({
+              message: "删除失败了哦!",
+              type: "error"
+            });
+          });
+      });
     },
     openImgBig(val) {
-      this.imgBig = val
-      this.showImgBig = true
+      this.imgBig = val;
+      this.showImgBig = true;
     },
     handleRemove(file, fileList) {
       for(var i=0; i<this.imgUrls.length; i++) {
@@ -236,7 +262,7 @@ export default {
       const isJPG = (file.type === 'image/jpeg' || file.type === 'image/png')
       //const isLt5M = file.size / 1024 / 1024 < 5;
       if (!isJPG) {
-        this.$message.error('上传图片只能是 JPG或PNG 格式!');
+        this.$message.error("上传图片只能是 JPG或PNG 格式!");
       }
       //if (!isLt5M) {
         //this.$message.error('上传图片大小不能超过 5MB!');
@@ -245,10 +271,13 @@ export default {
     },
 
     addNewPost() {
-      if (this.$store.getters.role == '家长' && this.$store.state.currentStudentId != null) {
-        this.newPost.student_meid = this.$store.state.currentStudentId
+      if (
+        this.$store.getters.role == "家长" &&
+        this.$store.state.currentStudentId != null
+      ) {
+        this.newPost.student_meid = this.$store.state.currentStudentId;
       }
-      let inputCon = this.newPost.content
+      let inputCon = this.newPost.content;
       if (inputCon != undefined) {
         this.fullscreenLoading = true
         this.newPost.type = 1
@@ -268,37 +297,36 @@ export default {
           this.imgUrls=[]
         })
       } else {
-        this.$message('内容不能为空')
+        this.$message("内容不能为空");
       }
     },
     openUserPage(u) {
-      if (u.Role == '老师') {
-        this.$router.push('/t?id=' + u.auther_meid)
-      } else if (u.Role == '家长') {
+      if (u.Role == "老师") {
+        this.$router.push("/t?id=" + u.auther_meid);
+      } else if (u.Role == "家长") {
         this.$message({
           showClose: true,
-          message: '家长没有个人主页',
-          type: 'warning'
-        })
-      } else if (u.Role == '学生') {
-        this.$router.push('/s?id=' + u.auther_meid)
+          message: "家长没有个人主页",
+          type: "warning"
+        });
+      } else if (u.Role == "学生") {
+        this.$router.push("/s?id=" + u.auther_meid);
       }
     }
   },
   created() {
-    this.getData()
+    this.getData();
   },
-  mounted() {
-  },
+  mounted() {}
   // watch: {
   //   "$route": "getData"
   // },
-}
+};
 </script>
 
 <style lang="less" scoped>
-@import '../../style/theme.less';
-@import 'https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css';
+@import "../../style/theme.less";
+@import "https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css";
 
 .addPost {
   background: #fff;
@@ -365,7 +393,7 @@ export default {
     opacity: 0.6;
     &:before {
       position: absolute;
-      content: '';
+      content: "";
       left: 0;
       width: 0;
       height: 0;
@@ -453,6 +481,10 @@ export default {
       }
     }
   }
+}
+.atuser {
+  color: #0c92f3;
+  margin-right: 8px;
 }
 
 .bigImg {
