@@ -22,7 +22,7 @@
           </div>
           <div class="taskbottom">
             <span class="time">{{i.CreateTime}}</span>
-            <span title="删除" class="delBtn" v-if="isClassAdmin" @click="delPost(i.HID)">
+            <span title="删除" class="delBtn" v-if="isClassAdmin" @click="delPost(i.HID)" v-loading.fullscreen.lock="fullscreenLoading">
               <i class="iconfont">&#xe630;</i>
               <span class="delBtnTitle">删除</span>
             </span>
@@ -96,7 +96,8 @@ export default {
       fileList: [],
       nodataImg: false,
       nodataPic: require('@/assets/nodata.png'),
-      notClassAdmin: false
+      notClassAdmin: false,
+      fullscreenLoading: false
     }
   },
   computed: {
@@ -168,14 +169,18 @@ export default {
       this.$confirm('确认删除该作业吗?', '提示', {
         type: 'warning'
       }).then(() => {
+        this.fullscreenLoading = true;
         let para = {
           hid: id
         }
         this.$API.deleteHomeWork(para).then(() => {
+          this.fullscreenLoading = false;
           this.$message({
             message: '删除成功',
             type: 'success',
           })
+          this.homework = []
+          this.getData();
           // this.refresh()
         }).catch((err) => {
           this.$message({
@@ -214,7 +219,6 @@ export default {
       })
     },
     handleRemove(file, fileList) {
-      console.log(fileList);
       let c = file.response.Content[0]
     },
     beforePictureUpload(file) {
@@ -242,16 +246,18 @@ export default {
       })
       this.newHomeworkData['img_url_list'] = this.fileList.join(',')
       if (!this.newHomeworkData.title) {
-        this.$message('请填写标题')
+        this.$message.error('请填写标题')
       } else if (!this.newHomeworkData.course_name) {
-        this.$message('请选择学科')
+        this.$message.error('请选择学科')
       } else if (!this.newHomeworkData.content) {
-        this.$message('请填写内容')
+        this.$message.error('请填写内容')
       } else {
         this.$API.addHomework(this.newHomeworkData).then(res => {
           this.showAddHomework = false
-          this.$message('发布作业成功')
+          this.$message.success('发布作业成功')
           // this.refresh()
+          this.homework = []
+          this.getData();
           this.newHomeworkData = {
             title: '',
             content: '',
