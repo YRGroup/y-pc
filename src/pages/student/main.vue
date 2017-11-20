@@ -6,13 +6,18 @@
         <span class="title" slot="label">信息</span>
         <y-profile></y-profile>
       </el-tab-pane>
-      <el-tab-pane name="edit">
-        <span class="title" slot="label">修改资料</span>
-        <y-edit v-if="this.activeTab==='edit'"></y-edit>
-      </el-tab-pane>
+
       <el-tab-pane name="score">
         <span class="title" slot="label">成绩</span>
         <y-score></y-score>
+      </el-tab-pane>
+      <el-tab-pane name="post">
+        <span class="title" slot="label">动态</span>
+        <y-post></y-post>
+      </el-tab-pane>
+      <el-tab-pane name="edit">
+        <span class="title" slot="label">修改资料</span>
+        <y-edit v-if="this.activeTab==='edit'"></y-edit>
       </el-tab-pane>
     </el-tabs>
   
@@ -20,13 +25,14 @@
 </template>
 
 <script>
-import YProfile from './coms/profile'
-import YEdit from './edit'
-import YScore from './score'
+import YProfile from '@/pages/student/coms/profile'
+import YEdit from '@/pages/student/edit'
+import YScore from '@/pages/student/score'
+import YPost from '@/pages/sys/post'
 
 export default {
   name: 'studentMain',
-  components: { YProfile,YEdit,YScore },
+  components: { YProfile,YEdit,YScore,YPost },
   data() {
     return {
       activeTab: 'profile',

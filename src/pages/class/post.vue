@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading.fullscreen.lock="fullscreenLoading">
     <div class="body card">
       <div class="maintitle">
         <i class="iconfont">&#xe737;</i>动态详情
@@ -15,7 +15,7 @@
           {{data.auther}}
         </div>
         <div class="tips">{{data.category}}</div>
-        <div class="content">{{data.content}}</div>
+        <div class="content">{{data.content}} <span class="atuser" v-for="item in data.AtUser">@{{item.TrueName}}</span></div>
         <div class="albums">
           <li v-for="(p,index) in data.albums" :key="index">
             <div class="imgCon" :style="{backgroundImage:'url\('+p+'\)'}" @click="openImgBig(p)"></div>
@@ -94,6 +94,7 @@ export default {
         content: ""
       },
       showQRcode: false,
+      fullscreenLoading: true
     };
   },
   methods: {
@@ -117,6 +118,7 @@ export default {
           this.$route.params.postId
         )
         .then(res => {
+          this.fullscreenLoading = false
           this.data = res;
         });
     },
@@ -265,30 +267,7 @@ export default {
           display: inline-block;
         }
       }
-      .look{
-        background: #f7f7f7;
-        padding: 10px;
-        margin-top: 20px;
-        .lookNum{
-          font-size: 14px;
-          margin-bottom: 8PX;
-          font-weight: 600;
-        }
-        .lookuser{
-          .item{
-            display: inline-block;
-            margin:0 10px 10px 0;
-            text-align: center;
-            border-radius: 8px;
-            img{
-              width: 54px;
-              height: 54px;
-              border-radius: 8px;
-              display: block;
-            }
-          }
-        }
-      }
+
     }
   }
 }
@@ -345,5 +324,9 @@ export default {
   top: 20px;
   background: #fff;
   box-shadow: 0 1px 1px 1px rgba(7, 17, 7, 0.1);
+}
+.atuser {
+  color: #0c92f3;
+  margin-right: 8px;
 }
 </style>

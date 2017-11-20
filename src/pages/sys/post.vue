@@ -1,17 +1,16 @@
 <template>
   <div>
-  
-    <div class="card" v-for="i in data" :key="i.id">
+    <div class="mycard" v-for="i in data" :key="i.id">
       <div class="img">
         <img :src="i.userImg">
       </div>
       <div class="del" @click="del(i.ID)" v-if="!$route.query.id">删除</div>
       <div class="header">{{i.auther}}</div>
-      <div class="content" @click="$router.push('/post/'+i.ID)">{{i.content}}</div>
+      <div class="content" @click="$router.push('/post/'+i.ID)">{{i.content}} <span class="atuser" v-for="item in i.AtUser">@{{item.TrueName}}</span></div>
       <div class="albums">
-        <li v-for="(p,index) in i.albums" :key="index">
-          <img :src="p">
-        </li>
+        <li v-for="(p,index) in i.Albums">
+            <div class="imgCon" :style="{backgroundImage:'url\('+p+'\)'}" @click="openImgBig(p)"></div>
+          </li>
       </div>
       <div class="footer">
         <span class="time">{{i.date}}</span>
@@ -21,6 +20,9 @@
         </span>
       </div>
     </div>
+    <el-dialog :visible.sync="showImgBig" class="bigImg" top="10%">
+      <img :src="imgBig">
+    </el-dialog>
   
     <load-more @click.native="loadMore" :noMoreData="noMoreData"></load-more>
   
@@ -38,7 +40,9 @@ export default {
       currentPage: 1,
       pageSize: 10,
       noMoreData: false,
-      postLength: 0
+      postLength: 0,
+      imgBig: "",
+      showImgBig: false,
     }
   },
   props: {
@@ -47,10 +51,10 @@ export default {
   methods: {
     getData() {
       let para = {}
-      para.meid = this.id
+      para.meid = this.$store.getters.currentUserId
       para.currentPage = this.currentPage
       para.pagesize = this.pageSize
-      this.$API.getAllTeacherDynamic(para).then(res => {
+      this.$API.getAllUserDynamic(para).then(res => {
         let post = res.length
         this.$store.state.numLength.post = post
         if (res.length) {
@@ -61,6 +65,10 @@ export default {
           this.noMoreData = true
         }
       })
+    },
+    openImgBig(val) {
+      this.imgBig = val;
+      this.showImgBig = true;
     },
     del(id) {
       this.$confirm('确认删除该动态吗?', '提示', {
@@ -99,15 +107,18 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../../../style/theme.less';
+@import '../../style/theme.less';
 
-.card {
+.mycard {
   border-bottom: 1px dashed @border;
   position: relative;
   background: #fff;
   font-size: 12px;
   padding-left: 70px;
   padding-bottom: 10px;
+  img{
+    max-width: 100%;;
+  }
   &:hover{
     background: @border;
   }
@@ -131,13 +142,22 @@ export default {
   .content {
     width: calc(~"100% - 80px");
     line-height: 24px;
+    overflow: hidden;
+  }
+  .content img{
+    max-width: 100%;
   }
   .albums {
+    margin: 10px 0;
     li {
-      padding: 10px;
       display: inline-block;
-      img {
-        max-height: 120px;
+      .imgCon {
+        width: 160px;
+        height: 160px;
+        background-position: center;
+        background-size: cover;
+        display: inline-block;
+        margin: 0 10px 10px 0;
       }
     }
   }
@@ -169,6 +189,17 @@ export default {
         color: @main;
       }
     }
+  }
+}
+.bigImg {
+  max-width: 100vw;
+  max-height: 100vh;
+  .el-dialog {
+    top: 0;
+  }
+  img {
+    max-width: 100%;
+    max-height: 100vh;
   }
 }
 </style>

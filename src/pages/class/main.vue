@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div  v-loading.fullscreen.lock="fullscreenLoading">
     
     <div class="addPost">
       <div class="title addbtn" @click="showAddPost=true">
@@ -136,7 +136,7 @@ export default {
       noMoreData: false,
       nodataImg: false,
       showAddPost: false,
-      fullscreenLoading: false,
+      fullscreenLoading: true,
       nodataPic: require("@/assets/nodata.png"),
       studentList:{}
     };
@@ -182,6 +182,7 @@ export default {
       this.$API
         .getAllClassDynamic(para)
         .then(res => {
+          this.fullscreenLoading = false
           if (res.length) {
             res.forEach(element => {
               if (element.comment.length) {
@@ -491,11 +492,6 @@ export default {
     }
   }
 }
-.atuser {
-  color: #0c92f3;
-  margin-right: 8px;
-}
-
 .bigImg {
   max-width: 100vw;
   max-height: 100vh;

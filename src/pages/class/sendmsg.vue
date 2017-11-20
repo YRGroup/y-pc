@@ -152,6 +152,9 @@ export default {
         .replace(/\-/gi, "<br />")
         .replace(/\$\{teachername\}/gi, " X X X")
         .replace(/\$\{time\}/gi, time)
+        .replace(/\$\{teacher\}/gi, " XX老师 ")
+        .replace(/\$\{course\}/gi, " XX学科 ")
+        // .replace(/\$\{content\}/gi, "XX学科")
         .replace(/\$\{address\}/gi, address);
     },
     sendSms() {

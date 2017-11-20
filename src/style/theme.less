@@ -33,18 +33,17 @@
 }
 
 //过渡动画
-*{
-    transition:all 0.2s;
+* {
+    transition: all 0.2s;
 }
+
 // 字体图标
 @font-face {
-    font-family: 'iconfont';  /* project id 291668 */
+    font-family: 'iconfont';
+    /* project id 291668 */
     src: url('//at.alicdn.com/t/font_291668_521qhj9249hvkj4i.eot');
-    src: url('//at.alicdn.com/t/font_291668_521qhj9249hvkj4i.eot?#iefix') format('embedded-opentype'),
-    url('//at.alicdn.com/t/font_291668_521qhj9249hvkj4i.woff') format('woff'),
-    url('//at.alicdn.com/t/font_291668_521qhj9249hvkj4i.ttf') format('truetype'),
-    url('//at.alicdn.com/t/font_291668_521qhj9249hvkj4i.svg#iconfont') format('svg');
-  }
+    src: url('//at.alicdn.com/t/font_291668_521qhj9249hvkj4i.eot?#iefix') format('embedded-opentype'), url('//at.alicdn.com/t/font_291668_521qhj9249hvkj4i.woff') format('woff'), url('//at.alicdn.com/t/font_291668_521qhj9249hvkj4i.ttf') format('truetype'), url('//at.alicdn.com/t/font_291668_521qhj9249hvkj4i.svg#iconfont') format('svg');
+}
 
 .iconfont {
     font-family: "iconfont";
@@ -282,19 +281,49 @@ a:hover {
 .inputtext {
     width: 120px;
     padding: 8px;
-    border:1px solid #bfcbd9;
-    border-radius:4px;
-    color:#1f2d3d;
-    outline:0;
-    transition:border-color .2s cubic-bezier(.645,.045,.355,1);
-    font-size:14px;
-    
-}
-.inputtext:focus{
-  border-color:#20a0ff;
-  outline:none;
+    border: 1px solid #bfcbd9;
+    border-radius: 4px;
+    color: #1f2d3d;
+    outline: 0;
+    transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
+    font-size: 14px;
 }
 
-.inview{
+.inputtext:focus {
+    border-color: #20a0ff;
+    outline: none;
+}
+
+.inview {
     min-height: calc(100vh - 25px);
+}
+
+.atuser {
+    color: #0c92f3;
+    margin-right: 8px;
+}
+
+.look {
+    background: #f7f7f7;
+    padding: 10px;
+    margin-top: 20px;
+    .lookNum {
+        font-size: 14px;
+        margin-bottom: 8PX;
+        font-weight: 600;
+    }
+    .lookuser {
+        .item {
+            display: inline-block;
+            margin: 0 10px 10px 0;
+            text-align: center;
+            border-radius: 8px;
+            img {
+                width: 54px;
+                height: 54px;
+                border-radius: 8px;
+                display: block;
+            }
+        }
+    }
 }

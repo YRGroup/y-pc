@@ -133,7 +133,7 @@
       <el-tab-pane name="post">
         <span class="title" slot="label">动态</span>
         <div class="content">
-          <teacher-post :id="currentUserId"></teacher-post>
+          <my-post :id="currentUserId"></my-post>
         </div>
       </el-tab-pane>
 
@@ -165,13 +165,13 @@
 
 <script>
 import teacherHomework from '@/pages/teacher/components/homework'
-import teacherPost from '@/pages/teacher/components/post'
+import myPost from '@/pages/sys/post'
 import msg from '@/pages/contact/main'
 import teacherVideo from '@/pages/video/list'
 
 export default {
   name: 'app',
-  components: { teacherHomework, teacherPost, msg, teacherVideo },
+  components: { teacherHomework, myPost, msg, teacherVideo },
   data() {
     return {
       activeTab: 'profile',

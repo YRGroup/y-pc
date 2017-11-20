@@ -16,16 +16,7 @@ API.getTeacherInfo = (teacherId) => {
   })
 }
 
-// 获取教师发表的动态列表
-API.getAllTeacherDynamic = (para) => {
-  return new Promise((resolve, reject) => {
-    axios.get(_APIurl+'/api/Teacher/GetDynamicList',{params:para}).then((res)=>{
-      resolve(res.data.Content)
-    }).catch((err)=>{
-      reject(err)
-    })
-  })
-}
+
 
 // 获取教师发表的作业列表
 API.getAllTeacherHomework = (para) => {

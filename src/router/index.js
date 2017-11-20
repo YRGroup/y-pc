@@ -10,7 +10,7 @@ import docs from '@/pages/main/docs'
 import classHome from '@/pages/class/home'
 import klass from '@/pages/class/main'
 import post from '@/pages/class/post'
-import homeworklist from '@/pages/class/homeworklist'
+// import homeworklist from '@/pages/class/homeworklist'
 import homework from '@/pages/class/homework'
 import sendmsg from '@/pages/class/sendmsg'
 
@@ -96,22 +96,26 @@ export default new Router({
               name: 'post',
               component: post,
             },
-
             {
-              path: '/homeworklist',
-              name: 'homeworklist',
-              component: homeworklist,
-            },
-            {
-              path: '/homework/:homeworkId',
+              path: '/homework',
               name: 'homework',
               component: homework,
             },
-            {
-              path: '/homework/:id',
-              name: 'homework',
-              component: homework,
-            },
+            // {
+            //   path: '/homeworklist',
+            //   name: 'homeworklist',
+            //   component: homeworklist,
+            // },
+            // {
+            //   path: '/homework/:homeworkId',
+            //   name: 'homework',
+            //   component: homework,
+            // },
+            // {
+            //   path: '/homework/:id',
+            //   name: 'homework',
+            //   component: homework,
+            // },
           ]
         },
         {

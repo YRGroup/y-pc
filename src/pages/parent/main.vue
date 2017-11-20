@@ -80,6 +80,10 @@
 
         </div>
       </el-tab-pane>
+      <el-tab-pane name="post">
+        <span class="title" slot="label">动态</span>
+          <y-post></y-post>
+      </el-tab-pane>
 
       <!-- <el-tab-pane name="addStudent">
           <span class="title" slot="label">添加学生</span>
@@ -97,10 +101,11 @@
 <script>
 import addStudent from '@/pages/parent/addStudent'
 import msg from '@/pages/contact/main'
+import YPost from '@/pages/sys/post'
 
 export default {
   name: 'parent',
-  components: { addStudent, msg },
+  components: { addStudent, msg, YPost },
   data() {
     return {
       activeTab: 'main',
