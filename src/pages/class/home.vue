@@ -139,6 +139,8 @@ export default {
     },
 
     getData() {
+      if(!this.$store.state.currentClassId)
+        return;
       this.getClassInfo();
       this.getTeacherList();
       this.getNotice();
