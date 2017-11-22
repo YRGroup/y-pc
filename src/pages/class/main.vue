@@ -174,6 +174,8 @@ export default {
         });
     },
     getData() {
+      if(!this.$store.state.currentClassId)
+        return;
       let para = {};
       para.cid = this.$store.state.currentClassId;
       para.currentPage = this.currentPage;

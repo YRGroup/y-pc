@@ -80,8 +80,11 @@ axios.interceptors.response.use(
       err.msg = error.response.data.Msg
     }
     if (error.response.status == 401 || error.response.data.Msg === "操作令牌错误！" || error.response.data.Msg === "校验签名失败！") {
-      this.$message.warning("请重新登录~！")
-      router.push('/login')
+      Vue.prototype.$message.warning("请重新登录~！")
+      store.dispatch('logout').then(res => {
+        router.push('/login')
+      })
+      //router.push('/login')
     }
     if (error.response.status == 500) {
       err.msg = '内部服务器错误，请联系网络管理员'
