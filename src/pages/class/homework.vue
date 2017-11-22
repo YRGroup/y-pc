@@ -72,7 +72,7 @@
       </el-form>
 
       <div slot="footer" class="dialog-footer">
-        <el-button type="success" @click="addNewHomework">确 定</el-button>
+        <el-button type="success" @click="addNewHomework" v-loading.fullscreen.lock="fullscreenLoading">确 定</el-button>
       </div>
     </el-dialog>
 
@@ -268,6 +268,7 @@ export default {
         this.$message.error('请填写内容')
       } else {
         this.$API.addHomework(this.newHomeworkData).then(res => {
+          this.fullscreenLoading = false
           this.showAddHomework = false
           this.$message.success('发布作业成功')
           this.refresh()
@@ -276,7 +277,8 @@ export default {
           this.newHomeworkData = {
             title: '',
             content: '',
-            course_name: ''
+            course_name: '',
+            img_url_list:''
           }
         }).catch(err => {
           this.$message.error(err.msg)

@@ -8,6 +8,11 @@
       <div class="tasktitle">{{i.Title}}</div>
       <div class="taskbox">
         <div class="taskcon" v-html="i.Content"></div>
+        <div class="albums">
+          <li v-for="(p,index) in i.Albums">
+              <div class="imgCon" :style="{backgroundImage:'url\('+p+'\)'}"></div>
+            </li>
+        </div>
         <div class="taskbottom">
           <span class="time">{{i.CreateTime}}</span>
         </div>
@@ -20,7 +25,7 @@
 </template>
 
 <script>
-import loadMore from '@//components/loadMore'
+import loadMore from '@/components/loadMore'
 
 export default {
   components: { loadMore },
@@ -42,6 +47,7 @@ export default {
       para.currentPage = this.currentPage
       para.pagesize = this.pageSize
       this.$API.getAllTeacherHomework(para).then(res => {
+        console.log(res)
         let homework = res.length
         this.$store.state.numLength.homework = homework
         if (res.length) {
@@ -128,4 +134,18 @@ export default {
     }
   }
 }
+.albums {
+    margin: 10px 0;
+    li {
+      display: inline-block;
+      .imgCon {
+        width: 160px;
+        height: 160px;
+        background-position: center;
+        background-size: cover;
+        display: inline-block;
+        margin: 0 10px 10px 0;
+      }
+    }
+  }
 </style>
