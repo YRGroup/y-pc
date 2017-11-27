@@ -8,6 +8,7 @@
     <no-data v-if="nodataImg"></no-data>
     <div v-else>
       <div class="card panel" v-for="(i,index) in homework" :key="index">
+        <span v-if="!i.IsRead">[未读]</span>
         <div class="course">
           {{i.CourseName}}
         </div>

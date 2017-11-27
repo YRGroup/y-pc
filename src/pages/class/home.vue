@@ -32,6 +32,7 @@
           </div>
           <div class="content" v-if="homework.length">
             <div class="homeworkItem" v-for="i in homework" :key="i.HID" @click="$router.push('/homework?id='+i.HID)">
+              <span v-if="!i.IsRead">[未读]</span>
               <span>【{{i.CourseName}}】</span>
               <span class="homeworkCon">{{i.Title || '班级作业'}}</span>
             </div>
