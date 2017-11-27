@@ -178,7 +178,10 @@ header {
 
 .mainbox {
   width: 100%;
-  background: #f3f0e0;
+   background: url(../assets/mainBg2.jpg) center center;
+   background-attachment:fixed;
+   background-size:cover;
+  // background: #f3f0e0;
   padding: 20px 0;
   min-height: calc(~"100vh - 208px")
 }

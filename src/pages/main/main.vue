@@ -1,7 +1,6 @@
 <template>
   <div class="panel">
     <img class="poster" :src="poster">
-
     <div class="panel">
       <el-tabs v-model="activeName" @tab-click="handleSwitchTab">
         <el-tab-pane name="1">
@@ -113,7 +112,7 @@ export default {
   border-bottom: 1px solid @border;
   &:hover {
     background: @border;
-    .img {
+    img {
       transform: scale(1.05);
       transition: all 0.5s;
     }
@@ -126,6 +125,7 @@ export default {
     height: 120px;
     width: 200px;
     display: inline-block;
+    overflow: hidden;
     img {
       width: 100%;
       height: 120px;
