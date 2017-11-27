@@ -1,5 +1,6 @@
 <template>
-  <div class="card panel">
+<div v-loading.fullscreen.lock="fullscreenLoading">
+  <div class="card panel" >
     <div style="text-align:center">
       <el-button @click="showAddExam=true" type="success" class="ml20 addBtn">添加新考试</el-button>
     </div>
@@ -13,7 +14,7 @@
             <span>
               <i class="iconfont">&#xe6b4;</i>总分平均分：{{i.TotalAvgScore}}</span>
             <span>
-              <i class="iconfont">&#xe621;</i>考试时间：{{i.ExamTime|FormatDate}}</span>
+              <i class="iconfont">&#xe621;</i>考试时间：{{i.ExamTime}}</span>
             <span>
               <i class="iconfont">&#xe6b4;</i>考试类型： {{i.Type | formatExamType}}
             </span>
@@ -68,17 +69,6 @@
             </el-date-picker>
           </el-form-item>
         </div>
-        <!-- <div>
-          <el-form-item label="考试类型" :rules="[{ required: true}]">
-            <el-radio-group v-model="newExamData.Type" size="small">
-              <el-radio class="radio" label="0">自订</el-radio>
-              <el-radio class="radio" label="1">期中考试</el-radio>
-                <el-radio class="radio" label="2">期末考试</el-radio>
-                <el-radio class="radio" label="3">周考</el-radio>
-                <el-radio class="radio" label="4">月考</el-radio>
-            </el-radio-group>
-          </el-form-item>
-        </div> -->
         <div>
           <el-form-item label="学科">
             <el-checkbox-group v-model="newExamData.courses" class="checkbox">
@@ -93,7 +83,7 @@
         </div>
         <div>
           <el-form-item label="">
-            <el-button type="success" @click.native="addNewExam">确 定</el-button>
+            <el-button type="success" @click.native="addNewExam" v-loading.fullscreen.lock="fullscreenLoading">确 定</el-button>
             <el-button @click="showAddExam = false" :plain="true" type="success">取 消</el-button>
           </el-form-item>
         </div>
@@ -101,11 +91,13 @@
     </el-dialog>
 
   </div>
+</div>
 </template>
 
 <script>
 import noData from '@//components/noData'
 import echarts from 'echarts'
+import moment from 'moment'
 
 export default {
   components: { noData },
@@ -130,7 +122,8 @@ export default {
       chart11_xAxis: [],
       chart11_legend: [],
       chart11_series: [],
-      chartData: {}
+      chartData: {},
+      fullscreenLoading: true
     }
   },
   computed: {
@@ -178,10 +171,6 @@ export default {
           return '月考'
       }
     },
-    FormatDate(val) {
-      let data = new Date(val)
-      return data.getFullYear() + " 年 " + (data.getMonth() + 1) + " 月 " + data.getDate() + " 日"
-    }
   },
   methods: {
     sendExamNotice(id) {
@@ -224,6 +213,10 @@ export default {
     getData() {
       this.newExamData.ClassID = this.currentClassId
       this.$API.getClassExamList(this.currentClassId).then(res => {
+        this.fullscreenLoading = false
+        res.forEach( element => {
+          element.ExamTime = moment(element.ExamTime).format('YYYY-M-D')
+        })
         this.data = res
         if (this.data.length == 0) {
           this.nodataImg = true
@@ -274,7 +267,6 @@ export default {
         })
         this.newExamData.ExamCourses.push(a)
       })
-      console.log(this.newExamData)
       if (!this.newExamData.ExamName) {
         this.$message.error('请填写考试名称')
       } else if (!this.newExamData.ExamTime) {
@@ -282,7 +274,9 @@ export default {
       } else if (!this.newExamData.ExamCourses.length) {
         this.$message.error('请选择学科')
       } else {
+        this.fullscreenLoading = true
         this.$API.addExam(this.newExamData).then(res => {
+          this.fullscreenLoading = false
           this.$message.success('添加考试成功')
           this.newExamData = {
             Name: '',
@@ -295,14 +289,16 @@ export default {
           this.showAddExam = false
           this.getData()
         }).catch(err => {
+          this.fullscreenLoading = false
           this.$message.error(err.msg)
+          this.showAddExam = false
           this.newExamData = {
             Name: '',
             Remark: '',
             ClassID: '',
             Type: '',
             ExamCourses: [],
-            courses: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+            courses: []
           }
         })
       }

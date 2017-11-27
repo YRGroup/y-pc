@@ -85,6 +85,7 @@ export default {
       }
       this.$API.getNewsList(para).then(res => {
         this.data = res
+        console.log(this.data)
         if (this.data.length == 0 && this.page == 1) {
         }
       }).catch(err => this.$message.error(err.msg))

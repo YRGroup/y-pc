@@ -21,7 +21,7 @@
             </div>
             <div>
               <el-form-item>
-                <el-button type="success" @click="addCardID" size="large">提交</el-button>
+                <el-button type="success" @click="addCardID" size="large">绑定</el-button>
               </el-form-item>
             </div>
           </el-form>
@@ -169,13 +169,17 @@ export default {
       })
     },
     unbindCard() {
-      this.$API.deleteSchoolcard(this.addCardData).then(res => {
-        this.$store.dispatch('getCurrentUser')
-        this.$message.success('解除绑定成功')
-        this.getData()
-      }).catch((err) => {
-        this.$message.error(err.msg)
-      })
+      this.$confirm("确认要解除绑定该卡吗?", "提示", {
+        type: "warning"
+      }).then(() => {
+        this.$API.deleteSchoolcard(this.addCardData).then(res => {
+          this.$store.dispatch('getCurrentUser')
+          this.$message.success('解除绑定成功')
+          this.getData()
+        }).catch((err) => {
+          this.$message.error(err.msg)
+        })
+      });
     },
     changeCurrentStudent(val) {
       this.$store.commit('changeCurrentStudentId', val)

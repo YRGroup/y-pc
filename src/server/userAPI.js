@@ -180,16 +180,7 @@ API.getCurrentUser = () => {
   })
 }
 
-// 获取教师发表的动态列表
-API.getAllUserDynamic = (para) => {
-  return new Promise((resolve, reject) => {
-    axios.get(_APIurl+'/api/User/GetDynamicList',{params:para}).then((res)=>{
-      resolve(res.data.Content)
-    }).catch((err)=>{
-      reject(err)
-    })
-  })
-}
+
 
 // 获取一卡通消费记录
 API.getCardList = (para) => {
@@ -241,6 +232,16 @@ API.changeCurrentStudent = (para) => {
 API.inviteParent = (para) => {
   return new Promise((resolve, reject) => {
     axios.post(_APIurl+'/api/Parent/InviteParent',para).then((res)=>{
+      resolve(res.data.Content)
+    }).catch((err)=>{
+      reject(err)
+    })
+  })
+}
+// 获取个人发布的动态列表
+API.getAllUserDynamic = (para) => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl+'/api/User/GetDynamicList',{params:para}).then((res)=>{
       resolve(res.data.Content)
     }).catch((err)=>{
       reject(err)
