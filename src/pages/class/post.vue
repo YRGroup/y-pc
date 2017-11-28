@@ -131,7 +131,7 @@ export default {
         this.replyData.student_meid = this.$store.state.currentStudentId;
       }
       this.$API.postNewComment(this.replyData).then(res => {
-        this.$message("添加回复成功！");
+        this.$message.success("添加回复成功！");
         this.showReply = false;
         this.replyData.content = "";
         this.getData();

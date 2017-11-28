@@ -9,7 +9,6 @@ import _APIurl from './config'
 API.getClassInfo = (classId) => {
   return axios.get(_APIurl + '/api/Class/GetInfo?cid=' + classId).then(res => res.data.Content)
 }
-// testing
 
 // 获取班级动态列表
 API.getAllClassDynamic = (para) => {
@@ -21,7 +20,6 @@ API.getAllClassDynamic = (para) => {
     })
   })
 }
-// testing
 
 // 获取班级作业列表
 API.getHomeworkList = (para) => {
