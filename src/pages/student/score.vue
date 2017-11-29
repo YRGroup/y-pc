@@ -249,7 +249,7 @@ export default {
 
 .scoreSummary {
   text-align: center;
-  border: 1px solid @border;
+  // border: 1px solid @border;
   background: url(../../assets/bgTop.png) no-repeat;
   padding: 20px;
   .title {

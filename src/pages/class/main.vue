@@ -77,12 +77,12 @@
           </li>
 
         </div>
-        <div class="comment" v-if="i.comment1">
+        <div class="comment" v-if="i.comment.length">
           <div class="name">
-            {{i.comment1.TrueName}}：
+            {{i.comment[0].TrueName}}：
           </div>
           <div class="content">
-            {{i.comment1.content}}
+            {{i.comment[0].content}}
           </div>
           <div class="btn" @click="$router.push('/post/'+i.ID)">查看更多</div>
         </div>
@@ -186,12 +186,13 @@ export default {
         .then(res => {
           this.fullscreenLoading = false
           if (res.length) {
-            res.forEach(element => {
-              if (element.comment.length) {
-                element.comment1 = element.comment[0];
-              }
-              this.data.push(element);
-            });
+            this.data = res
+            // res.forEach(element => {
+            //   if (element.comment.length) {
+            //     element.comment1 = element.comment[0];
+            //   }
+            //   this.data.push(element);
+            // });
           } else if (res.length == 0 && this.currentPage == 1) {
             this.nodataImg = true;
           } else if (res.length == 0 && this.currentPage != 1) {

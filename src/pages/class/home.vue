@@ -32,9 +32,9 @@
           </div>
           <div class="content" v-if="homework.length">
             <div class="homeworkItem" v-for="i in homework" :key="i.HID" @click="$router.push('/homework?id='+i.HID)">
-              <span v-if="!i.IsRead">[未读]</span>
-              <span>【{{i.CourseName}}】</span>
-              <span class="homeworkCon">[{{i.CreateTime | formatDateMMdd}}] {{i.Title || '班级作业'}}</span>
+              <span class="unread" v-if="!i.IsRead">[未读]</span>
+              <span class="homeworkCon">{{i.CreateTime | formatDateMMdd}} </span>
+              <span>【{{i.CourseName}}】{{i.Title || '班级作业'}}</span>
             </div>
           </div>
           <div class="content" v-else>
@@ -85,7 +85,7 @@ export default {
   filters: {
         formatDateMMdd(time) {
             var date = new Date(time);
-            return formatDate(date, "MM月dd日");
+            return formatDate(date, "MM-dd");
         }
   },
   computed: {
