@@ -9,9 +9,9 @@
         <span>
           <i class="iconfont">&#xe605;</i>教师人数：</span> {{teacherList.length}}</li>
       <li class="list">
-        <el-button type="success" @click="showAddTeacher=true">
+        <el-button type="primary" @click="showAddTeacher=true">
           <i class="iconfont">&#xe623;</i>添加老师</el-button>
-        <el-button type="info" @click="showAddStudent=true">
+        <el-button type="warning" @click="showAddStudent=true">
           <i class="iconfont">&#xe623;</i>添加学生</el-button>
       </li>
     </ul>
@@ -59,7 +59,7 @@
           </div>
           <div>
             <el-form-item>
-              <el-button @click.native="submitAddStudent" type="success">提 交</el-button>
+              <el-button @click.native="submitAddStudent" type="primary">提 交</el-button>
             </el-form-item>
           </div>
         </el-form>
@@ -133,7 +133,7 @@
           </div>
           <div>
             <el-form-item>
-              <el-button @click.native="submitAddTeacher" type="success">提 交</el-button>
+              <el-button @click.native="submitAddTeacher" type="primary">提 交</el-button>
             </el-form-item>
           </div>
         </el-form>
@@ -158,8 +158,6 @@
     </el-dialog>
     <div class="content">
       <div class="card">
-        <el-row>
-          <el-col>
             <div class="tableHeader">班级教师（ {{teacherList.length}} 人）</div>
             <el-table :data="teacherList" stripe border>
               <el-table-column type="index" label="序号" align="center" width="80">
@@ -168,7 +166,7 @@
               <el-table-column prop="TrueName" label="姓名" align="center">
               </el-table-column>
               <el-table-column label=" 头像" align="center">
-                <template slot-scope="scope">
+                <template scope="scope">
                   <img :src="scope.row.Headimgurl">
                 </template>
               </el-table-column>
@@ -178,29 +176,25 @@
               <el-table-column prop="Sex" label="性别" align="center">
               </el-table-column>
               <el-table-column label="职称" align="center">
-                <template slot-scope="scope">
+                <template scope="scope">
                   <div>
                     <span>{{scope.row.Title || '/'}}</span>
                   </div>
                 </template>
               </el-table-column>
               <el-table-column label="学科" align="center">
-                <template slot-scope="scope">
+                <template scope="scope">
                   <div>
                     <span>{{scope.row.Course || '/'}}</span>
                   </div>
                 </template>
               </el-table-column>
               <el-table-column label="操作" width="100" align="center">
-                <template slot-scope="scope">
+                <template scope="scope">
                   <el-button type="text" size="small" @click="startEditTeacher(scope.row)">编辑</el-button>
                 </template>
               </el-table-column>
             </el-table>
-          </el-col>
-        </el-row>
-        <el-row :gutter="40">
-          <el-col>
             <div class="tableHeader">班级学生（ {{studentList.length}} 人）</div>
             <el-table :data="studentList" stripe border>
               <el-table-column type="index" label="序号" align="center" width="80">
@@ -210,7 +204,7 @@
               </el-table-column>
 
               <el-table-column label=" 头像" align="center">
-                <template slot-scope="scope">
+                <template scope="scope">
                   <img :src="scope.row.Headimgurl">
                 </template>
               </el-table-column>
@@ -219,7 +213,7 @@
               <el-table-column prop="Sex" label="性别" align="center">
               </el-table-column>
               <el-table-column prop="ParentName" label="家长" align="center">
-                <template slot-scope="scope">
+                <template scope="scope">
                   <el-popover trigger="hover" placement="top">
                     <p>手机号: {{ scope.row.ParentPhone }}</p>
                     <div slot="reference" class="name-wrapper">
@@ -229,7 +223,7 @@
                 </template>
               </el-table-column>
               <el-table-column prop="IsActive" label="激活" align="center">
-                <template slot-scope="scope">
+                <template scope="scope">
                   <div>
                     <span v-show="scope.row.IsActive==true" style="color:grey">是</span>
                     <span v-show="scope.row.IsActive==false" style="color:red">否</span>
@@ -237,7 +231,7 @@
                 </template>
               </el-table-column>
               <el-table-column prop="IsSubscribe" label="关注" align="center">
-                <template slot-scope="scope">
+                <template scope="scope">
                   <div>
                     <span v-show="scope.row.IsSubscribe==true" style="color:grey">是</span>
                     <span v-show="scope.row.IsSubscribe==false" style="color:red">否</span>
@@ -255,13 +249,11 @@
                 </template>
               </el-table-column> -->
               <el-table-column label="操作" width="100" align="center">
-                <template slot-scope="scope">
+                <template scope="scope">
                   <el-button type="text" size="small" @click="startEditStudent(scope.row)">编辑</el-button>
                 </template>
               </el-table-column>
             </el-table>
-          </el-col>
-        </el-row>
       </div>
     </div>
     <el-dialog title="编辑教师资料" :visible.sync="showEditTeacher" size="tiny">
@@ -294,8 +286,8 @@
           </template>
         </el-form-item>
         <el-form-item label="">
-          <el-button type="success" @click="submitEditTeacher">确 定</el-button>
-          <el-button type="success" :plain="true" @click="showEditTeacher = false">取 消</el-button>
+          <el-button type="primary" @click="submitEditTeacher">确 定</el-button>
+          <el-button type="primary" :plain="true" @click="showEditTeacher = false">取 消</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -323,9 +315,9 @@
           <el-input v-model="editStudentData.ParentPhone"></el-input>
         </el-form-item>
         <el-form-item label="">
-          <el-button type="success" @click="submitEditStudent">确 定</el-button>
-          <el-button type="success" :plain="true" @click="showEditStudent = false">取 消</el-button>
-          <el-button type="info" @click="$router.push('/s?id='+editStudentData.Meid+'&tab=edit')">编辑详细资料</el-button>
+          <el-button type="primary" @click="submitEditStudent">确 定</el-button>
+          <el-button type="primary" :plain="true" @click="showEditStudent = false">取 消</el-button>
+          <el-button type="text" @click="$router.push('/s?id='+editStudentData.Meid+'&tab=edit')">编辑详细资料</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -604,7 +596,6 @@ export default {
 .cell {
   img {
     background: transparent;
-    padding: 10px 0;
     width: 36px;
     height: 36px;
     border-radius: 50%;

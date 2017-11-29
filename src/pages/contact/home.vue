@@ -199,6 +199,7 @@ export default {
       text-align: center;
     }
     .content {
+      padding: 0 10px;
       line-height: 2em;
       font-size: 16px;
     }

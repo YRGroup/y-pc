@@ -9,7 +9,7 @@
         <span>
           <i class="iconfont">&#xe605;</i>教师人数：</span> {{teacherList.length}}</li>
       <li class="list">
-        <el-button type="success" @click="showMessage = true">发短信</el-button>
+        <el-button type="primary" @click="showMessage = true">发短信</el-button>
       </li>
     </ul>
     <el-dialog title="发短信" :visible.sync="showMessage">
@@ -32,8 +32,8 @@
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-            <el-button type="success" @click="sendSms">确 定</el-button>
-            <el-button :plain="true" type="success" @click="showMessage = false">取 消</el-button>
+            <el-button type="primary" @click="sendSms">确 定</el-button>
+            <el-button plain type="primary" @click="showMessage = false">取 消</el-button>
         </div>
     </el-dialog>
     <div class="content">

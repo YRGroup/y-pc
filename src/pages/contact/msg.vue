@@ -30,8 +30,8 @@
         暂无消息
       </li>
       <div class="newMsgContent">
-        <el-input class="input" style="width:90%" placeholder="请输入内容" v-model="newMsgData.content" @keyup.enter.native="addMsg"></el-input>
-        <el-button @click="addMsg" class="btn" type="success">发送</el-button>
+        <el-input class="input" style="width:80%" placeholder="请输入内容" v-model="newMsgData.content" @keyup.enter.native="addMsg"></el-input>
+        <el-button @click="addMsg" class="btn" type="primary">发送</el-button>
       </div>
     </div>
   
@@ -105,7 +105,7 @@ export default {
 
 .card {
   background: #fff;
-  padding-bottom: 50px;
+  padding-bottom: 80px;
   position: relative;
   .item {
     padding: 5px 20px;
@@ -213,9 +213,10 @@ export default {
 
 .newMsgContent {
   // background: #edf1f5;
-  border: 1px solid @border;
-  padding: 10px;
+  border-top: 1px solid @border;
+  box-sizing: border-box;
   position: absolute;
+  padding:20px 10px;
   bottom: 0;
   width: 100%;
 }

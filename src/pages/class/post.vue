@@ -4,7 +4,7 @@
       <div class="maintitle">
         <i class="iconfont">&#xe737;</i>动态详情
         <span class="goreturn">
-          <el-button size="small" @click="$router.push('/class')" type="success" :plain="true">返回</el-button>
+          <el-button size="small" @click="$router.push('/class')">返回</el-button>
         </span>
       </div>
       <div class="mainCon">
@@ -55,9 +55,9 @@
     </div>
     <div class="replybox" v-if="$store.getters.hasLogin">
       <div class="reply">
-        <el-input class="input" v-model.trim="replyData.content" placeholder="请输入内容" v-show="showReply"></el-input>
-        <el-button class="btn" type="success" v-show="showReply" @click="submitReply">回复</el-button>
-        <el-button class="btn" size="small" style="float:right;margin-right:20px;margin-top:4px;" :plain="true" type="success" v-show="!showReply" @click.native="showReply=true">回复</el-button>
+        <el-input class="input" size="small" v-model.trim="replyData.content" placeholder="请输入内容" v-show="showReply"></el-input>
+        <el-button class="btn" size="small" type="primary" v-show="showReply" @click="submitReply">回复</el-button>
+        <el-button class="btn" size="small"  type="primary"  style="float:right;margin-right:20px;margin-top:4px;" v-show="!showReply" @click.native="showReply=true">回复</el-button>
       </div>
       <div class="replyList">
         <div class="title">全部回复</div>
@@ -131,11 +131,13 @@ export default {
         this.replyData.student_meid = this.$store.state.currentStudentId;
       }
       this.$API.postNewComment(this.replyData).then(res => {
-        this.$message("添加回复成功！");
+        this.$message.success("添加回复成功！");
         this.showReply = false;
         this.replyData.content = "";
         this.getData();
-      });
+      }).catch(err => {
+        this.$message.error(err.msg);
+      })
     },
     openImgBig(val) {
       this.imgBig = val;

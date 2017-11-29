@@ -33,9 +33,9 @@
 }
 
 //过渡动画
-* {
-    transition: all 0.2s;
-}
+// * {
+//     transition: all 0.2s;
+// }
 
 // 字体图标
 @font-face {
@@ -73,7 +73,8 @@
 
 // 班级右边卡片
 .classbox {
-    background: #edfff7;
+    // background: #edfff7;
+    background: #fff;
     border: 1px solid @main;
     .header {
         height: 88px;
@@ -100,7 +101,7 @@
     .content {
         line-height: 30px;
         font-size: 18px;
-        margin: 10px 0 10px;
+        margin: 10px 0 20px;
         .info {
             font-size: 14px;
             margin: 10px 0;
@@ -203,11 +204,6 @@ a:hover {
     color: @main;
 }
 
-.el-button.is-plain:focus,
-.el-button.is-plain:hover {
-    background: transparent;
-}
-
 .nodata {
     min-height: 600px;
     text-align: center;
@@ -218,18 +214,21 @@ a:hover {
     background: #fff;
     border-bottom: 1px solid @border;
     overflow: hidden;
-    padding: 20px;
+    padding: 10px 20px;
     .header {
         float: left;
-        margin-right: 20px;
+        margin-right: 10px;
         img {
-            width: 64px;
+            width: 54px;
+            height: 54px;
             border-radius: 50%;
         }
     }
     .content {
         float: left;
-        margin-top: 6px;
+        h3{
+            font-size: 14px;
+        }
         .parent {
             display: inline-block;
             padding: 0 4px;
@@ -242,6 +241,7 @@ a:hover {
             font-size: 12px;
         }
         .phone {
+            font-size: 12px;
             margin-top: 5px;
             .iconfont {
                 margin-right: 5px;
@@ -326,4 +326,8 @@ a:hover {
             }
         }
     }
+}
+.unread{
+    color: #0c92f3;
+    font-size: 12px;
 }

@@ -9,7 +9,6 @@ import _APIurl from './config'
 API.getClassInfo = (classId) => {
   return axios.get(_APIurl + '/api/Class/GetInfo?cid=' + classId).then(res => res.data.Content)
 }
-// testing
 
 // 获取班级动态列表
 API.getAllClassDynamic = (para) => {
@@ -21,7 +20,6 @@ API.getAllClassDynamic = (para) => {
     })
   })
 }
-// testing
 
 // 获取班级作业列表
 API.getHomeworkList = (para) => {
@@ -103,14 +101,17 @@ API.postNewClassDynamic = (classDynamicData) => {
 API.postNewComment = (replyData) => {
   return new Promise((resolve, reject) => {
     axios.post(_APIurl + '/api/Class/AddComment', replyData).then((res) => {
-      if (res.data.Status === 1) {
-        resolve(res)
-      } else {
-        let error = {}
-        error.status = res.data.Status
-        error.msg = res.data.Msg
-        reject(error)
-      }
+      // if (res.data.Status === 1) {
+      //   resolve(res)
+      // } else {
+      //   let error = {}
+      //   error.status = res.data.Status
+      //   error.msg = res.data.Msg
+      //   reject(error)
+      // }
+      resolve(res)
+    }).catch((err) => {
+      reject(err)
     })
   })
 }

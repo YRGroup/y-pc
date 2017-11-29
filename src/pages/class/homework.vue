@@ -8,11 +8,14 @@
     <no-data v-if="nodataImg"></no-data>
     <div v-else>
       <div class="card panel" v-for="(i,index) in homework" :key="index">
-        <span v-if="!i.IsRead">[未读]</span>
         <div class="course">
+          
           {{i.CourseName}}
         </div>
-        <div class="tasktitle" @click="$router.push('/homework?id='+i.HID)">{{i.Title}}</div>
+        <div class="tasktitle" @click="$router.push('/homework?id='+i.HID)">
+          <span class="unread" v-if="!i.IsRead">[未读]</span>
+          {{i.Title}}
+        </div>
         <div class="taskbox">
           <div class="taskcon" @click="$router.push('/homework?id='+i.HID)">{{i.Content}}</div>
           <div class="albums">
@@ -306,7 +309,6 @@ export default {
 
 <style lang="less" scoped>
 @import '../../style/theme.less';
-@import 'https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css';
 
 .addHomework {
   background: #fff;

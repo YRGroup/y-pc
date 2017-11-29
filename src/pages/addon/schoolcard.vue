@@ -37,8 +37,8 @@
                                 </el-option>
                               </el-select>
                             </div> -->
-            <span class="item" style="float:left">
-              <el-button size="small" @click="unbindCard">解除绑定一卡通</el-button>
+            <span class="item" style="float:right">
+              <el-button size="small" @click="unbindCard">解除绑定</el-button>
             </span>
             <span class="item">
               <span>一卡通卡号 </span>
@@ -162,7 +162,7 @@ export default {
     addCardID() {
       this.$API.addSchoolcard(this.addCardData).then(res => {
         this.$store.dispatch('getCurrentUser')
-        this.$message('绑定卡号成功')
+        this.$message.success('绑定卡号成功')
         this.getData()
       }).catch((err) => {
         this.$message.error(err.msg)
@@ -210,7 +210,7 @@ export default {
 }
 
 .cardSummary {
-  text-align: center;
+  // text-align: center;
   border: 1px solid @border;
   padding: 40px 20px;
   background: #fff;
@@ -231,7 +231,7 @@ export default {
       }
       .cardID {
         color: @main;
-        font-size: 26px;
+        font-size: 18px;
       }
     }
   }

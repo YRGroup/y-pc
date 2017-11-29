@@ -2,7 +2,7 @@
 <div v-loading.fullscreen.lock="fullscreenLoading">
   <div class="card panel" >
     <div style="text-align:center">
-      <el-button @click="showAddExam=true" type="success" class="ml20 addBtn">添加新考试</el-button>
+      <el-button @click="showAddExam=true" type="primary" class="ml20 addBtn">添加新考试</el-button>
       <!-- <span>问号</span> -->
       <i class="iconfont">&#xe63b;</i></li>
     </div>
@@ -27,7 +27,7 @@
             <el-button :type="!i.IsSendMsg?'info':null" @click="sendExamNotice(i.ID)" :disabled="i.IsSendMsg">推送</el-button>
             <el-button type="success" class="type" @click="publishExam(i.ID)" :disabled="i.IsPublished">发布</el-button>
             <el-button type="warning" class="type" @click="$router.push('/examChart/'+i.ID)">报表</el-button>
-            <el-button type="success" class="type" @click="$router.push('/exam/'+i.ID)">详情</el-button>
+            <el-button type="primary" class="type" @click="$router.push('/exam/'+i.ID)">详情</el-button>
           </div>
         </li>
       </div>

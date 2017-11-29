@@ -22,15 +22,15 @@
             </div>
       
             <el-table :data="summaryScore" height="600" border style="width: 100%">
-              <el-table-column prop="StudentID" label="学号" width="130" align="center">
+              <el-table-column prop="StudentID" label="学号" width="100" align="center">
               </el-table-column>
               <el-table-column prop="TrueName" label="姓名" align="center">
               </el-table-column>
-              <el-table-column :prop="i.CourseName" :label="i.CourseName" v-for="i in data.CoursesList" :key="i.ID" align="center">
+              <el-table-column :prop="i.CourseName" :label="i.CourseName" width="70" v-for="i in data.CoursesList" :key="i.ID" align="center">
               </el-table-column> 
               <el-table-column prop="TotalScore" label="总分" sortable align="center" width="100">
               </el-table-column>
-              <el-table-column prop="Ranking" label="总排名" align="center">
+              <el-table-column prop="Ranking" label="总排名" align="center" width="70">
               </el-table-column>
             </el-table>
           </el-tab-pane>
@@ -55,7 +55,7 @@
               <el-table-column prop="Score" label="分数" sortable align="center">
               </el-table-column>
               <el-table-column prop="Score" label="操作" width="260" align="center">
-                <template slot-scope="scope">
+                <template scope="scope">
                   <span v-show="!i.showEdit">/</span>
                   <!-- <el-input v-show="scope.row.edit && !startEdit" class="inline" size="small" v-model="scope.row.Score" :min="0" :max="i.FullScore" type="number" ></el-input> -->
                   <el-input v-show="scope.row.edit || startEdit" class="inline" size="small" :min="0" v-model="scope.row.Score" :max="i.FullScore" type="number" placeholder="修改分数"></el-input>

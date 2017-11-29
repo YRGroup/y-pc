@@ -19,8 +19,8 @@
               <span>人数：{{classInfo.student_count}}</span>
             </div>
             <div style="text-align:center;" v-show="isClassAdmin">
-              <el-button type="success" @click="$router.push('/admin')">班级管理</el-button>
-              <el-button type="warning" @click="$router.push('/sendmsg')">发短信</el-button>
+              <el-button type="primary" plain size="medium" @click="$router.push('/admin')">班级管理</el-button>
+              <el-button type="warning" plain size="medium" @click="$router.push('/sendmsg')">发短信</el-button>
             </div>
           </div>
         </div>
@@ -32,9 +32,9 @@
           </div>
           <div class="content" v-if="homework.length">
             <div class="homeworkItem" v-for="i in homework" :key="i.HID" @click="$router.push('/homework?id='+i.HID)">
-              <span v-if="!i.IsRead">[未读]</span>
-              <span>【{{i.CourseName}}】</span>
-              <span class="homeworkCon">[{{i.CreateTime | formatDateMMdd}}] {{i.Title || '班级作业'}}</span>
+              <span class="unread" v-if="!i.IsRead">[未读]</span>
+              <span class="homeworkCon">{{i.CreateTime | formatDateMMdd}} </span>
+              <span>【{{i.CourseName}}】{{i.Title || '班级作业'}}</span>
             </div>
           </div>
           <div class="content" v-else>
@@ -85,7 +85,7 @@ export default {
   filters: {
         formatDateMMdd(time) {
             var date = new Date(time);
-            return formatDate(date, "MM月dd日");
+            return formatDate(date, "MM-dd");
         }
   },
   computed: {
@@ -166,8 +166,6 @@ export default {
 
 <style lang="less" scoped>
 @import "../../style/theme.less";
-@import "https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css";
-
 .left {
   width: calc(~"100% - 280px");
   float: left;

@@ -26,7 +26,7 @@
       </div>
     </div> -->
 
-    <el-dialog title="发布动态" :visible.sync="showAddPost" size="tiny">
+    <el-dialog title="发布动态" :visible.sync="showAddPost" width="30%">
       <el-form :model="newPost">
         <el-form-item>
           <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model.trim="newPost.content">
@@ -56,7 +56,7 @@
 
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="success" @click="addNewPost" v-loading.fullscreen.lock="fullscreenLoading">发 布</el-button>
+        <el-button type="primary" @click="addNewPost" v-loading.fullscreen.lock="fullscreenLoading">发 布</el-button>
       </div>
     </el-dialog>
 
@@ -77,12 +77,12 @@
           </li>
 
         </div>
-        <div class="comment" v-if="i.comment1">
+        <div class="comment" v-if="i.comment.length">
           <div class="name">
-            {{i.comment1.TrueName}}：
+            {{i.comment[0].TrueName}}：
           </div>
           <div class="content">
-            {{i.comment1.content}}
+            {{i.comment[0].content}}
           </div>
           <div class="btn" @click="$router.push('/post/'+i.ID)">查看更多</div>
         </div>
@@ -102,7 +102,7 @@
       <load-more @click.native="loadMore" :noMoreData="noMoreData"></load-more>
     </div>
 
-    <el-dialog :visible.sync="showImgBig" class="bigImg" top="10%">
+    <el-dialog :visible.sync="showImgBig" class="bigImg" width="40%" top="10vh">
       <img :src="imgBig">
     </el-dialog>
 
@@ -186,12 +186,13 @@ export default {
         .then(res => {
           this.fullscreenLoading = false
           if (res.length) {
-            res.forEach(element => {
-              if (element.comment.length) {
-                element.comment1 = element.comment[0];
-              }
-              this.data.push(element);
-            });
+            this.data = res
+            // res.forEach(element => {
+            //   if (element.comment.length) {
+            //     element.comment1 = element.comment[0];
+            //   }
+            //   this.data.push(element);
+            // });
           } else if (res.length == 0 && this.currentPage == 1) {
             this.nodataImg = true;
           } else if (res.length == 0 && this.currentPage != 1) {
@@ -338,7 +339,6 @@ export default {
 
 <style lang="less" scoped>
 @import "../../style/theme.less";
-@import "https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css";
 
 .addPost {
   background: #fff;
@@ -397,11 +397,12 @@ export default {
     position: absolute;
     top: 0;
     right: 0;
-    padding: 0 24px 0 30px;
+    padding: 0 12px 0 30px;
     display: inline-block;
     background: @main;
     color: #fff;
-    line-height: 36px;
+    line-height: 32px;
+    font-size: 12px;
     opacity: 0.6;
     &:before {
       position: absolute;
@@ -409,7 +410,7 @@ export default {
       left: 0;
       width: 0;
       height: 0;
-      border: 18px solid transparent;
+      border: 16px solid transparent;
       border-left-color: #fff;
     }
   }
@@ -496,7 +497,7 @@ export default {
 }
 .bigImg {
   max-width: 100vw;
-  max-height: 100vh;
+  max-height: calc(100vh - 10vh);
   .el-dialog {
     top: 0;
   }

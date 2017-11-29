@@ -173,8 +173,8 @@ header {
     color: @main;
     opacity: 1;
     // border-bottom: 4px solid rgba(255, 255, 255, .8);
-    border-bottom:4px solid @main;
-    line-height: 70px;
+    border-bottom:3px solid @main;
+    line-height: 72px;
   }
   li {
     display: inline-block;
