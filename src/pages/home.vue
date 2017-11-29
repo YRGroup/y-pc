@@ -30,6 +30,8 @@
             <i class="iconfont">&#xe64b;</i>个人主页</li>
           <li @click="$router.push('/student')" v-show="role=='学生'" :class="link=='student'?'active':null">
             <i class="iconfont">&#xe64b;</i>个人主页</li>
+          <!-- <li @click="$router">帮助</li> -->
+          
         </div>
       </div>
 
