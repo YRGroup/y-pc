@@ -10,7 +10,7 @@
       <div class="panel">
         <div class="examinfo">
           <p class="title">{{data.Name}}</p>
-          <p class="examtime">创建时间：{{data.CreateTExamIDime}}</p>
+          <p class="examtime">创建时间：{{data.CreateTime}}</p>
         </div>
       </div>
 
@@ -254,7 +254,7 @@ export default {
     getChart3Data() {
       this.$API.getGradeExamInfo({ examid: this.data.ParentID }).then(res => {
         this.chart3Data = res
-        this.chart3_legend = res[0].Courses.map(p => { return p.CourseName })
+        this.chart3_legend = res[0].CoursesList.map(p => { return p.CourseName })
         this.chart3_legend.forEach(o => {
           this.chart3_series.push({
             name: o,

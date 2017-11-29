@@ -73,7 +73,7 @@
               <span>{{i.ParentPhone}}</span>
             </div>
             <div class="btn">
-              <el-button @click="$router.push('/msg/'+i.ParentMeid)">发消息</el-button>
+              <el-button size="small" @click="$router.push('/msg/'+i.ParentMeid)">发消息</el-button>
             </div>
           </li>
   
@@ -96,6 +96,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 export default {
   name: 'studentInfo',
   components: {},
@@ -113,6 +114,7 @@ export default {
       if (this.$route.query.id) {
         this.$API.getStudentInfo(this.$route.query.id).then(res => {
           this.data = res.user
+          this.data.Birthday = moment(this.data.Birthday).format('YYYY-M-D')
           this.data.school = res.School
           this.data.class = res.Class
           this.parents = res.Parents
@@ -120,6 +122,7 @@ export default {
       } else {
         this.$API.getStudentInfo(this.$store.state.currentStudentId).then(res => {
           this.data = res.user
+          this.data.Birthday = moment(this.data.Birthday).format('YYYY-M-D')
           this.data.school = res.School
           this.data.class = res.Class
           this.parents = res.Parents

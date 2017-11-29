@@ -19,8 +19,8 @@
               <span>人数：{{classInfo.student_count}}</span>
             </div>
             <div style="text-align:center;" v-show="isClassAdmin">
-              <el-button type="success" @click="$router.push('/admin')">班级管理</el-button>
-              <el-button type="warning" @click="$router.push('/sendmsg')">发短信</el-button>
+              <el-button type="primary" plain size="medium" @click="$router.push('/admin')">班级管理</el-button>
+              <el-button type="warning" plain size="medium" @click="$router.push('/sendmsg')">发短信</el-button>
             </div>
           </div>
         </div>
@@ -166,8 +166,6 @@ export default {
 
 <style lang="less" scoped>
 @import "../../style/theme.less";
-@import "https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css";
-
 .left {
   width: calc(~"100% - 280px");
   float: left;

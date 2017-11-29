@@ -30,7 +30,7 @@
             <span>短信验证码</span>登录</div>
         </div>
         <div class="btn item">
-          <el-button size="large" @click.native="uniLogin" type="success">登录</el-button>
+          <el-button size="large" @click.native="uniLogin" type="primary">登录</el-button>
         </div>
       </div>
 
@@ -69,7 +69,7 @@
         </div>
 
         <div class="btn item">
-          <el-button size="large" @click.native="smsLogin" type="success">验证码登录</el-button>
+          <el-button size="large" @click.native="smsLogin" type="primary">验证码登录</el-button>
         </div>
       </div>
 
@@ -82,11 +82,11 @@
       </div>
       <div class="btn item" v-show="step==3">
         <!-- <el-button size="large" @click.native="uniLogin" type="success">学号登录</el-button>123 -->
-        <el-button size="large" @click.native="uniLogin" type="success">登录</el-button>
+        <el-button size="large" @click.native="uniLogin" type="primary">登录</el-button>
       </div>
 
       <div class="btn item" v-show="step==0">
-        <el-button size="large" @click.native="verifyAccount" type="success">下一步</el-button>
+        <el-button size="large" @click.native="verifyAccount" type="primary">下一步</el-button>
       </div>
 
     </div>
