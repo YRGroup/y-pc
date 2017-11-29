@@ -168,7 +168,7 @@
               <el-table-column prop="TrueName" label="姓名" align="center">
               </el-table-column>
               <el-table-column label=" 头像" align="center">
-                <template scope="scope">
+                <template slot-scope="scope">
                   <img :src="scope.row.Headimgurl">
                 </template>
               </el-table-column>
@@ -178,21 +178,21 @@
               <el-table-column prop="Sex" label="性别" align="center">
               </el-table-column>
               <el-table-column label="职称" align="center">
-                <template scope="scope">
+                <template slot-scope="scope">
                   <div>
                     <span>{{scope.row.Title || '/'}}</span>
                   </div>
                 </template>
               </el-table-column>
               <el-table-column label="学科" align="center">
-                <template scope="scope">
+                <template slot-scope="scope">
                   <div>
                     <span>{{scope.row.Course || '/'}}</span>
                   </div>
                 </template>
               </el-table-column>
               <el-table-column label="操作" width="100" align="center">
-                <template scope="scope">
+                <template slot-scope="scope">
                   <el-button type="text" size="small" @click="startEditTeacher(scope.row)">编辑</el-button>
                 </template>
               </el-table-column>
@@ -210,7 +210,7 @@
               </el-table-column>
 
               <el-table-column label=" 头像" align="center">
-                <template scope="scope">
+                <template slot-scope="scope">
                   <img :src="scope.row.Headimgurl">
                 </template>
               </el-table-column>
@@ -219,7 +219,7 @@
               <el-table-column prop="Sex" label="性别" align="center">
               </el-table-column>
               <el-table-column prop="ParentName" label="家长" align="center">
-                <template scope="scope">
+                <template slot-scope="scope">
                   <el-popover trigger="hover" placement="top">
                     <p>手机号: {{ scope.row.ParentPhone }}</p>
                     <div slot="reference" class="name-wrapper">
@@ -229,7 +229,7 @@
                 </template>
               </el-table-column>
               <el-table-column prop="IsActive" label="激活" align="center">
-                <template scope="scope">
+                <template slot-scope="scope">
                   <div>
                     <span v-show="scope.row.IsActive==true" style="color:grey">是</span>
                     <span v-show="scope.row.IsActive==false" style="color:red">否</span>
@@ -237,7 +237,7 @@
                 </template>
               </el-table-column>
               <el-table-column prop="IsSubscribe" label="关注" align="center">
-                <template scope="scope">
+                <template slot-scope="scope">
                   <div>
                     <span v-show="scope.row.IsSubscribe==true" style="color:grey">是</span>
                     <span v-show="scope.row.IsSubscribe==false" style="color:red">否</span>
@@ -245,7 +245,7 @@
                 </template>
               </el-table-column>
               <!-- <el-table-column prop="Status" label="资料" align="center">
-                <template scope="scope">
+                <template slot-scope="scope">
                   <div>
                     <span v-show="scope.row.Status==0" style="color:red">未修改</span>
                     <span v-show="scope.row.Status==1" style="color:grey">已修改</span>
@@ -255,7 +255,7 @@
                 </template>
               </el-table-column> -->
               <el-table-column label="操作" width="100" align="center">
-                <template scope="scope">
+                <template slot-scope="scope">
                   <el-button type="text" size="small" @click="startEditStudent(scope.row)">编辑</el-button>
                 </template>
               </el-table-column>

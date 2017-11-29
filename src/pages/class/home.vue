@@ -34,7 +34,7 @@
             <div class="homeworkItem" v-for="i in homework" :key="i.HID" @click="$router.push('/homework?id='+i.HID)">
               <span v-if="!i.IsRead">[未读]</span>
               <span>【{{i.CourseName}}】</span>
-              <span class="homeworkCon">{{i.Title || '班级作业'}}</span>
+              <span class="homeworkCon">[{{i.CreateTime | formatDateMMdd}}] {{i.Title || '班级作业'}}</span>
             </div>
           </div>
           <div class="content" v-else>
@@ -71,7 +71,7 @@
 
 <script>
 import hasNoStudent from "@/components/hasNoStudent";
-
+import {formatDate} from '@/common/js/formatdate.js';
 export default {
   name: "app",
   components: { hasNoStudent },
@@ -81,6 +81,12 @@ export default {
       notice: {},
       homework: [],
     };
+  },
+  filters: {
+        formatDateMMdd(time) {
+            var date = new Date(time);
+            return formatDate(date, "MM月dd日");
+        }
   },
   computed: {
     classInfo() {
