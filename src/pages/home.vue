@@ -30,7 +30,7 @@
             <i class="iconfont">&#xe64b;</i>个人主页</li>
           <li @click="$router.push('/student')" v-show="role=='学生'" :class="link=='student'?'active':null">
             <i class="iconfont">&#xe64b;</i>个人主页</li>
-          <!-- <li @click="$router">帮助</li> -->
+          <!-- <li @click="$router" type="success"> <i class="iconfont">&#xa64b;</i>帮助</li> -->
           
         </div>
       </div>
@@ -44,7 +44,20 @@
       <div class="mainCon">
         <p>Copyright © 2017 yearnedu.com Inc. All Rights Reserved. 郑州育人教育集团</p>
         <p>备案/许可证编号：豫ICP备16026588号</p>
+        
         <div class="followIcon">
+          
+       <el-popover
+        ref="popover4"
+        placement="top"
+        width="400"
+        height="800px"
+        trigger="click">
+        <el-table :data="gridData">
+        111
+        </el-table>
+      </el-popover>
+      <el-button v-popover:popover4> 帮助</el-button>
           关注我们：
           <div class="wechat">
             <div class="qrcode"><img :src="wxQRcodeIMG"></div>
@@ -72,6 +85,9 @@ export default {
       goTopShow:'',
     }
   },
+
+  
+
   computed: {
     role() {
       return this.$store.getters.role
@@ -112,6 +128,7 @@ export default {
         };
         let timer = setInterval(gotoTop,1);
     }
+    
   },
   created() {
     this.getWXQRcode(),
@@ -125,7 +142,10 @@ export default {
 
     }
   }
+  
 }
+
+
 </script>
 
 <style lang="less" scoped>
