@@ -30,7 +30,7 @@
             <i class="iconfont">&#xe64b;</i>个人主页</li>
           <li @click="$router.push('/student')" v-show="role=='学生'" :class="link=='student'?'active':null">
             <i class="iconfont">&#xe64b;</i>个人主页</li>
-          <!-- <li @click="$router" type="success"> <i class="iconfont">&#xa64b;</i>帮助</li> -->
+         
           
         </div>
       </div>
@@ -47,17 +47,6 @@
         
         <div class="followIcon">
           
-       <el-popover
-        ref="popover4"
-        placement="top"
-        width="400"
-        height="800px"
-        trigger="click">
-        <el-table :data="gridData">
-        111
-        </el-table>
-      </el-popover>
-      <el-button v-popover:popover4> 帮助</el-button>
           关注我们：
           <div class="wechat">
             <div class="qrcode"><img :src="wxQRcodeIMG"></div>

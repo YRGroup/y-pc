@@ -3,6 +3,8 @@
   <div class="card panel" >
     <div style="text-align:center">
       <el-button @click="showAddExam=true" type="success" class="ml20 addBtn">添加新考试</el-button>
+      <!-- <span>问号</span> -->
+      <i class="iconfont">&#xe63b;</i></li>
     </div>
 
     <no-data v-if="nodataImg"></no-data>
