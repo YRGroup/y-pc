@@ -19,7 +19,7 @@
         <div class="taskbox">
           <div class="taskcon" @click="$router.push('/homework?id='+i.HID)">{{i.Content}}</div>
           <div class="albums">
-            <li v-for="(p,index) in i.Albums" :key="index">
+            <li v-for="(p,index) in i.Albums" :key="index"> 
               <div class="imgCon" :style="{backgroundImage:'url\('+p+'\)'}" @click="openImgBig(p)"></div>
             </li>
           </div>
