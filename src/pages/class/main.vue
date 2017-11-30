@@ -187,7 +187,6 @@ export default {
           this.fullscreenLoading = false
           if (res.length) {
             this.data = res
-            console.log(this.data)
             // res.forEach(element => {
             //   if (element.comment.length) {
             //     element.comment1 = element.comment[0];
@@ -213,7 +212,6 @@ export default {
     },
     addImg(e) {
       let files = e.target.files || e.dataTransfer.files;
-      console.log(files);
     },
     doLike(id) {
       this.$API
