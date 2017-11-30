@@ -6,7 +6,6 @@
         <span class="title" slot="label">动态</span>
         <y-post></y-post>
       </el-tab-pane>
-      
       <el-tab-pane name="score">
         <span class="title" slot="label">成绩</span>
         <y-score></y-score>

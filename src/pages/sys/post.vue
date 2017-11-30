@@ -51,7 +51,8 @@ export default {
   methods: {
     getData() {
       let para = {}
-      para.meid = this.$store.getters.currentUserId
+      // para.meid = this.$store.getters.currentUserId
+      para.meid = this.$route.query.id
       para.currentPage = this.currentPage
       para.pagesize = this.pageSize
       this.$API.getAllUserDynamic(para).then(res => {
