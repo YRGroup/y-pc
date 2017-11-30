@@ -17,8 +17,8 @@
           <span>
             <i class="iconfont">&#xe66c;</i> {{$store.getters.role}}</span>
           <div class="btn">
-            <el-button  type="success" @click.native="InviteParent=true">邀请家长</el-button>
-            <el-button  type="warning" @click.native="$router.push('/parent/edit')">修改资料</el-button>
+            <el-button  type="primary" plain size="medium" @click.native="InviteParent=true">邀请家长</el-button>
+            <el-button  type="warning" plain size="medium" @click.native="$router.push('/parent/edit')">修改资料</el-button>
             <el-button class="logou" size="small" type="text" @click.native="logout">退出</el-button>
           </div>
         </div>

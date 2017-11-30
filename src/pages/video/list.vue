@@ -241,7 +241,7 @@ export default {
   padding-left: 10px;
   .container {
     float: left;
-    margin: 0 0 10px 28px;
+    margin: 0 0 10px 24px;
     width: 230px;
     height: 230px;
     transition: .3s all linear;

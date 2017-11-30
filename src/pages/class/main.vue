@@ -69,7 +69,7 @@
           <img :src="i.userImg">
         </div>
         <div class="tips">{{i.category}}</div>
-        <div class="header">{{i.auther}}</div>
+        <div class="header" @click="openUserPage(i)">{{i.auther}}</div>
         <div class="content" @click="$router.push('/post/'+i.ID)">{{i.content}} <span class="atuser" v-for="item in i.AtUser">@{{item.TrueName}}</span></div>
         <div class="albums">
           <li v-for="(p,index) in i.albums" :key="index">
@@ -77,14 +77,14 @@
           </li>
 
         </div>
-        <div class="comment" v-if="i.comment.length">
+        <div class="comment" v-if="i.comment.length" @click="$router.push('/post/'+i.ID)">
           <div class="name">
             {{i.comment[0].TrueName}}：
           </div>
           <div class="content">
             {{i.comment[0].content}}
           </div>
-          <div class="btn" @click="$router.push('/post/'+i.ID)">查看更多</div>
+          <div class="btn">查看更多</div>
         </div>
         <div class="footer">
           <span class="time">{{i.date}}</span>
@@ -187,6 +187,7 @@ export default {
           this.fullscreenLoading = false
           if (res.length) {
             this.data = res
+            console.log(this.data)
             // res.forEach(element => {
             //   if (element.comment.length) {
             //     element.comment1 = element.comment[0];
@@ -314,15 +315,11 @@ export default {
       }
     },
     openUserPage(u) {
-      if (u.Role == "老师") {
+      if (u.auther_role == "3") {
         this.$router.push("/t?id=" + u.auther_meid);
-      } else if (u.Role == "家长") {
-        this.$message({
-          showClose: true,
-          message: "家长没有个人主页",
-          type: "warning"
-        });
-      } else if (u.Role == "学生") {
+      } else if (u.auther_role == "2") {
+        this.$router.push("/s?id=" + u.auther_meid);
+      } else if (u.auther_role == "1") {
         this.$router.push("/s?id=" + u.auther_meid);
       }
     }
@@ -387,6 +384,7 @@ export default {
     position: absolute;
     left: 20px;
     top: 20px;
+    cursor: pointer;
     img {
       width: 46px;
       height: 46px;
@@ -416,8 +414,12 @@ export default {
   }
   .header {
     display: inline-block;
+    cursor: pointer;
     font-size: 16px;
     line-height: 42px;
+    &:hover{
+      color: @main;
+    }
   }
   .content {
     line-height: 24px;
@@ -458,6 +460,7 @@ export default {
         background-size: cover;
         display: inline-block;
         margin: 0 10px 10px 0;
+        cursor: pointer;
       }
     }
   }

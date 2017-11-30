@@ -31,7 +31,6 @@
             <el-collapse v-model="activeName" accordion>
               <el-collapse-item :title="'老师（'+teachers.length+ '）'" name="1">
                 <li class="item" v-for="(i,index) in teachers" :key="index">
-    
                   <div class="top" @click="$router.push('/t/?id='+i.Meid)">
                     <div class="img">
                       <!-- <img :src="i.Headimgurl" v-if="i.Headimgurl!='http://pic.yearnedu.com/himg.png' && i.Headimgurl!=''">

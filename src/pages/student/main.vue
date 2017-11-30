@@ -2,23 +2,25 @@
   <div>
   
     <el-tabs v-model="activeTab" type="border-card" class="tabs leftCon">
+      <el-tab-pane name="post">
+        <span class="title" slot="label">动态</span>
+        <y-post></y-post>
+      </el-tab-pane>
+      
+      <el-tab-pane name="score">
+        <span class="title" slot="label">成绩</span>
+        <y-score></y-score>
+      </el-tab-pane>
       <el-tab-pane name="profile">
         <span class="title" slot="label">信息</span>
         <y-profile></y-profile>
       </el-tab-pane>
 
-      <el-tab-pane name="score">
-        <span class="title" slot="label">成绩</span>
-        <y-score></y-score>
-      </el-tab-pane>
-      <el-tab-pane name="post">
-        <span class="title" slot="label">动态</span>
-        <y-post></y-post>
-      </el-tab-pane>
-      <el-tab-pane name="edit">
+
+      <!-- <el-tab-pane name="edit">
         <span class="title" slot="label">修改资料</span>
         <y-edit v-if="this.activeTab==='edit'"></y-edit>
-      </el-tab-pane>
+      </el-tab-pane> -->
     </el-tabs>
   
   </div>
@@ -35,7 +37,7 @@ export default {
   components: { YProfile,YEdit,YScore,YPost },
   data() {
     return {
-      activeTab: 'profile',
+      activeTab: 'post',
       profileData:{}
     }
   },
@@ -57,7 +59,7 @@ export default {
 
 .tabs{
   .title{
-    padding:10px 30px;
+    padding:10px 20px;
   }
 }
 </style>
