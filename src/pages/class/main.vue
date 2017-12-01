@@ -89,7 +89,7 @@
         <div class="footer">
           <span class="time">{{i.date}}</span>
           <span class="iconbtn">
-            <span title="删除" class="delBtn" v-if="isAdmin" @click="delPost(i.ID)" v-loading.fullscreen.lock="fullscreenLoading">
+            <span title="删除" class="delBtn" @click="delPost(i.ID)" v-loading.fullscreen.lock="fullscreenLoading" v-if="i.showDelate">
               <i class="iconfont">&#xe630;</i>
               <span class="delBtnTitle">删除</span>
             </span>
@@ -138,7 +138,8 @@ export default {
       showAddPost: false,
       fullscreenLoading: true,
       nodataPic: require("@/assets/nodata.png"),
-      studentList:{}
+      studentList:{},
+      showDelate:false
     };
   },
   computed: {
@@ -157,6 +158,7 @@ export default {
     updateData: function(data) {
       this.newPost.content = data;
     },
+    // 图片上传
     imgUpload() {
       this.fullscreenLoading = true
        let vm = this
@@ -181,18 +183,18 @@ export default {
       para.currentPage = this.currentPage;
       para.pagesize = this.pageSize;
       para.type = 1;
-      this.$API
-        .getAllClassDynamic(para)
-        .then(res => {
+      this.$API.getAllClassDynamic(para).then(res => {
           this.fullscreenLoading = false
           if (res.length) {
+            //如果是自己发布的动态 或是班主任 显示删除按钮
+            res.forEach(element => {
+              if((this.$store.state.currentUser.Meid == element.auther_meid) || (this.$store.state.currentStudentId == element.auther_meid) || this.isAdmin){
+                element.showDelate = true
+              }else{
+                element.showDelate = false
+              }
+            })
             this.data = res
-            // res.forEach(element => {
-            //   if (element.comment.length) {
-            //     element.comment1 = element.comment[0];
-            //   }
-            //   this.data.push(element);
-            // });
           } else if (res.length == 0 && this.currentPage == 1) {
             this.nodataImg = true;
           } else if (res.length == 0 && this.currentPage != 1) {
@@ -213,6 +215,7 @@ export default {
     addImg(e) {
       let files = e.target.files || e.dataTransfer.files;
     },
+    // 点赞
     doLike(id) {
       this.$API
         .doLikeThisPost(id)
@@ -223,18 +226,17 @@ export default {
           this.$message.error(err.msg);
         });
     },
+    // 删除动态
     delPost(id) {
       this.$confirm("确认删除该动态吗?", "提示", {
         type: "warning"
       }).then(() => {
-        this.fullscreenLoading = true;
         let para = {
           did: id
         };
-        this.$API
-          .deletePost(para)
-          .then(() => {
-            this.fullscreenLoading = false;
+        this.fullscreenLoading = true
+        this.$API.deletePost(para).then(() => {
+          this.fullscreenLoading = false
             this.$message({
               message: "删除成功",
               type: "success"
@@ -244,12 +246,13 @@ export default {
           })
           .catch(err => {
             this.$message({
-              message: "删除失败了哦!",
+              message: err.msg,
               type: "error"
             });
           });
       });
     },
+    // 查看动态图片
     openImgBig(val) {
       this.imgBig = val;
       this.showImgBig = true;
@@ -277,7 +280,7 @@ export default {
       //}
       return isJPG; //&& isLt5M;
     },
-
+    // 发布动态
     addNewPost() {
       if (
         this.$store.getters.role == "家长" &&
@@ -312,6 +315,7 @@ export default {
         })
       }
     },
+    // 查看个人主页
     openUserPage(u) {
       if (u.auther_role == "3") {
         this.$router.push("/t?id=" + u.auther_meid);
