@@ -1,12 +1,14 @@
 <template>
   <div  v-loading.fullscreen.lock="fullscreenLoading">
     
-    <div class="addPost">
+    <!-- <div class="addPost">
       <div class="title addbtn" @click="showAddPost=true">
         <i class="iconfont">&#xe623;</i>发布动态</div>
-    </div>
+    </div> -->
 
-    <!-- <div class="sendpost">
+
+  <div class="dynamics">
+    <div class="sendpost">
       <div class="input">
           <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model.trim="newPost.content">
           </el-input>
@@ -14,19 +16,64 @@
       <div class="funArea">
         <div class="sendBtn"></div>
         <div class="kind">
-          <a>
-            <i class="iconfont">&#xe60e;</i>
+          <span>
+           
+           <el-upload :http-request="imgUpload" :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
+            <i class="iconfont">&#xe613;</i>
             图片
-          </a>
-          <a>
-            <i class="iconfont">&#xe60e;</i>
-            视频
-          </a>
+          </el-upload>
+
+          
+          
+    <!-- <el-upload
+  action="https://jsonplaceholder.typicode.com/posts/"
+  list-type="picture-card"
+  :on-preview="handlePictureCardPreview"
+  :on-remove="handleRemove">
+   <i class="iconfont">&#xe613;</i>
+            图片
+  <i class="el-icon-plus"></i>
+</el-upload> -->
+<el-dialog :visible.sync="dialogVisible" size="tiny">
+  <img width="100%" :src="dialogImageUrl" alt="">
+</el-dialog>
+</span>
+
+
+<el-popover
+  ref="popover2"
+  placement="bottom"
+  title="添加视频"
+  width="200"
+  trigger="click"
+  content="添加">
+</el-popover>
+<div>
+<el-button v-popover:popover2 type="text"><i class="iconfont">&#xe66b;</i>  视频</el-button>
+     </div>    
+  <el label="是否@某学生：">
+          <el-switch on-text="" off-text="" v-model="showstudent"></el-switch>
+        </el label="">
+        <el v-show="showstudent">
+          <el-select v-model="newPost.at_meid" multiple placeholder="请选择" style="width:300px">
+            <el-option v-for="item in studentList" :key="item.NickName" :label="item.NickName" :value="item.Meid" style="width:300px">
+            </el-option>
+          </el-select>
+        </el>
+
+          <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="addNewPost"  class="submit" v-loading.fullscreen.lock="fullscreenLoading">发 布</el-button>
+      </span>
         </div>
       </div>
-    </div> -->
+    </div>
+</div>
 
-    <el-dialog title="发布动态" :visible.sync="showAddPost" width="30%">
+    
+
+
+  <!-- <div class="dynamics"> -->
+    <!-- <el-dialog title="发布动态" :visible.sync="showAddPost" width="30%">
       <el-form :model="newPost">
         <el-form-item>
           <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model.trim="newPost.content">
@@ -37,8 +84,8 @@
             <i class="el-icon-plus"></i>
           </el-upload>
           </el-input>
-        </el-form-item>
-        <el-form-item label="是否@某学生：">
+        </el-form-item> -->
+        <!-- <el-form-item label="是否@某学生：">
           <el-switch on-text="" off-text="" v-model="showstudent"></el-switch>
         </el-form-item label="">
         <el-form-item v-show="showstudent">
@@ -46,7 +93,7 @@
             <el-option v-for="item in studentList" :key="item.NickName" :label="item.NickName" :value="item.Meid" style="width:300px">
             </el-option>
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <!-- <el-form-item>
           <el-upload :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
             <i class="el-icon-plus"></i>
@@ -55,10 +102,12 @@
         </el-form-item> -->
 
       </el-form>
-      <div slot="footer" class="dialog-footer">
+      <!-- <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addNewPost" v-loading.fullscreen.lock="fullscreenLoading">发 布</el-button>
-      </div>
+      </div> -->
     </el-dialog>
+
+    <!-- </div> -->
 
     <no-data v-if="nodataImg"></no-data>
     <div v-else>
@@ -119,10 +168,16 @@ export default {
   components: { loadMore, noData },
   data() {
     return {
+      
+        dialogImageUrl: '',
+        dialogVisible: false,
+
       newPost: {
         content: '',
         at_meid:[],
-        img_url_list:''
+        img_url_list:'',
+
+
       },
       showstudent: false,
       data: [],
@@ -155,6 +210,15 @@ export default {
       }
   },
   methods: {
+
+      handleRemove(file, fileList) {
+        console.log(file, fileList);
+      },
+      handlePictureCardPreview(file) {
+        this.dialogImageUrl = file.url;
+        this.dialogVisible = true;
+      },
+
     updateData: function(data) {
       this.newPost.content = data;
     },
@@ -338,6 +402,22 @@ export default {
 
 <style lang="less" scoped>
 @import "../../style/theme.less";
+
+
+  .dynamics{
+    height: 35vh;
+    background-color: white;
+    // border-radius: 5px;
+  }
+  .kind{
+   margin: 6px;
+   padding-left: 15px;
+  }
+  .submit{
+    float:right;
+  }
+
+
 
 .addPost {
   background: #fff;

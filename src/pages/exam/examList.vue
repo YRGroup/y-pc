@@ -2,8 +2,14 @@
 <div v-loading.fullscreen.lock="fullscreenLoading">
   <div class="card panel" >
     <div style="text-align:center">
-      <el-button @click="showAddExam=true" type="primary" class="ml20 addBtn"><i class="iconfont">&#xe623;</i> 添加新考试</el-button>
-      <!-- <span>问号</span> -->
+      <el-button @click="showAddExam=true" type="primary" class="ml20 addBtn"><i class="iconfont">&#xe623;</i>添加新考试</el-button>
+
+<!-- 帮助弹窗 -->
+ <el-button @click="showHelp=true" type="text" class="ml00 addBtn"><i class="iconfont">&#xe63b;</i></el-button>
+
+
+
+      
     </div>
 
     <no-data v-if="nodataImg"></no-data>
@@ -50,6 +56,17 @@
 
     </div>
 
+  <!-- 添加新考试帮助弹窗 -->
+  <el-dialog title="帮助" :visible.sync="showHelp">
+      <div>
+       <p>老师可以添加新的考试 设置总分 考试时间 考试类型</p> 
+        <p>可以在线看到学生的考试成绩和平均分</p>
+      </div>
+
+
+    </el-dialog>
+
+<!-- 创建新考试 -->
     <el-dialog title="创建新考试" :visible.sync="showAddExam">
       <el-form :model="newExamData" label-width="120px">
         <div style="display:none;">
@@ -66,7 +83,7 @@
         </div>
         <div>
           <el-form-item label="考试时间" :rules="[{ required: true}]">
-            <el-date-picker v-model="newExamData.ExamTime" type="date" placeholder="选择日期" format="yyyy 年 M 月 d 日">
+            <el-date-picker style="width:330px" v-model="newExamData.ExamTime" type="date" placeholder="选择日期" format="yyyy 年 M 月 d 日">
             </el-date-picker>
           </el-form-item>
         </div>
@@ -105,6 +122,7 @@ export default {
   data() {
     return {
       showAddExam: false,
+      showHelp:false,
       nodataImg: false,
       newExamData: {
         ExamName: '',
@@ -383,7 +401,9 @@ export default {
 
 <style lang="less" scoped>
 @import '../../style/theme.less';
-
+.cupo{
+  cursor: pointer;
+}
 .card {
   margin-bottom: 15px;
   .ml20 {
