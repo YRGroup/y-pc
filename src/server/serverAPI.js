@@ -98,17 +98,6 @@ API.getLoginSms = (tel) => {
   })
 }
 
-// 班主任删除动态
-API.deletePost = (params) => {
-  return new Promise((resolve, reject) => {
-    axios.post(_APIurl + '/api/Class/DeleteDynamic', params).then((res) => {
-      resolve(res.data.Content)
-    }).catch((err) => {
-      reject(err)
-    })
-  })
-}
-
 // 班主任删除作业
 API.deleteHomeWork = (params) => {
   return new Promise((resolve, reject) => {

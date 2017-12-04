@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div class="card">
       <div class="maintitle">
         <i class="iconfont">&#xe737;</i>修改资料
@@ -41,9 +40,9 @@
             </el-radio-group>
 
           </el-form-item>
-          <el-form-item label=".">
-            <el-button type="success" @click.native="submitChange">提交修改</el-button>
-            <el-button type="warning" @click.native="startEditPw" style="float:right">修改密码</el-button>
+          <el-form-item label="">
+            <el-button type="primary" @click.native="submitChange">提交修改</el-button>
+            <el-button type="warning" plain @click.native="startEditPw" style="float:right">修改密码</el-button>
           </el-form-item>
 
           <el-dialog title="修改密码" :visible.sync="showEditPw" size="tiny">

@@ -140,7 +140,37 @@
       width: 120px;
       text-align: right;
     }
-
+    .updataBtn{
+      padding: 10px 15px;
+      border-radius: 4px;
+      background-color: #13ce66;
+      display: inline-block;
+      color: #fff;
+      border: 0;
+      cursor: pointer;
+    }
+    .updataBtn:hover{
+      background: #42d885;
+    }
+    .fileBtn{
+      position:relative;
+      width: 120px;
+      border:1px solid #c2e7b0;
+      text-align: center;
+      line-height: 28px;
+      border-radius: 4px;
+      display: inline-block;
+      padding: 4px 0;
+      color: #67c23a;
+      background: #f0f9eb;
+      text-decoration:none;
+      font-size: 14px;
+    }
+    .fileBtn:hover{
+      color: #fff;
+      background: #67c23a;
+      border-color: #67c23a;
+    }
   </style>
 </head>
 
@@ -169,7 +199,7 @@
     <tr>
       <td class="title">选择文件:</td>
       <td>
-        <a href="javascript:;" class="button button-glow button-border button-rounded button-action  a-upload">
+        <a href="javascript:;" class="fileBtn a-upload">
           选择文件
           <input type="file" name="file" id="ud_file"  />
         </a>
@@ -177,7 +207,7 @@
     </tr>
     <tr>
         <td class="labelName"></td>
-      <td><button type="button" onclick="start()" class="button button-raised button-primary button-pill">开始上传</button></td>
+      <td><button type="button" onclick="start()" class="updataBtn">开始上传</button></td>
       <td><span style="margin-left:30px;" id="progress-text"></span></td>
     </tr>
   </table>
@@ -204,7 +234,7 @@
     </div>
     <div class="bottom">
       <hr>
-      <td><button type="button" onclick="toHome()" class="button button-raised button-primary button-pill">返回主页</button></td>
+      <td><button type="button" onclick="toHome()" class="updataBtn">返回主页</button></td>
     </div>
   </div>
 

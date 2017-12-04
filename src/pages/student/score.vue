@@ -252,6 +252,7 @@ export default {
   // border: 1px solid @border;
   background: url(../../assets/bgTop.png) no-repeat;
   padding: 20px;
+  background-size: cover;
   .title {
     font-size: 24px;
     font-weight: 700;

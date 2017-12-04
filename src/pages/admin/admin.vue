@@ -9,9 +9,9 @@
         <span>
           <i class="iconfont">&#xe605;</i>教师人数：</span> {{teacherList.length}}</li>
       <li class="list">
-        <el-button type="primary" @click="showAddTeacher=true">
+        <el-button type="primary" plain @click="showAddTeacher=true">
           <i class="iconfont">&#xe623;</i>添加老师</el-button>
-        <el-button type="warning" @click="showAddStudent=true">
+        <el-button type="warning" plain @click="showAddStudent=true">
           <i class="iconfont">&#xe623;</i>添加学生</el-button>
       </li>
     </ul>
@@ -210,7 +210,7 @@
               </el-table-column>
               <el-table-column prop="StudentID" label="学号" align="center">
               </el-table-column>
-              <el-table-column prop="Sex" label="性别" align="center">
+              <el-table-column prop="Sex" label="性别" align="center" width="80">
               </el-table-column>
               <el-table-column prop="ParentName" label="家长" align="center">
                 <template scope="scope">
@@ -222,7 +222,7 @@
                   </el-popover>
                 </template>
               </el-table-column>
-              <el-table-column prop="IsActive" label="激活" align="center">
+              <el-table-column prop="IsActive" label="激活" align="center" width="80">
                 <template scope="scope">
                   <div>
                     <span v-show="scope.row.IsActive==true" style="color:grey">是</span>
@@ -230,7 +230,7 @@
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column prop="IsSubscribe" label="关注" align="center">
+              <el-table-column prop="IsSubscribe" label="关注" align="center" width="80">
                 <template scope="scope">
                   <div>
                     <span v-show="scope.row.IsSubscribe==true" style="color:grey">是</span>
@@ -248,9 +248,10 @@
                   </div>
                 </template>
               </el-table-column> -->
-              <el-table-column label="操作" width="100" align="center">
+              <el-table-column label="操作" width="150" align="center">
                 <template scope="scope">
-                  <el-button type="text" size="small" @click="startEditStudent(scope.row)">编辑</el-button>
+                  <el-button type="primary" size="small" plain @click="startEditStudent(scope.row)">编辑</el-button>
+                  <el-button type="danger" size="small" plain @click="deleteStudent(scope.row)">删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -465,7 +466,21 @@ export default {
           this.$message.error(err.msg)
         })
       }
-
+    },
+    // 删除学生
+    deleteStudent(data) {
+      let params = {}
+      params.meid = data.Meid
+      this.$confirm("确定要删除该学生吗?", "提示", {
+        type: "warning"
+      }).then(() => {
+        this.$API.deleteStudent(params).then(res => {
+          this.$message.success('删除成功！~')
+          this.getData()
+        }).catch(err => {
+          this.$message.error(err.msg)
+        })
+      }).catch(_ => {});
     },
     handleSuccess() {
       this.$message.success('上传文件成功')

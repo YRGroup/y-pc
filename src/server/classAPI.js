@@ -115,7 +115,16 @@ API.postNewComment = (replyData) => {
     })
   })
 }
-// testing
+// 删除动态
+API.deletePost = (params) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl + '/api/Class/DeleteDynamic', params).then((res) => {
+      resolve(res.data.Content)
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
 
 // 点赞班级动态
 API.doLikeThisPost = (classDynamicId) => {
@@ -189,6 +198,19 @@ API.addClassStudent = (data) => {
 API.addClassTeacher = (data) => {
   return new Promise((resolve, reject) => {
     axios.post(_APIurl + '/api/Class/AddTeacher', data).then((res) => {
+      if (res.data.Status === 1) {
+        resolve(res.data.Content)
+      } else {
+        reject(res.data.Msg)
+      }
+    })
+  })
+}
+
+// 删除学生
+API.deleteStudent = (data) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl + '/api/Class/DeleteStudent', data).then((res) => {
       if (res.data.Status === 1) {
         resolve(res.data.Content)
       } else {

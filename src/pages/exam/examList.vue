@@ -2,7 +2,7 @@
 <div v-loading.fullscreen.lock="fullscreenLoading">
   <div class="card panel" >
     <div style="text-align:center">
-      <el-button @click="showAddExam=true" type="primary" class="ml20 addBtn">添加新考试</el-button>
+      <el-button @click="showAddExam=true" type="primary" class="ml20 addBtn"><i class="iconfont">&#xe623;</i>添加新考试</el-button>
 
 <!-- 帮助弹窗 -->
  <el-button @click="showHelp=true" type="text" class="ml00 addBtn"><i class="iconfont">&#xe63b;</i></el-button>
@@ -92,8 +92,8 @@
             <el-checkbox-group v-model="newExamData.courses" class="checkbox">
               <el-checkbox :label="i.courseID" v-for="i in courseList" :key="i.courseID" class="item">
                 {{i.name}}
-                <span style="font-size:12px">（总分
-                  <el-input v-model="i.FullScore" size="mini" style="width:50px;" placeholder="总分"></el-input>）
+                <span style="font-size:12px">（ 总分
+                  <el-input v-model="i.FullScore" size="mini" style="width:56px;" placeholder="总分"></el-input> ）
                 </span>
               </el-checkbox>
             </el-checkbox-group>
@@ -101,8 +101,8 @@
         </div>
         <div>
           <el-form-item label="">
-            <el-button type="success" @click.native="addNewExam" v-loading.fullscreen.lock="fullscreenLoading">确 定</el-button>
-            <el-button @click="showAddExam = false" :plain="true" type="success">取 消</el-button>
+            <el-button type="primary" @click.native="addNewExam" v-loading.fullscreen.lock="fullscreenLoading">确 定</el-button>
+            <el-button @click="showAddExam = false" :plain="true" type="primary">取 消</el-button>
           </el-form-item>
         </div>
       </el-form>
