@@ -39,7 +39,11 @@
                             </div> -->
             <span class="item" style="float:right">
               <el-button size="small" @click="unbindCard">解除绑定</el-button>
+<el-button @click="showHelp=true" type="text" class="ml00 addBtn"><i class="iconfont">&#xe63b;</i></el-button>
             </span>
+
+  
+
             <span class="item">
               <span>一卡通卡号 </span>
               <span class="cardID">{{CardID}}</span>
@@ -73,8 +77,18 @@
         </div>
       </div>
     </div>
+    <!-- 解除绑定帮助 -->
+    <el-dialog title="帮助" :visible.sync="showHelp">
+      <div>
+       <p>解除绑定之后就无法实时的观看一卡通的消费记录和剩余金额</p>
+      </div>
 
+
+    </el-dialog>
   </div>
+      
+     
+
 </template>
 
 <script>
@@ -86,6 +100,7 @@ export default {
   components: { loadMore, hasNoStudent, noData },
   data() {
     return {
+      showHelp:false,
       addCardData: {
         CardID: '', //卡号
         student_meid: this.$store.state.currentStudentId
