@@ -106,6 +106,13 @@
           <el-option v-for="item in data.Classes" :key="item.ClassID" :label="item.ClassName" :value="item.ClassID">
           </el-option>
         </el-select>
+
+        <!-- <el-select v-model="value" placeholder="请选择">
+          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+          </el-option>
+        </el-select> -->
+
+
       </div>
       <div class="panelbox artical" v-show="data.TrueName == '张继锋' ">
         <el-button @click="$router.push('/meiyu')" type="success" class="ml20 addBtn">美育活动</el-button>
@@ -151,12 +158,14 @@ export default {
       } else {
         this.data = this.$store.state.currentUser
         this.data.Classes = this.$store.state.currentUser.ExtendInfo.Classes
+        console.log(this.data.Classes)
         if (this.data.ExtendInfo.Course.CourseName) {
           this.data.Course = this.data.ExtendInfo.Course.CourseName
         }
       }
     },
     changeClass(val) {
+      console.log(val)
       this.$store.commit('changeCurrentClass', val)
       let para = {
         ClassID: val

@@ -47,7 +47,6 @@ export default {
       para.currentPage = this.currentPage
       para.pagesize = this.pageSize
       this.$API.getAllTeacherHomework(para).then(res => {
-        console.log(res)
         let homework = res.length
         this.$store.state.numLength.homework = homework
         if (res.length) {
