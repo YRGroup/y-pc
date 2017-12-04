@@ -89,7 +89,7 @@
         <div class="footer">
           <span class="time">{{i.date}}</span>
           <span class="iconbtn">
-            <span title="删除" class="delBtn" @click="delPost(i.ID)" v-loading.fullscreen.lock="fullscreenLoading" v-if="i.showDelate">
+            <span title="删除" class="delBtn" @click="delPost(i.ID)" v-loading.fullscreen.lock="fullscreenLoading" v-if="i.showDelete">
               <i class="iconfont">&#xe630;</i>
               <span class="delBtnTitle">删除</span>
             </span>
@@ -139,7 +139,7 @@ export default {
       fullscreenLoading: true,
       nodataPic: require("@/assets/nodata.png"),
       studentList:{},
-      showDelate:false
+      showDelete:false
     };
   },
   computed: {
@@ -186,12 +186,12 @@ export default {
       this.$API.getAllClassDynamic(para).then(res => {
           this.fullscreenLoading = false
           if (res.length) {
-            //如果是自己发布的动态 或是班主任 显示删除按钮
+            //如果老师、家长、班主任 显示删除按钮
             res.forEach(element => {
               if((this.$store.state.currentUser.Meid == element.auther_meid) || (this.$store.state.currentStudentId == element.auther_meid) || this.isAdmin){
-                element.showDelate = true
+                element.showDelete = true
               }else{
-                element.showDelate = false
+                element.showDelete = false
               }
             })
             this.data = res
