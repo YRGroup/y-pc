@@ -16,6 +16,9 @@
         </div>
         <div class="tips">{{data.category}}</div>
         <div class="content">{{data.content}} <span class="atuser" v-for="item in data.AtUser">@{{item.TrueName}}</span></div>
+        <div class="video" v-if="data.Video">
+          <div class="prism-player" id="J_prismPlayer"></div>
+        </div>
         <div class="albums">
           <li v-for="(p,index) in data.albums" :key="index">
             <div class="imgCon" :style="{backgroundImage:'url\('+p+'\)'}" @click="openImgBig(p)"></div>
@@ -120,8 +123,44 @@ export default {
         .then(res => {
           this.fullscreenLoading = false
           this.data = res;
+          console.log(this.data)
+          if (this.data.Video) {
+            this.$API.getVideoAuth({ videoid: this.data.Video.VideoId })
+              .then(auth => {
+                this.videoAuth = auth.toString();
+                this.initPlayer();
+                // this.player.play()
+              });
+          }
         });
     },
+    // 视频播放器配置
+    initPlayer() {
+      if (this.player) {
+        this.player = null;
+      }
+      this.player = new prismplayer({
+        id: "J_prismPlayer",
+        width: "80%",
+        height: "400px",
+        autoplay: true,
+        useH5Prism: true,
+        hideBar: true,
+        vid: this.data.Video.VideoId,
+        playauth: this.videoAuth,
+        cover: this.data.Video.CoverUrl,
+        skinLayout:[{"name":"controlBar","align":"blabs","x":0,"y":0,"children":[{"name":"progress","align":"tlabs","x":0,"y":0},
+                {"name":"playButton","align":"tl","x":15,"y":26},
+                {"name":"fullScreenButton","align":"tr","x":20,"y":25},
+                {"name":"timeDisplay","align":"tl","x":10,"y":24}]},
+                {"name":"H5Loading","align":"cc"},
+                {"name":"fullControlBar","align":"tlabs","x":0,"y":0,"children":[{"name":"fullTitle","align":"tl","x":25,"y":6},
+                {"name":"fullNormalScreenButton","align":"tr","x":24,"y":13},
+                {"name":"fullTimeDisplay","align":"tr","x":10,"y":12}]},
+                {"name":"bigPlayButton","align":"cc","x":30,"y":80}],
+      });
+    },
+    // 回复动态
     submitReply() {
       this.replyData.did = this.data.ID;
       if (

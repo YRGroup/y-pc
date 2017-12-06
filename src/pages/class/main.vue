@@ -1,13 +1,13 @@
 <template>
   <div  v-loading.fullscreen.lock="fullscreenLoading">
     
-    <!-- <div class="addPost">
+    <div class="addPost">
       <div class="title addbtn" @click="showAddPost=true">
         <i class="iconfont">&#xe623;</i>发布动态</div>
-    </div> -->
+    </div>
 
 
-  <div class="dynamics">
+  <!-- <div class="dynamics">
     <div class="sendpost">
       <div class="input">
           <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model.trim="newPost.content">
@@ -21,7 +21,7 @@
            <el-upload :http-request="imgUpload" :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
             <i class="iconfont">&#xe613;</i>
             图片
-          </el-upload>
+          </el-upload> -->
 
           
           
@@ -34,7 +34,7 @@
             图片
   <i class="el-icon-plus"></i>
 </el-upload> -->
-<el-dialog :visible.sync="dialogVisible" size="tiny">
+<!-- <el-dialog :visible.sync="dialogVisible" size="tiny">
   <img width="100%" :src="dialogImageUrl" alt="">
 </el-dialog>
 </span>
@@ -67,13 +67,13 @@
         </div>
       </div>
     </div>
-</div>
+</div> -->
 
     
 
 
-  <!-- <div class="dynamics"> -->
-    <!-- <el-dialog title="发布动态" :visible.sync="showAddPost" width="30%">
+  <div class="dynamics">
+    <el-dialog title="发布动态" :visible.sync="showAddPost" width="30%">
       <el-form :model="newPost">
         <el-form-item>
           <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model.trim="newPost.content">
@@ -84,8 +84,8 @@
             <i class="el-icon-plus"></i>
           </el-upload>
           </el-input>
-        </el-form-item> -->
-        <!-- <el-form-item label="是否@某学生：">
+        </el-form-item>
+        <el-form-item label="是否@某学生：">
           <el-switch on-text="" off-text="" v-model="showstudent"></el-switch>
         </el-form-item label="">
         <el-form-item v-show="showstudent">
@@ -93,33 +93,38 @@
             <el-option v-for="item in studentList" :key="item.NickName" :label="item.NickName" :value="item.Meid" style="width:300px">
             </el-option>
           </el-select>
-        </el-form-item> -->
+        </el-form-item>
         <!-- <el-form-item>
           <el-upload :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
             <i class="el-icon-plus"></i>
           </el-upload>
           </el-input>
         </el-form-item> -->
-
       </el-form>
-      <!-- <div slot="footer" class="dialog-footer">
+      <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addNewPost" v-loading.fullscreen.lock="fullscreenLoading">发 布</el-button>
-      </div> -->
+      </div>
     </el-dialog>
 
-    <!-- </div> -->
+    </div>
 
     <no-data v-if="nodataImg"></no-data>
     <div v-else>
       <div class="card panel" v-for="i in data" :key="i.ID">
         <div class="img" @click="openUserPage(i)">
-          <!-- <img :src="i.userImg" v-if="i.userImg!='http://pic.yearnedu.com/himg.png' && i.userImg!=''">
-                      <div class="headTextImg" v-else>{{i.auther.substr(0,1)}}</div> -->
-          <img :src="i.userImg">
+          <div v-if="i.auther_role == '3'" @click="$router.push('/teacher/'+i.auther_meid)" class="category" :style="{background:colors[i.CourseName]}">{{ i.CourseName.substr(0,1) }}</div>
+          <img v-else :src="i.userImg" @click="$router.push('/student/'+i.auther_meid)">
         </div>
         <div class="tips">{{i.category}}</div>
         <div class="header" @click="openUserPage(i)">{{i.auther}}</div>
         <div class="content" @click="$router.push('/post/'+i.ID)">{{i.content}} <span class="atuser" v-for="item in i.AtUser">@{{item.TrueName}}</span></div>
+        <div class="videoCover" v-if="i.Video" @click="$router.push('/post/'+i.ID)">
+          <span class="CoverImg">
+            <span class="icon"><i class="iconfont">&#xe63c;</i></span>
+            <span class="shade"></span>
+            <img :src="i.Video.CoverUrl" alt="">
+          </span>
+        </div>
         <div class="albums">
           <li v-for="(p,index) in i.albums" :key="index">
             <div class="imgCon" :style="{backgroundImage:'url\('+p+'\)'}" @click="openImgBig(p)"></div>
@@ -194,7 +199,7 @@ export default {
       fullscreenLoading: true,
       nodataPic: require("@/assets/nodata.png"),
       studentList:{},
-      showDelete:false
+      showDelete:false,
     };
   },
   computed: {
@@ -202,12 +207,15 @@ export default {
       return this.$store.state.currentUser.Meid == this.$store.state.currentClassInfo.teacher.Meid
     },
     imgBaseList(){
-          let arr=[];
-          this.imgUrls.forEach((n,i)=>{
-              arr.push(n.src)
-          })
-        return arr;
-      }
+      let arr=[];
+      this.imgUrls.forEach((n,i)=>{
+          arr.push(n.src)
+      })
+      return arr;
+    },
+    colors() {
+      return this.$store.state.colors
+    }
   },
   methods: {
 
@@ -264,6 +272,7 @@ export default {
           } else if (res.length == 0 && this.currentPage != 1) {
             this.noMoreData = true;
           }
+          console.log(this.data)
         })
         .catch(err => {
           this.$message.error(err.msg);
@@ -404,18 +413,18 @@ export default {
 @import "../../style/theme.less";
 
 
-  .dynamics{
-    height: 35vh;
-    background-color: white;
-    // border-radius: 5px;
-  }
-  .kind{
-   margin: 6px;
-   padding-left: 15px;
-  }
-  .submit{
-    float:right;
-  }
+  // .dynamics{
+  //   height: 35vh;
+  //   background-color: white;
+  //   // border-radius: 5px;
+  // }
+  // .kind{
+  //  margin: 6px;
+  //  padding-left: 15px;
+  // }
+  // .submit{
+  //   float:right;
+  // }
 
 
 
@@ -452,7 +461,6 @@ export default {
     padding: 0 20px;
   }
 }
-
 .card {
   margin: 15px 0;
   position: relative;
@@ -589,6 +597,41 @@ export default {
   img {
     max-width: 100%;
     max-height: 100vh;
+  }
+}
+.videoCover{
+  margin-top: 10px;
+  width: 400px;
+  height: 300px;
+  overflow: hidden;
+  .CoverImg{
+    display: inline-block;
+    position: relative;
+    background: #fff;
+    width: 400px;
+    height: 300px;
+  }
+  .shade{
+    display: inline-block;
+    width:100%;
+    height: 100%;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.2);
+  }
+  .icon{
+    position: absolute;
+    font-size: 50px;
+    color: #fff;
+    left: 50%;
+    top: 50%;
+    margin-left: -15px;
+    margin-top: -15px;
+    z-index: 99;
+  }
+  img{
+    max-width: 100%;;
+    vertical-align: middle;
+    object-fit:cover;
   }
 }
 </style>
