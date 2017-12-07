@@ -1,13 +1,17 @@
+
 <template>
   <div  v-loading.fullscreen.lock="fullscreenLoading">
     
-    <div class="addPost">
+    <!-- <div class="addPost">
       <div class="title addbtn" @click="showAddPost=true">
         <i class="iconfont">&#xe623;</i>发布动态</div>
-    </div>
+    </div> -->
 
 
-  <!-- <div class="dynamics">
+
+
+
+  <div class="dynamics">
     <div class="sendpost">
       <div class="input">
           <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model.trim="newPost.content">
@@ -16,14 +20,27 @@
       <div class="funArea">
         <div class="sendBtn"></div>
         <div class="kind">
-          <span>
-           
-           <el-upload :http-request="imgUpload" :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
+          <span class="picture">
+           <!-- 视频上传 -->
+           <!-- <el-upload :http-request="imgUpload" :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
             <i class="iconfont">&#xe613;</i>
             图片
           </el-upload> -->
-
+<el-popover ref="popover2" placement="bottom"  title="添加图片" width="270" trigger="click" content="">
+  <!-- 视频上传 -->
+           <el-upload :http-request="imgUpload" :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+       
+         
+          <!-- <div class="deleteImg" @click="deleteImg(index)">
+                <span class="iconfont">&#xe630;</span>
+            </div> -->
+</el-popover>
           
+<el-button v-popover:popover2 type="text" ><i class="iconfont">&#xe613;</i>  图片</el-button>
+
+
           
     <!-- <el-upload
   action="https://jsonplaceholder.typicode.com/posts/"
@@ -34,29 +51,23 @@
             图片
   <i class="el-icon-plus"></i>
 </el-upload> -->
-<!-- <el-dialog :visible.sync="dialogVisible" size="tiny">
+<el-dialog :visible.sync="dialogVisible" size="tiny">
   <img width="100%" :src="dialogImageUrl" alt="">
 </el-dialog>
 </span>
 
 
-<el-popover
-  ref="popover2"
-  placement="bottom"
-  title="添加视频"
-  width="200"
-  trigger="click"
-  content="添加">
+<el-popover ref="popover2" placement="bottom" title="添加视频" width="200" trigger="click" content="添加">
 </el-popover>
-<div>
+<span class="picture">
 <el-button v-popover:popover2 type="text"><i class="iconfont">&#xe66b;</i>  视频</el-button>
-     </div>    
-  <el label="是否@某学生：">
+    </span>
+  <el label="是否@某学生：" class="picture">
           <el-switch on-text="" off-text="" v-model="showstudent"></el-switch>
-        </el label="">
+        </el label="" >
         <el v-show="showstudent">
-          <el-select v-model="newPost.at_meid" multiple placeholder="请选择" style="width:300px">
-            <el-option v-for="item in studentList" :key="item.NickName" :label="item.NickName" :value="item.Meid" style="width:300px">
+          <el-select v-model="newPost.at_meid" multiple placeholder="请选择" style="width:150px">
+            <el-option v-for="item in studentList" :key="item.NickName" :label="item.NickName" :value="item.Meid" style="width:150px">
             </el-option>
           </el-select>
         </el>
@@ -67,13 +78,13 @@
         </div>
       </div>
     </div>
-</div> -->
+</div>
 
     
 
 
-  <div class="dynamics">
-    <el-dialog title="发布动态" :visible.sync="showAddPost" width="30%">
+  <!-- <div class="dynamics"> -->
+    <!-- <el-dialog title="发布动态" :visible.sync="showAddPost" width="30%">
       <el-form :model="newPost">
         <el-form-item>
           <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model.trim="newPost.content">
@@ -84,8 +95,8 @@
             <i class="el-icon-plus"></i>
           </el-upload>
           </el-input>
-        </el-form-item>
-        <el-form-item label="是否@某学生：">
+        </el-form-item> -->
+        <!-- <el-form-item label="是否@某学生：">
           <el-switch on-text="" off-text="" v-model="showstudent"></el-switch>
         </el-form-item label="">
         <el-form-item v-show="showstudent">
@@ -93,20 +104,23 @@
             <el-option v-for="item in studentList" :key="item.NickName" :label="item.NickName" :value="item.Meid" style="width:300px">
             </el-option>
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <!-- <el-form-item>
           <el-upload :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
             <i class="el-icon-plus"></i>
           </el-upload>
           </el-input>
         </el-form-item> -->
+
       </el-form>
-      <div slot="footer" class="dialog-footer">
+      <!-- <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addNewPost" v-loading.fullscreen.lock="fullscreenLoading">发 布</el-button>
-      </div>
+      </div> -->
     </el-dialog>
 
-    </div>
+    <!-- </div> -->
+
+
 
     <no-data v-if="nodataImg"></no-data>
     <div v-else>
@@ -173,7 +187,7 @@ export default {
   components: { loadMore, noData },
   data() {
     return {
-      
+        
         dialogImageUrl: '',
         dialogVisible: false,
 
@@ -412,19 +426,43 @@ export default {
 <style lang="less" scoped>
 @import "../../style/theme.less";
 
+// .deleteImg {
+//       margin-left: 54px;
+//       width: 25px;
+//       height: 30px;
+//       line-height: 34px;
+//       text-align: center;
+//       position: absolute;
+//       background: #000;
+//       opacity: .4;
+//       border-radius: 0 0.35em;
+//       // right: 10;
+//       left:15;
+//       // top: 0;
+//       bottom: 73px;
+//       font-size: 16px;
+//       color: #fff;
+//       span {
 
-  // .dynamics{
-  //   height: 35vh;
-  //   background-color: white;
-  //   // border-radius: 5px;
-  // }
-  // .kind{
-  //  margin: 6px;
-  //  padding-left: 15px;
-  // }
-  // .submit{
-  //   float:right;
-  // }
+//       }
+//     }
+
+
+  .dynamics{
+    height: 20vh;
+    background-color: white;
+    // border-radius: 5px;
+  }
+  .kind{
+   margin: 6px;
+   padding-left: 15px;
+  }
+  .submit{
+    float:right;
+  }
+  .picture{
+    margin-left: 20px;
+  }
 
 
 
