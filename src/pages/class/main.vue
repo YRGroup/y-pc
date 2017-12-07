@@ -629,7 +629,7 @@ export default {
     z-index: 99;
   }
   img{
-    max-width: 100%;;
+    width: 100%;;
     vertical-align: middle;
     object-fit:cover;
   }

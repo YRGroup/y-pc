@@ -74,9 +74,6 @@ export default {
       goTopShow:'',
     }
   },
-
-  
-
   computed: {
     role() {
       return this.$store.getters.role
