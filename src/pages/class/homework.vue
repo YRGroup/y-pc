@@ -195,6 +195,7 @@ export default {
             type: 'success',
           })
           this.homework = []
+          this.currentPage = 1
           this.getData();
           this.refresh()
         }).catch((err) => {
@@ -256,6 +257,7 @@ export default {
       this.getData()
     },
     addNewHomework() {
+      this.currentPage = 1
       this.newHomeworkData['class_id'] = this.$store.state.currentClassId
       if (this.notClassAdmin == true) {
         this.newHomeworkData['course_name'] = this.$store.state.currentUser.ExtendInfo.Course.CourseName

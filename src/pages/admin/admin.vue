@@ -292,7 +292,7 @@
         </el-form-item>
       </el-form>
     </el-dialog>
-    <el-dialog title="编辑学生资料" :visible.sync="showEditStudent" size="tiny">
+    <el-dialog title="编辑学生资料" :visible.sync="showEditStudent" width="30%">
       <el-form :model="editStudentData" label-width="88px">
         <!-- <el-form-item label="ID">
             <el-input v-model="editStudentData.Meid" :disabled="true"></el-input>

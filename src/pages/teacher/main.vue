@@ -23,7 +23,7 @@
         </div>
       </el-tab-pane>
       <el-tab-pane name="profile" v-if="!$route.query.id">
-        <span class="title" slot="label">个人</span>
+        <span class="title" slot="label">个人资料</span>
         <div class="content info">
           <div class="itemList">
             <div class="header">

@@ -270,4 +270,16 @@ API.sendMsg = (data) => {
   })
 }
 
+
+// 获取视频上传认证信息
+API.getVideoUploadAuth = (para) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl+'/api/video/GetVideoUploadAuth',para).then((res)=>{
+      resolve(res.data.Content)
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
+
 export default API

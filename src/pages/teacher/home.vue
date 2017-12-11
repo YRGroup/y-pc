@@ -36,8 +36,8 @@
         </ul>
         <div class="content">
           <div class="btn-info" v-if="!$route.query.id">
-            <el-button :plain="true" type="text" @click.native="startEditPw" size="small">修改密码</el-button>
-            <el-button :plain="true" type="text" @click.native="logout" size="small">退出</el-button>
+            <el-button plain type="primary" @click.native="startEditPw" size="mini">修改密码</el-button>
+            <el-button plain type="primary" @click.native="logout" size="mini">退出</el-button>
           </div>
           <div class="btn-info" v-else>
             <el-button type="info" @click.native="$router.push('/msg/'+data.Meid)">发消息</el-button>
@@ -73,8 +73,8 @@
                 </div>
                 <div>
                   <el-form-item label=" ">
-                    <el-button type="success" @click="editPw">确 定</el-button>
-                    <el-button type="success" :plain="true" @click="showEditPw = false">取 消</el-button>
+                    <el-button type="primary" @click="editPw">确 定</el-button>
+                    <el-button type="primary" :plain="true" @click="showEditPw = false">取 消</el-button>
                   </el-form-item>
                 </div>
               </el-form>
@@ -329,7 +329,7 @@ export default {
 
 .btn-info {
   text-align: center;
-  padding: 10px 20px 0;
+  margin-top: 15px;
   .el-button {
     margin: 0 10px;
   }

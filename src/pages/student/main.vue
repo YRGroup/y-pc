@@ -11,15 +11,13 @@
         <y-score></y-score>
       </el-tab-pane>
       <el-tab-pane name="profile">
-        <span class="title" slot="label">信息</span>
+        <span class="title" slot="label">个人资料</span>
         <y-profile></y-profile>
       </el-tab-pane>
-
-
-      <!-- <el-tab-pane name="edit">
+      <el-tab-pane name="edit">
         <span class="title" slot="label">修改资料</span>
         <y-edit v-if="this.activeTab==='edit'"></y-edit>
-      </el-tab-pane> -->
+      </el-tab-pane>
     </el-tabs>
   
   </div>
@@ -44,7 +42,7 @@ export default {
   },
   created() {
     if(this.$route.query.tab){
-      this.activeTab=this.$route.query.tab
+      this.activeTab = this.$route.query.tab
     }
   },
   mounted() {

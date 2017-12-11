@@ -2,7 +2,7 @@
 <div v-loading.fullscreen.lock="fullscreenLoading">
   <div class="card panel" >
     <div style="text-align:center">
-      <el-button @click="showAddExam=true" type="primary" class="ml20 addBtn"><i class="iconfont">&#xe623;</i>添加新考试</el-button>
+      <el-button @click="showAddExam=true" type="primary" class="ml20 addBtn"><i class="iconfont">&#xe623;</i> 添加新考试</el-button>
 
 <!-- 帮助弹窗 -->
  <el-button @click="showHelp=true" type="text" class="ml00 addBtn"><i class="iconfont">&#xe63b;</i></el-button>
@@ -29,10 +29,10 @@
           <div class="exambtn">
             <el-button class="delbtn" :plain="true" type="text" @click="delExam(i.ID,i.ExamName)" size="small">
               <i class="iconfont">&#xe630;</i> 删除</el-button>
-            <el-button :type="!i.IsSendMsg?'info':null" @click="sendExamNotice(i.ID)" :disabled="i.IsSendMsg">推送</el-button>
+            <el-button plain :type="!i.IsSendMsg?'info':null" @click="sendExamNotice(i.ID)" :disabled="i.IsSendMsg">推送</el-button>
             <el-button type="success" class="type" @click="publishExam(i.ID)" :disabled="i.IsPublished">发布</el-button>
-            <el-button type="warning" class="type" @click="$router.push('/examChart/'+i.ID)">报表</el-button>
-            <el-button type="primary" class="type" @click="$router.push('/exam/'+i.ID)">详情</el-button>
+            <el-button plain type="warning" class="type" @click="$router.push('/examChart/'+i.ID)">报表</el-button>
+            <el-button plain type="primary" class="type" @click="$router.push('/exam/'+i.ID)">详情</el-button>
           </div>
         </li>
       </div>
@@ -47,7 +47,7 @@
               <el-radio :label="3">最近3次</el-radio>
               <el-radio :label="4">最近4次</el-radio>
             </el-radio-group>
-            <el-button type="primary" @click="getChart11" style="margin-left:20px">查询</el-button>
+            <el-button type="primary" @click="getChart11" size="mini" style="margin-left:20px">查询</el-button>
           </div>
           <div id="chart11" style="width:100%; height:450px;"></div>
         </div>

@@ -10,22 +10,22 @@ API.searchVideo = (para) => {
   return new Promise((resolve, reject) => {
     axios.get(_APIurl+'/api/video/search',{params:para}).then((res)=>{
       resolve(res.data.Content)
-    }).catch((err) => {
+    }).catch((err) => {getVideoUploadAuth
       reject(err)
     })
   })
 }
 
-// 搜索视频
-API.GetVideoUploadAuth = (para) => {
-  return new Promise((resolve, reject) => {
-    axios.post(_APIurl+'/api/Video/GetVideoUploadAuth',para).then((res)=>{
-      resolve(res.data.Content)
-    }).catch((err) => {
-      reject(err)
-    })
-  })
-}
+// // 获取视频上传认证信息
+// API.GetVideoUploadAuth = (para) => {
+//   return new Promise((resolve, reject) => {
+//     axios.post(_APIurl+'/api/Video/GetVideoUploadAuth',para).then((res)=>{
+//       resolve(res.data.Content)
+//     }).catch((err) => {
+//       reject(err)
+//     })
+//   })
+// }
 
 // 获取视频认证信息
 API.getVideoAuth = (para) => {
@@ -92,6 +92,8 @@ API.getCategeryList = (para) => {
     })
   })
 }
+
+
 
 
 // 获取视频类别列表

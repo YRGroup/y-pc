@@ -9,7 +9,7 @@
         <span>
           <i class="iconfont">&#xe605;</i>教师人数：</span> {{teacherList.length}}</li>
       <li class="list">
-        <el-button type="primary" @click="showMessage = true">发短信</el-button>
+        <el-button type="primary" plain @click="showMessage = true">发短信</el-button>
       </li>
     </ul>
     <el-dialog title="发短信" :visible.sync="showMessage">

@@ -51,14 +51,12 @@
             <el-date-picker v-model="birthday" @change="submitBirthday" :placeholder="new Date(data.Birthday).Format('yyyy-MM-dd')" type="date">
             </el-date-picker>
           </el-form-item>
-
+          <el-form-item>
+            <el-button type="primary" @click.native="submitChange">提交修改</el-button>
+          </el-form-item>
         </el-form>
       </div>
-      <div class="footer">
-        <div class="btn">
-          <el-button type="primary" @click.native="submitChange">提交修改</el-button>
-        </div>
-      </div>
+
     </div>
 
   </div>
