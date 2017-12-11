@@ -39,6 +39,12 @@
             <div class="info">
               <span>总分：<b>{{i.FullScore}}</b></span>  <span>平均分：<b>{{i.AverageScore}}</b></span>
               <div class="btn" v-show="allEdit">
+                <!-- <el-button size="small" type="warning" @click="EaxmImport" >导入Excel</el-button> -->
+                <el-upload class="exam_import_btn"  :action="'/api/class/EaxmImport?examid='+$route.params.examId+'&courseid='+i.CourseID" 
+                 :on-success="EaxmImportSuccess" >
+                <el-button size="small" type="primary">导入Excel</el-button>
+              </el-upload>
+                <a :href="'/api/class/EaxmExportExcel?examid='+$route.params.examId" target="_blank"> <el-button size="small" type="warning" @click="ExportExcel" >导出Excel</el-button></a>
                 <el-button size="small" type="warning" @click="startEdit = true" v-show="!startEdit">批量修改</el-button>
                 <el-button size="small" @click="startEdit = false" v-show="startEdit">取消</el-button>
                 <el-button size="small" type="primary" @click="submitAllScore(i.CourseName),startEdit = false" v-show="startEdit">全部提交</el-button>
@@ -151,6 +157,15 @@ export default {
     }
   },
   methods: {
+    ExportExcel(){
+      
+    },
+    EaxmImport(){
+
+    },
+    EaxmImportSuccess(response, file, fileList){
+       this.$message.success("导入成功~！");
+    },
     // 批量修改显示隐藏
     handleClick(tab) {
       if(this.isClassAdmin){
@@ -329,6 +344,10 @@ export default {
   .btn {
     float: right;
     margin-bottom: 5px;
+    .exam_import_btn{
+      float: left;
+      margin-right: 5px;
+    }
   }
 }
 
