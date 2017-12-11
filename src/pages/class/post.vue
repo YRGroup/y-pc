@@ -100,6 +100,11 @@ export default {
       fullscreenLoading: true
     };
   },
+  computed: {
+    colors() {
+      return this.$store.state.colors;
+    }
+  },
   methods: {
     getData() {
       if (this.$route.name === "post") {
