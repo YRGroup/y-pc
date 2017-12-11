@@ -41,7 +41,7 @@
               <div class="btn" v-show="allEdit">
                 <!-- <el-button size="small" type="warning" @click="EaxmImport" >导入Excel</el-button> -->
                 <el-upload class="exam_import_btn"  :action="'/api/class/EaxmImport?examid='+$route.params.examId+'&courseid='+i.CourseID" 
-                 :on-success="EaxmImportSuccess" >
+                 :on-success="EaxmImportSuccess"  :show-file-list="false">
                 <el-button size="small" type="primary">导入Excel</el-button>
               </el-upload>
                 <a :href="'/api/class/EaxmExportExcel?examid='+$route.params.examId" target="_blank"> <el-button size="small" type="warning" @click="ExportExcel" >导出Excel</el-button></a>
@@ -164,6 +164,7 @@ export default {
 
     },
     EaxmImportSuccess(response, file, fileList){
+      this.getData()
        this.$message.success("导入成功~！");
     },
     // 批量修改显示隐藏
