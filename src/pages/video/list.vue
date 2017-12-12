@@ -52,7 +52,14 @@
           </li>
         </ul>
       </div>
-    </div>
+    
+    <div class="pagination">
+              <el-pagination :current-Page="currentPage" :page-size="pageSize" 
+                  layout="prev, pager, next" :total="16*currentPage+40"
+                  @size-change="sizeChange" @current-change="pageIndexChange">
+              </el-pagination>
+            </div>
+         </div >  
   </div>
 </template>
 
@@ -68,6 +75,8 @@ export default {
       gradeList: [],
       categoryList: [],
       data: [],
+      currentPage: 1,
+      pageSize: 16,
     }
   },
   filters: {
@@ -117,7 +126,18 @@ export default {
     }
   },
   methods: {
+    sizeChange: function (pageSize) {
+            this.currentPage=currentPage
+            this.pageSize = pageSize;
+            this.getData();
+        },
+         pageIndexChange: function (currentPage) {
+            this.currentPage = currentPage;
+            this.getData();
+        },
     getData() {
+       let para = {}
+      para.currentPage = this.currentPage
       this.data = []
       if (this.$route.name == 'teacher') {
         this.getMyVideoList()
@@ -134,6 +154,8 @@ export default {
     },
     getVideoList() {
       let para = this.filter
+      para.currentPage=this.currentPage
+      para.pageSize=this.pageSize
       this.$API.getVideoList(para).then(res => {
         this.data = res
       })
@@ -196,6 +218,12 @@ export default {
 
 <style lang="less" scoped>
 @import '../../style/theme.less';
+
+.pagination{
+  border-top:solid 1px #fffeff;
+  text-align: center;
+  margin-top: 20px;
+}
 
 .panel {
   background: #fff;

@@ -39,7 +39,7 @@
             <div class="info">
               <span>总分：<b>{{i.FullScore}}</b></span>  <span>平均分：<b>{{i.AverageScore}}</b></span>
               <div class="btn" v-show="allEdit">
-                <el-button size="small" type="warning" @click="startEdit = true" v-show="!startEdit">批量修改</el-button>
+                <el-button size="small" type="warning" @click="startEdit = true" v-show="!startEdit" >批量修改</el-button>
                 <el-button size="small" @click="startEdit = false" v-show="startEdit">取消</el-button>
                 <el-button size="small" type="primary" @click="submitAllScore(i.CourseName),startEdit = false" v-show="startEdit">全部提交</el-button>
               </div>
@@ -162,7 +162,17 @@ export default {
           this.allEdit = false
         }
       }
+      
     },
+
+    startEdit:function(){
+        this.StudentSummary.StudentID.sort(function compare(a,b){return a-b;});
+        for(let i = 0;i<StudentSummary.StudentID.length;i++){
+         this.write(StudentSummary.StudentID[i]);
+
+      }
+    },
+    
     // 编辑个人成绩
     editOneScore(val) {
       val.edit = false;
