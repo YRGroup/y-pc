@@ -1,15 +1,14 @@
 <template>
 <div v-loading.fullscreen.lock="fullscreenLoading">
   <div class="card panel" >
-    <div style="text-align:center">
+    <div style="text-align:center" v-if="isClassAdmin">
       <el-button @click="showAddExam=true" type="primary" class="ml20 addBtn"><i class="iconfont">&#xe623;</i> 添加新考试</el-button>
 
-<!-- 帮助弹窗 -->
- <el-button @click="showHelp=true" type="text" class="m100 addBtn"><i class="iconfont">&#xe63b;</i></el-button>
+      <!-- 帮助弹窗 -->
+      <el-button @click="showHelp=true" type="text" class="ml00 addBtn"><i class="iconfont">&#xe63b;</i></el-button>
 
 
 
-      
     </div>
 
     <no-data v-if="nodataImg"></no-data>
@@ -27,10 +26,10 @@
             </span>
           </div>
           <div class="exambtn">
-            <el-button class="delbtn" :plain="true" type="text" @click="delExam(i.ID,i.ExamName)" size="small">
+            <el-button  v-if="isClassAdmin" class="delbtn" :plain="true" type="text" @click="delExam(i.ID,i.ExamName)" size="small">
               <i class="iconfont">&#xe630;</i> 删除</el-button>
-            <el-button plain :type="!i.IsSendMsg?'info':null" @click="sendExamNotice(i.ID)" :disabled="i.IsSendMsg">推送</el-button>
-            <el-button type="success" class="type" @click="publishExam(i.ID)" :disabled="i.IsPublished">发布</el-button>
+            <el-button  v-if="isClassAdmin" plain :type="!i.IsSendMsg?'info':null" @click="sendExamNotice(i.ID)" :disabled="i.IsSendMsg">推送</el-button>
+            <el-button  v-if="isClassAdmin" type="success" class="type" @click="publishExam(i.ID)" :disabled="i.IsPublished">发布</el-button>
             <el-button plain type="warning" class="type" @click="$router.push('/examChart/'+i.ID)">报表</el-button>
             <el-button plain type="primary" class="type" @click="$router.push('/exam/'+i.ID)">详情</el-button>
           </div>
@@ -146,17 +145,28 @@ export default {
     }
   },
   computed: {
-    isClassAdmin() {
-      return false
-    },
     currentClassId() {
       return this.$store.state.currentClassId
     },
+
     currentClassInfo() {
       if (!this.$store.state.currentClassInfo) {
         return this.$store.dispatch('getCurrentClassInfo')
       } else {
         return this.$store.state.currentClassInfo
+      }
+    },
+    isClassAdmin() {
+      console.log(this.currentClassInfo)
+      if (this.$store.getters.role == "老师") {
+        if (
+          this.currentClassInfo.teacher &&
+          this.$store.state.currentUser.Meid == this.currentClassInfo.teacher.Meid
+        ) {
+          return true;
+        } else {
+          return false;
+        }
       }
     },
     currentClassList() {

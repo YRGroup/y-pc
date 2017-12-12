@@ -38,7 +38,7 @@
             <img width="100%" :src="dialogImageUrl" alt="">
           </el-dialog>
         </el-form-item>
-        <el-form-item >
+        <el-form-item v-if="role =='老师' ">
           <el-select v-model="newPost.at_meid" multiple placeholder="@某学生" style="width:300px">
             <el-option v-for="item in studentList" :key="item.NickName" :label="item.NickName" :value="item.Meid" style="width:300px">
             </el-option>
@@ -173,6 +173,9 @@ export default {
         this.$store.state.currentUser.Meid ==
         this.$store.state.currentClassInfo.teacher.Meid
       );
+    },
+    role() {
+      return this.$store.getters.role
     },
     imgBaseList() {
       let arr = [];

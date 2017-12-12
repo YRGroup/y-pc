@@ -3,25 +3,7 @@
     <el-tabs v-model="activeTab" type="border-card" class="tabs leftCon">
 
 
-      <el-tab-pane name="post">
-        <span class="title" slot="label">动态</span>
-        <div class="content">
-          <my-post :id="currentUserId"></my-post>
-        </div>
-      </el-tab-pane>
 
-      <el-tab-pane name="homework">
-        <span class="title" slot="label">作业</span>
-        <div class="content">
-          <teacher-homework :id="currentUserId"></teacher-homework>
-        </div>
-      </el-tab-pane>
-      <el-tab-pane name="video">
-        <span class="title" slot="label">视频</span>
-        <div class="content">
-          <teacher-video :id="currentUserId"></teacher-video>
-        </div>
-      </el-tab-pane>
       <el-tab-pane name="profile" v-if="!$route.query.id">
         <span class="title" slot="label">个人资料</span>
         <div class="content info">
@@ -149,6 +131,25 @@
 
         </div>
       </el-tab-pane>
+      <el-tab-pane name="homework">
+        <span class="title" slot="label">作业</span>
+        <div class="content">
+          <teacher-homework :id="currentUserId"></teacher-homework>
+        </div>
+      </el-tab-pane>
+      <el-tab-pane name="video">
+        <span class="title" slot="label">视频</span>
+        <div class="content">
+          <teacher-video :id="currentUserId"></teacher-video>
+        </div>
+      </el-tab-pane>
+
+      <el-tab-pane name="post">
+        <span class="title" slot="label">动态</span>
+        <div class="content">
+          <my-post :id="currentUserId"></my-post>
+        </div>
+      </el-tab-pane>
 
       <el-tab-pane name="msg" v-if="!$route.query.id">
         <span class="title" slot="label">消息</span>
@@ -172,7 +173,7 @@ export default {
   components: { teacherHomework, myPost, msg, teacherVideo },
   data() {
     return {
-      activeTab: 'post',
+      activeTab: 'profile',
       profileData: {},
       postData: [],
       homeworkData: [],

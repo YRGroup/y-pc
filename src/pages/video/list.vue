@@ -41,8 +41,10 @@
                 <div class="info">
                   <span>
                     <i class="iconfont">&#xe678;</i>{{i.TrueName}}</span>
-                  <span class="time">
-                    <i class="iconfont">&#xe621;</i>{{i.Duration | formatTime}}</span>
+                  <!-- <span class="time">
+                    <i class="iconfont">&#xe621;</i>{{i.Duration | formatTime}}</span> -->
+                  <span class="subject ">{{i.CateName}}</span>
+                  <span class="grade">{{i.GradeName}}</span>
                 </div>
                 <div class="bottom">
                   <p class="desc">{{i.Description}}</p>
@@ -145,6 +147,13 @@ export default {
         this.getVideoList()
       }
     },
+    categoryName(id) {
+      this.gradeName.forEach(element => {
+        if(element.ID ==  id){
+          return element.GradeName
+        }
+      })
+    },
     getMyVideoList() {
       this.$API.getMyVideoList().then(res => {
         let myvideo = res.length
@@ -157,7 +166,11 @@ export default {
       para.currentPage=this.currentPage
       para.pageSize=this.pageSize
       this.$API.getVideoList(para).then(res => {
+        console.log(res)
+        res.forEach( element => {
+        })
         this.data = res
+        console.log(res)
       })
     },
     openVideo(val) {
@@ -322,8 +335,11 @@ export default {
           span:nth-child(1){
             float: left;
           }
-          .time{
+          .time,.subject,.grade{
             float: right;
+          }
+          .grade{
+            margin:0 10px;
           }
         }
         .bottom {
@@ -347,4 +363,5 @@ export default {
   display: none;
   font-size: 12px;
 }
+
 </style>
