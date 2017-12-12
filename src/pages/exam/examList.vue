@@ -5,10 +5,7 @@
       <el-button @click="showAddExam=true" type="primary" class="ml20 addBtn"><i class="iconfont">&#xe623;</i> 添加新考试</el-button>
 
       <!-- 帮助弹窗 -->
-      <el-button @click="showHelp=true" type="text" class="ml00 addBtn"><i class="iconfont">&#xe63b;</i></el-button>
-
-
-
+      <!-- <el-button @click="showHelp=true" type="text" class="ml00 addBtn"><i class="iconfont">&#xe63b;</i></el-button> -->
     </div>
 
     <no-data v-if="nodataImg"></no-data>

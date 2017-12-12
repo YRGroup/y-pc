@@ -31,19 +31,9 @@
       <div v-else>
         <div class="cardSummary">
           <div class="total">
-            <!-- <div class="student" v-if="$store.getters.role==='家长'">
-                              <el-select v-model="addCardData.student_meid" @change="changeCurrentStudent" placeholder="请选择学生">
-                                <el-option v-for="i in studentList" :key="i.id" :label="i.name" :value="i.id">
-                                </el-option>
-                              </el-select>
-                            </div> -->
             <span class="item" style="float:right">
               <el-button size="small" @click="unbindCard">解除绑定</el-button>
-<el-button @click="showHelp=true" type="text" class="ml00 addBtn"><i class="iconfont">&#xe63b;</i></el-button>
             </span>
-
-  
-
             <span class="item">
               <span>一卡通卡号 </span>
               <span class="cardID">{{CardID}}</span>
@@ -78,13 +68,11 @@
       </div>
     </div>
     <!-- 解除绑定帮助 -->
-    <el-dialog title="帮助" :visible.sync="showHelp">
+    <!-- <el-dialog title="帮助" :visible.sync="showHelp">
       <div>
        <p>解除绑定之后就无法实时的观看一卡通的消费记录和剩余金额</p>
       </div>
-
-
-    </el-dialog>
+    </el-dialog> -->
   </div>
       
      
@@ -95,6 +83,7 @@
 import hasNoStudent from '@/components/hasNoStudent'
 import loadMore from '@/components/loadMore'
 import noData from '@/components/noData'
+import moment from 'moment'
 
 export default {
   components: { loadMore, hasNoStudent, noData },
@@ -144,17 +133,16 @@ export default {
       para.pagesize = this.pageSize
       para.student_meid = this.$store.state.currentStudentId
       this.$API.getCardList(para).then(res => {
+        console.log(res)
         if (res) {
           this.CardID = res.CampusCard
           if (this.Blance == 0) {
             this.Blance = res.Blance
           }
           if (res.Log.length) {
-            // res.Log.forEach(element => {
-            //   let time = new Date(element.CreateTime)
-            //   element.CreateTime = time.Format('MM-dd hh:mm')
-            //   this.alllog.push(element)
-            // })
+            res.Log.forEach(element => {
+              element.CreateTime = moment(element.CreateTime).format('YYYY-M-D hh:mm')
+            })
             this.alllog=res.Log
           } else {
             this.noMoreData = true
