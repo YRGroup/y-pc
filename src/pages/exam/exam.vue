@@ -178,7 +178,10 @@ export default {
           this.allEdit = false
         }
       }
+      
     },
+
+    
     // 编辑个人成绩
     editOneScore(val) {
       val.edit = false;

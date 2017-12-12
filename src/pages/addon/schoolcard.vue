@@ -63,7 +63,6 @@
               </el-pagination>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -131,7 +130,7 @@ export default {
       let para = {}
       para.currentPage = this.currentPage
       para.pagesize = this.pageSize
-      para.student_meid = this.$store.state.currentStudentId
+      para.student_meid = this.$store.state.currentStudentIdcurrentStudentId
       this.$API.getCardList(para).then(res => {
         console.log(res)
         if (res) {
@@ -197,6 +196,18 @@ export default {
 
 <style lang="less" scoped>
 @import '../../style/theme.less';
+
+.Relieve{
+  text-align: center;
+  height: 300px;
+  line-height: 200px;
+  
+}
+p{
+  border-radius: 10px;
+  background-color: #fffeff;
+  font-size: 18px;
+}
 
 .noCard {
   min-height: 500px;

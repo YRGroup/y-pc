@@ -53,10 +53,10 @@
     </div>
 
   <!-- 添加新考试帮助弹窗 -->
-  <el-dialog title="帮助" :visible.sync="showHelp">
-      <div>
-       <p>老师可以添加新的考试 设置总分 考试时间 考试类型</p> 
-        <p>可以在线看到学生的考试成绩和平均分</p>
+  <el-dialog title="帮助" :visible.sync="showHelp" >
+      <div class="helplp">
+       <div>老师可以添加新的考试 设置总分 考试时间 考试类型</div> 
+        <div>可以在线看到学生的考试成绩和平均分</div>
       </div>
 
 
@@ -408,6 +408,19 @@ export default {
 
 <style lang="less" scoped>
 @import '../../style/theme.less';
+p{
+  margin: 0;
+  font-size: 18px;
+}
+
+.helplp{
+  text-align: center;
+  margin: 0;
+  height: 200px;
+  line-height: 100px;
+  // background-color: #01bf70;
+}
+
 .cupo{
   cursor: pointer;
 }
