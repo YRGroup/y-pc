@@ -42,9 +42,9 @@
                 <!-- <el-button size="small" type="warning" @click="EaxmImport" >导入Excel</el-button> -->
                 <el-upload class="exam_import_btn"  :action="'/api/class/EaxmImport?examid='+$route.params.examId+'&courseid='+i.CourseID" 
                  :on-success="EaxmImportSuccess"  :show-file-list="false">
-                <el-button plain size="small" type="primary">导入Excel</el-button>
+                <el-button size="small" type="primary">导入Excel</el-button>
               </el-upload>
-                <a style="margin:0 10px" :href="'/api/class/EaxmExportExcel?examid='+$route.params.examId" target="_blank"> <el-button plain size="small" type="danger" @click="ExportExcel" >导出Excel</el-button></a>
+                <a :href="'/api/class/EaxmExportExcel?examid='+$route.params.examId+'&courseid='+i.CourseID" target="_blank"> <el-button size="small" type="warning" @click="ExportExcel" >导出Excel</el-button></a>
                 <el-button size="small" type="warning" @click="startEdit = true" v-show="!startEdit">批量修改</el-button>
                 <el-button size="small" @click="startEdit = false" v-show="startEdit">取消</el-button>
                 <el-button size="small" type="primary" @click="submitAllScore(i.CourseName),startEdit = false" v-show="startEdit">全部提交</el-button>
@@ -65,7 +65,7 @@
                   <span v-show="!i.showEdit">/</span>
                   <!-- <el-input v-show="scope.row.edit && !startEdit" class="inline" size="small" v-model="scope.row.Score" :min="0" :max="i.FullScore" type="number" ></el-input> -->
                   <el-input v-show="scope.row.edit || startEdit" class="inline" size="small" :min="0" v-model="scope.row.Score" :max="i.FullScore" type="number" placeholder="修改分数"></el-input>
-                  <el-button plain v-show='i.showEdit && !scope.row.edit && !startEdit' type="info" @click='scope.row.edit = true' size="mini" icon="edit">编辑</el-button>
+                  <el-button v-show='i.showEdit && !scope.row.edit && !startEdit' type="info" @click='scope.row.edit = true' size="small" icon="edit">编辑</el-button>
                   <el-button v-show='i.showEdit && scope.row.edit && !startEdit' type="success" @click='editOneScore(scope.row)' size="small" icon="check">完成</el-button>
                 </template>
               </el-table-column>
@@ -178,10 +178,7 @@ export default {
           this.allEdit = false
         }
       }
-      
     },
-
-    
     // 编辑个人成绩
     editOneScore(val) {
       val.edit = false;
