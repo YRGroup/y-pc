@@ -735,42 +735,7 @@ export default {
     max-height: 100vh;
   }
 }
-.videoCover {
-  margin-top: 10px;
-  width: 400px;
-  height: 300px;
-  overflow: hidden;
-  .CoverImg {
-    display: inline-block;
-    position: relative;
-    background: #fff;
-    width: 400px;
-    height: 300px;
-    cursor: pointer;
-  }
-  .shade {
-    display: inline-block;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    background: rgba(0, 0, 0, 0.2);
-  }
-  .icon {
-    position: absolute;
-    font-size: 50px;
-    color: #fff;
-    left: 50%;
-    top: 50%;
-    margin-left: -15px;
-    margin-top: -15px;
-    z-index: 99;
-  }
-  img {
-    width: 100%;
-    vertical-align: middle;
-    object-fit: cover;
-  }
-}
+
 .funcArea {
   padding: 10px;
 }

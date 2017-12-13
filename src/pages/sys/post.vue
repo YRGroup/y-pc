@@ -7,6 +7,13 @@
       <div class="del" @click="del(i.ID)" v-if="!$route.query.id">删除</div>
       <div class="header">{{i.auther}}</div>
       <div class="content" @click="$router.push('/post/'+i.ID)">{{i.content}} <span class="atuser" v-for="item in i.AtUser">@{{item.TrueName}}</span></div>
+      <div class="videoCover" v-if="i.Video" @click="$router.push('/post/'+i.ID)">
+          <span class="CoverImg">
+            <span class="icon"><i class="iconfont">&#xe63c;</i></span>
+            <span class="shade"></span>
+            <img :src="i.Video.CoverUrl" alt="">
+          </span>
+        </div>
       <div class="albums">
         <li v-for="(p,index) in i.Albums">
             <div class="imgCon" :style="{backgroundImage:'url\('+p+'\)'}" @click="openImgBig(p)"></div>
@@ -59,6 +66,7 @@ export default {
       para.currentPage = this.currentPage
       para.pagesize = this.pageSize
       this.$API.getAllUserDynamic(para).then(res => {
+        console.log(res)
         let post = res.length
         this.$store.state.numLength.post = post
         if (res.length) {
