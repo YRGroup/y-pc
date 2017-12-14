@@ -86,14 +86,14 @@ const store = new Vuex.Store({
       return role=='班主任'
     },
     hasNoSchoolCard: state => {
-      if (state.currentUser && !this.isParent) {
+      if (state.currentUser && !this.a.getters.isParent) {
         if (!state.currentUser.ExtendInfo.CampusCard) {
           return true
         } else {
           return false
         }
       }
-      if (state.currentUser && isParent) {
+      if (state.currentUser && this.a.getters.isParent) {
         let a = state.currentUser.ExtendInfo.Students.find(o => {
           return o.Meid == state.currentStudentId
         })
