@@ -178,34 +178,6 @@ API.getParentList = (classId) => {
     })
   })
 }
-// testing
-
-// 添加班级学生
-API.addClassStudent = (data) => {
-  return new Promise((resolve, reject) => {
-    axios.post(_APIurl + '/api/Class/AddStudent', data).then((res) => {
-      if (res.data.Status === 1) {
-        resolve(res.data.Content)
-      } else {
-        reject(res)
-      }
-    })
-  })
-}
-// testing
-
-// 添加班级老师
-API.addClassTeacher = (data) => {
-  return new Promise((resolve, reject) => {
-    axios.post(_APIurl + '/api/Class/AddTeacher', data).then((res) => {
-      if (res.data.Status === 1) {
-        resolve(res.data.Content)
-      } else {
-        reject(res.data.Msg)
-      }
-    })
-  })
-}
 
 // 删除学生
 API.deleteStudent = (data) => {
