@@ -8,8 +8,7 @@
     <no-data v-if="nodataImg"></no-data>
     <div v-else>
       <div class="card panel" v-for="(i,index) in homework" :key="index">
-        <div class="course">
-          
+        <div class="course" :style="{background:colors[i.CourseName]}">
           {{i.CourseName}}
         </div>
         <div class="tasktitle" @click="$router.push('/homework?id='+i.HID)">
@@ -141,13 +140,10 @@ export default {
       if (this.$store.getters.courseList) {
         this.$store.getters.courseList.shift()
         return this.$store.getters.courseList
-        // return this.$store.getters.courseList.map(o => {
-        //   return {
-        //     courseID: o.ID,
-        //     name: o.CourseName
-        //   }
-        // })
       }
+    },
+    colors() {
+      return this.$store.state.colors;
     }
   },
   methods: {
@@ -344,10 +340,8 @@ export default {
     right: 0;
     padding: 0 24px 0 30px;
     display: inline-block;
-    background: @main;
     color: #fff;
     line-height: 36px;
-    opacity: 0.6;
     &:before {
       position: absolute;
       content: '';

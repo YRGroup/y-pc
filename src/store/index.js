@@ -36,6 +36,7 @@ const store = new Vuex.Store({
       '音乐': '#ff8e03',
       '美术': '#1abc9c',
       '体育': '#d860f8',
+      '计算机': '#ffc100'
     },
     numLength: {
       post: 0,

@@ -15,10 +15,10 @@
         <span class="label">搜索：</span>
         <el-input placeholder="请输入关键词" size="small" style="width:220px" v-model="filter.key">
         </el-input>
-        <el-button type="success" size="small" @click="getData">
+        <el-button type="primary" size="small" @click="getData" plain>
           查询
         </el-button>
-        <el-button type="success" size="small" @click="$router.push('/video/add')" style="float:right" v-show="role=='老师'">
+        <el-button type="primary" size="small" @click="$router.push('/video/add')" style="float:right" v-show="role=='老师'">
           <i class="iconfont">&#xe623;</i> 上传视频
         </el-button>
       </div>

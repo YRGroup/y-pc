@@ -43,7 +43,7 @@
             <el-button type="info" @click.native="$router.push('/msg/'+data.Meid)">发消息</el-button>
           </div>
 
-          <el-dialog title="修改密码" :visible.sync="showEditPw" size="tiny" style="text-align:left">
+          <el-dialog title="修改密码" :visible.sync="showEditPw" width="30%">
             <div>
               <el-form :inline="true" label-width="90px">
                 <div>
@@ -57,7 +57,7 @@
                     <el-input v-model="editPwData.code" style="width:160px">
                     </el-input>
                   </el-form-item>
-                  <el-button type="success" @click="getCheckNum">获取验证码</el-button>
+                  <el-button type="primary" plain @click="getCheckNum">获取验证码</el-button>
                 </div>
                 <div>
                   <el-form-item label="新密码">
