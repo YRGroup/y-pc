@@ -38,7 +38,7 @@
             <img width="100%" :src="dialogImageUrl" alt="">
           </el-dialog>
         </el-form-item>
-        <el-form-item v-if="role =='老师' ">
+        <el-form-item v-if="$store.getters.isTeacher">
           <el-select v-model="newPost.at_meid" multiple placeholder="@某学生" style="width:300px">
             <el-option v-for="item in studentList" :key="item.NickName" :label="item.NickName" :value="item.Meid" style="width:300px">
             </el-option>
@@ -75,7 +75,7 @@
     <div v-else>
       <div class="card panel" v-for="i in data" :key="i.ID">
         <div class="img">
-          <div v-if="i.auther_role == '3'" @click="$router.push('/t?id='+i.auther_meid)" class="category" :style="{background:colors[i.CourseName]}">{{ i.CourseName.substr(0,1) }}</div>
+          <div v-if="i.auther_role == '4'||i.auther_role == '8'" @click="$router.push('/t?id='+i.auther_meid)" class="category" :style="{background:colors[i.CourseName]}">{{ i.CourseName&&i.CourseName.substr(0,1) }}</div>
           <img v-else :src="i.userImg" @click="$router.push('/s?id='+i.auther_meid)">
         </div>
         <div class="tips">{{i.category}}</div>

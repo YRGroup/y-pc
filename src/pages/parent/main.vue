@@ -123,7 +123,7 @@ export default {
       })
     },
     editStatus() {
-      if (this.$store.getters.role === '家长' && this.currentStudent.Status == 0) {
+      if (this.$store.getters.isParent && this.currentStudent.Status == 0) {
         return true
       } else {
         return false

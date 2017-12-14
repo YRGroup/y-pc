@@ -102,10 +102,7 @@
         <h3><i class="iconfont">&#xe69b;</i>我的班级</h3>
       </div>
       <div class="card">
-        <el-select v-model="currenrClassId" @change="changeClass">
-          <el-option v-for="item in data.Classes" :key="item.ClassID" :label="item.ClassName" :value="item.ClassID">
-          </el-option>
-        </el-select>
+        <changeClass></changeClass>
 
         <!-- <el-select v-model="value" placeholder="请选择">
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
@@ -123,8 +120,9 @@
 </template>
 
 <script>
+import changeClass from '@/components/changeClass'
 export default {
-  components: {},
+  components: {changeClass},
   data() {
     return {
       data: {
@@ -137,7 +135,6 @@ export default {
         newpwd: '',
         newpwd2: ''
       },
-      currenrClassId: ''
     }
   },
   computed: {
@@ -150,31 +147,17 @@ export default {
       if (this.$route.query.id) {
         this.$API.getTeacherInfo(this.$route.query.id).then(res => {
           this.data = res
-          this.data.Classes = res.ExtendInfo.Classes
           if (res.ExtendInfo.Course.CourseName) {
             this.data.Course = res.ExtendInfo.Course.CourseName
           }
         })
       } else {
         this.data = this.$store.state.currentUser
-        this.data.Classes = this.$store.state.currentUser.ExtendInfo.Classes
         console.log(this.data.Classes)
         if (this.data.ExtendInfo.Course.CourseName) {
           this.data.Course = this.data.ExtendInfo.Course.CourseName
         }
       }
-    },
-    changeClass(val) {
-      console.log(val)
-      this.$store.commit('changeCurrentClass', val)
-      let para = {
-        ClassID: val
-      }
-      this.$API.changeCurrentClass(para).then(res => {
-        this.$message.success('成功切换班级')
-        this.$store.dispatch('getCurrentUser')
-        this.$router.push('/class')
-      })
     },
     startEditPw() {
       this.showEditPw = true
@@ -217,7 +200,6 @@ export default {
   },
   created() {
     this.getData()
-    this.currenrClassId = this.$store.state.currentClassId
   },
   mounted() {
 

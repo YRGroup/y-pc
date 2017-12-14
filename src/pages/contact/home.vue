@@ -1,6 +1,6 @@
 <template>
   <div>
-    <has-no-student v-if="$store.getters.hasNoStudent && $store.getters.role == '家长'"></has-no-student>
+    <has-no-student v-if="$store.getters.hasNoStudent && $store.getters.isParent"></has-no-student>
     <div v-else>
       <div class="left">
     
@@ -53,7 +53,7 @@
               <el-collapse-item :title="'学生（'+students.length+ '）'" name="2">
                 <li class="item" v-for="(i,index) in students" :key="index">
     
-                  <div class="top" @click="role=='老师'?$router.push('/s/?id='+i.Meid):null">
+                  <div class="top" @click="$store.getters.isTeacher?$router.push('/s/?id='+i.Meid):null">
                     <div class="img">
                       <!-- <img :src="i.Headimgurl" v-if="i.Headimgurl!='http://pic.yearnedu.com/himg.png' && i.Headimgurl!=''">
                       <div class="headTextImg" v-else>{{i.TrueName.substr(0,1)}}</div> -->
@@ -62,7 +62,7 @@
                     <div class="name">{{i.TrueName}}</div>
                   </div>
     
-                  <div class="bottom" v-show="role=='老师' || role=='学生'">
+                  <div class="bottom" v-show="$store.getters.isTeacher || $store.getters.isStudent">
                     <div class="tel" >学号：{{i.StudentID}}</div>
                     <el-button size="mini" class="btn" @click="$router.push('/msg/'+i.Meid)">消息</el-button>
                   </div>
@@ -84,7 +84,7 @@
                     </div>
                   </div>
     
-                  <div class="bottom" v-show="role=='老师'">
+                  <div class="bottom" v-show="$store.getters.isTeacher">
                     <div class="tel">{{i.ParentPhone}}</div>
                     <el-button size="mini" class="btn" @click="$router.push('/msg/'+i.ParentMeid)">消息</el-button>
                   </div>

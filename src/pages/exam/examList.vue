@@ -1,7 +1,7 @@
 <template>
 <div v-loading.fullscreen.lock="fullscreenLoading">
   <div class="card panel" >
-    <div style="text-align:center" v-if="isClassAdmin">
+    <div style="text-align:center" v-if="$store.getters.isAdviserTeacher">
       <el-button @click="showAddExam=true" type="primary" class="ml20 addBtn"><i class="iconfont">&#xe623;</i> 添加新考试</el-button>
 
       <!-- 帮助弹窗 -->
@@ -23,10 +23,10 @@
             </span>
           </div>
           <div class="exambtn">
-            <el-button  v-if="isClassAdmin" class="delbtn" :plain="true" type="text" @click="delExam(i.ID,i.ExamName)" size="small">
+            <el-button  v-if="$store.getters.isAdviserTeacher" class="delbtn" :plain="true" type="text" @click="delExam(i.ID,i.ExamName)" size="small">
               <i class="iconfont">&#xe630;</i> 删除</el-button>
-            <el-button  v-if="isClassAdmin" plain :type="!i.IsSendMsg?'info':null" @click="sendExamNotice(i.ID)" :disabled="i.IsSendMsg">推送</el-button>
-            <el-button  v-if="isClassAdmin" type="success" class="type" @click="publishExam(i.ID)" :disabled="i.IsPublished">发布</el-button>
+            <el-button  v-if="$store.getters.isAdviserTeacher" plain :type="!i.IsSendMsg?'info':null" @click="sendExamNotice(i.ID)" :disabled="i.IsSendMsg">推送</el-button>
+            <el-button  v-if="$store.getters.isAdviserTeacher" type="success" class="type" @click="publishExam(i.ID)" :disabled="i.IsPublished">发布</el-button>
             <el-button plain type="warning" class="type" @click="$router.push('/examChart/'+i.ID)">报表</el-button>
             <el-button plain type="primary" class="type" @click="$router.push('/exam/'+i.ID)">详情</el-button>
           </div>
@@ -153,19 +153,6 @@ export default {
         return this.$store.state.currentClassInfo
       }
     },
-    isClassAdmin() {
-      console.log(this.currentClassInfo)
-      if (this.$store.getters.role == "老师") {
-        if (
-          this.currentClassInfo.teacher &&
-          this.$store.state.currentUser.Meid == this.currentClassInfo.teacher.Meid
-        ) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-    },
     currentClassList() {
       return this.$store.state.currentClassList
     },
@@ -230,11 +217,6 @@ export default {
           this.$message.error(err.msg)
         })
       })
-    },
-    changeCurrentClass(n) {
-      this.$store.commit('changeCurrentClass', n)
-      this.$store.dispatch('getCurrentClassInfo')
-      this.$store.dispatch('getExamList')
     },
     getData() {
       this.newExamData.ClassID = this.currentClassId

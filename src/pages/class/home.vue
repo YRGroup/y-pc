@@ -1,6 +1,6 @@
 <template>
   <div>
-    <has-no-student v-if="$store.getters.hasNoStudent && $store.getters.role == '家长' "></has-no-student>
+    <has-no-student v-if="$store.getters.hasNoStudent && $store.getters.isParent "></has-no-student>
   
     <div v-else>
   
@@ -18,7 +18,7 @@
               <span>班主任：{{classInfo.teacher?classInfo.teacher.TrueName:'暂无'}}</span>
               <span>人数：{{classInfo.student_count}}</span>
             </div>
-            <div style="text-align:center;" v-show="isClassAdmin">
+            <div style="text-align:center;" v-show="$store.getters.isAdviserTeacher">
               <el-button type="primary" plain size="medium" @click="$router.push('/admin')">班级管理</el-button>
               <el-button type="warning" plain size="medium" @click="$router.push('/sendmsg')">发短信</el-button>
             </div>
@@ -88,18 +88,6 @@ export default {
   computed: {
     classInfo() {
       return this.$store.state.currentClassInfo;
-    },
-    isClassAdmin() {
-      if (this.$store.getters.role == "老师") {
-        if (
-          this.classInfo.teacher &&
-          this.$store.state.currentUser.Meid == this.classInfo.teacher.Meid
-        ) {
-          return true;
-        } else {
-          return false;
-        }
-      }
     },
     colors() {
       return this.$store.state.colors

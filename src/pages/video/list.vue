@@ -18,7 +18,7 @@
         <el-button type="primary" size="small" @click="getData" plain>
           查询
         </el-button>
-        <el-button type="primary" size="small" @click="$router.push('/video/add')" style="float:right" v-show="role=='老师'">
+        <el-button type="primary" size="small" @click="$router.push('/video/add')" style="float:right" v-show="$store.getters.isTeacher">
           <i class="iconfont">&#xe623;</i> 上传视频
         </el-button>
       </div>

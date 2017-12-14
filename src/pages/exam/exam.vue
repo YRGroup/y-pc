@@ -61,7 +61,7 @@
               <el-table-column prop="Score" label="分数" sortable align="center">
               </el-table-column>
               <el-table-column prop="Score" label="操作" width="260" align="center">
-                <template scope="scope">
+                <template slot-scope="scope">
                   <span v-show="!i.showEdit">/</span>
                   <!-- <el-input v-show="scope.row.edit && !startEdit" class="inline" size="small" v-model="scope.row.Score" :min="0" :max="i.FullScore" type="number" ></el-input> -->
                   <el-input v-show="scope.row.edit || startEdit" class="inline" size="small" :min="0" v-model="scope.row.Score" :max="i.FullScore" type="number" placeholder="修改分数"></el-input>

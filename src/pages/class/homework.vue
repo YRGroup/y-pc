@@ -1,6 +1,6 @@
 <template>
   <div v-loading.fullscreen.lock="fullscreenLoading">
-    <div class="addHomework" v-show="$store.getters.role=='老师' && !this.$route.query.id">
+    <div class="addHomework" v-show="$store.getters.isTeacher && !this.$route.query.id">
       <div class="title" :class="showAddHomework?null:'addbtn'" @click="handleAddHomework">
         <i class="iconfont">&#xe623;</i>布置作业</div>
     </div>
@@ -116,7 +116,7 @@ export default {
   },
   computed: {
     course: function() {
-      if (this.$store.state.currentUser.Role == '老师' && this.$store.state.currentUser.ExtendInfo.Course.CourseName) {
+      if ($store.getters.isTeacher && this.$store.state.currentUser.ExtendInfo.Course.CourseName) {
         this.classroom = true
         return this.$store.state.currentUser.ExtendInfo.Course.CourseName
       } else {
@@ -127,7 +127,7 @@ export default {
       return this.$store.state.currentClassInfo
     },
     isClassAdmin() {
-      if (this.$store.getters.role == '老师') {
+      if ($store.getters.isTeacher) {
         if (this.classInfo.teacher && this.$store.state.currentUser.Meid == this.classInfo.teacher.Meid) {
           return true
         } else {

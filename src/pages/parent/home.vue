@@ -44,11 +44,8 @@
           <p class="name">{{currentStudent.TrueName}} <span class="classname">{{currentStudent.ClassName}}</span></p>
           <p class="classNum">学号：{{currentStudent.StudentID}}</p>
         </div>
-        <div class="currentStu" v-show="studentList.length > 1">
-          <el-select v-model="currenrStudentId" @change="changeCurrentStudent" placeholder="切换学生">
-            <el-option v-for="i in studentList" :key="i.id" :label="i.name" :value="i.id">
-            </el-option>
-          </el-select>
+        <div class="currentStu">
+          <changeClass></changeClass>
         </div>
       </div>
       <el-dialog title="邀请家长" :visible.sync="InviteParent" size="tiny">
@@ -91,11 +88,11 @@
 </template>
 
 <script>
-
+import changeClass from '@/components/changeClass'
 export default {
+  components: {changeClass},
   data() {
     return {
-      currenrStudentId: '',
       InviteParent: false,
       Invitedata: {
         MobilePhone:'',
@@ -107,7 +104,7 @@ export default {
   },
   computed: {
     studentList() {
-      if (this.$store.getters.role === '家长' && this.$store.state.currentUser.ExtendInfo.Students.length) {
+      if (this.$store.getters.isParent && this.$store.state.currentUser.ExtendInfo.Students.length) {
         let v = []
         this.$store.state.currentUser.ExtendInfo.Students.forEach(o => {
           let a = {
@@ -116,7 +113,6 @@ export default {
           }
           v.push(a)
         })
-        this.currenrStudentId = v[0].name
         return v
       }
     },
@@ -133,16 +129,6 @@ export default {
         this.$message('退出成功')
       }).catch(err => {
         this.$message(err.msg)
-      })
-    },
-    changeCurrentStudent(val) {
-      this.$store.commit('changeCurrentStudentId', val)
-      let para = {
-        Student_Meid: val
-      }
-      this.$API.changeCurrentStudent(para).then(res => {
-        this.$message.success('成功切换当前学生')
-        this.$store.commit('changeCurrentClass', this.currentStudent.ClassID)
       })
     },
     inviteParent() {

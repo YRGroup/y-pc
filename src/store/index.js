@@ -59,16 +59,41 @@ const store = new Vuex.Store({
       if (state.currentUser) {
         return state.currentUser.Role
       }
+      return '未知'
+    },
+    isStudent:state=>{
+      if (!state.currentUser) 
+      return false
+      let role=state.currentUser.Role
+      return role=='学生'
+    },
+    isParent:state=>{
+      if (!state.currentUser) 
+      return false
+      let role=state.currentUser.Role
+      return role=='家长'
+    },
+    isTeacher:state=>{
+      if (!state.currentUser) 
+      return false
+      let role=state.currentUser.Role
+      return role=='老师'||role=='普通老师'||role=='班主任'
+    },
+    isAdviserTeacher:state=>{
+      if (!state.currentUser) 
+      return false
+      let role=state.currentUser.Role
+      return role=='班主任'
     },
     hasNoSchoolCard: state => {
-      if (state.currentUser && state.currentUser.Role !== '家长') {
+      if (state.currentUser && !this.isParent) {
         if (!state.currentUser.ExtendInfo.CampusCard) {
           return true
         } else {
           return false
         }
       }
-      if (state.currentUser && state.currentUser.Role == '家长') {
+      if (state.currentUser && isParent) {
         let a = state.currentUser.ExtendInfo.Students.find(o => {
           return o.Meid == state.currentStudentId
         })
@@ -80,7 +105,7 @@ const store = new Vuex.Store({
       }
     },
     hasNoStudent: state => {
-      if (state.currentUser && state.currentUser.Role === '家长') {
+      if (state.currentUser && this.isParent) {
         if (!state.currentUser.ExtendInfo.Students.length) {
           return true
         } else {
@@ -89,7 +114,7 @@ const store = new Vuex.Store({
       }
     },
     myCourse: state => {
-      if(state.currentUser && state.currentUser.Role === '老师') {
+      if(state.currentUser && this.isTeacher) {
         return state.currentUser.ExtendInfo.Course.CourseName
       }
     },
@@ -113,9 +138,9 @@ const store = new Vuex.Store({
       }
     },
     hasFullInfo: state => {
-      if (state.currentUser.Role === '老师' && state.currentUser.ExtendInfo.Status == 0) {
+      if (isTeacher && state.currentUser.ExtendInfo.Status == 0) {
         return 'teacher'
-      } else if (state.currentUser.Role === '家长' && state.currentUser.ExtendInfo.Students.length !== 0 && state.currentUser.ExtendInfo.Students[0].Status == 0) {
+      } else if (isParent && state.currentUser.ExtendInfo.Students.length !== 0 && state.currentUser.ExtendInfo.Students[0].Status == 0) {
         return 'parent'
       } else {
         return 'ok'
@@ -132,7 +157,7 @@ const store = new Vuex.Store({
       localStorage.setItem('token', val.Token)
       localStorage.setItem('user', JSON.stringify(val))
 
-      if (val.Role == '家长') {
+      if (this.getters.isParent) {
         if (val.ExtendInfo.Students.length != 0) {
           state.currentClassId = val.ExtendInfo.Students[0].ClassID
           state.currentStudentId = val.ExtendInfo.Students[0].Meid
@@ -141,12 +166,12 @@ const store = new Vuex.Store({
         }
       }
 
-      if (val.Role == '学生') {
+      if (this.getters.isStudent) {
         state.currentClassId = val.ExtendInfo.ClassID
         state.currentStudentId = val.Meid
       }
 
-      if (val.Role == '老师') {
+      if (this.getters.isTeacher) {
         if (val.ExtendInfo.Classes.length != 0) {
           state.currentClassId = val.ExtendInfo.Classes[0].ClassID
           if (!state.currentClassList.length) {

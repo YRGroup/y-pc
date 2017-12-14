@@ -8,7 +8,7 @@
           <el-button size="small" @click="$router.push('/contact')" type="success" :plain="true">返回</el-button>
         </span>
       </div>
-      <li class="item" :class="(i.SendTo==userId)?'right':'left'" v-for="i in msgList" :key="i">
+      <li class="item" :class="(i.SendTo==userId)?'right':'left'" v-for="i in msgList" :key="i.ID">
         <div class="header">
           <div class="img">
             <img :src="currentUser.img" v-if="i.SendTo==userId">
