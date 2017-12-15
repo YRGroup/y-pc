@@ -143,18 +143,6 @@ export default {
     classInfo() {
       return this.$store.state.currentClassInfo;
     },
-    isClassAdmin() {
-      if (this.$store.getters.role == "老师") {
-        if (
-          this.classInfo.teacher &&
-          this.$store.state.currentUser.Meid == this.classInfo.teacher.Meid
-        ) {
-          return true;
-        } else {
-          return false;
-        }
-      }
-    }
   },
   methods: {
     ExportExcel(){
@@ -169,7 +157,7 @@ export default {
     },
     // 批量修改显示隐藏
     handleClick(tab) {
-      if(this.isClassAdmin){
+      if(this.$store.getters.isAdviserTeacher){
         this.allEdit = true
       }else{
         if(this.myCourse == tab.label){
@@ -242,7 +230,7 @@ export default {
         this.data.CreateTime = time.Format("MM-dd hh:mm");
         courseslist.forEach(e => {
           //学科老师只能编辑自己成绩
-          if(this.isClassAdmin){
+          if(this.$store.getters.isAdviserTeacher){
             e.showEdit = true
           }else{
             if(this.myCourse == e.CourseName){

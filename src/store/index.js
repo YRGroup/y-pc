@@ -77,7 +77,7 @@ const store = new Vuex.Store({
       if (!state.currentUser) 
       return false
       let role=state.currentUser.Role
-      return role=='老师'||role=='普通老师'||role=='班主任'
+      return role=='教师'||role=='普通教师'||role=='班主任'
     },
     isAdviserTeacher:state=>{
       if (!state.currentUser) 
