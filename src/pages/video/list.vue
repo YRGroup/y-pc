@@ -166,11 +166,9 @@ export default {
       para.currentPage=this.currentPage
       para.pageSize=this.pageSize
       this.$API.getVideoList(para).then(res => {
-        console.log(res)
         res.forEach( element => {
         })
         this.data = res
-        console.log(res)
       })
     },
     openVideo(val) {

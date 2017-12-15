@@ -150,7 +150,6 @@ export default {
         })
       } else {
         this.data = this.$store.state.currentUser
-        console.log(this.data.Classes)
         if (this.data.ExtendInfo.Course.CourseName) {
           this.data.Course = this.data.ExtendInfo.Course.CourseName
         }

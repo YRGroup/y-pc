@@ -429,7 +429,6 @@ export default {
       //获取学生列表
       this.$API.getStudentList(this.ClassID).then(res => {
         this.studentList = res
-        console.log(res)
         this.studentList.forEach(o => {
           if (o.Parents.length > 0) {
             o.ParentName = o.Parents[0].TrueName
@@ -473,7 +472,6 @@ export default {
     openEditparent(item) {
       this.editParentData = item
       this.showEditparent = true
-      console.log(this.editParentData)
     },
     // 编辑家长信息
     submitEditParent() {

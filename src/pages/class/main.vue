@@ -190,7 +190,6 @@ export default {
   },
   methods: {
     handleRemove(file, fileList) {
-      console.log(file, fileList);
     },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
@@ -484,7 +483,6 @@ export default {
         this.$message.error("内容不能为空");
       } else {
         this.fullscreenLoading = true;
-        console.log(this.newPost.at_meid)
         // if (!this.showstudent) {
         //   this.newPost.at_meid = [];
         // }
