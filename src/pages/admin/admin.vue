@@ -191,7 +191,7 @@
               </el-table-column>
               <el-table-column label="操作" width="100" align="center">
                 <template slot-scope="scope">
-                  <el-button type="text" size="small" @click="startEditTeacher(scope.row)">编辑</el-button>
+                  <el-button type="primary" size="small" plain @click="startEditTeacher(scope.row)">编辑</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -212,17 +212,38 @@
               </el-table-column>
               <el-table-column prop="Sex" label="性别" align="center" width="80">
               </el-table-column>
-              <el-table-column prop="ParentName" label="家长" align="center">
-                <template slot-scope="scope">
-                  <el-popover trigger="hover" placement="top">
-                    <p>手机号: {{ scope.row.ParentPhone }}</p>
-                    <div slot="reference" class="name-wrapper">
-                      <el-tag>{{ scope.row.ParentName }}</el-tag>
+              <el-table-column label="家长" align="center">
+                <el-table-column label="家长" align="center" width="150">
+                  <template slot-scope="scope">
+                    <div v-for="item in scope.row.Parents" class="parentList">
+                      <el-popover trigger="hover" placement="top">
+                        <p>手机号: {{ item.Mobilephone }}</p>
+                        <div slot="reference" class="name-wrapper">
+                          <el-button type="primary" plain size="mini" @click="openEditparent(item)">{{ item.TrueName }}</el-button>
+                        </div>
+                      </el-popover>
                     </div>
-                  </el-popover>
-                </template>
+                  </template>
+                </el-table-column>
+                <el-table-column label="激活" align="center">
+                  <template slot-scope="scope">
+                    <div v-for="item in scope.row.Parents" class="parentList">
+                      <span v-show="item.IsActive==true" style="color:grey">是</span>
+                      <span v-show="item.IsActive==false" style="color:red">否</span>
+                    </div>
+                  </template>
+                </el-table-column>
+                <el-table-column label="关注" align="center">
+                  <template slot-scope="scope">
+                    <div v-for="item in scope.row.Parents" class="parentList">
+                      <span v-show="item.IsSubscribe==true" style="color:grey">是</span>
+                      <span v-show="item.IsSubscribe==false" style="color:red">否</span>
+                    </div>
+                  </template>
+                </el-table-column>
+                
               </el-table-column>
-              <el-table-column prop="IsActive" label="激活" align="center" width="80">
+              <!-- <el-table-column prop="IsActive" label="激活" align="center" width="80">
                 <template slot-scope="scope">
                   <div>
                     <span v-show="scope.row.IsActive==true" style="color:grey">是</span>
@@ -237,7 +258,7 @@
                     <span v-show="scope.row.IsSubscribe==false" style="color:red">否</span>
                   </div>
                 </template>
-              </el-table-column>
+              </el-table-column> -->
               <!-- <el-table-column prop="Status" label="资料" align="center">
                 <template slot-scope="scope">
                   <div>
@@ -257,7 +278,21 @@
             </el-table>
       </div>
     </div>
-    <el-dialog title="编辑教师资料" :visible.sync="showEditTeacher" size="tiny">
+    <el-dialog title="编辑家长信息" :visible.sync="showEditparent" width="40%">
+      <el-form :model="editParentData" label-width="80px">
+        <el-form-item label="姓名">
+          <el-input v-model="editParentData.TrueName"></el-input>
+        </el-form-item>
+        <el-form-item label="手机号">
+          <el-input v-model="editParentData.Mobilephone"></el-input>
+        </el-form-item>
+        <el-form-item label="">
+          <el-button type="primary" @click="submitEditParent">确 定</el-button>
+          <el-button type="primary" :plain="true" @click="showEditparent = false">取 消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+    <el-dialog title="编辑教师资料" :visible.sync="showEditTeacher" width="40%">
       <el-form :model="editTeacherData" label-width="80px">
         <el-form-item label="ID">
           <el-input v-model="editTeacherData.Meid" :disabled="true"></el-input>
@@ -292,7 +327,7 @@
         </el-form-item>
       </el-form>
     </el-dialog>
-    <el-dialog title="编辑学生资料" :visible.sync="showEditStudent" width="30%">
+    <el-dialog title="编辑学生资料" :visible.sync="showEditStudent" width="40%">
       <el-form :model="editStudentData" label-width="88px">
         <!-- <el-form-item label="ID">
             <el-input v-model="editStudentData.Meid" :disabled="true"></el-input>
@@ -311,9 +346,6 @@
         </el-form-item>
         <el-form-item label="学籍号">
           <el-input v-model="editStudentData.nationid"></el-input>
-        </el-form-item>
-        <el-form-item label="家长手机号">
-          <el-input v-model="editStudentData.ParentPhone"></el-input>
         </el-form-item>
         <el-form-item label="">
           <el-button type="primary" @click="submitEditStudent">确 定</el-button>
@@ -354,15 +386,15 @@ export default {
       studentList: [],
       activeTab: 'addTeacher',
       showEditTeacher: false,
-      editTeacherData: {
-
-      },
+      editTeacherData: {},
+      editParentData: {},
       showEditStudent: false,
       editStudentData: {
 
       },
       showAddStudent: false,
       showAddTeacher: false,
+      showEditparent: false
     }
   },
   computed: {
@@ -397,6 +429,7 @@ export default {
       //获取学生列表
       this.$API.getStudentList(this.ClassID).then(res => {
         this.studentList = res
+        console.log(res)
         this.studentList.forEach(o => {
           if (o.Parents.length > 0) {
             o.ParentName = o.Parents[0].TrueName
@@ -435,6 +468,22 @@ export default {
           this.$message.error(err.msg)
         })
       }
+    },
+    // 打开编辑家长弹窗
+    openEditparent(item) {
+      this.editParentData = item
+      this.showEditparent = true
+      console.log(this.editParentData)
+    },
+    // 编辑家长信息
+    submitEditParent() {
+      this.$API.editParentInfo(this.editParentData).then(res => {
+          this.$message.success('修改成功！~')
+          this.getData()
+          this.showEditparent()
+      }).catch(err => {
+        this.$message.error(err.msg)
+      })
     },
     // 添加学生
     submitAddStudent() {
@@ -622,5 +671,16 @@ export default {
   margin-left: 20px;
   color: @main;
   text-decoration: underline;
+}
+.parentList{
+  margin-bottom: 10px;
+  &:last-child{
+    margin:0
+  }
+  span{
+    height: 28px;
+    line-height: 1;
+    display: inline-block;
+  }
 }
 </style>
