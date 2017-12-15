@@ -130,32 +130,34 @@ export default {
       let para = {}
       para.currentPage = this.currentPage
       para.pagesize = this.pageSize
-      para.student_meid = this.$store.state.currentStudentIdcurrentStudentId
-      this.$API.getCardList(para).then(res => {
-        console.log(res)
-        if (res) {
-          this.CardID = res.CampusCard
-          if (this.Blance == 0) {
-            this.Blance = res.Blance
-          }
-          if (res.Log.length) {
-            res.Log.forEach(element => {
-              element.CreateTime = moment(element.CreateTime).format('YYYY-M-D hh:mm')
-            })
-            this.alllog=res.Log
+      para.student_meid = this.$store.state.currentStudentId
+      // 没有绑定卡片才执行
+      if(!this.$store.getters.hasNoSchoolCard){
+        this.$API.getCardList(para).then(res => {
+          if (res) {
+            this.CardID = res.CampusCard
+            if (this.Blance == 0) {
+              this.Blance = res.Blance
+            }
+            if (res.Log.length) {
+              res.Log.forEach(element => {
+                element.CreateTime = moment(element.CreateTime).format('YYYY-M-D hh:mm')
+              })
+              this.alllog=res.Log
+            } else {
+              this.noMoreData = true
+            }
+          } else if (this.currentPage == 1) {
+            this.noData = true
           } else {
-            this.noMoreData = true
+            this.$message.error('没有更多消费记录')
           }
-        } else if (this.currentPage == 1) {
-          this.noData = true
-        } else {
-          this.$message.error('没有更多消费记录')
-        }
-      }).catch(err => {
-        if (err.msg) {
-          this.$message.error(err.msg)
-        }
-      })
+        }).catch(err => {
+          if (err.msg) {
+            this.$message.error(err.msg)
+          }
+        })
+      }
     },
     loadMore() {
       this.currentPage++

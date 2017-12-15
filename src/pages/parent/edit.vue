@@ -134,7 +134,7 @@ export default {
     submitChange() {
       this.data.role = 2
       this.data.ParentType=this.ParentType
-      console.log(this.data)
+      this.data.StudentMeid=this.$store.state.currentStudentId
       this.$API.editParentInfo(this.data).then(res => {
         this.$API.getCurrentUser().then(user => {
           this.$store.commit('login', user)

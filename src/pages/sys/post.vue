@@ -66,7 +66,6 @@ export default {
       para.currentPage = this.currentPage
       para.pagesize = this.pageSize
       this.$API.getAllUserDynamic(para).then(res => {
-        console.log(res)
         let post = res.length
         this.$store.state.numLength.post = post
         if (res.length) {

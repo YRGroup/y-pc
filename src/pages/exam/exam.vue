@@ -221,7 +221,6 @@ export default {
         });
     },
     getData() {
-      console.log(this.myCourse)
       this.$API.getExamInfo(this.$route.params.examId).then(res => {
         this.data = res;
         let newdata = this.data;
