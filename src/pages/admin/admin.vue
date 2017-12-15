@@ -480,7 +480,7 @@ export default {
       this.$API.editParentInfo(this.editParentData).then(res => {
           this.$message.success('修改成功！~')
           this.getData()
-          this.showEditparent()
+          this.showEditparent = false
       }).catch(err => {
         this.$message.error(err.msg)
       })
