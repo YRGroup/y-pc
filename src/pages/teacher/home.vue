@@ -98,19 +98,16 @@
             </div>
           </div>
         </div> -->
-      <div class="panelbox">
+      <!-- <div class="panelbox">
         <h3><i class="iconfont">&#xe69b;</i>我的班级</h3>
-      </div>
-      <div class="card">
+      </div> -->
+      <!-- <div class="card"> -->
         <changeClass></changeClass>
-
         <!-- <el-select v-model="value" placeholder="请选择">
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
           </el-option>
         </el-select> -->
-
-
-      </div>
+      <!-- </div> -->
       <div class="panelbox artical" v-show="data.TrueName == '张继锋' ">
         <el-button @click="$router.push('/meiyu')" type="success" class="ml20 addBtn">美育活动</el-button>
       </div>

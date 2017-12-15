@@ -79,6 +79,7 @@ export default {
           this.currentStudent.TrueName = res.user.TrueName
           this.currentStudent.StudentID = res.user.StudentID
           this.parents = res.Parents
+          console.log(this.parents)
         })
       } else {
         this.$API.getStudentInfo(this.$store.state.currentStudentId).then(res => {
@@ -89,6 +90,7 @@ export default {
           this.currentStudent.TrueName = res.user.TrueName
           this.currentStudent.StudentID = res.user.StudentID
           this.parents = res.Parents
+          console.log(this.parents)
         })
       }
     },

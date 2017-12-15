@@ -1,6 +1,6 @@
 <template>
   <div v-loading.fullscreen.lock="fullscreenLoading">
-    <div class="addHomework" v-show="$store.getters.isTeacher && !this.$route.query.id">
+    <div class="addHomework" v-show="this.$store.getters.isTeacher && !this.$route.query.id">
       <div class="title" :class="showAddHomework?null:'addbtn'" @click="handleAddHomework">
         <i class="iconfont">&#xe623;</i>布置作业</div>
     </div>
@@ -52,14 +52,15 @@
         <el-form-item label="标题" :rules="[{ required: true}]">
           <el-input v-model.trim="newHomeworkData.title" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="科目" v-show='notClassAdmin'>
-          <el-input v-model="course" :disabled="true"></el-input>
-        </el-form-item>
-        <el-form-item label="科目" v-show='isClassAdmin' :rules="[{ required: true}]">
+
+        <el-form-item label="科目" v-if='isClassAdmin' :rules="[{ required: true}]">
           <el-select v-model="newHomeworkData.course_name" size="small" placeholder="请选择" style="width:120px">
             <el-option v-for="i in courseList" :key="i.ID" :label="i.CourseName" :value="i.CourseName">
             </el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item label="科目" v-else>
+          <el-input v-model="course" :disabled="true"></el-input>
         </el-form-item>
         <el-form-item label="内容" :rules="[{ required: true}]">
           <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model.trim="newHomeworkData.content">
@@ -109,14 +110,13 @@ export default {
       fileList: [],
       nodataImg: false,
       nodataPic: require('@/assets/nodata.png'),
-      notClassAdmin: false,
       fullscreenLoading: true,
       isread:false
     }
   },
   computed: {
     course: function() {
-      if ($store.getters.isTeacher && this.$store.state.currentUser.ExtendInfo.Course.CourseName) {
+      if (this.$store.getters.isTeacher && this.$store.state.currentUser.ExtendInfo.Course.CourseName) {
         this.classroom = true
         return this.$store.state.currentUser.ExtendInfo.Course.CourseName
       } else {
@@ -126,14 +126,12 @@ export default {
     classInfo() {
       return this.$store.state.currentClassInfo
     },
+    // 是不是班主任
     isClassAdmin() {
-      if ($store.getters.isTeacher) {
-        if (this.classInfo.teacher && this.$store.state.currentUser.Meid == this.classInfo.teacher.Meid) {
-          return true
-        } else {
-          this.notClassAdmin = true
-          return false
-        }
+      if (this.$store.getters.role == "班主任") {
+        return true
+      }else{
+        return false
       }
     },
     courseList() {

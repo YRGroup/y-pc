@@ -1,8 +1,11 @@
 <template>
-  <el-select v-model="currentID" @change="changeClass">
-    <el-option v-for="item in $store.state.currentUser.Classes" :key="item.ClassID" :label="item.ClassName+':'+item.RoleName" :value="item.ID">
-    </el-option>
-  </el-select>
+  <div class="myclass">
+    <h3><i class="iconfont">&#xe69b;</i>我的班级</h3>
+    <el-select v-model="currentID" @change="changeClass">
+      <el-option v-for="item in $store.state.currentUser.Classes" :key="item.ClassID" :label="item.ClassName+'（'+item.RoleName+'）'" :value="item.ID">
+      </el-option>
+    </el-select>
+  </div>
 </template>
 
 <script>

@@ -134,6 +134,7 @@ export default {
     submitChange() {
       this.data.role = 2
       this.data.ParentType=this.ParentType
+      console.log(this.data)
       this.$API.editParentInfo(this.data).then(res => {
         this.$API.getCurrentUser().then(user => {
           this.$store.commit('login', user)
@@ -234,10 +235,10 @@ export default {
 
 
 .card {
-  border: 1px solid @border; // font-size: 13px;
   position: relative;
   background: #fff;
   padding-bottom: 20px;
+  min-height: calc(~'100vh - 240px');
   .img {
     display: inline-block;
     padding: 20px;

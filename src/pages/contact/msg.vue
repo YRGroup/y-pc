@@ -84,6 +84,8 @@ export default {
           // this.$message.success('发送消息成功')
           this.newMsgData.content = ""
           this.getData()
+        }).catch((err) => {
+          this.$message.error(err)
         })
       }
     },

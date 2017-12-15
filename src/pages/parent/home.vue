@@ -17,21 +17,12 @@
           <span>
             <i class="iconfont">&#xe66c;</i> {{$store.getters.role}}</span>
           <div class="btn">
-            <el-button  type="primary" plain size="medium" @click.native="InviteParent=true">邀请家长</el-button>
-            <el-button  type="warning" plain size="medium" @click.native="$router.push('/parent/edit')">修改资料</el-button>
-            <el-button class="logou" size="small" type="text" @click.native="logout">退出</el-button>
+            <el-button  type="primary" plain size="mini" @click.native="InviteParent=true">邀请家长</el-button>
+            <el-button  type="warning" plain size="mini" @click.native="$router.push('/parent/edit')">修改资料</el-button>
+            <el-button class="logou" size="mini"  type="text" @click.native="logout">退出</el-button>
           </div>
         </div>
       </div>
-
-      <!-- <div class="card" v-if="!$store.state.currentUser.ExtendInfo.Students.length">
-        <div class="header">
-          暂无学生
-        </div>
-        <div class="btn">
-          <el-button type="warning" @click="$router.push('/addStudent')">添加学生</el-button>
-        </div>
-      </div> -->
 
       <div class="panelbox">
           <h3><i class="iconfont">&#xe672;</i>学生信息</h3>
@@ -44,10 +35,8 @@
           <p class="name">{{currentStudent.TrueName}} <span class="classname">{{currentStudent.ClassName}}</span></p>
           <p class="classNum">学号：{{currentStudent.StudentID}}</p>
         </div>
-        <div class="currentStu">
-          <changeClass></changeClass>
-        </div>
       </div>
+      <changeClass></changeClass>
       <el-dialog title="邀请家长" :visible.sync="InviteParent" size="tiny">
         <div>
           <el-form label-width="90px">
@@ -209,10 +198,10 @@ export default {
       text-align: center;
       .btn{
         margin-top: 10px;
+        text-align: center;
         .logou{
-          display: inline;
-          margin-top: 10px;
-          margin-bottom: -10px;
+          display: block;
+          margin: 10px auto -10px;
         }
       }
       .name {
@@ -229,6 +218,7 @@ export default {
 }
 
 .cardlist{
+  margin-bottom: 20px;
   .content{
     .name{
       font-size: 16px;

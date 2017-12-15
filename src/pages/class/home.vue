@@ -50,8 +50,6 @@
           </div>
           <div class="content">
             <div class="teacherItem" v-for="i in teachers" :key="i.Meid" @click="$router.push('/t/?id='+i.Meid)">
-
-
                 <!-- <img :src="i.Headimgurl"> -->
               <div class="category" :style="{background:colors[i.Course]}">{{ i.Course.substr(0,1) }}</div>
               <div>{{i.TrueName || '未命名'}}</div>
