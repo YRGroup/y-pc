@@ -254,4 +254,30 @@ API.getVideoUploadAuth = (para) => {
   })
 }
 
+//邀请家长
+API.inviteParent = (data) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl + '/api/Parent/AddParent', data).then((res) => {
+      if (res.data.Status === 1) {
+        resolve(res.data.Content)
+      } else {
+        reject(res.data.Msg)
+      }
+    })
+  })
+}
+
+//删除家长
+API.deleteParent = (data) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl + '/api/Parent/DeleteParent', data).then((res) => {
+      if (res.data.Status === 1) {
+        resolve(res.data.Content)
+      } else {
+        reject(res.data.Msg)
+      }
+    })
+  })
+}
+
 export default API

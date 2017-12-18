@@ -159,7 +159,7 @@
       <div class="card">
           <div class="tableHeader">班级教师（ {{teacherList.length}} 人）</div>
             <el-table :data="teacherList" stripe border height="400">
-              <el-table-column type="index" label="序号" align="center" width="80">
+              <el-table-column type="index" label="序号" align="center" width="60">
               </el-table-column>
 
               <el-table-column prop="TrueName" label="姓名" align="center">
@@ -190,26 +190,26 @@
               </el-table-column>
               <el-table-column label="操作" width="100" align="center">
                 <template slot-scope="scope">
-                  <el-button type="primary" size="small" plain @click="startEditTeacher(scope.row)">编辑</el-button>
+                  <el-button type="primary" size="small" plain icon="el-icon-edit" @click="startEditTeacher(scope.row)"></el-button>
                 </template>
               </el-table-column>
             </el-table>
             <div class="tableHeader">班级学生（ {{studentList.length}} 人）</div>
             <el-table :data="studentList" stripe border height="680">
-              <el-table-column type="index" label="序号" align="center" width="80">
+              <el-table-column type="index" label="序号" align="center" width="60">
               </el-table-column>
 
               <el-table-column prop="TrueName" label="姓名" align="center">
               </el-table-column>
 
-              <el-table-column label=" 头像" align="center">
+              <!-- <el-table-column label=" 头像" align="center">
                 <template slot-scope="scope">
                   <img :src="scope.row.Headimgurl">
                 </template>
-              </el-table-column>
+              </el-table-column> -->
               <el-table-column prop="StudentID" label="学号" align="center">
               </el-table-column>
-              <el-table-column prop="Sex" label="性别" align="center" width="80">
+              <el-table-column prop="Sex" label="性别" align="center" width="60">
               </el-table-column>
               <el-table-column label="家长" align="center">
                 <el-table-column label="家长" align="center" width="150">
@@ -218,7 +218,7 @@
                       <el-popover trigger="hover" placement="top">
                         <p>手机号: {{ item.Mobilephone }}</p>
                         <div slot="reference" class="name-wrapper">
-                          <el-button type="primary" plain size="mini" @click="openEditparent(item)">{{ item.TrueName }}</el-button>
+                          <el-button type="primary" plain size="mini" @click="openEditparent(scope.row,item)">{{ item.TrueName }}</el-button>
                         </div>
                       </el-popover>
                     </div>
@@ -268,10 +268,11 @@
                   </div>
                 </template>
               </el-table-column> -->
-              <el-table-column label="操作" width="150" align="center">
+              <el-table-column label="操作" width="200" align="center">
                 <template slot-scope="scope">
-                  <el-button type="primary" size="small" plain @click="startEditStudent(scope.row)">编辑</el-button>
-                  <el-button type="danger" size="small" plain @click="deleteStudent(scope.row)">删除</el-button>
+                  <el-button type="danger" size="mini" icon="el-icon-delete" plain @click="deleteStudent(scope.row)"></el-button>
+                  <el-button type="primary" size="mini" icon="el-icon-edit" plain @click="startEditStudent(scope.row)"></el-button>
+                  <el-button type="warning" size="mini" icon="el-icon-plus" plain @click="inviteParent(scope.row)"></el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -287,7 +288,7 @@
         </el-form-item>
         <el-form-item label="">
           <el-button type="primary" @click="submitEditParent">确 定</el-button>
-          <el-button type="primary" :plain="true" @click="showEditparent = false">取 消</el-button>
+          <el-button type="text" :plain="true" @click="deleteParent">删除家长</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -314,19 +315,29 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="职称">
+        <!-- <el-form-item label="职称">
           <el-input v-model="editTeacherData.Title"></el-input>
         </el-form-item>
         <el-form-item label="身份证">
           <el-input v-model="editTeacherData.IDCard"></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="">
           <el-button type="primary" @click="submitEditTeacher">确 定</el-button>
           <el-button type="primary" :plain="true" @click="showEditTeacher = false">取 消</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
-    <el-dialog title="编辑学生资料" :visible.sync="showEditStudent" width="40%">
+    <el-dialog title="邀请家长" :visible.sync="showinviteParent" width="30%">
+      <el-form :model="inviteParentData" label-width="90px">
+        <el-form-item label="家长手机号">
+          <el-input v-model="inviteParentData.Mobilephone"></el-input>
+        </el-form-item>
+        <el-form-item label="">
+          <el-button type="primary" @click="submitInviteParent">确 定</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+    <el-dialog title="编辑学生资料" :visible.sync="showEditStudent" width="36%">
       <el-form :model="editStudentData" label-width="88px">
         <!-- <el-form-item label="ID">
             <el-input v-model="editStudentData.Meid" :disabled="true"></el-input>
@@ -343,12 +354,12 @@
             <el-radio class="radio" v-model="editStudentData.Sex" label="女">女</el-radio>
           </template>
         </el-form-item>
-        <el-form-item label="学籍号">
+        <!-- <el-form-item label="学籍号">
           <el-input v-model="editStudentData.nationid"></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="">
           <el-button type="primary" @click="submitEditStudent">确 定</el-button>
-          <el-button type="primary" :plain="true" @click="showEditStudent = false">取 消</el-button>
+          <!-- <el-button type="primary" :plain="true" @click="showEditStudent = false">取 消</el-button> -->
           <el-button type="text" @click="$router.push('/s?id='+editStudentData.Meid+'&tab=edit')">编辑详细资料</el-button>
         </el-form-item>
       </el-form>
@@ -393,7 +404,9 @@ export default {
       },
       showAddStudent: false,
       showAddTeacher: false,
-      showEditparent: false
+      showEditparent: false,
+      showinviteParent: false,
+      inviteParentData: {}
     }
   },
   computed: {
@@ -439,6 +452,7 @@ export default {
         })
       })
     },
+
     // 添加老师
     submitAddTeacher() {
       let e = true
@@ -468,8 +482,9 @@ export default {
       }
     },
     // 打开编辑家长弹窗
-    openEditparent(item) {
+    openEditparent(list,item) {
       this.editParentData = item
+      this.editParentData.StudentMeid = list.Meid
       this.showEditparent = true
     },
     // 编辑家长信息
@@ -481,6 +496,39 @@ export default {
       }).catch(err => {
         this.$message.error(err.msg)
       })
+    },
+        // 邀请家长
+    inviteParent(val) {
+      console.log(val)
+      this.showinviteParent = true
+      this.inviteParentData.StudentMeid = val.Meid
+    },
+    // 提交邀请家长
+    submitInviteParent() {
+      this.$API.inviteParent(this.inviteParentData).then(res => {
+          this.$message.success('邀请家长成功！~')
+          this.getData()
+          this.showinviteParent = false
+      }).catch(err => {
+        this.$message.error(err.msg)
+      })
+    },
+    // 删除家长
+    deleteParent() {
+      let params = {}
+      params.StudentMeid = this.editParentData.StudentMeid
+      params.ParentMeid = this.editParentData.Meid
+      this.$confirm("确定要删除该家长吗?", "提示", {
+        type: "warning"
+      }).then(() => {
+          this.showEditparent = false
+          this.$API.deleteParent(params).then(res => {
+              this.$message.success('删除家长成功！~')
+              this.getData()
+          }).catch(err => {
+            this.$message.error(err.msg)
+          })
+      }).catch(_ => {});
     },
     // 添加学生
     submitAddStudent() {
