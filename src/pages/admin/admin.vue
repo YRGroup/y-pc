@@ -278,7 +278,7 @@
             </el-table>
       </div>
     </div>
-    <el-dialog title="编辑家长信息" :visible.sync="showEditparent" width="40%">
+    <el-dialog title="编辑家长信息" :visible.sync="showEditparent" width="30%">
       <el-form :model="editParentData" label-width="80px">
         <el-form-item label="姓名">
           <el-input v-model="editParentData.TrueName"></el-input>

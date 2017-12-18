@@ -2,7 +2,10 @@
   <div class="myclass">
     <h3><i class="iconfont">&#xe69b;</i>我的班级</h3>
     <el-select v-model="currentID" @change="changeClass">
-      <el-option v-for="item in $store.state.currentUser.Classes" :key="item.ClassID" :label="item.ClassName+'（'+item.RoleName+'）'" :value="item.ID">
+      <el-option v-for="item in $store.state.currentUser.Classes" 
+      :key="item.ClassID" 
+      :label="item.ClassName+'（'+item.RoleName+'）'" 
+      :value="item.ID">
       </el-option>
     </el-select>
   </div>
@@ -41,7 +44,7 @@ export default {
   },
    created() {
      this.$store.state.currentUser.Classes.forEach(o => {
-        if(o.ClassID==this.$store.state.currentClassId )
+        if(o.ClassID==this.$store.state.currentClassId && o.RoleName == this.$store.state.currentUser.Role )
           this.currentID= o.ID
       })
   },

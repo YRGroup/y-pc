@@ -13,10 +13,10 @@
             <span class="score">{{score.Score}}</span>
             <span> / {{score.FullScore}}</span>
           </span>
-          <span class="item" v-show="score.Ranking">
+          <!-- <span class="item" v-show="score.Ranking">
             <span>班级排名</span>
             <span class="score">{{score.Ranking}}</span>
-          </span>
+          </span> -->
         </div>
         <div class="list">
           <div class="item" v-for="(i,index) in score.ScoreInfo" :key="index">
