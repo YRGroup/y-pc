@@ -288,7 +288,7 @@
         </el-form-item>
         <el-form-item label="">
           <el-button type="primary" @click="submitEditParent">确 定</el-button>
-          <el-button type="text" :plain="true" @click="deleteParent">删除家长</el-button>
+          <el-button type="text" :plain="true" @click="deleteParent" class="deleteBtn">删除家长</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -725,5 +725,11 @@ export default {
     line-height: 1;
     display: inline-block;
   }
+}
+.deleteBtn{
+  font-size: 12px;
+  color: #666;
+  text-decoration: underline;
+  margin-left: 160px;
 }
 </style>

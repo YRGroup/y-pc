@@ -128,12 +128,16 @@ export default {
       if (this.$route.query.id) {
         this.$API.getExamScore(this.$route.query.id, ExamID).then(res => {
           this.score = res
-          this.setCharts(res.ScoreInfo)
+          if(res){
+            this.setCharts(res.ScoreInfo)
+          }
         })
       } else {
         this.$API.getExamScore(this.$store.state.currentStudentId, ExamID).then(res => {
           this.score = res
-          this.setCharts(res.ScoreInfo)
+          if(res){
+            this.setCharts(res.ScoreInfo)
+          }
         })
       }
     },

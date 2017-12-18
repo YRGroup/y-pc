@@ -192,6 +192,8 @@ export default {
       // line-height: 2em;
       padding: 10px;
       font-size: 14px;
+      max-height: 300px;
+      overflow-y: auto;
       .noticeItem {
         .footer {
           color: @grey;
