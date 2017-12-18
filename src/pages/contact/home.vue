@@ -45,7 +45,7 @@
     
                   <div class="bottom">
                     <div class="tel">{{i.Mobilephone}}</div>
-                    <el-button size="mini" class="btn" @click="$router.push('/msg/'+i.Meid)">消息</el-button>
+                    <el-button size="mini" class="btn" type="primary" plain @click="$router.push('/msg/'+i.Meid)">消息</el-button>
                   </div>
     
                 </li>
@@ -64,7 +64,7 @@
     
                   <div class="bottom" v-show="$store.getters.isTeacher || $store.getters.isStudent">
                     <div class="tel" >学号：{{i.StudentID}}</div>
-                    <el-button size="mini" class="btn" @click="$router.push('/msg/'+i.Meid)">消息</el-button>
+                    <el-button size="mini" class="btn" type="primary" plain @click="$router.push('/msg/'+i.Meid)">消息</el-button>
                   </div>
     
                 </li>
@@ -86,7 +86,7 @@
     
                   <div class="bottom" v-show="$store.getters.isTeacher">
                     <div class="tel">{{i.ParentPhone}}</div>
-                    <el-button size="mini" class="btn" @click="$router.push('/msg/'+i.ParentMeid)">消息</el-button>
+                    <el-button size="mini" class="btn" type="primary" plain @click="$router.push('/msg/'+i.ParentMeid)">消息</el-button>
                   </div>
     
                 </li>
@@ -268,9 +268,10 @@ export default {
     }
     .btn {
       position: absolute;
-      top: 20px;
+      top: 10px;
       right: 5px;
     }
   }
 }
+
 </style>

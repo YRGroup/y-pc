@@ -40,7 +40,7 @@
         </el-form-item>
         <el-form-item v-if="$store.getters.isTeacher">
           <el-select v-model="newPost.at_meid" multiple placeholder="@某学生" style="width:300px">
-            <el-option v-for="item in studentList" :key="item.NickName" :label="item.NickName" :value="item.Meid" style="width:300px">
+            <el-option v-for="item in studentList" :key="item.Meid" :label="item.NickName" :value="item.Meid">
             </el-option>
           </el-select>
         </el-form-item>

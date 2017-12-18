@@ -15,7 +15,7 @@
           <i class="iconfont">&#xe623;</i>添加学生</el-button>
       </li>
     </ul>
-    <el-dialog title="添加学生" :visible.sync="showAddStudent" size="small">
+    <el-dialog title="添加学生" :visible.sync="showAddStudent" width="46%">
       <el-form label-width="80px">
         <div>
           <el-form-item label="">
@@ -68,7 +68,7 @@
         <div>
           <el-form-item label="">
             <el-upload :action="$store.getters._APIurl+'/import/ImportStudent.aspx'" :on-success="handleSuccess">
-              <el-button slot="trigger" size="small" type="primary">上传文件</el-button>
+              <el-button slot="trigger" size="mini" plain type="primary">上传文件</el-button>
               <a style="text-decoration:underline" class="xlsDown" :href="$store.getters._APIurl+'/import/student_template.xls'">下载模板</a>
               <div slot="tip" class="el-upload__tip">请先下载模板，按照格式编辑后在此上传，只能上传xls/xlsx文件</div>
             </el-upload>
@@ -76,12 +76,12 @@
         </div>
         <div>
           <el-form-item>
-            <el-button @click.native="submitStudentFile" type="success">提 交</el-button>
+            <el-button @click.native="submitStudentFile" type="primary">提 交</el-button>
           </el-form-item>
         </div>
       </el-form>
     </el-dialog>
-    <el-dialog title="添加老师" :visible.sync="showAddTeacher" size="small">
+    <el-dialog title="添加老师" :visible.sync="showAddTeacher" width="40%">
       <el-form label-width="80px">
         <div>
           <el-form-item label="">
@@ -101,7 +101,6 @@
           <el-form-item label="姓名" :rules="[{ required: true}]">
             <el-input v-model="i.TrueName" palceholder="请输入姓名" style="width:180px"></el-input>
           </el-form-item>
-
           <el-form-item label="学科" :rules="[{ required: true}]">
             <el-select v-model="i.courseID" placeholder="请选择" style="width:120px">
               <el-option v-for="item in courseList" :key="item.CourseId" :label="item.name" :value="item.CourseId">
@@ -142,7 +141,7 @@
         <div>
           <el-form-item>
             <el-upload :action="$store.getters._APIurl+'/import/ImportTeacher.aspx'" :on-success="handleSuccess">
-              <el-button slot="trigger" size="small" type="primary">上传文件</el-button>
+              <el-button slot="trigger" size="mini" plain type="primary">上传文件</el-button>
               <a style="text-decoration:underline" class="xlsDown" :href="$store.getters._APIurl+'/import/teacher_template.xls'">下载模板</a>
               <!-- <el-button slot="trigger" size="small">下载模板</el-button> -->
               <div slot="tip" class="el-upload__tip">请先下载模板，按照格式编辑后在此上传，只能上传xls/xlsx文件</div>
@@ -151,15 +150,15 @@
         </div>
         <div>
           <el-form-item>
-            <el-button @click.native="submitTeacherFile" type="success">提 交</el-button>
+            <el-button @click.native="submitTeacherFile" type="primary">提 交</el-button>
           </el-form-item>
         </div>
       </el-form>
     </el-dialog>
     <div class="content">
       <div class="card">
-            <div class="tableHeader">班级教师（ {{teacherList.length}} 人）</div>
-            <el-table :data="teacherList" stripe border>
+          <div class="tableHeader">班级教师（ {{teacherList.length}} 人）</div>
+            <el-table :data="teacherList" stripe border height="400">
               <el-table-column type="index" label="序号" align="center" width="80">
               </el-table-column>
 
@@ -196,7 +195,7 @@
               </el-table-column>
             </el-table>
             <div class="tableHeader">班级学生（ {{studentList.length}} 人）</div>
-            <el-table :data="studentList" stripe border>
+            <el-table :data="studentList" stripe border height="680">
               <el-table-column type="index" label="序号" align="center" width="80">
               </el-table-column>
 
@@ -294,14 +293,20 @@
     </el-dialog>
     <el-dialog title="编辑教师资料" :visible.sync="showEditTeacher" width="40%">
       <el-form :model="editTeacherData" label-width="80px">
-        <el-form-item label="ID">
+        <!-- <el-form-item label="ID">
           <el-input v-model="editTeacherData.Meid" :disabled="true"></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="手机号">
           <el-input v-model="editTeacherData.Mobilephone"></el-input>
         </el-form-item>
         <el-form-item label="姓名">
           <el-input v-model="editTeacherData.TrueName"></el-input>
+        </el-form-item>
+        <el-form-item label="性别">
+          <template>
+            <el-radio class="radio" v-model="editTeacherData.Sex" label="男">男</el-radio>
+            <el-radio class="radio" v-model="editTeacherData.Sex" label="女">女</el-radio>
+          </template>
         </el-form-item>
         <el-form-item label="学科">
           <el-select v-model="editTeacherData.Course" placeholder="请选择">
@@ -314,12 +319,6 @@
         </el-form-item>
         <el-form-item label="身份证">
           <el-input v-model="editTeacherData.IDCard"></el-input>
-        </el-form-item>
-        <el-form-item label="性别">
-          <template>
-            <el-radio class="radio" v-model="editTeacherData.Sex" label="男">男</el-radio>
-            <el-radio class="radio" v-model="editTeacherData.Sex" label="女">女</el-radio>
-          </template>
         </el-form-item>
         <el-form-item label="">
           <el-button type="primary" @click="submitEditTeacher">确 定</el-button>
@@ -533,18 +532,16 @@ export default {
       this.$message.success('上传文件成功')
     },
     submitTeacherFile() {
-      // this.$API.addTeacherXml(this.data).then(res => {
       this.showAddTeacher = false
-      this.getData()
+      this.type = 1
       this.$message.success('批量添加老师成功')
-      // })
+      this.getData()
     },
     submitStudentFile() {
-      // this.$API.getClassList(this.data).then(res => {
       this.showAddStudent = false
-      this.getData()
+      this.type = 1
       this.$message.success('批量添加学生成功')
-      // })
+      this.getData()
     },
     startEditTeacher(val) {
       this.editTeacherData = val
