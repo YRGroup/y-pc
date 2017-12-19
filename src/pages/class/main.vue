@@ -13,7 +13,7 @@
           <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model.trim="newPost.content">
           </el-input>
         </el-form-item>
-        <el-form-item v-if="showUpImg">
+          <el-form-item v-if="showUpImg">
           <el-upload multiple :http-request="imgUpload" :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
             <i class="el-icon-picture-outline"></i>
           </el-upload>
@@ -53,7 +53,7 @@
         <el-button type="primary" @click="addNewPost" v-loading.fullscreen.lock="fullscreenLoading">发 布</el-button>
       </div>
     </el-dialog>
-
+		<publish-active></publish-active>
     <no-data v-if="nodataImg"></no-data>
     <div v-else>
       <div class="card panel" v-for="i in data" :key="i.ID">
@@ -116,9 +116,10 @@ require("@/common/js/vod-sdk-upload-1.1.0.min.js");
 import lrz from "lrz";
 import loadMore from "@//components/loadMore";
 import noData from "@//components/noData";
+import publishActive from "@//components/publishActive"
 export default {
   name: "app",
-  components: { loadMore, noData },
+  components: { loadMore, noData, publishActive},
   data() {
     return {
       dialogImageUrl: "",
