@@ -55,7 +55,6 @@ import paihaoShow from '@/pages/queue/main'
 import meiyu from '@/pages/queue/article'
 
 
-
 Vue.use(Router)
 
 export default new Router({
