@@ -404,7 +404,8 @@ export default {
       showEditparent: false,
       showinviteParent: false,
       inviteParentData: {},
-      studentList: []
+      studentList: [],
+      teacherList: []
     }
   },
   computed: {
@@ -421,22 +422,16 @@ export default {
         })
       }
     },
-    teacherList() {
-      return this.$store.state.teacherList
-    },
   },
   methods: {
     getData() {
-      this.ClassID = this.$store.state.currentClassId
       this.$API.getClassInfo(this.classId).then(res => {
         this.classInfo = res
       })
 
       this.getStudentList()
+      this.getTeacherList()
       
-      if(!this.$store.state.teacherList.length){
-        this.getTeacherList();
-      }
       if(!this.$store.state.courseList){
         this.getCourseList()
       }
@@ -555,7 +550,11 @@ export default {
     },
     // 获取老师列表
     getTeacherList() {
-      this.$store.dispatch("getTeacherList");
+      this.$API.getTeacherList(this.classId).then(res => {
+        this.teacherList = res
+        }).catch(err => {
+          this.$message.error(err.msg)
+        })
     },
     // 获取学生列表
     getStudentList() {
@@ -608,6 +607,7 @@ export default {
         this.$message.success('修改教师信息成功')
         this.showEditTeacher = false
         this.editTeacherData = {}
+        this.getTeacherList()
       }).catch(err => {
         this.showEditTeacher = false
         this.$message.error(err.msg)
@@ -737,6 +737,6 @@ export default {
   font-size: 12px;
   color: #666;
   text-decoration: underline;
-  margin-left: 160px;
+  margin-left: 120px;
 }
 </style>

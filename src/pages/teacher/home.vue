@@ -40,7 +40,7 @@
             <el-button plain type="primary" @click.native="logout" size="mini">退出</el-button>
           </div>
           <div class="btn-info" v-else>
-            <el-button type="info" @click.native="$router.push('/msg/'+data.Meid)">发消息</el-button>
+            <el-button type="primary" size="mini" plain @click.native="$router.push('/msg/'+data.Meid)">发消息</el-button>
           </div>
 
           <el-dialog title="修改密码" :visible.sync="showEditPw" width="30%">
@@ -189,7 +189,6 @@ export default {
     logout() {
       this.$store.dispatch('logout').then(res => {
         this.$message('退出成功')
-        this.$store.dispatch('reset')
         this.$router.push('/login')
       })
     },
