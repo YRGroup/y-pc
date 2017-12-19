@@ -135,9 +135,12 @@ export default {
       }
     },
     courseList() {
-      if (this.$store.getters.courseList) {
-        this.$store.getters.courseList.shift()
-        return this.$store.getters.courseList
+      if (this.$store.state.courseList) {
+        return this.$store.state.courseList
+      } else {
+        this.$store.dispatch('getCourseList').then(() => {
+          return this.$store.state.courseList
+        })
       }
     },
     colors() {
@@ -292,7 +295,7 @@ export default {
   created() {
     // this.getData()
     this.refresh()
-    this.$store.dispatch('getCourseList')
+    // this.$store.dispatch('getCourseList')
   },
   mounted() {
 

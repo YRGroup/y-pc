@@ -83,9 +83,8 @@ export default {
       return this.$store.state.currentClassId;
     },
     courseList() {
-      if (this.$store.getters.courseList) {
-        this.$store.getters.courseList.shift();
-        return this.$store.getters.courseList.map(o => {
+      if (this.$store.state.courseList) {
+        return this.$store.state.courseList.map(o => {
           return {
             CourseId: o.ID,
             name: o.CourseName

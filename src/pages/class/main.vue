@@ -6,23 +6,6 @@
       <div class="title addbtn" @click="showAddPost=true">
         <i class="iconfont">&#xe623;</i>发布动态</div>
     </div>
-    <!-- <div class="dynamics">
-      <div class="input">
-        <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model.trim="newPost.content">
-          </el-input>
-      </div>
-      <div class="funcArea">
-        <div class="func">
-          <el-button type="primary" @click="addNewPost"  class="submit" v-loading.fullscreen.lock="fullscreenLoading">发 布</el-button>
-        </div>
-        <div class="kind">
-          <el-popover placement="bottom-start" width="200" trigger="click">
-            <el-button slot="reference"  type="text" ><i class="iconfont">&#xe613;</i> 图片</el-button> 
-            <div>1112121</div>
-          </el-popover>
-        </div>
-      </div>
-    </div> -->
 
     <el-dialog title="发布动态" :visible.sync="showAddPost" width="30%">
       <el-form :model="newPost">
@@ -146,7 +129,6 @@ export default {
         at_meid: [],
         videoid: ""
       },
-      // showstudent: false,
       data: [],
       fileList: [],
       imgUrls: [],
@@ -160,7 +142,6 @@ export default {
       showAddPost: false,
       fullscreenLoading: true,
       nodataPic: require("@/assets/nodata.png"),
-      studentList: {},
       showDelete: false,
       showUpImg: true,
       showProgress: false,
@@ -168,12 +149,6 @@ export default {
     };
   },
   computed: {
-    isAdmin() {
-      return (
-        this.$store.state.currentUser.Meid ==
-        this.$store.state.currentClassInfo.teacher.Meid
-      );
-    },
     role() {
       return this.$store.getters.role
     },
@@ -186,6 +161,9 @@ export default {
     },
     colors() {
       return this.$store.state.colors;
+    },
+    studentList() {
+      return this.$store.state.studentList;
     }
   },
   methods: {
@@ -238,7 +216,7 @@ export default {
               if (
                 this.$store.state.currentUser.Meid == element.auther_meid ||
                 this.$store.state.currentStudentId == element.auther_meid ||
-                this.isAdmin
+                this.role == "班主任"
               ) {
                 element.showDelete = true;
               } else {
@@ -255,9 +233,14 @@ export default {
         .catch(err => {
           this.$message.error(err.msg);
         });
-      this.$API.getStudentList(para.cid).then(res => {
-        this.studentList = res;
-      });
+      // 如果没有学生列表，获取存储数据
+      if(!this.$store.state.studentList.length){
+        this.getStudentList()
+      }
+    },
+    // 获取学生列表
+    getStudentList() {
+      this.$store.dispatch("getStudentList");
     },
     loadMore() {
       this.currentPage++;

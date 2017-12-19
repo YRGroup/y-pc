@@ -157,14 +157,23 @@ export default {
       return this.$store.state.currentClassList
     },
     courseList() {
-      if (this.$store.getters.courseList) {
-        this.$store.getters.courseList.shift()
-        return this.$store.getters.courseList.map(o => {
+      if (this.$store.state.courseList) {
+        return this.$store.state.courseList.map(o => {
           return {
             courseID: o.ID,
             FullScore: 100,
             name: o.CourseName
           }
+        })
+      }else {
+        this.$store.dispatch('getCourseList').then(() => {
+          return this.$store.state.courseList.map(o => {
+            return {
+              courseID: o.ID,
+              FullScore: 100,
+              name: o.CourseName
+            }
+        })
         })
       }
     }
@@ -380,7 +389,7 @@ export default {
   created() {
     this.getData()
     this.getChart11()
-    this.$store.dispatch('getCourseList')
+    // this.$store.dispatch('getCourseList')
   },
   mounted() {
     this.chart11 = echarts.init(document.getElementById('chart11'), 'macarons')

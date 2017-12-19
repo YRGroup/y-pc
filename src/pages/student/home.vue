@@ -2,13 +2,9 @@
   <div>
     <has-no-student v-if="$store.getters.hasNoStudent"></has-no-student>
     <div v-else>
-
       <div class="left">
-    
         <router-view></router-view>
-    
       </div>
-    
       <div class="right">
         <div class="card">
           <div class="header">

@@ -37,7 +37,7 @@
         </div>
       </div>
       <changeClass></changeClass>
-      <el-dialog title="邀请家长" :visible.sync="InviteParent" size="tiny">
+      <el-dialog title="邀请家长" :visible.sync="InviteParent" width="30%">
         <div>
           <el-form label-width="90px">
             <div>

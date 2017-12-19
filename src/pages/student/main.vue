@@ -1,7 +1,10 @@
 <template>
   <div>
-  
     <el-tabs v-model="activeTab" type="border-card" class="tabs leftCon">
+      <el-tab-pane name="profile">
+        <span class="title" slot="label">个人资料</span>
+        <y-profile></y-profile>
+      </el-tab-pane>
       <el-tab-pane name="post">
         <span class="title" slot="label">动态</span>
         <y-post></y-post>
@@ -9,10 +12,6 @@
       <el-tab-pane name="score">
         <span class="title" slot="label">成绩</span>
         <y-score></y-score>
-      </el-tab-pane>
-      <el-tab-pane name="profile">
-        <span class="title" slot="label">个人资料</span>
-        <y-profile></y-profile>
       </el-tab-pane>
       <el-tab-pane name="edit">
         <span class="title" slot="label">修改资料</span>
@@ -34,7 +33,7 @@ export default {
   components: { YProfile,YEdit,YScore,YPost },
   data() {
     return {
-      activeTab: 'post',
+      activeTab: 'profile',
       profileData:{}
     }
   },

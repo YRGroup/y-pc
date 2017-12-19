@@ -158,10 +158,9 @@
     <div class="content">
       <div class="card">
           <div class="tableHeader">班级教师（ {{teacherList.length}} 人）</div>
-            <el-table :data="teacherList" stripe border height="400">
+            <el-table :data="teacherList" stripe border>
               <el-table-column type="index" label="序号" align="center" width="60">
               </el-table-column>
-
               <el-table-column prop="TrueName" label="姓名" align="center">
               </el-table-column>
               <el-table-column label=" 头像" align="center">
@@ -292,7 +291,7 @@
         </el-form-item>
       </el-form>
     </el-dialog>
-    <el-dialog title="编辑教师资料" :visible.sync="showEditTeacher" width="40%">
+    <el-dialog title="编辑教师资料" :visible.sync="showEditTeacher" width="30%">
       <el-form :model="editTeacherData" label-width="80px">
         <!-- <el-form-item label="ID">
           <el-input v-model="editTeacherData.Meid" :disabled="true"></el-input>
@@ -337,7 +336,7 @@
         </el-form-item>
       </el-form>
     </el-dialog>
-    <el-dialog title="编辑学生资料" :visible.sync="showEditStudent" width="36%">
+    <el-dialog title="编辑学生资料" :visible.sync="showEditStudent" width="30%">
       <el-form :model="editStudentData" label-width="88px">
         <!-- <el-form-item label="ID">
             <el-input v-model="editStudentData.Meid" :disabled="true"></el-input>
@@ -372,7 +371,7 @@ export default {
   name: 'addTeacher',
   data() {
     return {
-      classList: [],
+      // classList: [],
       type: 1,
       fileList: [],
       ClassID: '',
@@ -392,8 +391,6 @@ export default {
         Sex: '',
         ParentPhone: ''
       }],
-      teacherList: [],
-      studentList: [],
       activeTab: 'addTeacher',
       showEditTeacher: false,
       editTeacherData: {},
@@ -414,15 +411,20 @@ export default {
       return this.$store.state.currentClassId
     },
     courseList() {
-      if (this.$store.getters.courseList) {
-        this.$store.getters.courseList.shift()
-        return this.$store.getters.courseList.map(o => {
+      if(this.$store.state.courseList){
+        return this.$store.state.courseList.map(o => {
           return {
             CourseId: o.ID,
             name: o.CourseName
           }
         })
       }
+    },
+    teacherList() {
+      return this.$store.state.teacherList
+    },
+    studentList() {
+      return this.$store.state.studentList;
     }
   },
   methods: {
@@ -431,26 +433,19 @@ export default {
       this.$API.getClassInfo(this.classId).then(res => {
         this.classInfo = res
       })
-      this.$API.getClassList(this.ClassID).then(res => {
-        this.classList = res
-      })
-      // 获取教师列表
-      this.$API.getTeacherList(this.ClassID).then(res => {
-        this.teacherList = res
-      })
-      //获取学生列表
-      this.$API.getStudentList(this.ClassID).then(res => {
-        this.studentList = res
-        this.studentList.forEach(o => {
-          if (o.Parents.length > 0) {
-            o.ParentName = o.Parents[0].TrueName
-            o.ParentPhone = o.Parents[0].Mobilephone
-            o.ParentMeid = o.Parents[0].Meid
-            o.IsActive = o.Parents[0].IsActive
-            o.IsSubscribe = o.Parents[0].IsSubscribe
-          }
-        })
-      })
+      if(!this.$store.state.teacherList.length){
+        this.getTeacherList();
+      }
+      if(!this.$store.state.studentList.length){
+        this.getStudentList()
+      }
+      if(!this.$store.state.courseList){
+        this.getCourseList()
+      }
+      // this.$API.getClassList(this.ClassID).then(res => {
+      //   this.classList = res
+      //   console.log(res)
+      // })
     },
 
     // 添加老师
@@ -475,7 +470,7 @@ export default {
           this.$message.success('添加老师成功')
           this.showAddTeacher = false
           this.teacherData = []
-          this.getData()
+          this.getTeacherList();
         }).catch(err => {
           this.$message.error(err.msg)
         })
@@ -491,15 +486,14 @@ export default {
     submitEditParent() {
       this.$API.editParentInfo(this.editParentData).then(res => {
           this.$message.success('修改成功！~')
-          this.getData()
+          this.getStudentList()
           this.showEditparent = false
       }).catch(err => {
         this.$message.error(err.msg)
       })
     },
-        // 邀请家长
+    // 邀请家长
     inviteParent(val) {
-      console.log(val)
       this.showinviteParent = true
       this.inviteParentData.StudentMeid = val.Meid
     },
@@ -507,7 +501,7 @@ export default {
     submitInviteParent() {
       this.$API.inviteParent(this.inviteParentData).then(res => {
           this.$message.success('邀请家长成功！~')
-          this.getData()
+          this.getStudentList()
           this.showinviteParent = false
       }).catch(err => {
         this.$message.error(err.msg)
@@ -524,7 +518,7 @@ export default {
           this.showEditparent = false
           this.$API.deleteParent(params).then(res => {
               this.$message.success('删除家长成功！~')
-              this.getData()
+              this.getStudentList()
           }).catch(err => {
             this.$message.error(err.msg)
           })
@@ -555,11 +549,23 @@ export default {
             Sex: '',
             ParentPhone: ''
           }],
-            this.getData()
+          this.getStudentList()
         }).catch(err => {
           this.$message.error(err.msg)
         })
       }
+    },
+    // 获取老师列表
+    getTeacherList() {
+      this.$store.dispatch("getTeacherList");
+    },
+    // 获取学生列表
+    getStudentList() {
+      this.$store.dispatch("getStudentList");
+    },
+    // 获取学科列表
+    getCourseList() {
+      this.$store.dispatch('getCourseList')
     },
     // 删除学生
     deleteStudent(data) {
@@ -570,7 +576,7 @@ export default {
       }).then(() => {
         this.$API.deleteStudent(params).then(res => {
           this.$message.success('删除成功！~')
-          this.getData()
+          this.getStudentList()
         }).catch(err => {
           this.$message.error(err.msg)
         })
@@ -619,7 +625,6 @@ export default {
   },
   created() {
     this.getData()
-    this.$store.dispatch('getCourseList')
   },
   mounted() {
 

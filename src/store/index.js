@@ -30,11 +30,12 @@ const store = new Vuex.Store({
       '英语': '#8b8efb',
       '物理': '#ff80c0',
       '化学': '#50c7ee',
+      '生物': '#5cb85c',
       '历史': '#ff9f22',
       '政治': '#01c19e',
       '地理': '#5ad8eb',
       '音乐': '#ff8e03',
-      '美术': '#1abc9c',
+      '美术': '#67c23a',
       '体育': '#d860f8',
       '计算机': '#ffc100'
     },
@@ -44,6 +45,8 @@ const store = new Vuex.Store({
       video: 0,
       msg: 0
     },
+    studentList: [],
+    teacherList: [],
   },
   getters: {
     _APIurl: () => {
@@ -146,9 +149,9 @@ const store = new Vuex.Store({
         return 'ok'
       }
     },
-    courseList: state => {
-      return state.courseList
-    }
+    // courseList: state => {
+    //   return state.courseList
+    // }
   },
   mutations: {
     login(state, val) {
@@ -236,6 +239,12 @@ const store = new Vuex.Store({
     setCourseList(state, val) {
       state.courseList = val
     },
+    setTeacherList(state, val) {
+      state.teacherList = val
+    },
+    setStudentList(state, val) {
+      state.studentList = val
+    }
   },
   actions: {
     setApiUrl({
@@ -277,22 +286,6 @@ const store = new Vuex.Store({
         commit('setCurrentClassInfo', res)
       })
     },
-    // login({
-    //   getters,
-    //   commit,
-    //   state
-    // }, payload) {
-    //   return new Promise((resolve, reject) => {
-    //     API.login(payload).then(res => {
-    //       localStorage.setItem('user', JSON.stringify(res))
-    //       commit('login', res)
-    //       commit('setToken', res.Token)
-    //       resolve(res)
-    //     }).catch(err => {
-    //       reject(err)
-    //     })
-    //   })
-    // },
     studentLogin({
       getters,
       commit,
@@ -358,11 +351,39 @@ const store = new Vuex.Store({
     }, payload) {
       return new Promise((resolve, reject) => {
         API.getCourseList().then(res => {
-          res.unshift({
-            CourseName: '全部',
-            ID: '0'
-          })
+          // res.unshift({
+          //   CourseName: '全部',
+          //   ID: '0'
+          // })
           commit('setCourseList', res)
+          resolve(res)
+        }).catch(err => {
+          reject(err)
+        })
+      })
+    },
+    // 获取教师列表
+    getTeacherList({
+      commit,
+      state
+    }, payload) {
+      return new Promise((resolve, reject) => {
+        API.getTeacherList(state.currentClassId).then(res => {
+          commit('setTeacherList', res)
+          resolve(res)
+        }).catch(err => {
+          reject(err)
+        })
+      })
+    },
+    // 获取学生列表
+    getStudentList({
+      commit,
+      state
+    }, payload) {
+      return new Promise((resolve, reject) => {
+        API.getStudentList(state.currentClassId).then(res => {
+          commit('setStudentList', res)
           resolve(res)
         }).catch(err => {
           reject(err)

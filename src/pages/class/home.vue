@@ -72,7 +72,7 @@ export default {
   components: { hasNoStudent },
   data() {
     return {
-      teachers: [],
+      // teachers: [],
       notice: {},
       homework: [],
     };
@@ -89,31 +89,41 @@ export default {
     },
     colors() {
       return this.$store.state.colors
+    },
+    teachers() {
+      if(this.$store.state.teacherList.length){
+        return this.$store.state.teacherList
+      }else{
+        this.$store.dispatch("getTeacherList").then(() => {
+          return this.$store.state.teacherList
+        })
+      }
     }
   },
   methods: {
-    getTeacherList() {
-      this.$API
-        .getTeacherList(this.$store.state.currentClassId)
-        .then(res => {
-          this.teachers = res;
-        })
-        .catch(err => {});
-    },
-    getNotice() {
-      let para = {
-        cid: this.$store.state.currentClassId,
-        currentPage: 1,
-        pagesize: 1,
-        type: 3
-      };
-      this.$API
-        .getAllClassDynamic(para)
-        .then(res => {
-          this.notice = res[0];
-        })
-        .catch(err => {});
-    },
+    // getTeacherList() {
+    //   this.$API
+    //     .getTeacherList(this.$store.state.currentClassId)
+    //     .then(res => {
+    //       this.teachers = res;
+    //       console.log(res)
+    //     })
+    //     .catch(err => {});
+    // },
+    // getNotice() {
+    //   let para = {
+    //     cid: this.$store.state.currentClassId,
+    //     currentPage: 1,
+    //     pagesize: 1,
+    //     type: 3
+    //   };
+    //   this.$API
+    //     .getAllClassDynamic(para)
+    //     .then(res => {
+    //       this.notice = res[0];
+    //     })
+    //     .catch(err => {});
+    // },
     getHomeWork() {
       let para = {
         cid: this.$store.state.currentClassId,
@@ -130,13 +140,10 @@ export default {
     getClassInfo() {
       this.$store.dispatch("getCurrentClassInfo");
     },
-
     getData() {
       if(!this.$store.state.currentClassId)
         return;
       this.getClassInfo();
-      this.getTeacherList();
-      this.getNotice();
       this.getHomeWork();
     }
   },
