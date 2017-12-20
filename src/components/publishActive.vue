@@ -1,11 +1,12 @@
 <template>
 <el-form class="publish">
   <el-form-item>
+    <p>11111</p>
     <el-input type="textarea" :rows="3" :autosize="{ minRows: 2, maxRows: 6}"  placeholder="有什么新鲜事分享给大家？"  v-model.trim="options.content"></el-input>
     
   </el-form-item>
-  <div class="todos">
-    <div>
+  <el-form-item class="todos">
+    <el-form-item>
       <el-popover ref="popImg"><i class="iconfont">&#xe613;</i> 图片
         <el-upload multiple 
           :http-request="imgUpload"
@@ -20,13 +21,13 @@
         </el-upload>
       </el-popover>
       <span><i class="iconfont">&#xe66b;</i> 视频</span>
-    </div>
-    <div>
+    </el-form-item>
+    <el-form-item>
       <span><i class="iconfont"></i>@</span>
-      <el-button type="primary">发布</el-button>
-    </div>
+      <el-button size="small" type="primary">发布</el-button>
+    </el-form-item>
   </div>
-</el-form>
+</el-form-item>
 </template>
 
 <script>
