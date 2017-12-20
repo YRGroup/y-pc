@@ -403,7 +403,8 @@ export default {
       showAddTeacher: false,
       showEditparent: false,
       showinviteParent: false,
-      inviteParentData: {}
+      inviteParentData: {},
+      studentList: []
     }
   },
   computed: {
@@ -423,9 +424,6 @@ export default {
     teacherList() {
       return this.$store.state.teacherList
     },
-    studentList() {
-      return this.$store.state.studentList;
-    }
   },
   methods: {
     getData() {
@@ -433,11 +431,11 @@ export default {
       this.$API.getClassInfo(this.classId).then(res => {
         this.classInfo = res
       })
+
+      this.getStudentList()
+      
       if(!this.$store.state.teacherList.length){
         this.getTeacherList();
-      }
-      if(!this.$store.state.studentList.length){
-        this.getStudentList()
       }
       if(!this.$store.state.courseList){
         this.getCourseList()
@@ -561,7 +559,11 @@ export default {
     },
     // 获取学生列表
     getStudentList() {
-      this.$store.dispatch("getStudentList");
+      this.$API.getStudentList(this.classId).then(res => {
+        this.studentList = res
+        }).catch(err => {
+          this.$message.error(err.msg)
+        })
     },
     // 获取学科列表
     getCourseList() {

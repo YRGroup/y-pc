@@ -29,7 +29,7 @@
           </div>
           <div class="content">
             <el-collapse v-model="activeName" accordion>
-              <el-collapse-item :title="'老师（'+teachers.length+ '）'" name="1">
+              <el-collapse-item :title="'老师（'+teachers.length+ '）'" name="1" v-if="teachers">
                 <li class="item" v-for="(i,index) in teachers" :key="index">
                   <div class="top" @click="$router.push('/t/?id='+i.Meid)">
                     <div class="img">
@@ -50,7 +50,7 @@
     
                 </li>
               </el-collapse-item>
-              <el-collapse-item :title="'学生（'+students.length+ '）'" name="2">
+              <el-collapse-item :title="'学生（'+students.length+ '）'" name="2" v-if="students">
                 <li class="item" v-for="(i,index) in students" :key="index">
     
                   <div class="top" @click="$store.getters.isTeacher?$router.push('/s/?id='+i.Meid):null">
@@ -69,7 +69,7 @@
     
                 </li>
               </el-collapse-item>
-              <el-collapse-item :title="'家长（'+parents.length+ '）'" name="3">
+              <el-collapse-item :title="'家长（'+parents.length+ '）'" name="3" v-if="parents">
                 <li class="item" v-for="(i,index) in parents" :key="index">
     
                   <div class="top">
@@ -114,8 +114,6 @@ export default {
         teacher: '',
         student_count: '',
       },
-      teachers: [],
-      students: [],
       parents: [],
     }
   },
@@ -131,35 +129,41 @@ export default {
         return false
       }
     },
-    role() {
-      return this.$store.getters.role
+    // role() {
+    //   return this.$store.getters.role
+    // },
+    teachers() {
+      if(this.$store.state.teacherList.length){
+        return this.$store.state.teacherList
+      }else{
+        this.$store.dispatch("getTeacherList").then(() => {
+          return this.$store.state.teacherList
+        })
+      }
     },
+    students() {
+      if(this.$store.state.studentList.length){
+        return this.$store.state.studentList
+      }else{
+        this.$store.dispatch("getStudentList").then(() => {
+          return this.$store.state.studentList
+        })
+      }
+    }
   },
   methods: {
     getData() {
       this.getClassInfo()
-      this.getStudentList()
       this.getParentList()
-      this.getTeacherList()
     },
     getClassInfo() {
       this.$API.getClassInfo(this.classId).then(res => {
         this.classInfo = res
       })
     },
-    getStudentList() {
-      this.$API.getStudentList(this.classId).then(res => {
-        this.students = res
-      })
-    },
     getParentList() {
       this.$API.getParentList(this.classId).then(res => {
         this.parents = res
-      })
-    },
-    getTeacherList() {
-      this.$API.getTeacherList(this.classId).then(res => {
-        this.teachers = res
       })
     },
   },

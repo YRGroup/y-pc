@@ -163,7 +163,13 @@ export default {
       return this.$store.state.colors;
     },
     studentList() {
-      return this.$store.state.studentList;
+      if(this.$store.state.studentList.length){
+        return this.$store.state.studentList
+      }else{
+        this.$store.dispatch("getStudentList").then(() => {
+          return this.$store.state.studentList
+        })
+      }
     }
   },
   methods: {
@@ -233,14 +239,6 @@ export default {
         .catch(err => {
           this.$message.error(err.msg);
         });
-      // 如果没有学生列表，获取存储数据
-      if(!this.$store.state.studentList.length){
-        this.getStudentList()
-      }
-    },
-    // 获取学生列表
-    getStudentList() {
-      this.$store.dispatch("getStudentList");
     },
     loadMore() {
       this.currentPage++;

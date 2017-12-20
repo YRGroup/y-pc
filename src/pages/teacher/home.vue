@@ -124,6 +124,7 @@ export default {
     return {
       data: {
         ExtendInfo: {},
+        Course:''
       },
       showEditPw: false,
       editPwData: {
@@ -144,9 +145,7 @@ export default {
       if (this.$route.query.id) {
         this.$API.getTeacherInfo(this.$route.query.id).then(res => {
           this.data = res
-          if (res.ExtendInfo.Course.CourseName) {
-            this.data.Course = res.ExtendInfo.Course.CourseName
-          }
+          this.data.Course = res.Course
         })
       } else {
         this.data = this.$store.state.currentUser
@@ -190,6 +189,7 @@ export default {
     logout() {
       this.$store.dispatch('logout').then(res => {
         this.$message('退出成功')
+        this.$store.dispatch('reset')
         this.$router.push('/login')
       })
     },

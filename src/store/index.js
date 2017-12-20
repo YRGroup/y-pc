@@ -389,7 +389,17 @@ const store = new Vuex.Store({
           reject(err)
         })
       })
-    }
+    },
+    //清空 学生、老师列表
+    reset({
+      commit,
+      state
+    }, payload) {
+      return new Promise((resolve, reject) => {
+        commit('setStudentList', [])
+        commit('setTeacherList', [])
+      })
+    },
   },
 })
 

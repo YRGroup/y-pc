@@ -155,7 +155,9 @@ export default new Router({
         },
         {
           path: '/t',
-          name: 'teacher',
+          redirect: {
+            name: 'teacher'
+          },
           component: teacher
         },
         {

@@ -1,7 +1,7 @@
 <template>
   <div class="myclass">
     <h3><i class="iconfont">&#xe69b;</i>我的班级</h3>
-    <el-select v-model="currentID" @change="changeClass">
+    <el-select v-model="currentID" @change="changeClass" v-if="$store.state.currentUser">
       <el-option v-for="item in $store.state.currentUser.Classes" 
       :key="item.ClassID" 
       :label="item.ClassName+'（'+item.RoleName+'）'" 
@@ -29,6 +29,7 @@ export default {
       this.$API.changeCurrentClass(c).then(res => {
         this.$message.success('成功切换班级')
         this.$store.dispatch('getCurrentUser')
+        this.$store.dispatch('reset')
         this.$router.push('/class')
       })
     },

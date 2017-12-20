@@ -44,7 +44,7 @@
           </div>
         </div>
   
-        <div class="card">
+        <div class="card" style="padding-bottom:20px">
           <div class="title">
             班级教师
           </div>
