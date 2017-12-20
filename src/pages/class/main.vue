@@ -10,8 +10,12 @@
   	<publish-active></publish-active>
 =======
     </div>
+<<<<<<< HEAD
   
 >>>>>>> 分享动态组件
+=======
+  	<publish-active></publish-active>
+>>>>>>> 分享动态
     <el-dialog title="发布动态" :visible.sync="showAddPost" width="30%">
       <el-form :model="newPost">
         <el-form-item>
