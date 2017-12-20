@@ -6,7 +6,7 @@
       <div class="title addbtn" @click="showAddPost=true">
         <i class="iconfont">&#xe623;</i>发布动态</div>
     </div>
-  
+  	<publish-active></publish-active>
     <el-dialog title="发布动态" :visible.sync="showAddPost" width="30%">
       <el-form :model="newPost">
         <el-form-item>
@@ -53,7 +53,7 @@
         <el-button type="primary" @click="addNewPost" v-loading.fullscreen.lock="fullscreenLoading">发 布</el-button>
       </div>
     </el-dialog>
-		<publish-active></publish-active>
+	
     <no-data v-if="nodataImg"></no-data>
     <div v-else>
       <div class="card panel" v-for="i in data" :key="i.ID">
