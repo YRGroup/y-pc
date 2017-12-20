@@ -5,8 +5,13 @@
     <!-- <div class="addPost">
       <div class="title addbtn" @click="showAddPost=true">
         <i class="iconfont">&#xe623;</i>发布动态</div>
+<<<<<<< HEAD
     </div> -->
   	<publish-active></publish-active>
+=======
+    </div>
+  
+>>>>>>> 分享动态组件
     <el-dialog title="发布动态" :visible.sync="showAddPost" width="30%">
       <el-form :model="newPost">
         <el-form-item>
