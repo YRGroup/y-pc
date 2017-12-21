@@ -72,7 +72,7 @@ export default {
   components: { hasNoStudent },
   data() {
     return {
-      // teachers: [],
+      teachers: [],
       notice: {},
       homework: [],
     };
@@ -87,29 +87,22 @@ export default {
     classInfo() {
       return this.$store.state.currentClassInfo;
     },
+    classId() {
+      return this.$store.state.currentClassId
+    },
     colors() {
       return this.$store.state.colors
     },
-    teachers() {
-      if(this.$store.state.teacherList.length){
-        return this.$store.state.teacherList
-      }else{
-        this.$store.dispatch("getTeacherList").then(() => {
-          return this.$store.state.teacherList
-        })
-      }
-    }
   },
   methods: {
-    // getTeacherList() {
-    //   this.$API
-    //     .getTeacherList(this.$store.state.currentClassId)
-    //     .then(res => {
-    //       this.teachers = res;
-    //       console.log(res)
-    //     })
-    //     .catch(err => {});
-    // },
+    getTeacherList() {
+      this.$API
+        .getTeacherList(this.classId)
+        .then(res => {
+          this.teachers = res;
+        })
+        .catch(err => {});
+    },
     // getNotice() {
     //   let para = {
     //     cid: this.$store.state.currentClassId,
@@ -126,7 +119,7 @@ export default {
     // },
     getHomeWork() {
       let para = {
-        cid: this.$store.state.currentClassId,
+        cid: this.classId,
         currentPage: 1,
         pagesize: 5
       };
@@ -141,11 +134,12 @@ export default {
       this.$store.dispatch("getCurrentClassInfo");
     },
     getData() {
-      if(!this.$store.state.currentClassId)
+      if(!this.classId)
         return;
       this.getClassInfo();
       this.getHomeWork();
-    }
+      this.getTeacherList()
+    },
   },
   created() {
     this.getData();

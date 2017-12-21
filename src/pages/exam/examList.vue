@@ -258,7 +258,9 @@ export default {
       }
       this.$API.GetSingleCourseScoreByClassID(para).then(res => {
         this.chartData = res.slice(0, this.chartDataNum)
-        this.chart11_xAxis = this.chartData[0].Info.map(b => { return b.CourseName })
+        if(this.chartData.length){
+          this.chart11_xAxis = this.chartData[0].Info.map(b => { return b.CourseName })
+        }
         this.chartData.forEach(o => {
           this.chart11_legend.push(o.ExamName)
           this.chart11_series.push({

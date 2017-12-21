@@ -145,7 +145,8 @@ export default {
       showDelete: false,
       showUpImg: true,
       showProgress: false,
-      videoBtn: true
+      videoBtn: true,
+      studentList: []
     };
   },
   computed: {
@@ -162,15 +163,6 @@ export default {
     colors() {
       return this.$store.state.colors;
     },
-    studentList() {
-      if(this.$store.state.studentList.length){
-        return this.$store.state.studentList
-      }else{
-        this.$store.dispatch("getStudentList").then(() => {
-          return this.$store.state.studentList
-        })
-      }
-    }
   },
   methods: {
     handleRemove(file, fileList) {
@@ -492,9 +484,18 @@ export default {
         });
       }
     },
+    // 获取学生列表
+    getStudentList() {
+      this.$API.getStudentList(this.$store.state.currentClassId).then(res => {
+        this.studentList = res
+        }).catch(err => {
+          this.$message.error(err.msg)
+        })
+    },
   },
   created() {
     this.getData();
+    this.getStudentList()
   },
   mounted() {}
   // watch: {

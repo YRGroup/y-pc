@@ -114,7 +114,9 @@ export default {
         teacher: '',
         student_count: '',
       },
-      parents: [],
+      parents: null,
+      teachers: null,
+      students: null
     }
   },
   computed: {
@@ -132,29 +134,13 @@ export default {
     // role() {
     //   return this.$store.getters.role
     // },
-    teachers() {
-      if(this.$store.state.teacherList.length){
-        return this.$store.state.teacherList
-      }else{
-        this.$store.dispatch("getTeacherList").then(() => {
-          return this.$store.state.teacherList
-        })
-      }
-    },
-    students() {
-      if(this.$store.state.studentList.length){
-        return this.$store.state.studentList
-      }else{
-        this.$store.dispatch("getStudentList").then(() => {
-          return this.$store.state.studentList
-        })
-      }
-    }
   },
   methods: {
     getData() {
       this.getClassInfo()
       this.getParentList()
+      this.getTeacherList()
+      this.getStudentList()
     },
     getClassInfo() {
       this.$API.getClassInfo(this.classId).then(res => {
@@ -165,6 +151,22 @@ export default {
       this.$API.getParentList(this.classId).then(res => {
         this.parents = res
       })
+    },
+    // 获取老师列表
+    getTeacherList() {
+      this.$API.getTeacherList(this.classId).then(res => {
+        this.teachers = res
+        }).catch(err => {
+          this.$message.error(err.msg)
+        })
+    },
+    // 获取学生列表
+    getStudentList() {
+      this.$API.getStudentList(this.classId).then(res => {
+        this.students = res
+        }).catch(err => {
+          this.$message.error(err.msg)
+        })
     },
   },
   created() {

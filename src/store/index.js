@@ -45,8 +45,6 @@ const store = new Vuex.Store({
       video: 0,
       msg: 0
     },
-    studentList: [],
-    teacherList: [],
   },
   getters: {
     _APIurl: () => {
@@ -239,12 +237,6 @@ const store = new Vuex.Store({
     setCourseList(state, val) {
       state.courseList = val
     },
-    setTeacherList(state, val) {
-      state.teacherList = val
-    },
-    setStudentList(state, val) {
-      state.studentList = val
-    }
   },
   actions: {
     setApiUrl({
@@ -360,44 +352,6 @@ const store = new Vuex.Store({
         }).catch(err => {
           reject(err)
         })
-      })
-    },
-    // 获取教师列表
-    getTeacherList({
-      commit,
-      state
-    }, payload) {
-      return new Promise((resolve, reject) => {
-        API.getTeacherList(state.currentClassId).then(res => {
-          commit('setTeacherList', res)
-          resolve(res)
-        }).catch(err => {
-          reject(err)
-        })
-      })
-    },
-    // 获取学生列表
-    getStudentList({
-      commit,
-      state
-    }, payload) {
-      return new Promise((resolve, reject) => {
-        API.getStudentList(state.currentClassId).then(res => {
-          commit('setStudentList', res)
-          resolve(res)
-        }).catch(err => {
-          reject(err)
-        })
-      })
-    },
-    //清空 学生、老师列表
-    reset({
-      commit,
-      state
-    }, payload) {
-      return new Promise((resolve, reject) => {
-        commit('setStudentList', [])
-        commit('setTeacherList', [])
       })
     },
   },
