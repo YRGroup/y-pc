@@ -2,10 +2,10 @@
 <template>
   <div  v-loading.fullscreen.lock="fullscreenLoading">
     
-    <div class="addPost">
+    <!-- <div class="addPost">
       <div class="title addbtn" @click="showAddPost=true">
         <i class="iconfont">&#xe623;</i>发布动态</div>
-    </div>
+    </div> -->
   	<publish-active></publish-active>
     <el-dialog title="发布动态" :visible.sync="showAddPost" width="30%">
       <el-form :model="newPost">
@@ -14,7 +14,7 @@
           </el-input>
         </el-form-item>
           <el-form-item v-if="showUpImg">
-          <el-upload multiple :http-request="imgUpload" :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
+          <el-upload accept="image/*" multiple :http-request="imgUpload" :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
             <i class="el-icon-picture-outline"></i>
           </el-upload>
           <el-dialog :visible.sync="dialogVisible" size="tiny">
@@ -160,6 +160,9 @@ export default {
       });
       return arr;
     },
+    newActive(){
+      return this.$store.state.newActive
+    },
     colors() {
       return this.$store.state.colors;
     },
@@ -205,7 +208,7 @@ export default {
           //e.target.value = null;
         });
     },
-    getData() {
+    getData(callback) {
       if (!this.$store.state.currentClassId) return;
       let para = {};
       para.cid = this.$store.state.currentClassId;
@@ -236,6 +239,7 @@ export default {
           } else if (res.length == 0 && this.currentPage != 1) {
             this.noMoreData = true;
           }
+          callback();   //回调  发布新动态后刷新
         })
         .catch(err => {
           this.$message.error(err.msg);
@@ -280,7 +284,8 @@ export default {
       }
       let vue_this = this;
       let file = files[0];
-      let params = {
+        console.log(file)
+      let params = {  
         FileName: file.name,
         Title: file.name,
         FileSize: file.size,
@@ -493,14 +498,28 @@ export default {
         });
       }
     },
+    //发布动态后刷新
+
   },
   created() {
     this.getData();
   },
-  mounted() {}
+  mounted() {},
   // watch: {
   //   "$route": "getData"
   // },
+  watch:{
+    newActive(newVal){
+        console.log(newVal);
+        if(newVal){
+          this.data=[];
+          let This=this;
+          this.getData(()=>{
+            This.$store.commit('changeNewActive',false); 
+          });
+        }
+    }
+  }
 };
 </script>
 

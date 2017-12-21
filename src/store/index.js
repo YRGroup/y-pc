@@ -8,7 +8,7 @@ const store = new Vuex.Store({
   state: {
     title: '育人教育',
 
-    currentUser: null,
+    currentUser: null,  
 
     currentClassId: null,
     currentClassInfo: {},
@@ -47,6 +47,7 @@ const store = new Vuex.Store({
     },
     studentList: [],
     teacherList: [],
+    newActive:false
   },
   getters: {
     _APIurl: () => {
@@ -202,6 +203,9 @@ const store = new Vuex.Store({
     },
     changeRole(state, val) {
       state.role = val.toString()
+    },
+     changeNewActive(state,val){ 
+      state.newActive=val;
     },
     setCurrentClassInfo(state, val) {
       state.currentClassInfo = val
