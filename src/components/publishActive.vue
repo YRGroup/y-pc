@@ -1,6 +1,6 @@
 <template>
 <el-form  class="publish">
-  <el-form-item>
+  <el-form-item class="textItem">
     <el-input type="textarea" :rows="3" :autosize="{ minRows: 2, maxRows: 6}"  placeholder="有什么新鲜事分享给大家？"  v-model.trim="content"></el-input>  
   </el-form-item>
   <div class="todos">
@@ -39,7 +39,7 @@
         <el-progress  v-if="videoStateNum" :text-inside="true" :stroke-width="18" :percentage="videoStateNum" status="success"></el-progress>
         <p  v-text="videoState"></p>
       </el-popover>
-      <span v-popover:popVideo @click="showUpVideo"><i class="iconfont">&#xe66b;</i> 视频</span>
+      <span v-popover:popVideo @click="showUpVideo"><i class="iconfont" style="color:#20A0FF">&#xe66b;</i> 视频</span>
     </div>
     <div>
         <el-select size="small"  v-if="$store.getters.isTeacher" v-model="at_meid" multiple placeholder="@某学生" style="width:300px">
@@ -304,7 +304,7 @@
             },
             // 文件上传失败
             onUploadFailed: function(uploadInfo, code, message) {
-              This.videoState="上传成功";
+              This.videoState="上传失败";
             },
             // 文件上传完成
             onUploadSucceed: function(uploadInfo) {
@@ -319,7 +319,7 @@
             // STS临时账号会过期，过期时触发函数
             onUploadTokenExpired: function() {
               this.$message.error("sts临时账号过期，请联系网络管理员");
-              This.videoState="sts临时账号过期";
+              This.videoState="sts临时账号过期，请联系网络管理员";
             },
           });
           // 初始化上传实例   点播上传。每次上传都是独立的鉴权，所以初始化时，不需要设置鉴权  
@@ -328,10 +328,6 @@
           uploader.addFile(file.file, null, null, null, userData);
           uploader.startUpload();
         })
-      },
-      // 进度条展示
-      refreshProgress(n,event) {
-       
       },
       //重置发布信息
       resetForm(){
@@ -376,6 +372,7 @@
     font-family:"微软雅黑";
     font-size: 14px;
     .iconfont{
+      font-size: 15px;
       margin-right: 5px;
       cursor: pointer;
       color: @main;  
@@ -385,6 +382,9 @@
       font-size: 13px;
       line-height: 18px;
       cursor: pointer;
+    }
+    .textItem{
+      margin-bottom: 10px;
     }
     .todos{
       display: flex;
@@ -403,13 +403,15 @@
       right: 0;
       top: 0;
       z-index: 999;
+      cursor: pointer;
     }
   }
   .upPop{
     padding-top: 20px;
   }
   .uploadBox{
+    line-height: 0;
     max-width: 353px;
     overflow: hidden;
   }
-</style>
+  </style>
