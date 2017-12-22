@@ -1,13 +1,13 @@
 
 <template>
-  <div  v-loading.fullscreen.lock="fullscreenLoading">
-    
+  <div  v-loading.lock="fullscreenLoading"   element-loading-text="拼命加载中">
+    <!-- 旧的发布动态 -->
     <!-- <div class="addPost">
       <div class="title addbtn" @click="showAddPost=true">
         <i class="iconfont">&#xe623;</i>发布动态</div>
     </div> -->
-  	<publish-active></publish-active>
-    <el-dialog title="发布动态" :visible.sync="showAddPost" width="30%">
+  	
+    <!-- <el-dialog title="发布动态" :visible.sync="showAddPost" width="30%">
       <el-form :model="newPost">
         <el-form-item>
           <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model.trim="newPost.content">
@@ -47,13 +47,13 @@
           </el-upload>
           </el-input>
         </el-form-item> -->
-
-      </el-form>
+      
+      <!-- </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="addNewPost" v-loading.fullscreen.lock="fullscreenLoading">发 布</el-button>
       </div>
-    </el-dialog>
-	
+    </el-dialog> -->
+    <publish-active></publish-active>
     <no-data v-if="nodataImg"></no-data>
     <div v-else>
       <div class="card panel" v-for="i in data" :key="i.ID">
@@ -89,7 +89,7 @@
         <div class="footer">
           <span class="time">{{i.date}}</span>
           <span class="iconbtn">
-            <span title="删除" class="delBtn" @click="delPost(i.ID)" v-loading.fullscreen.lock="fullscreenLoading" v-if="i.showDelete">
+            <span title="删除" class="delBtn" @click="delPost(i.ID)" v-loading.lock="fullscreenLoading"   element-loading-text="拼命加载中" v-if="i.showDelete">
               <i class="iconfont">&#xe630;</i>
               <span class="delBtnTitle">删除</span>
             </span>
@@ -489,19 +489,10 @@ export default {
           this.imgUrls = [];
         });
       }
-    },
-    // 获取学生列表
-    getStudentList() {
-      this.$API.getStudentList(this.$store.state.currentClassId).then(res => {
-        this.studentList = res
-        }).catch(err => {
-          this.$message.error(err.msg)
-        })
-    },
+    }
   },
   created() {
     this.getData();
-    this.getStudentList()
   },
   mounted() {},
   // watch: {

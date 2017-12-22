@@ -8,13 +8,16 @@
       <el-popover ref="popImg" placement="bottom" v-model="isShowUpImg" trigger="manual" popper-class="upPop">
         <p class="closeBox"> <i class="el-icon-close closeBtn" @click="delUpImg"></i></p>
         <el-form-item>
-          <el-upload multiple 
+          <el-upload multiple class="uploadBox"
           accept="image/*"
+          :auto-upload="false"
           :action="action"
-          :http-request="getImgUrls"
+          :on-change="getImgBaseList"
+          :on-remove="getImgBaseList"
           list-type="picture-card"
           :before-upload="beforePictureUpload"
           ref="uploadImg">  
+          <i class="el-icon-plus"></i>
           </el-upload>
         </el-form-item>  
       </el-popover>
@@ -22,9 +25,9 @@
       <el-popover ref="popVideo"  placement="bottom" v-model="isShowUpVideo" trigger="manual" class="upPop">
         <p class="closeBox"> <i class="el-icon-close closeBtn" @click="delUpVideo"></i></p>
         <el-form-item style="text-align:center">
-          <el-upload 
+          <el-upload  class="uploadBox"
           accept="video/*"
-          :action="action" 
+          :action="action"
           :http-request="getVideoId"
           :on-change="changeVideoList" 
           :before-upload="beforeVideoUpload"
@@ -33,7 +36,8 @@
           <el-button size="small"  v-if="!hasUploadVideo" type="primary">点击上传</el-button>
           </el-upload>
         </el-form-item> 
-        <p v-text="videoState"></p>
+        <el-progress  v-if="videoStateNum" :text-inside="true" :stroke-width="18" :percentage="videoStateNum" status="success"></el-progress>
+        <p  v-text="videoState"></p>
       </el-popover>
       <span v-popover:popVideo @click="showUpVideo"><i class="iconfont">&#xe66b;</i> 视频</span>
     </div>
@@ -70,27 +74,17 @@
         currentPag:1,
         content:'',
         at_meid:[],
-        imgUrls:[],
         videoId:'',
         isLoading:false,
         hasUploadVideo:false,
         videoState:'',   //视频上传状态
-        studentList:[]
+        videoStateNum:0,
+        studentList:[],
+        imgBaseList:''
       }
     },
     computed:{
-      //图片base64组合字符串|
-      imgBaseList(){
-        let arr = [];
-        this.imgUrls.forEach((n, i) => {
-          arr.push(n.src);
-        });
-        if(arr.length){
-          return arr.join('|')
-        }else{
-          return ''
-        }
-      },
+      
       //发布的参数对象
       options(){
         let options= {
@@ -115,14 +109,7 @@
         }
         return options
       },
-      //可@学生列表
-      getStudentList() {
-        this.$API.getStudentList(this.$store.state.currentClassId).then(res => {
-          this.studentList = res
-          }).catch(err => {
-            this.$message.error(err.msg)
-        })
-      },
+      
       //获取用户角色名
       role(){
         return this.$store.getters.role
@@ -138,77 +125,115 @@
       }
     },
     methods:{
+      //获取可@学生列表
+      getStudentList() {
+        this.$API.getStudentList(this.$store.state.currentClassId).then(res => {
+          this.studentList = res
+          }).catch(err => {
+            this.$message.error(err.msg)
+        })
+      },
       //显示上传图片
       showUpImg(){
         if(this.isShowUpVideo){
-          this.delUpVideo();
+          this.delUpVideo(()=>{
+            this.isShowUpImg=true;
+          })
         }else{
           this.isShowUpImg=true;
-        }
+        }   
       },
       //显示上传视频
       showUpVideo(){
         if(this.isShowUpImg){
-          this.delUpImg();
+          this.delUpImg(()=>{
+            this.isShowUpVideo=true;
+          })
         }else{
           this.isShowUpVideo=true;
-        }
-      },
-
-      //取消上传图片
-      delUpImg(){
-        this.$confirm('确定放弃上传图片吗？','提示',{
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(()=>{
-          this.isShowUpImg=false;
-          this.$refs.uploadImg.clearFiles();//清空图片列表
-        }).catch()
-      }, 
-      //取消上传视频
-      delUpVideo(){
-        this.$confirm('确定放弃上传视频吗？','提示',{
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(()=>{
-          this.isShowUpVideo=false;
-          this.$refs.uploadVideo.clearFiles();//清空视频列标
-          this.restVideo();
-        }).catch()
+        }   
       },
       //重置视频上传状态
       restVideo(){
-          this.videoId='';                   
+          this.videoId='';    
+          this.isShowUpVideo=false;               
           this.hasUploadVideo=false;
           this.videoState="";
+          this.videoStateNum=0;
+          this.$refs.uploadVideo.clearFiles();//清空视频列标
+      },
+      //重置图片上传状态
+      restImg(){
+        this.imgBaseList='';
+        this.isShowUpImg=false;
+        this.$refs.uploadImg.clearFiles();//清空图片列表
+      },
+      //取消上传图片
+      delUpImg(callBack){
+        if(this.imgBaseList){
+          this.$confirm('确定放弃上传图片吗？','提示',{
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(()=>{
+            this.restImg()
+            try {
+                callBack()
+            } catch (error) {}
+          
+          }).catch()
+        }else{
+          this.restImg()
+          try {
+              callBack()
+            } catch (error) {}
+        }
+      },
+      //取消上传视频
+      delUpVideo(callBack){
+        if(this.videoId){
+            this.$confirm('确定放弃上传视频吗？','提示',{
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(()=>{
+            this.restVideo();
+            try {
+                callBack()
+            } catch (error) {}
+          }).catch()
+        }else{
+          this.restVideo();
+          try {
+                callBack()
+            } catch (error) {}
+        }
       },
       //移除视频
       removeVideo(file,filelist){
         this.restVideo();
       },
-      
-      //图片解析
-      getImgUrls(){
-        let This = this
-        let file = this.$refs.uploadImg.uploadFiles[
-          this.$refs.uploadImg.uploadFiles.length - 1
-        ].raw;
-        lrz(file, { quality: file.size > 1024 * 200 ? 0.7 : 1 })
-        .then(rst => {
-          This.imgUrls.push({
-            src: rst.base64,
-            uid: file.uid
-          });
-          return rst;
-        })
-        .always(function() {
-          // 清空文件上传控件的值
-          //e.target.value = null;
-        });
-      },
-
+      //获取图片base列表  添加删除时获取
+      getImgBaseList(){
+        let filelist=this.$refs.uploadImg.uploadFiles;
+        let arr=[]
+        let str=""
+        //遍历读取base64编码
+        if(filelist.length){
+          filelist.forEach((file, i) => {
+            lrz(file.raw, { quality: file.size > 1024 * 200 ? 0.7 : 1 })
+            .then(rst => {
+              arr.push(rst.base64);
+              this.imgBaseList=arr.join('|')
+            
+            })
+            .always(function() {
+              // 清空文件上传控件的值
+              //e.target.value = null;
+            });
+          }); 
+        }     
+      }, 
       //图片上传前检测
       beforePictureUpload(file) {
         let isJPG = file.type === "image/jpeg" || file.type === "image/png";
@@ -264,7 +289,6 @@
         let This = this;
         this.$API.getVideoUploadAuth(params).then(res=>{
           this.videoId=res.VideoID;
-
           //创建上传实例
           let uploader = new VODUpload({ 
             // 开始上传
@@ -289,7 +313,8 @@
             //视频上传进度监听
             onUploadProgress: function(uploadInfo, totalSize, uploadedSize) {
               let num = Math.ceil(uploadedSize * 100 / totalSize);
-              This.videoState=num+'%';
+              This.videoStateNum=num;
+              This.videoState="正在上传";
             },
             // STS临时账号会过期，过期时触发函数
             onUploadTokenExpired: function() {
@@ -303,6 +328,10 @@
           uploader.addFile(file.file, null, null, null, userData);
           uploader.startUpload();
         })
+      },
+      // 进度条展示
+      refreshProgress(n,event) {
+       
       },
       //重置发布信息
       resetForm(){
@@ -334,7 +363,7 @@
       }
     },
     created(){
-      this.getStudentList(); 
+      this.getStudentList();
     }
   }
 </script>
@@ -363,7 +392,6 @@
       flex-wrap:no-wrap;
       align-items: center;
     }
-    
   }
   .closeBox{
     height: 20px;
@@ -379,5 +407,9 @@
   }
   .upPop{
     padding-top: 20px;
+  }
+  .uploadBox{
+    max-width: 353px;
+    overflow: hidden;
   }
 </style>
