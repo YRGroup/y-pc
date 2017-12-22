@@ -75,7 +75,8 @@
         videoId:'',
         fullscreenLoading: false,
         hasUploadVideo:false,
-        videoState:''   //视频上传状态
+        videoState:'',   //视频上传状态
+        studentList:[]
       }
     },
     computed:{
@@ -116,14 +117,12 @@
         return options
       },
       //可@学生列表
-      studentList() {
-        if(this.$store.state.studentList.length){
-          return this.$store.state.studentList
-        }else{
-          this.$store.dispatch("getStudentList").then(() => {
-            return this.$store.state.studentList
-          })
-        }
+      getStudentList() {
+        this.$API.getStudentList(this.$store.state.currentClassId).then(res => {
+          this.studentList = res
+          }).catch(err => {
+            this.$message.error(err.msg)
+        })
       },
       //获取用户角色名
       role(){
@@ -329,6 +328,9 @@
           });
         })
       }
+    },
+    created(){
+      this.getStudentList(); 
     }
   }
 </script>

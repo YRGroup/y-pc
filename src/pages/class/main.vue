@@ -276,7 +276,7 @@ export default {
       }
       let vue_this = this;
       let file = files[0];
-        console.log(file)
+        // console.log(file)
       let params = {  
         FileName: file.name,
         Title: file.name,
@@ -509,7 +509,6 @@ export default {
   // },
   watch:{
     newActive(newVal){
-        console.log(newVal);
         if(newVal){
           this.data=[];
           let This=this;
