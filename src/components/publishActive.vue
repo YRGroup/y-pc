@@ -1,5 +1,5 @@
 <template>
-<el-form  v-loading.fullscreen.lock="fullscreenLoading" class="publish">
+<el-form  class="publish">
   <el-form-item>
     <el-input type="textarea" :rows="3" :autosize="{ minRows: 2, maxRows: 6}"  placeholder="有什么新鲜事分享给大家？"  v-model.trim="content"></el-input>  
   </el-form-item>
@@ -16,7 +16,6 @@
           :before-upload="beforePictureUpload"
           ref="uploadImg">  
           </el-upload>
-          
         </el-form-item>  
       </el-popover>
       <span v-popover:popImg @click="showUpImg"><i class="iconfont">&#xe613;</i> 图片</span>
@@ -43,7 +42,7 @@
           <el-option v-for="item in studentList" :key="item.Meid" :label="item.NickName" :value="item.Meid">
           </el-option>
         </el-select>
-      <el-button @click="postNewClassDynamic"  v-loading.fullscreen.lock="fullscreenLoading" size="small" type="primary">发布</el-button>
+      <el-button :loading="isLoading" @click="postNewClassDynamic"  size="small" type="primary">发布</el-button>
     </div>
   </div>
 </el-form> 
@@ -73,7 +72,7 @@
         at_meid:[],
         imgUrls:[],
         videoId:'',
-        fullscreenLoading: false,
+        isLoading:false,
         hasUploadVideo:false,
         videoState:'',   //视频上传状态
         studentList:[]
@@ -202,7 +201,6 @@
             src: rst.base64,
             uid: file.uid
           });
-          this.fullscreenLoading = false;
           return rst;
         })
         .always(function() {
@@ -317,16 +315,22 @@
       },
       //发布
       postNewClassDynamic(){
-        // console.log(this.options)
-        this.fullscreenLoading=true;
-        this.$API.postNewClassDynamic(this.options).then((res)=>{
-          this.fullscreenLoading=false;
-          this.$message.success("发布动态成功");
-          this.resetForm();     
-          this.$nextTick(() => {
-            this.$store.commit('changeNewActive',true);
+        if(this.content){
+          this.isLoading=true;
+          this.$API.postNewClassDynamic(this.options).then((res)=>{
+            this.isLoading=false;
+            this.$message.success("发布动态成功");
+            this.resetForm();     
+            this.$nextTick(() => {
+              this.$store.commit('changeNewActive',true);
+            });
+          })
+        }else{
+            this.$message({
+              message: '内容还空着呢，说点什么吧...',
+              type: 'warning'
           });
-        })
+        }
       }
     },
     created(){
