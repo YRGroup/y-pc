@@ -351,7 +351,7 @@
             this.$message.success("发布动态成功");
             this.resetForm();     
             this.$nextTick(() => {
-              this.$store.commit('changeNewActive',true);
+              this.$store.commit('changeNewActive',true);   //是否有新动态 true
             });
           })
         }else{

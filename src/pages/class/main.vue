@@ -89,7 +89,7 @@
         <div class="footer">
           <span class="time">{{i.date}}</span>
           <span class="iconbtn">
-            <span title="删除" class="delBtn" @click="delPost(i.ID)" v-loading.lock="fullscreenLoading"   element-loading-text="拼命加载中" v-if="i.showDelete">
+            <span title="删除" class="delBtn" @click="delPost(i.ID)" v-loading.lock="fullscreenLoading"   v-if="i.showDelete">
               <i class="iconfont">&#xe630;</i>
               <span class="delBtnTitle">删除</span>
             </span>
@@ -200,7 +200,7 @@ export default {
           //e.target.value = null;
         });
     },
-    getData(callback) {
+    getData() {
       if (!this.$store.state.currentClassId) return;
       let para = {};
       para.cid = this.$store.state.currentClassId;
@@ -231,7 +231,7 @@ export default {
           } else if (res.length == 0 && this.currentPage != 1) {
             this.noMoreData = true;
           }
-          callback();   //回调  发布新动态后刷新
+          this.$store.commit('changeNewActive',false);  //是否有新动态  false
         })
         .catch(err => {
           this.$message.error(err.msg);
@@ -502,10 +502,7 @@ export default {
     newActive(newVal){
         if(newVal){
           this.data=[];
-          let This=this;
-          this.getData(()=>{
-            This.$store.commit('changeNewActive',false); 
-          });
+          this.getData();
         }
     }
   }
