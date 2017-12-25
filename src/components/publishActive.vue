@@ -57,7 +57,6 @@
   require("@/common/js/vod-sdk-upload-1.1.0.min.js");
   
   import lrz from "lrz";
-  import loadMore from "@//components/loadMore";
   import Vue from 'vue'
   import Element from 'element-ui'
 
@@ -236,6 +235,7 @@
       }, 
       //图片上传前检测
       beforePictureUpload(file) {
+        console.log(file)
         let isJPG = file.type === "image/jpeg" || file.type === "image/png";
         // let isNumOk = filelist.file.length<10?true:false;
         //const isLt5M = file.size / 1024 / 1024 < 5;
@@ -250,6 +250,7 @@
 
       //视频上传前检测
       beforeVideoUpload(file){
+        console.log(file)
         //限制20m
         let isSizeOk=file.size<20*1024*1024?true:false
         if(!isSizeOk){
@@ -257,10 +258,13 @@
         }
 
         //限制视频格式
-        let isTypeOk=file.type=='video/mp4'?true:false
+        let isTypeOk=file.type.indexOf('video');
         
-        if(!isTypeOk){
+        if(isTypeOk==-1){
           this.$message.error("视频格式错误!");
+          isTypeOk=false;
+        }else{
+          isTypeOk=true;
         }
         return  isSizeOk&&isTypeOk
 
