@@ -21,7 +21,7 @@
           </el-upload>
         </el-form-item>  
       </el-popover>
-      <span class="popImg" v-popover:popImg @click="showUpImg"><i class="iconfont">&#xe613;</i> 图片</span>
+      <span class="popImg" v-popover:popImg @click="showUpImg"><i class="iconfont" style="color:#ffa405">&#xe613;</i> 图片</span>
       <el-popover ref="popVideo"  placement="bottom" v-model="isShowUpVideo" trigger="manual" class="upPop">
         <p class="closeBox"> <i class="el-icon-close closeBtn" @click="delUpVideo"></i></p>
         <el-form-item style="text-align:center">
@@ -39,7 +39,7 @@
         <el-progress  v-if="videoStateNum" :text-inside="true" :stroke-width="18" :percentage="videoStateNum" status="success"></el-progress>
         <p  v-text="videoState"></p>
       </el-popover>
-      <span class="popVideo" v-popover:popVideo @click="showUpVideo"><i class="iconfont">&#xe705;</i> 视频</span>
+      <span class="popVideo" v-popover:popVideo @click="showUpVideo"><i class="iconfont" style="color:#5a8ce6">&#xe705;</i> 视频</span>
     </div>
     <div>
         <el-select size="small"  v-if="$store.getters.isTeacher" v-model="at_meid" multiple placeholder="@某学生" style="width:270px;margin-right:20px">
@@ -376,16 +376,22 @@
     font-family:"微软雅黑";
     font-size: 14px;
     .iconfont{
-      font-size: 16px;
+      font-size: 18px;
       margin-right: 3px;
       cursor: pointer;
       color: @main;
+      position: relative;
+      top: 2px;
     }
     span{
       margin:0 4px;
       font-size: 13px;
       line-height: 18px;
       cursor: pointer;
+      opacity: 0.9;
+      &:hover{
+        opacity: 1;
+      }
     }
     .textItem{
       margin-bottom: 10px;
