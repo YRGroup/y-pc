@@ -21,7 +21,7 @@
           </el-upload>
         </el-form-item>  
       </el-popover>
-      <span v-popover:popImg @click="showUpImg"><i class="iconfont">&#xe613;</i> 图片</span>
+      <span class="popImg" v-popover:popImg @click="showUpImg"><i class="iconfont">&#xe613;</i> 图片</span>
       <el-popover ref="popVideo"  placement="bottom" v-model="isShowUpVideo" trigger="manual" class="upPop">
         <p class="closeBox"> <i class="el-icon-close closeBtn" @click="delUpVideo"></i></p>
         <el-form-item style="text-align:center">
@@ -39,14 +39,14 @@
         <el-progress  v-if="videoStateNum" :text-inside="true" :stroke-width="18" :percentage="videoStateNum" status="success"></el-progress>
         <p  v-text="videoState"></p>
       </el-popover>
-      <span v-popover:popVideo @click="showUpVideo"><i class="iconfont" style="color:#20A0FF">&#xe66b;</i> 视频</span>
+      <span class="popVideo" v-popover:popVideo @click="showUpVideo"><i class="iconfont">&#xe705;</i> 视频</span>
     </div>
     <div>
-        <el-select size="small"  v-if="$store.getters.isTeacher" v-model="at_meid" multiple placeholder="@某学生" style="width:300px">
+        <el-select size="small"  v-if="$store.getters.isTeacher" v-model="at_meid" multiple placeholder="@某学生" style="width:270px;margin-right:20px">
           <el-option v-for="item in studentList" :key="item.Meid" :label="item.NickName" :value="item.Meid">
           </el-option>
         </el-select>
-      <el-button :loading="isLoading" @click="postNewClassDynamic"  size="small" type="primary">发布</el-button>
+      <el-button :loading="isLoading" @click="postNewClassDynamic"  size="medium" type="primary">发布</el-button>
     </div>
   </div>
 </el-form> 
@@ -372,10 +372,10 @@
     font-family:"微软雅黑";
     font-size: 14px;
     .iconfont{
-      font-size: 15px;
-      margin-right: 5px;
+      font-size: 16px;
+      margin-right: 3px;
       cursor: pointer;
-      color: @main;  
+      color: @main;
     }
     span{
       margin:0 4px;
@@ -399,9 +399,10 @@
     position: relative;
     font-size: 20px;
     .closeBtn{
+      color: #999;
       position: absolute;
-      right: 0;
-      top: 0;
+      right: -5px;
+      top: -5px;
       z-index: 999;
       cursor: pointer;
     }
