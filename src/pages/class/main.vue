@@ -89,7 +89,7 @@
         <div class="footer">
           <span class="time">{{i.date}}</span>
           <span class="iconbtn">
-            <span title="删除" class="delBtn" @click="delPost(i.ID)" v-loading.lock="fullscreenLoading"   v-if="i.showDelete">
+            <span title="删除" class="delBtn" @click="delPost(i.ID)" v-loading.lock="fullscreenLoading"   v-if="showDelete(i.auther_meid)">
               <i class="iconfont">&#xe630;</i>
               <span class="delBtnTitle">删除</span>
             </span>
@@ -143,7 +143,6 @@ export default {
       showAddPost: false,
       fullscreenLoading: true,
       nodataPic: require("@/assets/nodata.png"),
-      showDelete: false,
       showUpImg: true,
       showProgress: false,
       videoBtn: true,
@@ -167,6 +166,7 @@ export default {
     colors() {
       return this.$store.state.colors;
     },
+  
   },
   methods: {
     handleRemove(file, fileList) {
@@ -175,7 +175,18 @@ export default {
       this.dialogImageUrl = file.url;
       this.dialogVisible = true;
     },
-
+    //是否显示删除按钮
+    showDelete(auther){
+      if (
+        this.$store.state.currentUser.Meid == auther ||
+        this.$store.state.currentStudentId == auther ||
+        this.role == "班主任"
+      ) {
+        return true
+      } else {
+        return false
+      }
+    },
     updateData: function(data) {
       this.newPost.content = data;
     },
@@ -213,25 +224,15 @@ export default {
           this.fullscreenLoading = false;
           this.videoBtn = true
           if (res.length) {
-            //如果老师、家长、班主任 显示删除按钮
-            res.forEach(element => {
-              if (
-                this.$store.state.currentUser.Meid == element.auther_meid ||
-                this.$store.state.currentStudentId == element.auther_meid ||
-                this.role == "班主任"
-              ) {
-                element.showDelete = true;
-              } else {
-                element.showDelete = false;
-              }
-            this.data.push(element)
-            });
+            this.data=res
           } else if (res.length == 0 && this.currentPage == 1) {
             this.nodataImg = true;
           } else if (res.length == 0 && this.currentPage != 1) {
             this.noMoreData = true;
           }
-          this.$store.commit('changeNewActive',false);  //是否有新动态  false
+          if(this.$store.state.newActive){
+            this.$store.commit('changeNewActive',false);  //是否有新动态  false
+          }
         })
         .catch(err => {
           this.$message.error(err.msg);
