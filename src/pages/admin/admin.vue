@@ -374,7 +374,6 @@ export default {
       // classList: [],
       type: 1,
       fileList: [],
-      ClassID: '',
       teacherData: [{
         TrueName: '',
         MobilePhone: '',
@@ -409,7 +408,7 @@ export default {
     }
   },
   computed: {
-    classId() {
+    ClassID() {
       return this.$store.state.currentClassId
     },
     courseList() {
@@ -425,7 +424,7 @@ export default {
   },
   methods: {
     getData() {
-      this.$API.getClassInfo(this.classId).then(res => {
+      this.$API.getClassInfo(this.ClassID).then(res => {
         this.classInfo = res
       })
 
@@ -538,6 +537,7 @@ export default {
           this.$message.success('添加学生成功')
           this.showAddStudent = false
           this.studentData = [{
+            ClassID: this.ClassID,
             TrueName: '',
             Sex: '',
             ParentPhone: ''
@@ -550,7 +550,7 @@ export default {
     },
     // 获取老师列表
     getTeacherList() {
-      this.$API.getTeacherList(this.classId).then(res => {
+      this.$API.getTeacherList(this.ClassID).then(res => {
         this.teacherList = res
         }).catch(err => {
           this.$message.error(err.msg)
@@ -558,7 +558,7 @@ export default {
     },
     // 获取学生列表
     getStudentList() {
-      this.$API.getStudentList(this.classId).then(res => {
+      this.$API.getStudentList(this.ClassID).then(res => {
         this.studentList = res
         }).catch(err => {
           this.$message.error(err.msg)
