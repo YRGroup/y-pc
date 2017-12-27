@@ -227,7 +227,7 @@ export default {
           this.fullscreenLoading = false;
           this.videoBtn = true
           if (res.length) {
-            this.data=res
+            this.data=this.data.concat(res);  //合并数组
           } else if (res.length == 0 && this.currentPage == 1) {
             this.nodataImg = true;
           } else if (res.length == 0 && this.currentPage != 1) {
