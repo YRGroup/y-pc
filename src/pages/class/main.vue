@@ -56,7 +56,7 @@
     <publish-active></publish-active>
     <no-data v-if="nodataImg"></no-data>
     <div v-else>
-      <div class="card panel" v-for="i in data" :key="i.ID">
+      <div class="card panel" v-for="(i,index) in data" :key="i.ID">
         <div class="img">
           <div v-if="i.auther_role == '4'||i.auther_role == '8'" @click="$router.push('/t?id='+i.auther_meid)" class="category" :style="{background:colors[i.CourseName]}">{{ i.CourseName&&i.CourseName.substr(0,1) }}</div>
           <img v-else :src="i.userImg" @click="$router.push('/s?id='+i.auther_meid)">
@@ -93,9 +93,10 @@
               <i class="iconfont">&#xe630;</i>
               <span class="delBtnTitle">删除</span>
             </span>
-            <span title="点赞" @click.once="doLike(i.ID),i.like++">
+            <!-- <span title="点赞" v-else @click.once="doLike(i.ID)">
               <i class="iconfont">&#xe646;</i>{{i.like}}
-            </span>
+            </span> -->
+            <give-zan :isZan="i.IsZan" :num="i.like" :id="i.ID"></give-zan>
           </span>
         </div>
       </div>
@@ -117,9 +118,11 @@ import lrz from "lrz";
 import loadMore from "@//components/loadMore";
 import noData from "@//components/noData";
 import publishActive from "@//components/publishActive"
+import giveZan from "@//components/giveZan"
+
 export default {
   name: "app",
-  components: { loadMore, noData, publishActive},
+  components: { loadMore, noData, publishActive,giveZan},
   data() {
     return {
       dialogImageUrl: "",
@@ -382,11 +385,12 @@ export default {
       }
     },
     // 点赞
-    doLike(id) {
+    doLike(id,index) {
       this.$API
         .doLikeThisPost(id)
         .then(res => {
           this.$message.success("点赞成功");
+          this.data[index].like++;    //赞数++
         })
         .catch(err => {
           this.$message.error(err.msg);
@@ -684,6 +688,9 @@ export default {
     .iconbtn {
       float: right;
       cursor: pointer;
+      .active{
+        color: @main;
+      }
       span {
         margin: 0 10px;
         &:hover {
