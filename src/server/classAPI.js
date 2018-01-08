@@ -84,8 +84,14 @@ API.getPostAnonymouse = (postId) => {
     })
   })
 }
-
-
+//上传动态图片
+API.postDynamicImg = (classDynamicData) => {
+  return new Promise((resolve, reject) => {
+    axios.post(_APIurl + '/api/upload/ImageB64Upload', classDynamicData).then((res) => {
+      resolve(res.data.Content)
+    })
+  })
+}
 // 添加班级动态
 API.postNewClassDynamic = (classDynamicData) => {
   return new Promise((resolve, reject) => {
