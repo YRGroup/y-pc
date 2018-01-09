@@ -1,20 +1,25 @@
 <template>
 <el-form  class="publish">
+ 
   <el-form-item class="textItem">
     <el-input type="textarea" :rows="3" :autosize="{ minRows: 2, maxRows: 6}"  placeholder="有什么新鲜事分享给大家？"  v-model.trim="content"></el-input>  
   </el-form-item>
   <div class="todos">
     <div>
+      <el-dialog :visible.sync="dialogVisible">
+        <img width="100%" :src="dialogImageUrl" alt="">
+      </el-dialog>
       <el-popover ref="popImg" placement="bottom" v-model="isShowUpImg" trigger="manual" popper-class="upPop">
         <p class="closeBox"> <i class="el-icon-close closeBtn" @click="delUpImg"></i></p>
         <el-form-item>
           <el-upload multiple class="uploadBox"
           accept="image/*"
-          :auto-upload="false"
-          :action="action"
-          :on-change="getImgBaseList"
-          :on-remove="getImgBaseList"
+          :auto-upload="true"
+          :action="imgAction"
+          :http-request="getImgBaseList"
+          :on-remove="changeImgUrlList"
           list-type="picture-card"
+          :on-preview="imgPreview"
           :before-upload="beforePictureUpload"
           ref="uploadImg">  
           <i class="el-icon-plus"></i>
@@ -27,7 +32,7 @@
         <el-form-item style="text-align:center">
           <el-upload  class="uploadBox"
           accept="video/*"
-          :action="action"
+          :action="videoAction"
           :http-request="getVideoId"
           :on-change="changeVideoList" 
           :before-upload="beforeVideoUpload"
@@ -68,7 +73,7 @@
       return {
         isShowUpImg:false,
         isShowUpVideo:false,
-        action:'',
+        imgAction:'',
         videoAction:'',
         currentPag:1,
         content:'',
@@ -79,11 +84,15 @@
         videoState:'',   //视频上传状态
         videoStateNum:0,
         studentList:[],
-        imgBaseList:''
+        imgBaseList:'', //已传图片的base64集合
+        imgUrlList:{},  //key:value
+        imgUrlArrList:[], //提交的地址列表
+        dialogVisible:false,
+        dialogImageUrl:''
       }
     },
     computed:{
-      
+    
       //发布的参数对象
       options(){
         let options= {
@@ -98,9 +107,9 @@
         }else if(this.role=="任课教师"){
           options.meid = this.$store.getters.currentUserId                  //老师的meid       this.$store.state.currentUserId
         }
-        //传图片时
+        //传图片时 
         if(this.isShowUpImg){
-          options.img_base64_list=this.imgBaseList                                //图片base64字符串，|链接  
+          options.img_url_list=this.imgUrlArrList                           //图片地址列表
         }
         //传视频时
         if(this.isShowUpVideo){
@@ -165,6 +174,7 @@
       restImg(){
         this.imgBaseList='';
         this.isShowUpImg=false;
+        this.imgUrlList={};
         this.$refs.uploadImg.clearFiles();//清空图片列表
       },
       //取消上传图片
@@ -212,30 +222,9 @@
       removeVideo(file,filelist){
         this.restVideo();
       },
-      //获取图片base列表  添加删除时获取
-      getImgBaseList(){
-        let filelist=this.$refs.uploadImg.uploadFiles;
-        let arr=[]
-        let str=""
-        //遍历读取base64编码
-        if(filelist.length){
-          filelist.forEach((file, i) => {
-            lrz(file.raw, { quality: file.size > 1024 * 200 ? 0.7 : 1 })
-            .then(rst => {
-              arr.push(rst.base64);
-              this.imgBaseList=arr.join('|')
-            
-            })
-            .always(function() {
-              // 清空文件上传控件的值
-              //e.target.value = null;
-            });
-          }); 
-        }     
-      }, 
-      //图片上传前检测
+
+      //图片加载前检测
       beforePictureUpload(file) {
-        console.log(file)
         let isJPG = file.type === "image/jpeg" || file.type === "image/png";
         // let isNumOk = filelist.file.length<10?true:false;
         //const isLt5M = file.size / 1024 / 1024 < 5;
@@ -247,10 +236,39 @@
         //}
         return isJPG; //&& isLt5M;
       },
+      //上传图片预览
+      imgPreview(file){
+        this.dialogVisible=true
+        this.dialogImageUrl=file.url
+      },
+      //自动获取图片base64,并上传阿里云
+      getImgBaseList(el){
+        //读取base64编码  
+        lrz(el.file, { quality: el.size > 1024 * 200 ? 0.7 : 1 })
+        .then(rst => {
+          let para={
+            b64str:[{
+                Value:rst.base64,
+                ID:el.file.uid
+              }],
+          }
+          this.$API.postDynamicImg(para).then((res)=>{
+            this.imgUrlList[el.file.uid]=res[el.file.uid]   
+          }).catch()
+        })
+        .always(function() {
+          // 清空文件上传控件的值
+          //e.target.value = null;
+        });
+      }, 
+    
+      //删除图片 只删除imgurl
+      changeImgUrlList(el){
+        delete this.imgUrlList[el.uid]
+      },
 
       //视频上传前检测
       beforeVideoUpload(file){
-        console.log(file)
         //限制20m
         let isSizeOk=file.size<20*1024*1024?true:false
         if(!isSizeOk){
@@ -340,11 +358,14 @@
         this.isShowUpImg=false;
         this.isShowUpVideo=false;
         this.at_meid=[];
-        this.restVideo(); //重置视频信息
+        this.restVideo(); 
+        this.restImg();   
       },
+
       //发布
       postNewClassDynamic(){
         if(this.content){
+          this.imgUrlArrList=Object.values(this.imgUrlList)   //获取地址列表
           this.isLoading=true;
           this.$API.postNewClassDynamic(this.options).then((res)=>{
             this.isLoading=false;
