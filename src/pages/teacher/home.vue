@@ -149,9 +149,10 @@ export default {
         })
       } else {
         this.data = this.$store.state.currentUser
-        if (this.data.ExtendInfo.Course.CourseName) {
-          this.data.Course = this.data.ExtendInfo.Course.CourseName
-        }
+        this.data.Course = this.data.Course
+        // if (this.data.ExtendInfo.Course) {
+        //   this.data.Course = this.data.ExtendInfo.Course
+        // }
       }
     },
     startEditPw() {
