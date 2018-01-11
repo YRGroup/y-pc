@@ -14,6 +14,7 @@
         <el-form-item>
           <el-upload multiple class="uploadBox"
           accept="image/*"
+          :file-list="imgUrlList"
           :auto-upload="true"
           :action="imgAction"
           :http-request="getImgBaseList"
@@ -85,10 +86,9 @@
         videoStateNum:0,
         studentList:[],
         imgBaseList:'', //已传图片的base64集合
-        imgUrlList:{},  //key:value
-        imgUrlArrList:[], //提交的地址列表
         dialogVisible:false,
-        dialogImageUrl:''
+        dialogImageUrl:'',
+        imgUrlList: []
       }
     },
     computed:{
@@ -117,7 +117,14 @@
         }
         return options
       },
-      
+      //上传的地址列表  只有地址
+      imgUrlArrList(){
+        let arr=[]
+        this.imgUrlList.forEach(el => {
+          arr.push(el.url)
+        });
+        return arr
+      },
       //获取用户角色名
       role(){
         return this.$store.getters.role
@@ -174,7 +181,7 @@
       restImg(){
         this.imgBaseList='';
         this.isShowUpImg=false;
-        this.imgUrlList={};
+        this.imgUrlList=[];
         this.$refs.uploadImg.clearFiles();//清空图片列表
       },
       //取消上传图片
@@ -253,7 +260,7 @@
               }],
           }
           this.$API.postDynamicImg(para).then((res)=>{
-            this.imgUrlList[el.file.uid]=res[el.file.uid]   
+            this.imgUrlList.push({name: el.file.name,url:res[el.file.uid]})
           }).catch((error)=>{
             console.log(error)
           })
@@ -265,8 +272,8 @@
       }, 
     
       //删除图片 只删除imgurl
-      changeImgUrlList(el){
-        delete this.imgUrlList[el.uid]
+      changeImgUrlList(el,files){
+        this.imgUrlList=files
       },
 
       //视频上传前检测
@@ -365,7 +372,6 @@
       //发布
       postNewClassDynamic(){
         if(this.content){
-          this.imgUrlArrList=Object.values(this.imgUrlList)   //获取地址列表
           this.isLoading=true;
           this.$API.postNewClassDynamic(this.options).then((res)=>{
             this.isLoading=false;
