@@ -103,7 +103,7 @@
       <load-more @click.native="loadMore" :noMoreData="noMoreData"></load-more>
     </div>
 
-    <el-dialog :visible.sync="showImgBig" class="bigImg" width="40%" top="10vh">
+    <el-dialog :visible.sync="showImgBig" class="bigImg" width="50%" top="10vh">
       <img :src="imgBig">
     </el-dialog>
 
