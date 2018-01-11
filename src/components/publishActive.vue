@@ -244,7 +244,7 @@
       //自动获取图片base64,并上传阿里云
       getImgBaseList(el){
         //读取base64编码  
-        lrz(el.file, { quality: el.size > 1024 * 200 ? 0.7 : 1 })
+        lrz(el.file, { quality: el.file.size> 1024*200 ? 0.7 : 1 })
         .then(rst => {
           let para={
             b64str:[{
@@ -254,7 +254,9 @@
           }
           this.$API.postDynamicImg(para).then((res)=>{
             this.imgUrlList[el.file.uid]=res[el.file.uid]   
-          }).catch()
+          }).catch((error)=>{
+            console.log(error)
+          })
         })
         .always(function() {
           // 清空文件上传控件的值
@@ -355,8 +357,6 @@
       resetForm(){
         this.$refs.uploadImg.clearFiles();//清空图片列表
         this.content='';
-        this.isShowUpImg=false;
-        this.isShowUpVideo=false;
         this.at_meid=[];
         this.restVideo(); 
         this.restImg();   
