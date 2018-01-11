@@ -14,6 +14,7 @@
         <el-form-item>
           <el-upload multiple class="uploadBox"
           accept="image/*"
+          :file-list="imgUrlList"
           :auto-upload="true"
           :action="imgAction"
           :http-request="getImgBaseList"
@@ -84,11 +85,9 @@
         videoState:'',   //视频上传状态
         videoStateNum:0,
         studentList:[],
-        imgBaseList:'', //已传图片的base64集合
-        imgUrlList:{},  //key:value
-        imgUrlArrList:[], //提交的地址列表
         dialogVisible:false,
-        dialogImageUrl:''
+        dialogImageUrl:'',
+        imgUrlList: []
       }
     },
     computed:{
@@ -117,7 +116,14 @@
         }
         return options
       },
-      
+      //上传的地址列表  只有地址
+      imgUrlArrList(){
+        let arr=[]
+        this.imgUrlList.forEach(el => {
+          arr.push(el.url)
+        });
+        return arr
+      },
       //获取用户角色名
       role(){
         return this.$store.getters.role
@@ -172,14 +178,13 @@
       },
       //重置图片上传状态
       restImg(){
-        this.imgBaseList='';
         this.isShowUpImg=false;
-        this.imgUrlList={};
+        this.imgUrlList=[];
         this.$refs.uploadImg.clearFiles();//清空图片列表
       },
       //取消上传图片
       delUpImg(callBack){
-        if(this.imgBaseList){
+        if(this.imgUrlList.length){
           this.$confirm('确定放弃上传图片吗？','提示',{
             confirmButtonText: '确定',
             cancelButtonText: '取消',
@@ -244,7 +249,7 @@
       //自动获取图片base64,并上传阿里云
       getImgBaseList(el){
         //读取base64编码  
-        lrz(el.file, { quality: el.size > 1024 * 200 ? 0.7 : 1 })
+        lrz(el.file, { quality: el.file.size> 1024*200 ? 0.7 : 1 })
         .then(rst => {
           let para={
             b64str:[{
@@ -253,8 +258,10 @@
               }],
           }
           this.$API.postDynamicImg(para).then((res)=>{
-            this.imgUrlList[el.file.uid]=res[el.file.uid]   
-          }).catch()
+            this.imgUrlList.push({name: el.file.name,url:res[el.file.uid]})
+          }).catch((error)=>{
+            console.log(error)
+          })
         })
         .always(function() {
           // 清空文件上传控件的值
@@ -263,8 +270,8 @@
       }, 
     
       //删除图片 只删除imgurl
-      changeImgUrlList(el){
-        delete this.imgUrlList[el.uid]
+      changeImgUrlList(el,files){
+        this.imgUrlList=files
       },
 
       //视频上传前检测
@@ -355,8 +362,6 @@
       resetForm(){
         this.$refs.uploadImg.clearFiles();//清空图片列表
         this.content='';
-        this.isShowUpImg=false;
-        this.isShowUpVideo=false;
         this.at_meid=[];
         this.restVideo(); 
         this.restImg();   
@@ -365,7 +370,6 @@
       //发布
       postNewClassDynamic(){
         if(this.content){
-          this.imgUrlArrList=Object.values(this.imgUrlList)   //获取地址列表
           this.isLoading=true;
           this.$API.postNewClassDynamic(this.options).then((res)=>{
             this.isLoading=false;

@@ -275,6 +275,7 @@ export default {
       this.data.Headimgurl = res.Content[0] + '?x-oss-process=style/f300'
     },
     handleHonorSuccess(res, file) {
+      console.log(res)
       this.addPersonalHonorData.ImgPath = res.Content[0] + '?x-oss-process=style/f300'
     },
     addPersonalHonor() {
