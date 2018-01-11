@@ -85,7 +85,6 @@
         videoState:'',   //视频上传状态
         videoStateNum:0,
         studentList:[],
-        imgBaseList:'', //已传图片的base64集合
         dialogVisible:false,
         dialogImageUrl:'',
         imgUrlList: []
@@ -179,14 +178,13 @@
       },
       //重置图片上传状态
       restImg(){
-        this.imgBaseList='';
         this.isShowUpImg=false;
         this.imgUrlList=[];
         this.$refs.uploadImg.clearFiles();//清空图片列表
       },
       //取消上传图片
       delUpImg(callBack){
-        if(this.imgBaseList){
+        if(this.imgUrlList.length){
           this.$confirm('确定放弃上传图片吗？','提示',{
             confirmButtonText: '确定',
             cancelButtonText: '取消',
