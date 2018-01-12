@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="card">
     <div class="panel" v-show="showTool">
       <div class="toolBar">
         <span class="label">类别：</span>
@@ -23,7 +23,8 @@
         </el-button>
       </div>
     </div>
-    <div class="panel">
+    <div class="panel videoContent">
+      <no-data v-show="!data.length"></no-data>
       <div class="course-list">
         <ul class="clearfix">
           <li class="container" v-for="(i,index) in data" :key="index">
@@ -55,41 +56,43 @@
         </ul>
       </div>
     
-    <div class="pagination">
-              <el-pagination :current-Page="currentPage" :page-size="pageSize" 
-                  layout="prev, pager, next" :total="16*currentPage+40"
-                  @size-change="sizeChange" @current-change="pageIndexChange">
-              </el-pagination>
-            </div>
-         </div >  
+      <div class="pagination" v-show="data.length">
+        <el-pagination :current-Page="currentPage" :page-size="pageSize" 
+            layout="prev, pager, next" :total="16*currentPage+40"
+            @size-change="sizeChange" @current-change="pageIndexChange">
+        </el-pagination>
+      </div>
+    </div >  
   </div>
 </template>
 
 <script>
+import noData from '@//components/noData'
 export default {
+  components: { noData },
   data() {
     return {
       filter: {
-        key: '',
-        cateid: '',
-        grade: ''
+        key: "",
+        cateid: "",
+        grade: ""
       },
       gradeList: [],
       categoryList: [],
       data: [],
       currentPage: 1,
-      pageSize: 12,
-    }
+      pageSize: 12
+    };
   },
   filters: {
     formatTime(val) {
       if (val) {
-        var theTime = parseInt(val)
-        var theTime1 = 0
-        var theTime2 = 0
+        var theTime = parseInt(val);
+        var theTime1 = 0;
+        var theTime2 = 0;
         if (theTime > 60) {
-          theTime1 = parseInt(theTime / 60)
-          theTime = parseInt(theTime % 60)
+          theTime1 = parseInt(theTime / 60);
+          theTime = parseInt(theTime % 60);
           if (theTime1 > 60) {
             theTime2 = parseInt(theTime1 / 60);
             theTime1 = parseInt(theTime1 % 60);
@@ -102,136 +105,141 @@ export default {
         if (theTime2 > 0) {
           result = "" + parseInt(theTime2) + "小时" + result;
         }
-        return result
+        return result;
       } else {
-        return '-'
+        return "-";
       }
     }
   },
   computed: {
     role() {
-      return this.$store.getters.role
+      return this.$store.getters.role;
     },
     showTool() {
-      if (this.$route.name !== 'video') {
-        return false
+      if (this.$route.name !== "video") {
+        return false;
       } else {
-        return true
+        return true;
       }
     },
     isAdmin() {
-      if (this.$route.name === 'teacher') {
-        return true
+      if (this.$route.name === "teacher") {
+        return true;
       } else {
-        return false
+        return false;
       }
     }
   },
   methods: {
-    sizeChange: function (pageSize) {
-            this.currentPage=currentPage
-            this.pageSize = pageSize;
-            this.getData();
-        },
-         pageIndexChange: function (currentPage) {
-            this.currentPage = currentPage;
-            this.getData();
-        },
+    sizeChange: function(pageSize) {
+      this.currentPage = currentPage;
+      this.pageSize = pageSize;
+      this.getData();
+    },
+    pageIndexChange: function(currentPage) {
+      this.currentPage = currentPage;
+      this.getData();
+    },
     getData() {
-       let para = {}
-      para.currentPage = this.currentPage
-      this.data = []
-      if (this.$route.name == 'teacher') {
-        this.getMyVideoList()
+      let para = {};
+      para.currentPage = this.currentPage;
+      this.data = [];
+      if (this.$route.name == "teacher") {
+        this.getMyVideoList();
       } else {
-        this.getVideoList()
+        this.getVideoList();
       }
     },
     categoryName(id) {
       this.gradeName.forEach(element => {
-        if(element.ID ==  id){
-          return element.GradeName
+        if (element.ID == id) {
+          return element.GradeName;
         }
-      })
+      });
     },
     getMyVideoList() {
       this.$API.getMyVideoList().then(res => {
-        let myvideo = res.length
-        this.$store.state.numLength.video = myvideo
-        this.data = res
-      })
+        let myvideo = res.length;
+        this.$store.state.numLength.video = myvideo;
+        this.data = res;
+      });
     },
     getVideoList() {
-      let para = this.filter
-      para.currentPage=this.currentPage
-      para.pageSize=this.pageSize
+      let para = this.filter;
+      para.currentPage = this.currentPage;
+      para.pageSize = this.pageSize;
       this.$API.getVideoList(para).then(res => {
-        res.forEach( element => {
-        })
-        this.data = res
-      })
+        this.data = res;
+      });
     },
     openVideo(val) {
-      this.$router.push('/player?id=' + val.VideoId)
-      this.$store.commit('setCurrentVideoInfo', val)
+      this.$router.push("/player?id=" + val.VideoId);
+      this.$store.commit("setCurrentVideoInfo", val);
     },
     deleteVideo(id) {
       let para = {
         VideoId: id
-      }
-      this.$confirm('确定要删除吗?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.$API.deleteVideo(para).then(res => {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
-          this.getData()
-        }).catch(err => {
-          this.$message.error(err)
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        })
+      };
+      this.$confirm("确定要删除吗?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
       })
+        .then(() => {
+          this.$API
+            .deleteVideo(para)
+            .then(res => {
+              this.$message({
+                type: "success",
+                message: "删除成功!"
+              });
+              this.getData();
+            })
+            .catch(err => {
+              this.$message.error(err);
+            });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
     },
     getGradeList() {
       this.$API.getGradeList().then(res => {
-        this.gradeList = res
-        this.gradeList.unshift({ GradeName: '全部', ID: -1 })
+        this.gradeList = res;
+        this.gradeList.unshift({ GradeName: "全部", ID: -1 });
       });
     },
     getCategoryList() {
       this.$API.getCategeryList().then(res => {
-        this.categoryList = res
-        this.categoryList.unshift({ CateName: '全部', CateID: -1 })
+        this.categoryList = res;
+        this.categoryList.unshift({ CateName: "全部", CateID: -1 });
       });
-    },
+    }
   },
   created() {
     this.getData();
-    this.$store.dispatch('getCurrentClassInfo')
+    this.$store.dispatch("getCurrentClassInfo");
   },
   mounted() {
     this.getGradeList();
     this.getCategoryList();
   },
   watch: {
-    '$route': 'getData'
+    $route: "getData"
   }
-}
+};
 </script>
 
 <style lang="less" scoped>
-@import '../../style/theme.less';
-
-.pagination{
-  border-top:solid 1px #fffeff;
+@import "../../style/theme.less";
+.videoContent {
+  min-height: calc(~"100vh - 320px");
+}
+.pagination {
+  border-top: solid 1px #fffeff;
   text-align: center;
   margin-top: 20px;
 }
@@ -283,7 +291,7 @@ export default {
     margin: 0 0 10px 24px;
     width: 230px;
     height: 230px;
-    transition: .3s all linear;
+    transition: 0.3s all linear;
     overflow: hidden;
     .couse-card {
       .top {
@@ -298,7 +306,7 @@ export default {
           width: 100%;
           height: 100%;
           border-radius: 6px;
-          transition: transform .3s linear 0s;
+          transition: transform 0.3s linear 0s;
           &:hover {
             transform: scale(1.05);
           }
@@ -319,7 +327,7 @@ export default {
           position: relative;
           width: 220px;
           overflow: hidden;
-          text-overflow:ellipsis;
+          text-overflow: ellipsis;
           white-space: nowrap;
         }
         .info {
@@ -330,14 +338,16 @@ export default {
           .iconfont {
             margin-right: 5px;
           }
-          span:nth-child(1){
+          span:nth-child(1) {
             float: left;
           }
-          .time,.subject,.grade{
+          .time,
+          .subject,
+          .grade {
             float: right;
           }
-          .grade{
-            margin:0 10px;
+          .grade {
+            margin: 0 10px;
           }
         }
         .bottom {
@@ -361,5 +371,4 @@ export default {
   display: none;
   font-size: 12px;
 }
-
 </style>

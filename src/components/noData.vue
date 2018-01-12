@@ -18,8 +18,8 @@ export default {
 
 <style lang="less" scoped>
 .noData {
-    min-height: 600px;
+    min-height: 500px;
     text-align: center;
-    line-height: 600px;
+    line-height: 500px;
 }
 </style>
