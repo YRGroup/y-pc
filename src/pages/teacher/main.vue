@@ -166,7 +166,7 @@
 import teacherHomework from '@/pages/teacher/components/homework'
 import myPost from '@/pages/sys/post'
 import msg from '@/pages/contact/main'
-import teacherVideo from '@/pages/video/list'
+import teacherVideo from '@/pages/teacher/video'
 
 export default {
   name: 'app',

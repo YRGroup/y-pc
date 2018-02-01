@@ -27,7 +27,7 @@
       <no-data v-show="!data.length"></no-data>
       <div class="course-list">
         <ul class="clearfix">
-          <li class="container" v-for="(i,index) in data" :key="index">
+          <li class="container" v-for="(i,index) in currentData" :key="index">
             <a class="couse-card">
               <div class="top" @click="openVideo(i)">
                 <img class="banner" :src="i.CoverUrl||'http://img.mukewang.com/576b7afb00019e4906000338-240-135.jpg'" style="display: inline;">
@@ -81,7 +81,7 @@ export default {
       categoryList: [],
       data: [],
       currentPage: 1,
-      pageSize: 12
+      pageSize: 9
     };
   },
   filters: {
@@ -128,6 +128,11 @@ export default {
       } else {
         return false;
       }
+    },
+    currentData() {
+      let start = (this.currentPage - 1) * this.pageSize
+      let end = this.currentPage * this.pageSize
+      return this.data.slice(start, end)
     }
   },
   methods: {
@@ -138,7 +143,7 @@ export default {
     },
     pageIndexChange: function(currentPage) {
       this.currentPage = currentPage;
-      this.getData();
+      // this.getData();
     },
     getData() {
       let para = {};
