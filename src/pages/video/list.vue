@@ -25,7 +25,7 @@
     </div>
     <div class="panel videoContent">
       <no-data v-show="!data.length"></no-data>
-      <div class="course-list">
+      <div class="course-list" v-show="data.length">
         <ul class="clearfix">
           <li class="container" v-for="(i,index) in data" :key="index">
             <a class="couse-card">
@@ -58,7 +58,7 @@
     
       <div class="pagination" v-show="data.length">
         <el-pagination :current-Page="currentPage" :page-size="pageSize" 
-            layout="prev, pager, next" :total="data.length"
+            layout="prev, next" :total="data.length"
             @size-change="sizeChange" @current-change="pageIndexChange">
         </el-pagination>
       </div>
