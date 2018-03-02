@@ -51,10 +51,11 @@ export default {
         padding: 2px 0;
       }
       p:nth-of-type(1){
-        font-size: 15px; 
+        font-size: 16px; 
         color: @main;
       }
       p:nth-of-type(2){
+        font-size: 10px;
         color: @grey;
       }
       p:nth-of-type(3){
