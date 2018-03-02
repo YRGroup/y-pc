@@ -19,8 +19,7 @@
             <num-length></num-length>
           <div class="btn">
             <el-button  type="primary" plain size="mini" @click.native="InviteParent=true">邀请家长</el-button>
-            <el-button  type="warning" plain size="mini" @click.native="$router.push('/parent/edit')">修改资料</el-button>
-            <el-button class="logou" size="mini"  type="text" @click.native="logout">退出</el-button>
+            <el-button  type="warning" plain size="mini" @click.native="logout">退出登陆</el-button>
           </div>
         </div>
       </div>

@@ -155,8 +155,8 @@
         </div>
       </el-tab-pane>
 
-      <el-tab-pane name="notice" v-if="!$route.query.id">
-        <span class="title" slot="label">通知</span>
+      <el-tab-pane name="notice">
+        <span class="title" slot="label">校园通知</span>
         <div class="content">
           <notice-list></notice-list>
         </div>

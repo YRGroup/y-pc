@@ -3,7 +3,6 @@
     <h3><i class="iconfont">&#xe69b;</i>我的班级</h3>
     <el-select v-model="currentID" @change="changeClass" v-if="$store.state.currentUser">
       <el-option v-for="item in $store.state.currentUser.Classes" 
-      :key="item.ClassID" 
       :label="item.ClassName+'（'+item.RoleName+'）'" 
       :value="item.ID">
       </el-option>

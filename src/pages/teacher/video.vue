@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <div class="panel" v-show="showTool">
+    <div class="panel" v-if="showTool">
       <div class="toolBar">
         <span class="label">类别：</span>
         <el-select v-model="filter.cateid" size="small" placeholder="请选择" style="width:120px">
@@ -293,7 +293,7 @@ export default {
   padding-left: 10px;
   .container {
     float: left;
-    margin: 0 0 10px 24px;
+    margin: 0 0 10px 15px;
     width: 230px;
     height: 230px;
     transition: 0.3s all linear;

@@ -9,7 +9,7 @@
           <div class="itemList">
             <div class="header">
               <i class="iconfont">&#xe668;</i>个人资料
-              <!-- <span class="setting"><el-button type="success" :plain="true" @click.native="$router.push('/parent/edit')">修改</el-button></span> -->
+              <span class="setting"><el-button type="success"  size="mini" :plain="true" @click.native="$router.push('/parent/edit')">修改</el-button></span>
             </div>
             <div class="item-content">
               <p>
@@ -32,7 +32,7 @@
               <div class="header">
                 <i class="iconfont">&#xe607;</i>学生资料
                 <span class="setting" v-show="editStatus">
-                  <el-button type="success" :plain="true" @click.native="$router.push('/student/edit')">修改</el-button>
+                  <el-button type="success"  size="mini" :plain="true" @click.native="$router.push('/student/edit')">修改</el-button>
                 </span>
               </div>
               <div class="item-content">
@@ -84,7 +84,12 @@
         <span class="title" slot="label">动态</span>
           <y-post></y-post>
       </el-tab-pane>
-
+      <el-tab-pane name="notice">
+        <span class="title" slot="label">校园通知</span>
+        <div class="content">
+          <notice-list></notice-list>
+        </div>
+      </el-tab-pane>
       <!-- <el-tab-pane name="addStudent">
           <span class="title" slot="label">添加学生</span>
           <div class="content">
@@ -100,12 +105,13 @@
 
 <script>
 import addStudent from '@/pages/parent/addStudent'
+import noticeList from '@/components/noticeList'
 import msg from '@/pages/contact/main'
 import YPost from '@/pages/sys/post'
 
 export default {
   name: 'parent',
-  components: { addStudent, msg, YPost },
+  components: { addStudent, msg, YPost,noticeList },
   data() {
     return {
       activeTab: 'main',
