@@ -191,7 +191,8 @@ header {
    background-size:cover;
   // background: #f3f0e0;
   padding: 20px 0;
-  min-height: calc(~"100vh - 208px")
+  height: calc(~"100vh - 208px");
+  overflow: auto;
 }
 
 .inview {

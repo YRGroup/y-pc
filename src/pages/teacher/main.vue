@@ -1,9 +1,6 @@
 <template>
   <div>
     <el-tabs v-model="activeTab" type="border-card" class="tabs leftCon">
-
-
-
       <el-tab-pane name="profile" v-if="!$route.query.id">
         <span class="title" slot="label">个人资料</span>
         <div class="content info">
@@ -158,19 +155,27 @@
         </div>
       </el-tab-pane>
 
+      <el-tab-pane name="notice" v-if="!$route.query.id">
+        <span class="title" slot="label">通知</span>
+        <div class="content">
+          <notice-list></notice-list>
+        </div>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>
 import teacherHomework from '@/pages/teacher/components/homework'
+import noticeList from '@/components/noticeList'
 import myPost from '@/pages/sys/post'
 import msg from '@/pages/contact/main'
 import teacherVideo from '@/pages/teacher/video'
 
+
 export default {
   name: 'app',
-  components: { teacherHomework, myPost, msg, teacherVideo },
+  components: { teacherHomework, myPost, msg, teacherVideo,noticeList },
   data() {
     return {
       activeTab: 'profile',
@@ -225,6 +230,8 @@ export default {
     padding: 10px 30px 0 30px;
   }
   .content {
+    height:calc(100vh - 39px);
+    overflow: auto;
     line-height: 2em;
     .itemList {
       padding: 30px 20px;

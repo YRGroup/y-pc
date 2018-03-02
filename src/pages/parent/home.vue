@@ -16,6 +16,7 @@
             <i class="iconfont">&#xe60b;</i> {{$store.state.currentUser.Mobilephone}}</span>
           <span>
             <i class="iconfont">&#xe66c;</i> {{$store.getters.role}}</span>
+            <num-length></num-length>
           <div class="btn">
             <el-button  type="primary" plain size="mini" @click.native="InviteParent=true">邀请家长</el-button>
             <el-button  type="warning" plain size="mini" @click.native="$router.push('/parent/edit')">修改资料</el-button>
@@ -78,8 +79,10 @@
 
 <script>
 import changeClass from '@/components/changeClass'
+import numLength from '@/components/numLength'
+
 export default {
-  components: {changeClass},
+  components: {changeClass,numLength},
   data() {
     return {
       InviteParent: false,

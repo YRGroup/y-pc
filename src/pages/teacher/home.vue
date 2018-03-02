@@ -1,14 +1,9 @@
 <template>
   <div>
-
     <div class="left">
-
       <router-view></router-view>
-
     </div>
-
     <div class="right">
-
       <div class="ques-wrap card">
         <div class="ques-info">
           <img :src="data.Headimgurl">
@@ -20,23 +15,7 @@
               <i class="iconfont">&#xe618;</i>{{data.Mobilephone}}</span>
           </p>
         </div>
-        <ul class="num-info">
-          <li>动态
-            <span>{{$store.state.numLength.post}}</span>
-          </li>
-          <li>作业
-            <span>{{$store.state.numLength.homework}}</span>
-          </li>
-          <li>视频
-            <span>{{$store.state.numLength.video}}</span>
-          </li>
-          <li>消息
-            <span>{{$store.state.numLength.msg}}</span>
-          </li>
-          <li>通知
-            <span>{{$store.state.numLength.notice}}</span>
-          </li>
-        </ul>
+        <num-length></num-length>
         <div class="content">
           <div class="btn-info" v-if="!$route.query.id">
             <el-button plain type="primary" @click.native="startEditPw" size="mini">修改密码</el-button>
@@ -121,8 +100,9 @@
 
 <script>
 import changeClass from '@/components/changeClass'
+import numLength from '@/components/numLength'
 export default {
-  components: {changeClass},
+  components: {changeClass,numLength},
   data() {
     return {
       data: {
@@ -196,6 +176,7 @@ export default {
         this.$router.push('/login')
       })
     },
+    
   },
   created() {
     this.getData()
