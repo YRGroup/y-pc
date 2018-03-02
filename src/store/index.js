@@ -43,7 +43,8 @@ const store = new Vuex.Store({
       post: 0,
       homework: 0,
       video: 0,
-      msg: 0
+      msg: 0,
+      notice:0
     },
     studentList: [],
     teacherList: [],
@@ -243,6 +244,18 @@ const store = new Vuex.Store({
     setCourseList(state, val) {
       state.courseList = val
     },
+    setNumLength(state,obj){
+      // post: 0,
+      // homework: 0,
+      // video: 0,
+      // msg: 0
+      //notice
+      if(obj.post) state.numLength.post=obj.post;
+      if(obj.homework) state.numLength.homework=obj.homework;
+      if(obj.video) state.numLength.video=obj.video;
+      if(obj.msg) state.numLength.msg=obj.msg;
+      if(obj.notice) state.numLength.notice=obj.notice;
+    }
   },
   actions: {
     setApiUrl({

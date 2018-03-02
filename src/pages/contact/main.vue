@@ -42,7 +42,7 @@ export default {
     getData() {
       this.$API.getMsgList(this.userId).then(res => {
         let msg = res.length
-        this.$store.state.numLength.msg = msg
+        this.$store.commit('setNumLength',{msg:msg})
         this.data = res
         let msgdata = this.data
         for (var i = 0; i < msgdata.length; i++) {

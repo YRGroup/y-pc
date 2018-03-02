@@ -48,7 +48,7 @@ export default {
       para.pagesize = this.pageSize
       this.$API.getAllTeacherHomework(para).then(res => {
         let homework = res.length
-        this.$store.state.numLength.homework = homework
+        this.$store.commit('setNumLength',{homework:homework})
         if (res.length) {
           res.forEach((element) => {
             this.data.push(element)

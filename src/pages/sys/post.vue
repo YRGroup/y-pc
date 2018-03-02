@@ -67,7 +67,7 @@ export default {
       para.pagesize = this.pageSize
       this.$API.getAllUserDynamic(para).then(res => {
         let post = res.length
-        this.$store.state.numLength.post = post
+          this.$store.commit('setNumLength',{post:post})
         if (res.length) {
           res.forEach((element) => {
             this.data.push(element)

@@ -71,6 +71,14 @@ API.replyMsg = (msgdata) => {
     })
   })
 }
-// testing
-
+//获取通知列表
+API.getNoticeList = (day,count) => {
+  return new Promise((resolve, reject) => {
+    axios.get(_APIurl+'/api/Notify/GetNotifyList').then((res)=>{
+      resolve(res.data.Content)
+    }).catch((err)=>{
+      reject(err)
+    })
+  })
+}
 export default API

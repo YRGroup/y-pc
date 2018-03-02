@@ -33,6 +33,9 @@
           <li>消息
             <span>{{$store.state.numLength.msg}}</span>
           </li>
+          <li>通知
+            <span>{{$store.state.numLength.notice}}</span>
+          </li>
         </ul>
         <div class="content">
           <div class="btn-info" v-if="!$route.query.id">

@@ -160,7 +160,7 @@ export default {
     getMyVideoList() {
       this.$API.getMyVideoList().then(res => {
         let myvideo = res.length;
-        this.$store.state.numLength.video = myvideo;
+        this.$store.commit('setNumLength',{video:myvideo})
         this.data = res;
       });
     },
