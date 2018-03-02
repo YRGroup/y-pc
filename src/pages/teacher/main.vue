@@ -230,8 +230,6 @@ export default {
     padding: 10px 30px 0 30px;
   }
   .content {
-    height:calc(100vh - 39px);
-    overflow: auto;
     line-height: 2em;
     .itemList {
       padding: 30px 20px;
