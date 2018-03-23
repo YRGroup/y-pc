@@ -18,9 +18,11 @@
       
           <el-tab-pane label="成绩汇总" name="成绩汇总">
             <div class="info">
-              <!-- <span>总分：<b>500</b></span> -->
+              <span>总分：<b>500</b></span>
+              <div class="btn">
+                <a :href="'/api/class/EaxmExportExcel?examid='+$route.params.examId" target="_blank"> <el-button plain size="small" type="warning" @click="ExportExcel" >导出Excel</el-button></a>
+              </div>          
             </div>
-      
             <el-table :data="summaryScore" height="600" border style="width: 100%">
               <el-table-column prop="StudentID" label="学号" width="100" align="center">
               </el-table-column>
@@ -41,7 +43,7 @@
               <div class="btn" v-show="allEdit">
                 <!-- <el-button size="small" type="warning" @click="EaxmImport" >导入Excel</el-button> -->
                 <el-upload class="exam_import_btn"  :action="'/api/class/EaxmImport?examid='+$route.params.examId+'&courseid='+i.CourseID" 
-                 :on-success="EaxmImportSuccess"  :show-file-list="false">
+                :on-success="EaxmImportSuccess"  :show-file-list="false">
                 <el-button plain size="small" type="primary">导入Excel</el-button>
               </el-upload>
                 <a :href="'/api/class/EaxmExportExcel?examid='+$route.params.examId+'&courseid='+i.CourseID" target="_blank"> <el-button plain size="small" type="warning" @click="ExportExcel" >导出Excel</el-button></a>
