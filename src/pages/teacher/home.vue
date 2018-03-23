@@ -10,7 +10,7 @@
           <span class="name">{{data.TrueName}}</span>
           <p class="msg-info">
             <span>
-              <i class="iconfont">&#xe690;</i>{{data.Course || '暂无'}}</span>
+              <i class="iconfont">&#xe690;</i>{{data.ExtendInfo.Course || '暂无'}}</span>
             <span>
               <i class="iconfont">&#xe618;</i>{{data.Mobilephone}}</span>
           </p>
