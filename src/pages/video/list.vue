@@ -58,7 +58,7 @@
     
       <div class="pagination" v-show="data.length">
         <el-pagination :current-Page="currentPage" :page-size="pageSize" 
-            layout="prev, next" :total="data.length"
+            layout="prev,pager,next" :total="total"
             @size-change="sizeChange" @current-change="pageIndexChange">
         </el-pagination>
       </div>
@@ -81,7 +81,8 @@ export default {
       categoryList: [],
       data: [],
       currentPage: 1,
-      pageSize: 12
+      pageSize: 12,
+      total:0
     };
   },
   filters: {
@@ -144,11 +145,7 @@ export default {
       let para = {};
       para.currentPage = this.currentPage;
       this.data = [];
-      if (this.$route.name == "teacher") {
-        this.getMyVideoList();
-      } else {
-        this.getVideoList();
-      }
+      this.getVideoList();
     },
     categoryName(id) {
       this.gradeName.forEach(element => {
@@ -157,19 +154,13 @@ export default {
         }
       });
     },
-    getMyVideoList() {
-      this.$API.getMyVideoList().then(res => {
-        let myvideo = res.length;
-        this.$store.commit('setNumLength',{video:myvideo})
-        this.data = res;
-      });
-    },
     getVideoList() {
       let para = this.filter;
       para.currentPage = this.currentPage;
       para.pageSize = this.pageSize;
       this.$API.getVideoList(para).then(res => {
-        this.data = res;
+        this.data = res.ModelList;
+        this.total=res.Total
       });
     },
     openVideo(val) {
@@ -325,7 +316,7 @@ export default {
           text-overflow: ellipsis;
           max-height: 44px;
           position: relative;
-          width: 220px;
+          width: 200px;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
