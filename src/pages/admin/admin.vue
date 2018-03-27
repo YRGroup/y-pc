@@ -67,7 +67,7 @@
       <el-form label-width="80px" v-show="type==2">
         <div>
           <el-form-item label="">
-            <el-upload ref="upload" :action="$store.getters._APIurl+'/api/ImportStudent/Import'" :on-success="handleSuccessS" :auto-upload="false">
+            <el-upload ref="upload" :action="$store.getters._APIurl+'/api/ImportStudent/Import'" :before-upload="beforeAvatarUpload" :on-success="handleSuccessS" :auto-upload="false">
               <el-button slot="trigger" size="mini" plain type="primary">上传文件</el-button>
               <a style="text-decoration:underline" class="xlsDown" :href="$store.getters._APIurl+'/import/student_template.xls'">下载模板</a>
               <div slot="tip" class="el-upload__tip">请先下载模板，按照格式编辑后在此上传，只能上传xls/xlsx文件</div>
@@ -140,7 +140,7 @@
       <el-form label-width="80px" v-show="type==2">
         <div>
           <el-form-item>
-            <el-upload ref="upload" :action="$store.getters._APIurl+'/api/ImportTeacher/Import'" :on-success="handleSuccessT" :auto-upload="false">
+            <el-upload ref="upload" :action="$store.getters._APIurl+'/api/ImportTeacher/Import'" :before-upload="beforeAvatarUpload"  :on-success="handleSuccessT" :auto-upload="false">
               <el-button slot="trigger" size="mini" plain type="primary">上传文件</el-button>
               <a style="text-decoration:underline" class="xlsDown" :href="$store.getters._APIurl+'/import/teacher_template.xls'">下载模板</a>
               <!-- <el-button slot="trigger" size="small">下载模板</el-button> -->
@@ -582,6 +582,15 @@ export default {
           this.$message.error(err.msg)
         })
       }).catch(_ => {});
+    },
+    beforeAvatarUpload(file) {
+      let Xls = file.name.split('.');
+      if(Xls[1] === 'xls'||Xls[1] === 'xlsx'){
+          return file
+      }else {
+          this.$message.error('上传文件只能是 xls/xlsx 格式!')
+          return false
+      }
     },
     handleSuccessS(res,file,fileList) {
       if(res.Status === 1){
