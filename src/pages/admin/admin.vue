@@ -67,7 +67,7 @@
       <el-form label-width="80px" v-show="type==2">
         <div>
           <el-form-item label="">
-            <el-upload :action="$store.getters._APIurl+'/import/ImportStudent.aspx'" :on-success="handleSuccess">
+            <el-upload ref="upload" :action="$store.getters._APIurl+'/api/ImportStudent/Import'" :on-success="handleSuccessS" :auto-upload="false">
               <el-button slot="trigger" size="mini" plain type="primary">上传文件</el-button>
               <a style="text-decoration:underline" class="xlsDown" :href="$store.getters._APIurl+'/import/student_template.xls'">下载模板</a>
               <div slot="tip" class="el-upload__tip">请先下载模板，按照格式编辑后在此上传，只能上传xls/xlsx文件</div>
@@ -140,7 +140,7 @@
       <el-form label-width="80px" v-show="type==2">
         <div>
           <el-form-item>
-            <el-upload :action="$store.getters._APIurl+'/import/ImportTeacher.aspx'" :on-success="handleSuccess">
+            <el-upload ref="upload" :action="$store.getters._APIurl+'/api/ImportTeacher/Import'" :on-success="handleSuccessT" :auto-upload="false">
               <el-button slot="trigger" size="mini" plain type="primary">上传文件</el-button>
               <a style="text-decoration:underline" class="xlsDown" :href="$store.getters._APIurl+'/import/teacher_template.xls'">下载模板</a>
               <!-- <el-button slot="trigger" size="small">下载模板</el-button> -->
@@ -583,20 +583,51 @@ export default {
         })
       }).catch(_ => {});
     },
-    handleSuccess() {
-      this.$message.success('上传文件成功')
+    handleSuccessS(res,file,fileList) {
+      if(res.Status === 1){
+        this.$message.success(res.Msg)
+        this.showAddStudent = false
+        this.type = 1
+        this.getData()
+      }else{
+        this.$message({
+          message: res.Msg,
+          type: 'error',
+          showClose: true,
+          duration: 0
+        })
+        this.$refs.upload.clearFiles()
+      }
+    },
+    handleSuccessT(res,file,fileList) {
+      if(res.Status === 1){
+        this.$message.success(res.Msg)
+        this.showAddTeacher = false
+        this.type = 1
+        this.getData()
+      }else{
+        this.$message({
+          message: res.Msg,
+          type: 'error',
+          showClose: true,
+          duration: 5000
+        })
+        this.$refs.upload.clearFiles()
+      }
     },
     submitTeacherFile() {
-      this.showAddTeacher = false
-      this.type = 1
-      this.$message.success('批量添加老师成功')
-      this.getData()
+      this.$refs.upload.submit();
+      // this.showAddTeacher = false
+      // this.type = 1
+      // this.$message.success('批量添加老师成功')
+      // this.getData()
     },
     submitStudentFile() {
-      this.showAddStudent = false
-      this.type = 1
-      this.$message.success('批量添加学生成功')
-      this.getData()
+      this.$refs.upload.submit();
+      // this.showAddStudent = false
+      // this.type = 1
+      // this.$message.success('批量添加学生成功')
+      // this.getData()
     },
     startEditTeacher(val) {
       this.editTeacherData = val
