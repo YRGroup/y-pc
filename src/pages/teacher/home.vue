@@ -10,7 +10,7 @@
           <span class="name">{{data.TrueName}}</span>
           <p class="msg-info">
             <span>
-              <i class="iconfont">&#xe690;</i>{{data.ExtendInfo.Course || '暂无'}}</span>
+              <i class="iconfont">&#xe690;</i>{{data.Course || '暂无'}}</span>
             <span>
               <i class="iconfont">&#xe618;</i>{{data.Mobilephone}}</span>
           </p>
@@ -127,15 +127,14 @@ export default {
     getData() {
       if (this.$route.query.id) {
         this.$API.getTeacherInfo(this.$route.query.id).then(res => {
+          console.log(res)
+
           this.data = res
           this.data.Course = res.Course
         })
       } else {
         this.data = this.$store.state.currentUser
-        this.data.Course = this.data.Course
-        // if (this.data.ExtendInfo.Course) {
-        //   this.data.Course = this.data.ExtendInfo.Course
-        // }
+        this.data.Course = this.data.ExtendInfo.Course
       }
     },
     startEditPw() {
