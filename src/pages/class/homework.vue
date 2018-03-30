@@ -115,10 +115,10 @@ export default {
     }
   },
   computed: {
-    course: function() {
-      if (this.$store.getters.isTeacher && this.$store.state.currentUser.ExtendInfo.Course.CourseName) {
+    course(){
+      if (this.$store.getters.isTeacher && this.$store.state.currentUser.ExtendInfo.Course) {
         this.classroom = true
-        return this.$store.state.currentUser.ExtendInfo.Course.CourseName
+        return this.$store.state.currentUser.ExtendInfo.Course
       } else {
         return '暂无'
       }
@@ -146,6 +146,11 @@ export default {
     colors() {
       return this.$store.state.colors;
     }
+  },
+   created() {
+    this.newHomeworkData.course_name=this.course
+    this.refresh()
+    // this.$store.dispatch('getCourseList')
   },
   methods: {
     openImgBig(val) {
@@ -292,11 +297,7 @@ export default {
       this.showAddHomework = true
     }
   },
-  created() {
-    // this.getData()
-    this.refresh()
-    // this.$store.dispatch('getCourseList')
-  },
+ 
   mounted() {
 
   },
