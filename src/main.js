@@ -42,7 +42,7 @@ Date.prototype.Format = function (fmt) { //author: meizz
     "S": this.getMilliseconds() //毫秒 
   };
   if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-  for (var k in o)
+  for (var k in o) 
     if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
   return fmt;
 }
@@ -83,7 +83,7 @@ axios.interceptors.response.use(
       err.code = error.response.data.Status
       err.msg = error.response.data.Msg
     }
-    if (error.response.status == 401 || error.response.data.Msg === "操作令牌错误！" || error.response.data.Msg === "校验签名失败！"||utils.getCookie('role')==='user') {
+    if (error.response.status == 401 || error.response.data.Msg === "操作令牌错误！" || error.response.data.Msg === "校验签名失败！"||utils.getCookie('role')!='user') {
       Vue.prototype.$message.warning("请重新登录~！")
       store.dispatch('logout').then(res => {
         router.push('/login')
