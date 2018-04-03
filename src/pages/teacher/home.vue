@@ -127,14 +127,13 @@ export default {
     getData() {
       if (this.$route.query.id) {
         this.$API.getTeacherInfo(this.$route.query.id).then(res => {
-          console.log(res)
-
           this.data = res
           this.data.Course = res.Course
         })
       } else {
         this.data = this.$store.state.currentUser
         this.data.Course = this.data.ExtendInfo.Course
+        
       }
     },
     startEditPw() {

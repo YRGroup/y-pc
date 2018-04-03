@@ -11,6 +11,7 @@ import store from './store'
 import API from './server/API'
 import NProgress from 'nprogress' // Progress 进度条
 import 'nprogress/nprogress.css'// Progress 进度条 样式
+import utils from './utils/utils'
 
 Vue.use(ElementUI)
 
@@ -76,12 +77,13 @@ axios.interceptors.response.use(
     }
   },
   error => {
+    console.log(error.response.status)
     let err = {}
     if (error.response) {
       err.code = error.response.data.Status
       err.msg = error.response.data.Msg
     }
-    if (error.response.status == 401 || error.response.data.Msg === "操作令牌错误！" || error.response.data.Msg === "校验签名失败！") {
+    if (error.response.status == 401 || error.response.data.Msg === "操作令牌错误！" || error.response.data.Msg === "校验签名失败！"||utils.getCookie('role')==='user') {
       Vue.prototype.$message.warning("请重新登录~！")
       store.dispatch('logout').then(res => {
         router.push('/login')

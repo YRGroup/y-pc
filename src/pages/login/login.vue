@@ -88,7 +88,9 @@
       <div class="btn item" v-show="step==0">
         <el-button size="large" @click.native="verifyAccount" type="primary">下一步</el-button>
       </div>
-
+      <div class="btn item">
+        <el-button size="large" @click.native="$router.push('/')" type="default">返回首页</el-button>
+      </div>
     </div>
 
   </div>
