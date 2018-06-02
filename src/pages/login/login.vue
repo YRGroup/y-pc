@@ -237,9 +237,10 @@ export default {
     },
   },
   created() {
-    if(this.$store.getters.hasLogin){
-      this.$router.push("/")
-    }
+    
+    // if(this.$store.getters.hasLogin){
+    //   this.$router.push("/")
+    // }
   },
   mounted() {
     // this.$store.dispatch('getCurrentUser').then(() => {

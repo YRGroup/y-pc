@@ -72,12 +72,14 @@ axios.interceptors.response.use(
       err.code = response.data.Status
       err.msg = response.data.Msg
       return Promise.reject(err)
-    } else {
+    } else if (response.data.Status == 403) {
+      router.push('/login')
+    }else {
       return response
     }
   },
   error => {
-    console.log(error.response.status)
+    console.log(error)
     let err = {}
     if (error.response) {
       err.code = error.response.data.Status
