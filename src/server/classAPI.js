@@ -255,7 +255,7 @@ API.sendMsg = (data) => {
 API.getVideoUploadAuth = (para) => {
   return new Promise((resolve, reject) => {
     axios.post(_APIurl+'/api/video/GetVideoUploadAuth',para).then((res)=>{
-      resolve(res.data.Content)
+      resolve(res.data)
     }).catch((err) => {
       reject(err)
     })
