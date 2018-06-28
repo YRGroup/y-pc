@@ -147,7 +147,8 @@ header {
   z-index: 1000;
   box-shadow: 0 3px 3px 0 rgba(7,17,27,.1);
   .container {
-    max-width: 1090px;
+    // max-width: 1090px;
+    width: 1090px;
     margin: 0 auto;
     overflow: hidden;
   }
@@ -196,7 +197,8 @@ header {
 }
 
 .inview {
-  max-width: 1090px;
+  // max-width: 1090px;
+  width: 1090px;
   margin: 0 auto;
   overflow: hidden;
 }

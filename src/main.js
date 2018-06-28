@@ -11,7 +11,7 @@ import store from './store'
 import API from './server/API'
 import NProgress from 'nprogress' // Progress 进度条
 import 'nprogress/nprogress.css'// Progress 进度条 样式
-import utils from './utils/utils'
+
 
 Vue.use(ElementUI)
 
@@ -19,7 +19,7 @@ Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
   NProgress.start() // 开启Progress
-  if (!to.matched.some(record => record.meta.anonymous) && !store.getters.hasLogin) {
+  if (!to.matched.some(record => record.meta.anonymous) && localStorage.getItem("hasLogin")) {
     router.push('/login')
     return
   }
