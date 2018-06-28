@@ -98,146 +98,167 @@
 
 <script>
 export default {
-  name: 'login',
+  name: "login",
   components: {},
   data() {
     return {
       data: {
-        uid: '',
-        pwd: ''
+        uid: "",
+        pwd: ""
       },
-      phone: '',
+      phone: "",
       loginData: {
-        phone: '',
-        password: '',
+        phone: "",
+        password: ""
       },
       studentLoginData: {
-        studentid: '',
-        password: ''
+        studentid: "",
+        password: ""
       },
       smsLoginData: {
-        phone: '',
-        code: '',
-        newPWd: '',
-        parent_truename: '',
-        parent_type: '',
+        phone: "",
+        code: "",
+        newPWd: "",
+        parent_truename: "",
+        parent_type: ""
       },
       getsmsCount: 0,
       unActived: false,
       parent_unActived: false,
       step: 0
-    }
+    };
   },
   computed: {
     getsmsAvailable() {
-      return this.getsmsCount > 0
+      return this.getsmsCount > 0;
     }
   },
   methods: {
     login() {
-      this.loginData.phone = this.phone
-      this.$API.login(this.loginData).then(res => this.loginOK(res)).catch(err => this.$message.error(err.msg))
+      this.loginData.phone = this.phone;
+      this.$API
+        .login(this.loginData)
+        .then(res => this.loginOK(res))
+        .catch(err => this.$message.error(err.msg));
     },
     studentLogin() {
-      this.studentLoginData.studentid = this.phone
-      this.$API.studentLogin(this.studentLoginData).then(res => this.loginOK(res)).catch(err => this.$message.error(err.msg))
+      this.studentLoginData.studentid = this.phone;
+      this.$API
+        .studentLogin(this.studentLoginData)
+        .then(res => this.loginOK(res))
+        .catch(err => this.$message.error(err.msg));
     },
     LoginByNationID() {
-      this.studentLoginData.nationid = this.phone
-      this.$API.LoginByNationID(this.studentLoginData).then(res => this.loginOK(res)).catch(err => this.$message.error(err.msg))
+      this.studentLoginData.nationid = this.phone;
+      this.$API
+        .LoginByNationID(this.studentLoginData)
+        .then(res => this.loginOK(res))
+        .catch(err => this.$message.error(err.msg));
     },
     uniLogin() {
-      this.$API.uniLogin(this.data).then(res => this.loginOK(res)).catch(err => this.$message.error(err.msg))
+      this.$API
+        .uniLogin(this.data)
+        .then(res => this.loginOK(res))
+        .catch(err => this.$message.error(err.msg));
     },
     smsLogin() {
-      this.smsLoginData.phone = this.data.uid
+      this.smsLoginData.phone = this.data.uid;
       if (this.unActived && this.smsLoginData.newPWd.length < 6) {
-        this.$message.error('密码不能小于6位')
-      } else if (this.parent_unActived && this.smsLoginData.parent_truename == '') {
-        this.$message.error('家长姓名不能为空')
-      } else if (this.parent_unActived && this.smsLoginData.parent_type == '') {
-        this.$message.error('家长身份不能为空')
+        this.$message.error("密码不能小于6位");
+      } else if (
+        this.parent_unActived &&
+        this.smsLoginData.parent_truename == ""
+      ) {
+        this.$message.error("家长姓名不能为空");
+      } else if (this.parent_unActived && this.smsLoginData.parent_type == "") {
+        this.$message.error("家长身份不能为空");
       } else {
-        this.$API.loginBySms(this.smsLoginData).then(res => this.loginOK(res)).catch(err => this.$message.error(err.msg))
+        this.$API
+          .loginBySms(this.smsLoginData)
+          .then(res => this.loginOK(res))
+          .catch(err => this.$message.error(err.msg));
       }
     },
     loginOK(val) {
-      this.$store.commit('login', val)
-      this.$store.commit('setToken', val.Token)
-      if (this.$store.getters.hasFullInfo === 'teacher') {
+      this.$store.commit("login", val);
+      this.$store.commit("setToken", val.Token);
+      if (this.$store.getters.hasFullInfo === "teacher") {
         this.$message({
           showClose: true,
-          message: '资料不完整，请先补齐资料',
-          type: 'warning'
+          message: "资料不完整，请先补齐资料",
+          type: "warning"
         });
-        this.$router.push('/teacher/edit')
-      } else if (this.$store.getters.hasFullInfo === 'parent') {
+        this.$router.push("/teacher/edit");
+      } else if (this.$store.getters.hasFullInfo === "parent") {
         this.$message({
           showClose: true,
-          message: '资料不完整，请先补齐资料',
-          type: 'warning'
+          message: "资料不完整，请先补齐资料",
+          type: "warning"
         });
-        this.$router.push('/student/edit')
+        this.$router.push("/student/edit");
       } else {
-        this.$router.push('/')
+        this.$router.push("/");
       }
     },
     count() {
       if (this.getsmsCount > 0) {
-        this.getsmsCount--
+        this.getsmsCount--;
       }
     },
     startCount() {
-      setInterval(
-        this.count
-        , 1000)
+      setInterval(this.count, 1000);
     },
     getsms() {
-      this.$API.getLoginSms(this.data.uid).then(res => {
-        this.getsmsCount = 60
-        this.step = 2
-        this.startCount()
-      }).catch(err => this.$message.error(err.msg))
+      this.$API
+        .getLoginSms(this.data.uid)
+        .then(res => {
+          this.getsmsCount = 60;
+          this.step = 2;
+          this.startCount();
+        })
+        .catch(err => this.$message.error(err.msg));
     },
     verifyAccount() {
-      if(this.data.uid !== ''){
-          if (this.data.uid.slice(0, 1) == 1 && this.data.uid.length === 11) {
-            let para = {
-              phone: this.data.uid
-            }
-            this.$API.verifyAccount(para).then(res => {
+      if (this.data.uid !== "") {
+        if (this.data.uid.slice(0, 1) == 1 && this.data.uid.length === 11) {
+          let para = {
+            phone: this.data.uid
+          };
+          this.$API
+            .verifyAccount(para)
+            .then(res => {
               if (res.Msg == "normal") {
-                this.step = 1
+                this.step = 1;
               } else if (res.Msg == "unActived") {
-                this.step = 2
-                this.unActived = true
-                this.startCount()
+                this.step = 2;
+                this.unActived = true;
+                this.startCount();
               } else if (res.Msg == "parent_unActived") {
-                this.step = 2
-                this.unActived = true
-                this.parent_unActived = true
-                this.startCount()
+                this.step = 2;
+                this.unActived = true;
+                this.parent_unActived = true;
+                this.startCount();
               } else {
-                this.$message.error('账号不存在')
+                this.$message.error("账号不存在");
                 // this.$router.push('/reg?tel=' + this.phone)
               }
-            }).catch(err => this.$message.error(err.msg))
-          } else {
-            this.step = 3
-          }
+            })
+            .catch(err => this.$message.error(err.msg));
+        } else {
+          this.step = 3;
+        }
       }
     },
     verifyPw() {
       if (this.data.pwd.length < 6) {
-        this.$message.error('密码不完整')
-        return false
+        this.$message.error("密码不完整");
+        return false;
       } else {
-        return true
+        return true;
       }
-    },
+    }
   },
   created() {
-    
     // if(this.$store.getters.hasLogin){
     //   this.$router.push("/")
     // }
@@ -246,16 +267,16 @@ export default {
     // this.$store.dispatch('getCurrentUser').then(() => {
     //   this.$router.push('/')
     // })
-  },
-}
+  }
+};
 </script>
 
 <style lang="less">
-@import '../../style/theme.less';
+@import "../../style/theme.less";
 
 .loginbox {
   overflow: hidden; // position: relative;
-  // 
+  //
   // width: 100%;
   // height: 100%;
   .gmbg {
@@ -278,7 +299,7 @@ export default {
     left: 50%;
     margin-top: -200px;
     margin-left: -250px;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .3);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
     overflow: hidden;
     box-sizing: border-box;
     .loginnav {

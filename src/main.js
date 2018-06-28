@@ -19,7 +19,11 @@ Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
   NProgress.start() // 开启Progress
-  if (!to.meta.anonymous) {
+  if (!to.matched.some(record => record.meta.anonymous) && !store.getters.hasLogin) {
+    router.push('/login')
+    return
+  }
+  if (!to.matched.some(record => record.meta.anonymous)) {
     API.refreshLiveness()
   }
   next()
@@ -65,8 +69,8 @@ axios.interceptors.request.use(config => {
 });
 axios.interceptors.response.use(
   response => {
-    if(process.env.NODE_ENV !== 'production'){
-    }
+    // if(process.env.NODE_ENV !== 'production'){
+    // }
     if (response.data.Status == 0) {
       let err = {}
       err.code = response.data.Status
@@ -79,21 +83,13 @@ axios.interceptors.response.use(
     }
   },
   error => {
-    console.log(error)
     let err = {}
     if (error.response) {
       err.code = error.response.data.Status
       err.msg = error.response.data.Msg
     }
-    if (error.response.status == 401 || error.response.data.Msg === "操作令牌错误！" || error.response.data.Msg === "校验签名失败！"||utils.getCookie('role')!='user') {
-      Vue.prototype.$message.warning("请重新登录~！")
-      store.dispatch('logout').then(res => {
-        router.push('/login')
-      })
-      //router.push('/login')
-    }
-    if (error.response.status == 500) {
-      err.msg = '内部服务器错误，请联系网络管理员'
+    if (error.response.status == 403) {
+      router.push('/login')
     }
     return Promise.reject(err)
   }
