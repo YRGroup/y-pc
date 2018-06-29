@@ -52,11 +52,24 @@
 
         <el-form-item 
           label="选择文件"
-          prop="videoId"
+          prop="VideoID"
           :rules="[{ required: true, message: '必填', trigger: 'blur' }]">
-          <el-upload  class="uploadBox"
-          v-model="form.videoId"
-          name="videoId"
+
+          <upload-video 
+            ref="uploadVideo"
+            :limitSize="20"
+            @removeVideo="removeVideo"
+            @getVideoId="getVideoId"
+            @onUploadProgress="onUploadProgress"
+            @onUploadSucceed="onUploadSucceed"
+            @onUploadFailed="onUploadFailed"
+            @changeVideoList="changeVideoList"
+          >
+          <i   class="el-icon-plus avatar-uploader-icon"></i>
+          </upload-video> 
+          <!-- <el-upload  class="uploadBox"
+          v-model="form.VideoID"
+          name="VideoID"
            accept="video/*"
           :http-request="getVideoId"
           :action="videoAction"
@@ -65,7 +78,8 @@
           :on-remove="removeVideo"
           ref="uploadVideo">  
           <i v-if="showUploadIcon"  class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
+          </el-upload> -->
+
           <el-progress  v-if="videoStateNum" :text-inside="true" :stroke-width="18" :percentage="videoStateNum" status="success"></el-progress>
           <p v-if="videoState" v-text="videoState"></p>
         </el-form-item> 
@@ -78,36 +92,32 @@
 </template>
 
 <script>
+import uploadVideo from "@/components/uploadVideo";
 export default {
   name: "addVideo",
   data() {
     return {
-      // FileName: '',
-      // FileSize: '',
-      // Title: '',
-      // Description: '',
-      // Coverurl: '',
-      // CateId: '',
-      // Grade: '',
-      // Tags: '',
       videoAction: "",
-      showUploadIcon: true,
+
       videoState: 0, //上传状态
       videoStateNum: 0, //上传进度
-      videoId: "",
       categoryList: [],
       gradeList: [],
       form: {
-        FileName: "",
-        FileSize: "",
+        // FileName: "",
+        // FileSize: "",
         Title: "",
         Description: "",
         CateId: "",
         Grade: "",
         Tags: "",
-        videoId: ""
+        VideoID: "",
+        Coverurl: ""
       }
     };
+  },
+  components: {
+    uploadVideo
   },
   computed: {
     disabled() {
@@ -119,21 +129,12 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           this.$API
-            .getVideoUploadAuth(this.form)
+            .upLoadVideoForm(this.form)
             .then(res => {
               if (res.Status == 1) {
                 this.$message.success("上传成功");
                 this.restVideo();
-                this.form = {
-                  FileName: "",
-                  FileSize: "",
-                  Title: "",
-                  Description: "",
-                  CateId: "",
-                  Grade: "",
-                  Tags: "",
-                  videoId: ""
-                };
+                this.$refs["form"].resetFields();
               }
             })
             .catch(err => {
@@ -147,104 +148,32 @@ export default {
     },
     //重置视频上传状态
     restVideo() {
-      this.videoId = "";
-      this.showUploadIcon = true;
       this.videoState = "";
       this.videoStateNum = 0;
       this.$refs.uploadVideo.clearFiles(); //清空视频列标
     },
-    //视频上传前检测
-    beforeVideoUpload(file) {
-      //限制20m
-      let isSizeOk = file.size < 20 * 1024 * 1024 ? true : false;
-      if (!isSizeOk) {
-        this.$message.error("视频不能超过20M!");
-      }
-
-      //限制视频格式
-      let isTypeOk = file.type.indexOf("video");
-
-      if (isTypeOk == -1) {
-        this.$message.error("视频格式错误!");
-        isTypeOk = false;
-      } else {
-        isTypeOk = true;
-      }
-      return isSizeOk && isTypeOk;
-    },
     //移除视频
     removeVideo(file, filelist) {
-      this.restVideo();
+      console.log("remove");
     },
-    //视频列表变化  只允许上传一个视频
-    changeVideoList(file, filelist) {
-      console.log(file);
-      this.form.FileName = file.name;
-      this.form.FileSize = file.size;
-      if (filelist.length) {
-        this.showUploadIcon = false;
-      } else {
-        this.showUploadIcon = true;
+    //视频列表变化
+    changeVideoList(file, filelist) {},
+    //获取当前视频id
+    getVideoId(id) {
+      this.form.VideoID = id;
+    },
+    //进度
+    onUploadProgress(num) {
+      this.videoStateNum = num;
+      if (num > 0) {
+        this.videoState = "正在上传";
       }
     },
-    //上传视频
-    getVideoId(file) {
-      let params = {
-        FileName: file.file.name,
-        Title: file.file.name,
-        FileSize: file.file.size,
-        Description: "Description",
-        Coverurl: "",
-        CateId: 16,
-        CourseId: 0,
-        Grade: 0,
-        Tags: ""
-      };
-      let This = this;
-      this.$API.getVideoUploadAuth(params).then(res => {
-        this.form.videoId = res.Content.VideoID;
-        //创建上传实例
-        let uploader = new VODUpload({
-          // 开始上传
-          onUploadstarted: function(uploadInfo) {
-            var uploadAuth = res.Content.UploadAuth;
-            var uploadAddress = res.Content.UploadAddress;
-            uploader.setUploadAuthAndAddress(
-              uploadInfo,
-              uploadAuth,
-              uploadAddress
-            );
-            This.videoState = "开始上传";
-          },
-          // 文件上传失败
-          onUploadFailed: function(uploadInfo, code, message) {
-            This.videoState = "上传失败";
-          },
-          // 文件上传完成
-          onUploadSucceed: function(uploadInfo) {
-            This.videoState = "上传成功";
-
-            This.form.videoId = res.Content.VideoID;
-          },
-          //视频上传进度监听
-          onUploadProgress: function(uploadInfo, totalSize, uploadedSize) {
-            let num = Math.ceil(uploadedSize * 100 / totalSize);
-            This.videoStateNum = num;
-            This.videoState = "正在上传";
-          },
-          // STS临时账号会过期，过期时触发函数
-          onUploadTokenExpired: function() {
-            this.$message.error("sts临时账号过期，请联系网络管理员");
-            This.videoState = "sts临时账号过期，请联系网络管理员";
-          }
-        });
-        // 初始化上传实例   点播上传。每次上传都是独立的鉴权，所以初始化时，不需要设置鉴权
-        uploader.init();
-        var userData =
-          '{"Vod":{"UserData":"{"IsShowWaterMark":"false","Priority":"7"}"}}';
-        uploader.addFile(file.file, null, null, null, userData);
-        uploader.startUpload();
-      });
+    onUploadFailed(info) {
+      this.videoState = "上传失败";
+    },
+    onUploadSucceed(info) {
+      this.videoState = "上传成功";
     },
     getGradeList() {
       this.$API.getGradeList().then(res => {
