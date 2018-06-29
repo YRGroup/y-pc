@@ -118,12 +118,22 @@ export default {
     onSubmit() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          // alert('submit!');
           this.$API
             .getVideoUploadAuth(this.form)
             .then(res => {
               if (res.Status == 1) {
                 this.$message.success("上传成功");
+                this.restVideo();
+                this.form = {
+                  FileName: "",
+                  FileSize: "",
+                  Title: "",
+                  Description: "",
+                  CateId: "",
+                  Grade: "",
+                  Tags: "",
+                  videoId: ""
+                };
               }
             })
             .catch(err => {
@@ -213,7 +223,7 @@ export default {
           // 文件上传完成
           onUploadSucceed: function(uploadInfo) {
             This.videoState = "上传成功";
-           
+
             This.form.videoId = res.Content.VideoID;
           },
           //视频上传进度监听
