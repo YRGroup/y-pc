@@ -317,13 +317,13 @@
         };
         let This = this;
         this.$API.getVideoUploadAuth(params).then(res=>{
-          this.videoId=res.VideoID;
+          this.videoId=res.Content.VideoID;
           //创建上传实例
           let uploader = new VODUpload({ 
             // 开始上传
             onUploadstarted: function(uploadInfo) {
-              var uploadAuth = res.UploadAuth;
-              var uploadAddress = res.UploadAddress;
+              var uploadAuth = res.Content.UploadAuth;
+              var uploadAddress = res.Content.UploadAddress;
               uploader.setUploadAuthAndAddress(
                 uploadInfo,
                 uploadAuth,

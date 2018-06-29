@@ -192,13 +192,13 @@ export default {
       };
       let This = this;
       this.$API.getVideoUploadAuth(params).then(res => {
-        // this.videoId = res.VideoID;
+        this.form.videoId = res.Content.VideoID;
         //创建上传实例
         let uploader = new VODUpload({
           // 开始上传
           onUploadstarted: function(uploadInfo) {
-            var uploadAuth = res.UploadAuth;
-            var uploadAddress = res.UploadAddress;
+            var uploadAuth = res.Content.UploadAuth;
+            var uploadAddress = res.Content.UploadAddress;
             uploader.setUploadAuthAndAddress(
               uploadInfo,
               uploadAuth,
@@ -213,8 +213,8 @@ export default {
           // 文件上传完成
           onUploadSucceed: function(uploadInfo) {
             This.videoState = "上传成功";
-            This.videoId = res.VideoID;
-            This.form.videoId = res.VideoID;
+           
+            This.form.videoId = res.Content.VideoID;
           },
           //视频上传进度监听
           onUploadProgress: function(uploadInfo, totalSize, uploadedSize) {
