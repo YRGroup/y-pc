@@ -58,6 +58,7 @@
           <upload-video 
             ref="uploadVideo"
             :limitSize="20"
+            :limitNumber="2"
             @removeVideo="removeVideo"
             @getVideoId="getVideoId"
             @onUploadProgress="onUploadProgress"
@@ -65,7 +66,7 @@
             @onUploadFailed="onUploadFailed"
             @changeVideoList="changeVideoList"
           >
-          <i   class="el-icon-plus avatar-uploader-icon"></i>
+          <i class="el-icon-plus avatar-uploader-icon"></i>
           </upload-video> 
           <!-- <el-upload  class="uploadBox"
           v-model="form.VideoID"
@@ -98,7 +99,6 @@ export default {
   data() {
     return {
       videoAction: "",
-
       videoState: 0, //上传状态
       videoStateNum: 0, //上传进度
       categoryList: [],
@@ -157,7 +157,9 @@ export default {
       console.log("remove");
     },
     //视频列表变化
-    changeVideoList(file, filelist) {},
+    changeVideoList(file, filelist) {
+
+    },
     //获取当前视频id
     getVideoId(id) {
       this.form.VideoID = id;
