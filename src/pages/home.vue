@@ -1,12 +1,11 @@
 <template>
   <div :class="isFullpage?'fullpage':null">
-
     <header>
       <div class="container">
         <div class="logo" @click="$router.push('/')">
           <img class="logopic" :src="logo">
         </div>
-        <div class="nav">
+        <ul class="nav">
           <li @click="$router.push('/')" :class="link=='main'?'active':null">
             <i class="iconfont">&#xe636;</i>首页</li>
           <li @click="$router.push('/class')" :class="(link=='klass' || link=='homework' || link=='post' || link=='admin'|| link=='sendmsg')?'active':null">
@@ -30,23 +29,17 @@
             <i class="iconfont">&#xe64b;</i>个人主页</li>
           <li @click="$router.push('/student')" v-show="$store.getters.isStudent" :class="link=='student'?'active':null">
             <i class="iconfont">&#xe64b;</i>个人主页</li>
-         
-          
-        </div>
+        </ul>
       </div>
-
     </header>
     <div class="mainbox">
       <router-view class="inview"></router-view>
     </div>
-
     <div class="footer">
       <div class="mainCon">
         <p>Copyright © 2017 yearnedu.com Inc. All Rights Reserved. 郑州育人教育集团</p>
         <p>备案/许可证编号：豫ICP备16026588号</p>
-        
         <div class="followIcon">
-          
           关注我们：
           <div class="wechat">
             <div class="qrcode"><img :src="wxQRcodeIMG"></div>
@@ -57,8 +50,8 @@
         </div>
       </div>
     </div>
-     <!-- 返回顶部 -->
-     <div class="gototop" @click="goBacktopMain" v-show="goTopShow"><i class="iconfont">&#xe622;</i></div>
+    <!-- 返回顶部 -->
+    <div class="gototop" @click="goBacktopMain" v-show="goTopShow"><i class="iconfont">&#xe622;</i></div>
   </div>
 </template>
 
@@ -117,7 +110,7 @@ export default {
     
   },
   created() {
-    this.getWXQRcode(),
+    this.getWXQRcode();
     window.addEventListener('scroll', this.menu)
   },
   mounted() {
@@ -125,7 +118,7 @@ export default {
   },
   watch: {
     '$route': function() {
-
+      
     }
   }
   

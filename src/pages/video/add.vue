@@ -58,7 +58,6 @@
           <upload-video 
             ref="uploadVideo"
             :limitSize="20"
-            :limitNumber="2"
             @removeVideo="removeVideo"
             @getVideoId="getVideoId"
             @onUploadProgress="onUploadProgress"
