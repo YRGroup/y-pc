@@ -40,7 +40,7 @@
       <no-data v-if="nodataImg"></no-data>
       <div v-else class="msglist">
         <div class="listTitle"><i class="iconfont">&#xe61b;</i>所有短信</div>
-        <div class="item" v-for="item in msgList">
+        <div class="item" :key="index" v-for="(item,index) in msgList">
             <div class="title"><span class="typename">{{item.TemplateName}}</span><span class="time"><i class="iconfont">&#xe621;</i>发送时间：{{item.CreateTime | FormatDate}}</span></div>
             <div class="msgcontent">{{item.TemplateExample}}</div>
         </div>

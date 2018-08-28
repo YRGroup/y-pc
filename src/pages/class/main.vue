@@ -2,104 +2,65 @@
 <template>
   <div  v-loading.lock="fullscreenLoading"   element-loading-text="拼命加载中">
     <!-- 旧的发布动态 -->
-    <!-- <div class="addPost">
-      <div class="title addbtn" @click="showAddPost=true">
-        <i class="iconfont">&#xe623;</i>发布动态</div>
-    </div> -->
-  	
-    <!-- <el-dialog title="发布动态" :visible.sync="showAddPost" width="30%">
-      <el-form :model="newPost">
-        <el-form-item>
-          <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model.trim="newPost.content">
-          </el-input>
-        </el-form-item>
-          <el-form-item v-if="showUpImg">
-          <el-upload accept="image/*" multiple :http-request="imgUpload" :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
-            <i class="el-icon-picture-outline"></i>
-          </el-upload>
-          <el-dialog :visible.sync="dialogVisible" size="tiny">
-            <img width="100%" :src="dialogImageUrl" alt="">
-          </el-dialog>
-        </el-form-item>
-        <el-form-item v-if="$store.getters.isTeacher">
-          <el-select v-model="newPost.at_meid" multiple placeholder="@某学生" style="width:300px">
-            <el-option v-for="item in studentList" :key="item.Meid" :label="item.NickName" :value="item.Meid">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="success" plain class="upvideoBtn" v-if="videoBtn" @click="addVideoBtn">
-            上传视频
-            <input type="file" accept="video/*" capture="camcorder" multiple="multiple" id="videoFile" @change="addVideo">
-          </el-button>
-          <div id="progress" class="progress" v-if="showProgress">
-            <span class="progress-bar">
-              <div id="progress-now"></div>
-            </span>
-            <span id="progress-text"></span>
-            <span id="pass20M"></span>
-          </div>
-        </el-form-item>
-        <el-form-item><span style="color:#F40;fontSize:12px">注：上传视频和上传图片只能选其一</span></el-form-item>
-        <!-- <el-form-item>
-          <el-upload :action="this.$store.getters._APIurl+'/api/Upload/ImageUpload'" list-type="picture-card" :on-remove="handleRemove" :before-upload="beforePictureUpload" ref="upload">
-            <i class="el-icon-plus"></i>
-          </el-upload>
-          </el-input>
-        </el-form-item> -->
-      
-      <!-- </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="addNewPost" v-loading.fullscreen.lock="fullscreenLoading">发 布</el-button>
-      </div>
-    </el-dialog> -->
-    <publish-active></publish-active>
+    <publish-active @commitActive="commitActive"></publish-active>
     <no-data v-if="nodataImg"></no-data>
     <div v-else>
-      <div class="card panel" v-for="(i,index) in data" :key="i.ID">
-        <div class="img">
-          <div v-if="i.auther_role == '4'||i.auther_role == '8'" @click="$router.push('/t?id='+i.auther_meid)" class="category" :style="{background:colors[i.CourseName]}">{{ i.CourseName&&i.CourseName.substr(0,1) }}</div>
-          <img v-else :src="i.userImg" @click="$router.push('/s?id='+i.auther_meid)">
-        </div>
-        <div class="tips">{{i.category}}</div>
-        <div class="header">{{i.auther}}</div>
-        <div class="content" @click="$router.push('/post/'+i.ID)">{{i.content}} <span class="atuser" v-for="item in i.AtUser">@{{item.TrueName}}</span></div>
-        <div class="videoCover" v-if="i.Video" @click="$router.push('/post/'+i.ID)">
-          <span class="CoverImg">
-            <span class="icon"><i class="iconfont">&#xe63c;</i></span>
-            <span class="shade"></span>
-            <img :src="i.Video.CoverUrl" alt="">
-          </span>
-        </div>
-        <div class="albums">
-          <li v-for="(p,index) in i.albums" :key="index">
-            <div class="imgCon" :style="{backgroundImage:'url\('+p+'\)'}" @click="openImgBig(p)"></div>
-          </li>
-
-        </div>
-        <div class="comment" v-if="i.comment.length" @click="$router.push('/post/'+i.ID)">
-          <div class="name">
-            {{i.comment[0].TrueName}}：
+      <!-- <transition-group  
+      name="custom-classes-transition"
+      enter-active-class="animated fadeIn"
+      leave-active-class="animated fadeOut"
+      > -->
+      <transition-group  
+      name="slide"
+      >
+        <div class="card panel" v-for="(i,postIndex) in data" :key="i.ID">
+          <div class="img">
+            <div v-if="i.auther_role == '4'||i.auther_role == '8'" @click="$router.push('/t?id='+i.auther_meid)" class="category" :style="{background:colors[i.CourseName]}">{{ i.CourseName&&i.CourseName.substr(0,1) }}</div>
+            <img v-else :src="i.userImg" @click="$router.push('/s?id='+i.auther_meid)">
           </div>
-          <div class="content">
-            {{i.comment[0].content}}
+          <div class="tips">{{i.category}}</div>
+          <div class="header">{{i.auther}}</div>
+          <div class="content" @click="$router.push('/post/'+i.ID)">
+          {{i.content}} 
+          <span class="atuser" :key="index" v-for="(item,index) in i.AtUser">@{{item.TrueName}}</span>
           </div>
-          <div class="btn">查看更多</div>
-        </div>
-        <div class="footer">
-          <span class="time">{{i.date}}</span>
-          <span class="iconbtn">
-            <span title="删除" class="delBtn" @click="delPost(i.ID)" v-loading.lock="fullscreenLoading"   v-if="showDelete(i.auther_meid)">
-              <i class="iconfont">&#xe630;</i>
-              <span class="delBtnTitle">删除</span>
+          <div class="videoCover" v-if="i.Video" @click="$router.push('/post/'+i.ID)">
+            <span class="CoverImg">
+              <span class="icon"><i class="iconfont">&#xe63c;</i></span>
+              <span class="shade"></span>
+              <img :src="i.Video.CoverUrl" alt="">
             </span>
-            <!-- <span title="点赞" v-else @click.once="doLike(i.ID)">
-              <i class="iconfont">&#xe646;</i>{{i.like}}
-            </span> -->
-            <give-zan :isZan="i.IsZan" :num="i.like" :id="i.ID"></give-zan>
-          </span>
+          </div>
+          <div class="albums">
+            <li v-for="(p,index) in i.albums" :key="index">
+              <div class="imgCon" :style="{backgroundImage:'url\('+p+'\)'}" @click="openImgBig(p)"></div>
+            </li>
+
+          </div>
+          <div class="comment" v-if="i.comment.length" @click="$router.push('/post/'+i.ID)">
+            <div class="name">
+              {{i.comment[0].TrueName}}：
+            </div>
+            <div class="content">
+              {{i.comment[0].content}}
+            </div>
+            <div class="btn">查看更多</div>
+          </div>
+          <div class="footer">
+            <span class="time">{{i.date}}</span>
+            <span class="iconbtn">
+              <span title="删除" class="delBtn" @click="delPost(i.ID,postIndex)" v-loading.lock="fullscreenLoading"   v-if="showDelete(i.auther_meid)">
+                <i class="iconfont">&#xe630;</i>
+                <span class="delBtnTitle">删除</span>
+              </span>
+              <!-- <span title="点赞" v-else @click.once="doLike(i.ID)">
+                <i class="iconfont">&#xe646;</i>{{i.like}}
+              </span> -->
+              <give-zan :isZan="i.IsZan" :num="i.like" :id="i.ID"></give-zan>
+            </span>
+          </div>
         </div>
-      </div>
+      </transition-group >
       <load-more @click.native="loadMore" :noMoreData="noMoreData"></load-more>
     </div>
 
@@ -117,12 +78,12 @@ require("@/common/js/vod-sdk-upload-1.1.0.min.js");
 import lrz from "lrz";
 import loadMore from "@//components/loadMore";
 import noData from "@//components/noData";
-import publishActive from "@//components/publishActive"
-import giveZan from "@//components/giveZan"
+import publishActive from "@//components/publishActive";
+import giveZan from "@//components/giveZan";
 
 export default {
   name: "app",
-  components: { loadMore, noData, publishActive,giveZan},
+  components: { loadMore, noData, publishActive, giveZan },
   data() {
     return {
       dialogImageUrl: "",
@@ -154,7 +115,7 @@ export default {
   },
   computed: {
     role() {
-      return this.$store.getters.role
+      return this.$store.getters.role;
     },
     imgBaseList() {
       let arr = [];
@@ -163,59 +124,32 @@ export default {
       });
       return arr;
     },
-    newActive(){
-      return this.$store.state.newActive
+    newActive() {
+      return this.$store.state.newActive;
     },
     colors() {
       return this.$store.state.colors;
-    },
-  
+    }
   },
   methods: {
-    handleRemove(file, fileList) {
-    },
-    handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
-    },
     //是否显示删除按钮
-    showDelete(auther){
+    commitActive(para) {
+      this.getData();
+    },
+    showDelete(auther) {
       if (
         this.$store.state.currentUser.Meid == auther ||
         this.$store.state.currentStudentId == auther ||
         this.role == "班主任"
       ) {
-        return true
+        return true;
       } else {
-        return false
+        return false;
       }
     },
-    updateData: function(data) {
-      this.newPost.content = data;
-    },
-    // 图片上传
-    imgUpload() {
-      this.fullscreenLoading = true;
-      let vm = this;
-      let file = this.$refs.upload.uploadFiles[
-        this.$refs.upload.uploadFiles.length - 1
-      ].raw;
-      lrz(file, { quality: file.size > 1024 * 200 ? 0.7 : 1 })
-        .then(rst => {
-          vm.imgUrls.push({
-            src: rst.base64,
-            uid: file.uid
-          });
-          this.fullscreenLoading = false;
-          return rst;
-        })
-        .always(function() {
-          // 清空文件上传控件的值
-          //e.target.value = null;
-        });
-    },
-    getData() {
+    getData(more) {
       if (!this.$store.state.currentClassId) return;
+      this.currentPage = more ? this.currentPage : 1;
       let para = {};
       para.cid = this.$store.state.currentClassId;
       para.currentPage = this.currentPage;
@@ -225,16 +159,18 @@ export default {
         .getAllClassDynamic(para)
         .then(res => {
           this.fullscreenLoading = false;
-          this.videoBtn = true
+          this.videoBtn = true;
           if (res.length) {
-            this.data=this.data.concat(res);  //合并数组
+            // if (more) {
+            //   this.data = this.data.concat(res); //合并数组
+            // } else {
+            //   this.data = res;
+            // }
+            this.data = more ? this.data.concat(res) : res;
           } else if (res.length == 0 && this.currentPage == 1) {
             this.nodataImg = true;
           } else if (res.length == 0 && this.currentPage != 1) {
             this.noMoreData = true;
-          }
-          if(this.$store.state.newActive){
-            this.$store.commit('changeNewActive',false);  //是否有新动态  false
           }
         })
         .catch(err => {
@@ -243,179 +179,42 @@ export default {
     },
     loadMore() {
       this.currentPage++;
-      this.getData();
-    },
-    addImg(e) {
-      let files = e.target.files || e.dataTransfer.files;
-    },
-    addVideoBtn() {
-      this.showProgress = true
-      // let progress = document.getElementById('progress')   
-      // progress.innerHTML = ""
-    },
-    // 上传视频
-    addVideo(e) {
-      var pass20M = document.getElementById('pass20M') 
-      pass20M.innerHTML = ""
-
-      let videoFile = document.getElementById('videoFile')  
-      // 不显示图片  图片清空
-      this.showUpImg = false;
-      this.newPost.img_base64_list = "";
-
-      let files = e.target.files || e.dataTransfer.files;
-
-      // 限制视频大小 20M
-      let videoSize = e.target.files[0].size
-      if(videoSize > 20*1024*1024){
-        let progress = document.getElementById('pass20M')       
-        pass20M.innerHTML = "视频大小不能超过20M！~"
-        videoFile.value = ""
-        return false
-      }
-
-      if (!files.length) {
-        this.showProgress = false
-        return
-      }
-      let vue_this = this;
-      let file = files[0];
-        console.log(file)
-      let params = {  
-        FileName: file.name,
-        Title: file.name,
-        FileSize: file.size,
-        Description: "Description",
-        Coverurl: "",
-        CateId: 16,
-        CourseId: 0,
-        Grade: 0,
-        Tags: ""
-      };
-      let _event = e
-      this.$API.getVideoUploadAuth(params).then(res => {
-        this.newPost.videoid = res.VideoID; //保存视频ID
-        //this.log(res);
-        var uploader;
-        uploader = new VODUpload({
-          // 文件上传失败
-          onUploadFailed: function(uploadInfo, code, message) {
-            var text = document.getElementById('progress-text') 
-            text.innerHTML = "上传失败！~"
-            vue_this.log(
-              "onUploadFailed: file:" +
-                uploadInfo.file.name +
-                ",code:" +
-                code +
-                ", message:" +
-                message
-            );
-
-          },
-          // 文件上传完成
-          onUploadSucceed: function(uploadInfo) {
-            vue_this.log(
-              "onUploadSucceed: " +
-                uploadInfo.file.name +
-                ", endpoint:" +
-                uploadInfo.endpoint +
-                ", bucket:" +
-                uploadInfo.bucket +
-                ", object:" +
-                uploadInfo.object
-            );
-          },
-          // 文件上传进度
-          // 'onUploadProgress': function (uploadInfo, totalSize, uploadedSize) {
-          //     vue_this.log("onUploadProgress:file:" + uploadInfo.file.name + ", fileSize:" + totalSize + ", percent:" + Math.ceil(uploadedSize * 100 / totalSize) + "%");
-          // },
-          onUploadProgress: function(uploadInfo, totalSize, uploadedSize) {
-            vue_this.log(Math.ceil(uploadedSize * 100 / totalSize));
-            let num = Math.ceil(uploadedSize * 100 / totalSize)
-            vue_this.refreshProgress(num, _event);
-          },
-          // STS临时账号会过期，过期时触发函数
-          onUploadTokenExpired: function() {
-            vue_this.log("onUploadTokenExpired");
-          },
-          // 开始上传
-          onUploadstarted: function(uploadInfo) {
-            var uploadAuth = res.UploadAuth;
-            var uploadAddress = res.UploadAddress;
-            uploader.setUploadAuthAndAddress(
-              uploadInfo,
-              uploadAuth,
-              uploadAddress
-            );
-
-            vue_this.log(
-              "onUploadStarted:" +
-                uploadInfo.file.name +
-                ", endpoint:" +
-                uploadInfo.endpoint +
-                ", bucket:" +
-                uploadInfo.bucket +
-                ", object:" +
-                uploadInfo.object
-            );
-          }
-        });
-        // 点播上传。每次上传都是独立的鉴权，所以初始化时，不需要设置鉴权
-        uploader.init();
-        var userData =
-          '{"Vod":{"UserData":"{"IsShowWaterMark":"false","Priority":"7"}"}}';
-        uploader.addFile(file, null, null, null, userData);
-        uploader.startUpload();
-      });
-    },
-    log(content) {
-      console.log(content)
-    },
-    // 上传进度
-    refreshProgress(n,event) {
-      let name = event.target.files[0].name
-      let obj = document.getElementById("progress-now")
-      let text = document.getElementById('progress-text') 
-      let progress = document.getElementById('progress') 
-      obj.style.right = (100 - n) + '%'
-      text.innerHTML = n + '%'
-      if(n == 100){
-        progress.innerHTML = "视频上传成功 ~ "
-        this.videoBtn = false
-      }
+      this.getData(true);
     },
     // 点赞
-    doLike(id,index) {
+    doLike(id, index) {
       this.$API
         .doLikeThisPost(id)
         .then(res => {
           this.$message.success("点赞成功");
-          this.data[index].like++;    //赞数++
+          this.data[index].like++; //赞数++
         })
         .catch(err => {
           this.$message.error(err.msg);
         });
     },
     // 删除动态
-    delPost(id) {
+    delPost(id, index) {
+      console.log(index);
       this.$confirm("确认删除该动态吗?", "提示", {
         type: "warning"
       }).then(() => {
+        this.data.splice(index, 1);
         let para = {
           did: id
         };
-        this.fullscreenLoading = true;
+        // this.fullscreenLoading = true;
         this.$API
           .deletePost(para)
           .then(() => {
-            this.fullscreenLoading = false;
-            this.$message({
-              message: "删除成功",
-              type: "success"
-            });
-            this.data = [];
-            this.currentPage = 1
-            this.getData();
+            // this.fullscreenLoading = false;
+            // this.$message({
+            //   message: "删除成功",
+            //   type: "success"
+            // });
+            // this.data = [];
+            // this.currentPage = 1;
+            // this.getData();
           })
           .catch(err => {
             this.$message({
@@ -429,71 +228,6 @@ export default {
     openImgBig(val) {
       this.imgBig = val;
       this.showImgBig = true;
-    },
-    handleRemove(file, fileList) {
-      for (var i = 0; i < this.imgUrls.length; i++) {
-        if (this.imgUrls[i].uid == file.uid) {
-          this.imgUrls.splice(i, 1);
-          break;
-        }
-      }
-    },
-    handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
-    },
-    beforePictureUpload(file) {
-      const isJPG = file.type === "image/jpeg" || file.type === "image/png";
-      //const isLt5M = file.size / 1024 / 1024 < 5;
-      if (!isJPG) {
-        this.$message.error("上传图片只能是 JPG或PNG 格式!");
-      }
-      //if (!isLt5M) {
-      //this.$message.error('上传图片大小不能超过 5MB!');
-      //}
-      return isJPG; //&& isLt5M;
-    },
-    // 发布动态
-    addNewPost() {
-      this.currentPage = 1
-      if (
-        this.$store.getters.role == "家长" &&
-        this.$store.state.currentStudentId != null
-      ) {
-        this.newPost.student_meid = this.$store.state.currentStudentId;
-      }
-      let inputCon = this.newPost.content;
-      if (!inputCon && !this.newPost.img_base64_list) {
-        this.$message.error("内容不能为空");
-      } else {
-        this.fullscreenLoading = true;
-        // if (!this.showstudent) {
-        //   this.newPost.at_meid = [];
-        // }
-        this.newPost.type = 1;
-        this.newPost.cid = this.$store.state.currentClassId;
-        // this.newPost["img_url_list"] = this.fileList.join(",");
-        this.newPost["img_base64_list"] = this.imgBaseList.join("|");
-        this.$API.postNewClassDynamic(this.newPost).then(res => {
-          this.fullscreenLoading = false;
-          this.showAddPost = false;
-          this.data = [];
-          this.$message.success("发布动态成功");
-          this.$nextTick(() => {
-            this.getData();
-          });
-          this.newPost = {
-            content:'',
-            at_meid: [],
-            videoid:'',
-            img_base64_list:''
-          }
-          this.showProgress = false,
-          this.fileList = [];
-          // this.$refs.upload.uploadFiles = [];
-          this.imgUrls = [];
-        });
-      }
     }
   },
   created() {
@@ -503,12 +237,12 @@ export default {
   // watch: {
   //   "$route": "getData"
   // },
-  watch:{
-    newActive(newVal){
-        if(newVal){
-          this.data=[];
-          this.getData();
-        }
+  watch: {
+    newActive(newVal) {
+      if (newVal) {
+        this.data = [];
+        this.getData();
+      }
     }
   }
 };
@@ -588,6 +322,7 @@ export default {
   }
 }
 .card {
+  overflow: hidden;
   margin: 15px 0;
   position: relative;
   background: #fff;
@@ -688,7 +423,7 @@ export default {
     .iconbtn {
       float: right;
       cursor: pointer;
-      .active{
+      .active {
         color: @main;
       }
       span {
@@ -745,22 +480,22 @@ export default {
     opacity: 0;
   }
 }
-.progress{
+.progress {
   display: inline-block;
   font-size: 12px;
   margin-left: 10px;
 }
 .progress-bar {
-      width:140px;
-      height: 5px;
-      background: #ccc;
-      border-radius: 3px;
-      position: relative;
-      overflow: hidden;
-      display: inline-block;
-      margin: 10px 5px 0 0;
-    }
-#progress-text{
+  width: 140px;
+  height: 5px;
+  background: #ccc;
+  border-radius: 3px;
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  margin: 10px 5px 0 0;
+}
+#progress-text {
   position: relative;
 }
 #progress-now {
@@ -770,5 +505,31 @@ export default {
   top: 0;
   bottom: 0;
   background: #00c06f;
+}
+.slide-enter-active {
+  animation: slide-fade-in ease 1s;
+}
+.slide-leave-active {
+  animation: slide-fade-out ease 1s;
+}
+@keyframes slide-fade-in {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes slide-fade-out {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
 }
 </style>

@@ -238,7 +238,6 @@ export default {
     },
     //移除视频
     removeVideo(file, filelist) {
-
       this.restVideo();
     },
     //视频列表变化
@@ -349,11 +348,9 @@ export default {
         this.isLoading = true;
         this.$API.postNewClassDynamic(this.options).then(res => {
           this.isLoading = false;
-          this.$message.success("发布动态成功");
+          // this.$message.success("发布动态成功");
           this.resetForm();
-          this.$nextTick(() => {
-            this.$store.commit("changeNewActive", true); //是否有新动态 true
-          });
+          this.$emit("commitActive", this.options);
         });
       } else {
         this.$message({

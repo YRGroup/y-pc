@@ -15,7 +15,12 @@
           {{data.auther}}
         </div>
         <div class="tips">{{data.category}}</div>
-        <div class="content">{{data.content}} <span class="atuser" v-for="item in data.AtUser">@{{item.TrueName}}</span></div>
+        <div class="content">
+          {{data.content}}
+            <span class="atuser" :key="index" v-for="(item,index) in data.AtUser">
+              @{{item.TrueName}}
+            </span>
+          </div>
         <div class="video" v-if="data.Video">
           <div class="prism-player" id="J_prismPlayer"></div>
         </div>
@@ -40,14 +45,14 @@
           <div class="liked">
             <div class="iszan"><i class="iconfont">&#xe611;</i></div>
             <div class="item">
-              <span v-for="(i,index) in data.zans">{{i.TrueName||'user'}} , </span>
+              <span :key="index" v-for="(i,index) in data.zans">{{i.TrueName||'user'}} , </span>
             </div>
             <div class="zanNum">{{data.like}}人觉得很赞</div> 
           </div>
           <div class="look">
             <div class="lookNum">已读：{{data.LookCount}}人</div>
             <div class="lookuser">
-              <div class="item" v-for="(i,index) in data.LookUser">
+              <div class="item" :key="index" v-for="(i,index) in data.LookUser">
                 <img :src="i.Headimgurl">
                 <span class="name">{{i.TrueName}}</span>
               </div>

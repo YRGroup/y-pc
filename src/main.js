@@ -11,7 +11,8 @@ import store from './store'
 import API from './server/API'
 import NProgress from 'nprogress' // Progress 进度条
 import 'nprogress/nprogress.css'// Progress 进度条 样式
-
+import animate from 'animate.css'
+Vue.use(animate)
 Vue.use(ElementUI)
 
 Vue.config.productionTip = false

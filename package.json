@@ -12,6 +12,7 @@
     "test": "npm run e2e"
   },
   "dependencies": {
+    "animate.css": "^3.7.0",
     "axios": "^0.16.2",
     "babel-polyfill": "^6.23.0",
     "echarts": "^3.7.1",

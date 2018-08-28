@@ -81,7 +81,7 @@
           </el-upload> -->
 
           <el-progress  v-if="videoStateNum" :text-inside="true" :stroke-width="18" :percentage="videoStateNum" status="success"></el-progress>
-          <p v-if="videoState" v-text="videoState"></p>
+          <!-- <p v-if="videoState" v-text="videoState"></p> -->
         </el-form-item> 
         <el-form-item >
           <el-button :disabled="disabled"  type="primary" @click="onSubmit">提交</el-button>
